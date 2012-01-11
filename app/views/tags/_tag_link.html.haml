@@ -1,2 +1,2 @@
-= link_to tag.name, entities_path(:tag_name => tag.name)
+= link_to tag.name, entities_path(:tag_name => tag.name, :filter => params[:filter])
 = link_to_function "[a]", "toggle_visibility('create_tag_#{tag.id}');"

@@ -26,6 +26,10 @@ class Tag < ActiveRecord::Base
     self.tag ? self.name + " " + self.tag.full_name : self.name
   end
 
+  def all_entities
+    self.tags.blank? ? self.entities : self.tags.map(&:all_entities).flatten + self.entities
+  end
+
   # Wheter the tag or any of it's ancestors as the name given.
   def type_of?(tag_name)
     self.name == tag_name || (self.tag != nil && self.tag.type_of?(tag_name))

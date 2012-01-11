@@ -1,11 +1,14 @@
 class EntitiesController < ApplicationController
 
   def index
+	 redirect_to login_path if !current_user && ranking_type == RankingType::USER
+    
     # FIXME: Should not be including entities.tags since used for similar tags I think..
     @tag = Tag.find_by_name(params[:tag_name], :include => [{:entities => :tags}, {:rankings => :ranking_elements}])
-	 redirect_to login_path if !current_user && ranking_type == RankingType::USER
+    open_tag(@tag)
     @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
-    @entities = @tag.entities
+    @entities = @tag.all_entities
+    puts @entities
     @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
     
     redirect_to new_entity_path(:tag_id => @tag.id), :notice => "There is currently no entity who is a #{@tag.full_name}" if @entities.blank?
@@ -65,6 +68,11 @@ class EntitiesController < ApplicationController
   end
 
 private
+
+  def open_tag(tag)
+    opened_tags[tag.name] = true
+    open_tag(tag.tag) if tag.tag
+  end
 
   def fetch_ranking_elements(tag)
     @ranking = tag.ranking_for current_user

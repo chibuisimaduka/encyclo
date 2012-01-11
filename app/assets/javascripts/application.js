@@ -7,3 +7,21 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+function toggle_visibility(id) {
+  var e = document.getElementById(id);
+  if(e.style.display == 'block')
+    e.style.display = 'none';
+  else
+    e.style.display = 'block';
+}
+
+function toggle_visibility_for(className) {
+  var e = document.getElementsByClassName(className);
+  for ( var i=0, len=e.length; i<len; ++i ){
+    if(e[i].style.display == 'block')
+      e[i].style.display = 'none';
+    else
+      e[i].style.display = 'block';
+  }
+}

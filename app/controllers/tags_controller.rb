@@ -16,13 +16,7 @@ class TagsController < ApplicationController
 
   def search
     @tag = Tag.find_by_name(params[:search_tag_name], :include => [{:entities => :tags}, {:rankings => :ranking_elements}])
-    open_tag(@tag)
     redirect_to entities_path(:tag_name => @tag.name)
-  end
-
-  def open_tag(tag)
-    opened_tags[tag.name] = true
-    open_tag(tag.tag) if tag.tag
   end
 
   def create
