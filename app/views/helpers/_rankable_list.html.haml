@@ -7,7 +7,7 @@
       -# FIXME: Does not work for documents..
       = render :partial => "helpers/rating_list", :locals => {:ranking_element => @ranking_elements[record.id], :tag_id => tag.id, :record_id => record.id}
       = @ranking_elements[record.id].rating if @ranking_elements[record.id]
-      = record.rank
+      = record.rank or 0
       = "##{position += 1}"
     = capture(record, &block)
 - if ranking_type == RankingType::USER && listing_type != ListingType::EXPANDED

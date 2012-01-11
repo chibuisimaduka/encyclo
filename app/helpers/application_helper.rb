@@ -41,7 +41,7 @@ module ApplicationHelper
   end
 
   def trunk_tags
-    ["movie", "world", "tutorial", "book", "dev/null", "no parent tag"].collect {|name| Tag.find_by_name(name) }
+    ["movie", "world", "tutorial", "recipee", "book", "dev/null", "no parent tag"].collect {|name| Tag.find_by_name(name) }
   end
   
 end
