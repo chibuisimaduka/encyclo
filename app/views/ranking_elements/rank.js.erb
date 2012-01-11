@@ -1,0 +1,2 @@
+$("#rating_for_tag_<%= params[:tag_id] %>_record_<%= params[:record_id] %>").html("<%= escape_javascript(render(:partial => "helpers/rating_list",
+  :locals => {:ranking_element => @elem, :tag_id => params[:tag_id], :record_id => params[:record_id]})) %>");
