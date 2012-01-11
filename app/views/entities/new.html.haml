@@ -1,0 +1,13 @@
+%p Create a new #{@tag.full_name}
+
+= form_for(Entity.new) do |f|
+  .fields
+    = f.hidden_field(:tag_id, :value => @tag.id)
+    .field_name
+      = f.label :name
+      %br
+      = f.text_field :name
+  .actions
+    = f.submit
+
+= link_to 'Back', entities_path

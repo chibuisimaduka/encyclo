@@ -1,0 +1,13 @@
+= content_for :left_sidebar do
+  #create_document
+    = link_to "Create a document", new_document_path(:entity_id => @entity.id)
+
+%h1.entity_name{:style => "font-size: 32;"}= @entity.name
+= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
+%br
+- for tag in @entity.tags
+  = render :partial => "tags/tag_box", :locals => {:tag => tag} 
+= render :partial => "tags/add_tag_form"
+#documents
+  %h2 Documents
+  = render :partial => "documents/index"

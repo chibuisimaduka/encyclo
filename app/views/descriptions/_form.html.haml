@@ -1,0 +1,6 @@
+= form_for(@entity) do |f|
+  #field_description
+    Description:<br />
+    = text_area_tag :description
+  #actions
+    = f.submit "Create description"

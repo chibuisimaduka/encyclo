@@ -1,0 +1,18 @@
+= content_for :left_sidebar do
+  #create_entity
+    = link_to "Create an entity", new_entity_path(:tag_id => @tag.id)
+
+%h2{:style => "display: inline;"}= @tag.name.capitalize.pluralize
+
+%br
+Refine further:
+- for similar_tag in @tag.similar_tags
+  - if @tags_filter.include?(similar_tag.id)
+    = link_to similar_tag.name, entities_path(:tag_name => @tag.name, :filter => (@tags_filter - [similar_tag.id])), :class => "tag_box_clicked"
+  - else
+    = link_to similar_tag.name, entities_path(:tag_name => @tag.name, :filter => (@tags_filter + [similar_tag.id])), :class => "tag_box"
+%br
+
+#entities
+  = rankable_list @tag, @entities, :limit => 20 do |entity|
+    = render :partial => entity

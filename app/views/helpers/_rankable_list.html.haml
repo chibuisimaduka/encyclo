@@ -1,0 +1,14 @@
+%div{:id => "#{tag.name}_ranking"}
+  - position = 0
+  = show_limited_results(records, local_assigns) do |record|
+    - if @ranking && ranking_type == RankingType::USER
+      = render :partial => "ranking_elements/ranking_element", :locals => {:ranking_id => @ranking.id, :record_id => record.id, :position => (position += 1)}
+    - else
+      -# FIXME: Does not work for documents..
+      = render :partial => "helpers/rating_list", :locals => {:ranking_element => @ranking_elements[record.id], :tag_id => tag.id, :record_id => record.id}
+      = @ranking_elements[record.id].rating if @ranking_elements[record.id]
+      = record.rank
+      = "##{position += 1}"
+    = capture(record, &block)
+- if ranking_type == RankingType::USER && listing_type != ListingType::EXPANDED
+  = sortable_element("#{tag.name}_ranking", :url => sort_path(:elements => "#{tag.name}_ranking", :ranking_id => @ranking.id), :tag => :div, :scroll => "window")

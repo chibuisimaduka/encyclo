@@ -1,0 +1,6 @@
+= form_for(@new_tag = Tag.new) do |f|
+  %span.fields
+    = f.text_field :name, :size => 15
+    = f.hidden_field(:tag_id, :value => tag_id) if local_assigns.has_key? :tag_id
+  %span.actions
+    = f.submit

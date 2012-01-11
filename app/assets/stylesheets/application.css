@@ -5,3 +5,86 @@
  *= require_self
  *= require_tree . 
 */
+
+/* -------- Cheat sheet ------- */
+/* .class */
+/* #id */
+
+.entity_name {
+  font-size: 16px;
+  color: #E98C08;
+  display: inline;
+}
+
+.rating {
+  font-size: 12px;
+}
+
+.document_name {
+  font-size: 14px;
+  color: #E08400;
+}
+
+.tag_box, .tag_box_clicked {
+  border-style: groove;
+  border-width: 2px;
+  border-color: gray;
+}
+
+.tag_box_clicked {
+  background-color: #cfcfcf;
+}
+
+a:visited[id="entity_name"] {
+  font-size: 16px;
+  color: #E98C08;
+}
+
+a {
+  text-decoration: none;
+  color: #6495ED;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+form {
+  display: inline;
+}
+
+.create_tag {
+  display: none;
+}
+
+#left-sidebar, #content {
+  display: inline-block;
+  vertical-align: top;
+  margin: auto;
+}
+
+#left-sidebar {
+  /* background-color: black; */
+  width: 240px;
+}
+
+#content {
+  /* background-color: blue; */
+  width: 750px;
+}
+
+#navigation {
+  height: 40px;
+  /* background-color: yellow; */
+}
+
+body {
+  width: 1000px;
+  margin: auto;
+}
+
+h2 {
+  color: blue;
+  display: inline;
+  font-size: 24px;
+}

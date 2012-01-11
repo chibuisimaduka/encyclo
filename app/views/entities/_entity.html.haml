@@ -1,0 +1,10 @@
+- @entity = entity
+= link_to entity.name, entity, :class => "entity_name"
+= link_to "destroy", entity, :method => :delete, :confirm => "Are you sure?"
+- if listing_type.show_tags
+  %br
+  - for tag in entity.tags
+    = render :partial => "tags/tag_box", :locals => {:tag => tag} 
+  = render :partial => "tags/add_tag_form"
+- if listing_type.show_documents
+  = render :partial => "documents/index"
