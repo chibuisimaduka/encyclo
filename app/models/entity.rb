@@ -25,7 +25,7 @@ class Entity < ActiveRecord::Base
       expected_rating += other_elem.rating * s.coefficient
       similarity_sum += s.coefficient
     end
-    expected_rating / similarity_sum
+    similarity_sum == 0.0 ? 0.0 : expected_rating / similarity_sum
   end
 
   def new_tag_name

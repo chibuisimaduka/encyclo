@@ -20,7 +20,7 @@ class RankingElementsController < ApplicationController
 
   # TODO: Test this..
   def destroy
-    @record = RankingElement.find params[:ranking_element_id]
+    @record = RankingElement.find params[:id]
     @record.record.rank = ((@record.record.rank * @record.record.num_votes) - @record.rating) / (@record.record.num_votes -= 1)
 	 if @record
 	   @record.remove_from_list

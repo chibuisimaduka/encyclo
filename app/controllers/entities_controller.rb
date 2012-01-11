@@ -1,19 +1,23 @@
 class EntitiesController < ApplicationController
 
   def index
-	 redirect_to login_path if !current_user && ranking_type == RankingType::USER
-    
+	 redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
+
     # FIXME: Should not be including entities.tags since used for similar tags I think..
     @tag = Tag.find_by_name(params[:tag_name], :include => [{:entities => :tags}, {:rankings => :ranking_elements}])
     open_tag(@tag)
     @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
     @entities = @tag.all_entities
-    puts @entities
     @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
     
     redirect_to new_entity_path(:tag_id => @tag.id), :notice => "There is currently no entity who is a #{@tag.full_name}" if @entities.blank?
 
     fetch_ranking_elements(@tag)
+
+    if ranking_type == RankingType::USER && !@ranking
+      flash[:notice] = "You don't have ranked any entity yet.."
+      self.ranking_type = RankingType::TOP
+    end
 
     if ranking_type == RankingType::USER
       @entities.delete_if {|e| !@ranking_elements.has_key?(e.id) }
@@ -42,7 +46,8 @@ class EntitiesController < ApplicationController
     @entity = Entity.new(params[:entity])
 
     if @entity.save
-      redirect_to(@entity, :notice => 'Entity was successfully created.')
+      #redirect_to(@entity, :notice => 'Entity was successfully created.')
+      redirect_to :back, :notice => 'Entity was successfully created.'
     else
       render :action => "new"
     end
