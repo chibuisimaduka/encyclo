@@ -1,5 +1,10 @@
 - tag = Tag.find_or_create_by_name("document").tags.find_or_create_by_name(@entity.name + "_document")
 = rankable_list tag, @entity.documents, :limit => 3 do |doc|
   = link_to doc.name, {:controller => "documents", :action => "show", :id => doc.id}, {:class => "document_name"}
+  .document_url= doc.source
+  .document_description
+    Doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc
+    doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc desc doc
 = toggle_visibility "Add a document.." do
   = render :partial => "documents/form"
+= link_to "Create a document..", new_document_path

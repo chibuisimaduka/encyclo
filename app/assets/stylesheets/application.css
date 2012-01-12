@@ -78,6 +78,32 @@ form {
   /* background-color: yellow; */
 }
 
+#images, #entity {
+  display: inline-block;
+  vertical-align: top;
+  margin: auto;
+}
+
+#images {
+  width: 240px;
+}
+
+#entity {
+  width: 500px;
+}
+
+#entity_title {
+  margin-bottom: 24px;
+}
+
+.document {
+  margin-bottom: 14px;
+}
+
+.image {
+  margin-bottom: 20px;
+}
+
 body {
   width: 1000px;
   margin: auto;
@@ -95,6 +121,10 @@ h2 {
 
 .current_user_ranking {
   font-size: 13px;
+}
+
+.document_url {
+  color: green;
 }
 
 .editable_user_ranking {
