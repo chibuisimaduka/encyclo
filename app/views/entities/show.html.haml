@@ -8,6 +8,16 @@
 - for tag in @entity.tags
   = render :partial => "tags/tag_box", :locals => {:tag => tag} 
 = render :partial => "tags/add_tag_form"
+#images
+  %h2 Images
+  - @entity.images.each do |image|
+    .image
+      = image_tag image.image.to_s
+  .add_image
+    = toggle_visibility "Add an image.." do
+      = form_for [@entity, Image.new], html: {multipart: true} do |f|
+        = f.file_field :image
+        = f.submit
 #documents
   %h2 Documents
   = render :partial => "documents/index"

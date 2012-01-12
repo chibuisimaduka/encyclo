@@ -1,3 +1,4 @@
 class Image < ActiveRecord::Base
-  has_and_belongs_to_many :tags
+  belongs_to :entity
+  mount_uploader :image, ImageUploader
 end

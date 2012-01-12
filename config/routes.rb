@@ -1,7 +1,10 @@
 Encyclo::Application.routes.draw do
+  get "images/create"
+
   root :to => "home#index"
   
   resources :entities do
+    resources :images
     collection do
       get 'search'
       get 'random'

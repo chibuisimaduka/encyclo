@@ -4,7 +4,7 @@ class Entity < ActiveRecord::Base
   has_and_belongs_to_many :documents, :order => "rank DESC"
   has_many :entity_similarities
 
-  has_many :images, :through => :tag
+  has_many :images
   
   def tag_name
     self.tag.name
