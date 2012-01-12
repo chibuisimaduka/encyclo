@@ -6,12 +6,10 @@ gem 'rails', '3.1.3'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-
 gem 'json'
-
 gem 'haml'
-
 gem 'best_in_place'
+gem 'carrierwave'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -22,7 +20,6 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
 gem 'ruby-debug19'
 
 # To use ActiveModel has_secure_password

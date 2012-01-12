@@ -2,6 +2,8 @@ class Tag < ActiveRecord::Base
   has_many :tags
   belongs_to :tag
 
+  has_and_belongs_to_many :images
+
   has_many :entities, :order => "rank DESC"
   has_and_belongs_to_many :related_entities, :class_name => "Entity" # FIXME: Remove order rank if it is slower because not used when RankingType == USER
   has_many :rankings, :include => :ranking_elements

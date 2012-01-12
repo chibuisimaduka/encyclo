@@ -3,6 +3,8 @@ class Entity < ActiveRecord::Base
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
   has_many :entity_similarities
+
+  has_many :images, :through => :tag
   
   def tag_name
     self.tag.name
