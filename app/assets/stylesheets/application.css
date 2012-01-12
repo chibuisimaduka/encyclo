@@ -88,3 +88,15 @@ h2 {
   display: inline;
   font-size: 24px;
 }
+
+.users_ranking {
+  font-size: 10px;
+}
+
+.current_user_ranking {
+  font-size: 13px;
+}
+
+.editable_user_ranking {
+  background-color: #fffb8f;
+}

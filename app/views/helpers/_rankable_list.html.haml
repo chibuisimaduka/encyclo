@@ -5,10 +5,14 @@
       = render :partial => "ranking_elements/ranking_element", :locals => {:ranking_id => @ranking.id, :record_id => record.id, :position => (position += 1)}
     - else
       -# FIXME: Does not work for documents..
-      = render :partial => "helpers/rating_list", :locals => {:ranking_element => @ranking_elements[record.id], :tag_id => tag.id, :record_id => record.id}
-      = @ranking_elements[record.id].rating if @ranking_elements[record.id]
-      = record.rank or 0
-      = "##{position += 1}"
+      - if @ranking_elements[record.id]
+        %span.current_user_ranking
+          = link_to "N/B", @ranking_elements[record.id], {:method => :delete} if @ranking_elements[record.id]
+          %span.editable_user_ranking= best_in_place @ranking_elements[record.id], :rating, html_attrs: {size: 1}, nil: "N/B"
+      - else
+        = link_to "[like]", ranking_elements_path(record_id: record.id, tag_id: tag.id, rating: record.rank), method: :post
+      %span.users_ranking>= record.rank ? "#{record.rank} from #{record.num_votes} users." : "No user ranking yet."
+      = "#{position += 1}."
     = capture(record, &block)
 - if ranking_type == RankingType::USER && listing_type != ListingType::EXPANDED
   = sortable_element("#{tag.name}_ranking", :url => sort_path(:elements => "#{tag.name}_ranking", :ranking_id => @ranking.id), :tag => :div, :scroll => "window")

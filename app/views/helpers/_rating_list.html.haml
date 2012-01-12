@@ -1,9 +1,0 @@
-%span.rating{:id => "rating_for_tag_#{tag_id}_record_#{record_id}"}
-  = link_to "N/B", {:controller => :ranking_elements, :action => :destroy, :id => ranking_element.id}, {:method => :delete} if ranking_element
-  - for i in 1..10
-    %span.rating_link>= link_to (ranking_element && i == ranking_element.rating) ? "<#{i}>" : i, {:controller => :ranking_elements,
-    :action => :rank, :rating => i, :record_id => record_id, :tag_id => tag_id}, {:remote => true, :method => :put}
-  -#
-    - @ranking_element = (ranking_element or RankingElement.new)
-    = slider_stylesheet
-    %span.rating_link= slider_field "ranking_element", :rating, :range => 1..10

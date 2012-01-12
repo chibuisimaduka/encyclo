@@ -3,6 +3,7 @@ class RankingElement < ActiveRecord::Base
 
   validates_presence_of :ranking_id
   validates_presence_of :record_id
+  validates_presence_of :rating
   
   validates_uniqueness_of :record_id, :scope => :ranking_id
 

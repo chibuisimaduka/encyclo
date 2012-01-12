@@ -22,6 +22,7 @@ namespace :rank do
         num += 1
       end
       e.update_attribute(:rank, (score/num)) if num > 0
+      e.update_attribute(:num_votes, num)
     end
   end
 
