@@ -37,11 +37,17 @@
         = link_to "Random entity", random_entities_path
       = yield :left_sidebar
       #index_tags
+        #search_entity
+          What entity are you looking for?
+          = form_tag search_entities_path, method: 'get' do
+            %p
+              = text_field_tag :search_entity_name, params[:search_entity_name], size: "12"
+              = submit_tag "Go to", :name => nil
         #search_tag
           What are you looking for?
-          = form_tag search_tags_path, :method => 'get' do
+          = form_tag search_tags_path, method: 'get' do
             %p
-              = text_field_tag :search_tag_name, params[:search_tag_name], :size => "12"
+              = text_field_tag :search_tag_name, params[:search_tag_name], size: "12"
               = submit_tag "Go to", :name => nil
         #browse_tags
           Browse tags

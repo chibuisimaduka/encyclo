@@ -3,6 +3,7 @@ Encyclo::Application.routes.draw do
   
   resources :entities do
     collection do
+      get 'search'
       get 'random'
     end
   end

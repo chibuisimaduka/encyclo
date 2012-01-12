@@ -15,7 +15,7 @@ class TagsController < ApplicationController
   end
 
   def search
-    @tag = Tag.find_by_name(params[:search_tag_name], :include => [{:entities => :tags}, {:rankings => :ranking_elements}])
+    @tag = Tag.find_by_name(params[:search_tag_name])
     redirect_to entities_path(:tag_name => @tag.name)
   end
 

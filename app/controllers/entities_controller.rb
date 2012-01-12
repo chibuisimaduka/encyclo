@@ -28,6 +28,11 @@ class EntitiesController < ApplicationController
     end
   end
 
+  def search
+    @entity = Entity.find_by_name(params[:search_entity_name])
+    redirect_to @entity
+  end
+
   def show
     @entity = Entity.find(params[:id])
     fetch_ranking_elements(@entity.tag)
