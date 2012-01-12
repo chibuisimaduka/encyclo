@@ -16,3 +16,5 @@
 
 /lib/tasks/backup.rake
 /backups/**
+
+**.swp
