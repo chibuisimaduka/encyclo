@@ -16,8 +16,11 @@
   .add_image
     = toggle_visibility "Add an image.." do
       = form_for [@entity, Image.new], html: {multipart: true} do |f|
-        = f.file_field :image
-        = f.submit
+        %p= f.file_field :image
+        %p
+          = f.label :remote_image_url, "or image URL"
+          = f.text_field :remote_image_url
+        %p= f.submit
 #documents
   %h2 Documents
   = render :partial => "documents/index"
