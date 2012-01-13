@@ -130,3 +130,7 @@ h2 {
 .editable_user_ranking {
   background-color: #fffb8f;
 }
+
+#document_content {
+  z-index: -1;
+}
