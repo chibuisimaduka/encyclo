@@ -1,10 +1,7 @@
 = form_for(Document.new) do |f|
-  #fields
-    %br
-    = f.label :source
-    = f.text_field :source
+  = f.label :source
+  = f.text_field :source
     
-    = hidden_field_tag :entity_id, @entity.id
-  
-  #actions
-    = f.submit
+  = hidden_field_tag :entity_id, @entity.id
+    
+  = f.submit "Add document"

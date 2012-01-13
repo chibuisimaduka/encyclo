@@ -5,56 +5,59 @@
     = javascript_include_tag "application"
     = csrf_meta_tag
   %body
-    #navigation
-      #login_nav
-        - if current_user
-          Logged in as #{current_user.email}
-          = link_to "Log out", log_out_path
-        - else
-          = link_to "Sign up", sign_up_path
-          or
-          = link_to "Log in", log_in_path
-      #user_nav
-        = link_to "Your ranking", set_ranking_type_path(:ranking_type => RankingType::USER), :method => :put
-        |
-        = link_to "Top ranking", set_ranking_type_path(:ranking_type => RankingType::TOP), :method => :put
-        |
-        = link_to "Suggestions", set_ranking_type_path(:ranking_type => RankingType::SUGGESTED), :method => :put
-        | ---------------- | 
-        = link_to "Entity List", set_listing_type_path(:listing_type => ListingType::ENTITY_LIST), :method => :put
-        |
-        = link_to "Doc List", set_listing_type_path(:listing_type => ListingType::DOCUMENT_LIST), :method => :put
-        |
-        = link_to "Doc Tag List", set_listing_type_path(:listing_type => ListingType::TAG_AND_DOCUMENT_LIST), :method => :put
-        |
-        = link_to "Expand", set_listing_type_path(:listing_type => ListingType::EXPANDED), :method => :put
-    #left-sidebar
-      #home_link_which_should_be_an_image
-        = link_to "Home", root_path
-      #random_tag
-        = link_to "Random tag", random_tags_path
-      #random_entity
-        = link_to "Random entity", random_entities_path
-      = yield :left_sidebar
-      #index_tags
-        #search_entity
-          What entity are you looking for?
-          = form_tag search_entities_path, method: 'get' do
-            %p
-              = text_field_tag :search_entity_name, params[:search_entity_name], size: "12"
-              = submit_tag "Go to", :name => nil
-        #search_tag
-          What are you looking for?
-          = form_tag search_tags_path, method: 'get' do
-            %p
-              = text_field_tag :search_tag_name, params[:search_tag_name], size: "12"
-              = submit_tag "Go to", :name => nil
-        #browse_tags
-          Browse tags
-          = render :partial => trunk_tags
-          = render :partial => "tags/form"
+    #my_site
+      #navigation
+        #login_nav
+          - if current_user
+            Logged in as #{current_user.email}
+            = link_to "Log out", log_out_path
+          - else
+            = link_to "Sign up", sign_up_path
+            or
+            = link_to "Log in", log_in_path
+        #user_nav
+          = link_to "Your ranking", set_ranking_type_path(:ranking_type => RankingType::USER), :method => :put
+          |
+          = link_to "Top ranking", set_ranking_type_path(:ranking_type => RankingType::TOP), :method => :put
+          |
+          = link_to "Suggestions", set_ranking_type_path(:ranking_type => RankingType::SUGGESTED), :method => :put
+          | ---------------- | 
+          = link_to "Entity List", set_listing_type_path(:listing_type => ListingType::ENTITY_LIST), :method => :put
+          |
+          = link_to "Doc List", set_listing_type_path(:listing_type => ListingType::DOCUMENT_LIST), :method => :put
+          |
+          = link_to "Doc Tag List", set_listing_type_path(:listing_type => ListingType::TAG_AND_DOCUMENT_LIST), :method => :put
+          |
+          = link_to "Expand", set_listing_type_path(:listing_type => ListingType::EXPANDED), :method => :put
+      #left-sidebar
+        #home_link_which_should_be_an_image
+          = link_to "Home", root_path
+        #random_tag
+          = link_to "Random tag", random_tags_path
+        #random_entity
+          = link_to "Random entity", random_entities_path
+        = yield :left_sidebar
+        #index_tags
+          #search_entity
+            What entity are you looking for?
+            = form_tag search_entities_path, method: 'get' do
+              %p
+                = text_field_tag :search_entity_name, params[:search_entity_name], size: "12"
+                = submit_tag "Go to", :name => nil
+          #search_tag
+            What are you looking for?
+            = form_tag search_tags_path, method: 'get' do
+              %p
+                = text_field_tag :search_tag_name, params[:search_tag_name], size: "12"
+                = submit_tag "Go to", :name => nil
+          #browse_tags
+            Browse tags
+            = render :partial => trunk_tags
+            = render :partial => "tags/form"
 
-    #content
-      - flash.each do |name, msg|
-        = content_tag :div, msg, :id => "flash#{name}"
-      = yield
+      #content
+        - flash.each do |name, msg|
+          = content_tag :div, msg, :id => "flash#{name}"
+        = yield
+    #user_site
+      =yield :user_site

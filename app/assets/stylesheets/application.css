@@ -10,127 +10,127 @@
 /* .class */
 /* #id */
 
-.entity_name {
+div#my_site .entity_name {
   font-size: 16px;
   color: #E98C08;
   display: inline;
 }
 
-.rating {
+div#my_site .rating {
   font-size: 12px;
 }
 
-.document_name {
+div#my_site .document_name {
   font-size: 14px;
   color: #E08400;
 }
 
-.tag_box, .tag_box_clicked {
+div#my_site .tag_box, .tag_box_clicked {
   border-style: groove;
   border-width: 2px;
   border-color: gray;
 }
 
-.tag_box_clicked {
+div#my_site .tag_box_clicked {
   background-color: #cfcfcf;
 }
 
-a:visited[id="entity_name"] {
+div#my_site a:visited[id="entity_name"] {
   font-size: 16px;
   color: #E98C08;
 }
 
-a {
+div#my_site a {
   text-decoration: none;
   color: #6495ED;
 }
 
-a:hover {
+div#my_site a:hover {
   text-decoration: underline;
 }
 
-form {
+div#my_site form {
   display: inline;
 }
 
-.create_tag {
+div#my_site .create_tag {
   display: none;
 }
 
-#left-sidebar, #content {
+div#my_site #left-sidebar, #content {
   display: inline-block;
   vertical-align: top;
   margin: auto;
 }
 
-#left-sidebar {
+div#my_site #left-sidebar {
   /* background-color: black; */
   width: 240px;
 }
 
-#content {
+div#my_site #content {
   /* background-color: blue; */
   width: 750px;
 }
 
-#navigation {
+div#my_site #navigation {
   height: 40px;
   /* background-color: yellow; */
 }
 
-#images, #entity {
+div#my_site #images, #entity {
   display: inline-block;
   vertical-align: top;
   margin: auto;
 }
 
-#images {
+div#my_site #images {
   width: 240px;
 }
 
-#entity {
+div#my_site #entity {
   width: 500px;
 }
 
-#entity_title {
+div#my_site #entity_title {
   margin-bottom: 24px;
 }
 
-.document {
+div#my_site .document {
   margin-bottom: 14px;
 }
 
-.image {
+div#my_site .image {
   margin-bottom: 20px;
 }
 
-body {
+div#my_site {
   width: 1000px;
   margin: auto;
 }
 
-h2 {
+div#my_site h2 {
   color: blue;
   display: inline;
   font-size: 24px;
 }
 
-.users_ranking {
+div#my_site .users_ranking {
   font-size: 10px;
 }
 
-.current_user_ranking {
+div#my_site .current_user_ranking {
   font-size: 13px;
 }
 
-.document_url {
+div#my_site .document_url {
   color: green;
 }
 
-.editable_user_ranking {
+div#my_site .editable_user_ranking {
   background-color: #fffb8f;
 }
 
-#document_content {
+#user_site {
   z-index: -1;
 }
