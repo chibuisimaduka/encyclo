@@ -5,6 +5,3 @@
   .document_url= doc.source
   .document_description
     = doc.description[0..200] + "..."
-= toggle_visibility "Add a document.." do
-  = render :partial => "documents/form"
-= link_to "Create a document..", new_document_path

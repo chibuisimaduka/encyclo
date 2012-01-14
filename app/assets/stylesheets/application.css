@@ -10,125 +10,125 @@
 /* .class */
 /* #id */
 
-div#my_site .entity_name {
+.entity_name {
   font-size: 16px;
   color: #E98C08;
   display: inline;
   margin-right: 4px;
 }
 
-div#my_site .rating {
+.rating {
   font-size: 12px;
 }
 
-div#my_site .document_name {
+.document_name {
   font-size: 14px;
   color: #E08400;
 }
 
-div#my_site .tag_box, .tag_box_clicked {
+.tag_box, .tag_box_clicked {
   border-style: groove;
   border-width: 2px;
   border-color: gray;
 }
 
-div#my_site .tag_box_clicked {
+.tag_box_clicked {
   background-color: #cfcfcf;
 }
 
-div#my_site a:visited[id="entity_name"] {
+a:visited[id="entity_name"] {
   font-size: 16px;
   color: #E98C08;
 }
 
-div#my_site a {
+a {
   text-decoration: none;
   color: #6495ED;
 }
 
-div#my_site a:hover {
+a:hover {
   text-decoration: underline;
 }
 
-div#my_site form {
+form {
   display: inline;
 }
 
-div#my_site .create_tag {
+.create_tag {
   display: none;
 }
 
-div#my_site #left-sidebar, #content {
+#left-sidebar, #content {
   display: inline-block;
   vertical-align: top;
   margin: auto;
 }
 
-div#my_site #left-sidebar {
+#left-sidebar {
   /* background-color: black; */
   width: 240px;
 }
 
-div#my_site #content {
+#content {
   /* background-color: blue; */
   width: 750px;
 }
 
-div#my_site #navigation {
+#navigation {
   height: 40px;
   /* background-color: yellow; */
 }
 
-div#my_site #images, #entity {
+#images, #entity {
   display: inline-block;
   vertical-align: top;
   margin: auto;
 }
 
-div#my_site #images {
+#images {
   width: 240px;
 }
 
-div#my_site #entity {
+#entity {
   width: 500px;
 }
 
-div#my_site #entity_title {
+#entity_title {
   margin-bottom: 24px;
 }
 
-div#my_site .document {
+.document {
   margin-bottom: 14px;
 }
 
-div#my_site .image {
+.image {
   margin-bottom: 20px;
 }
 
-div#my_site {
+{
   width: 1000px;
   margin: auto;
 }
 
-div#my_site h2 {
+h2 {
   color: blue;
   display: inline;
   font-size: 24px;
 }
 
-div#my_site .users_ranking {
+.users_ranking {
   font-size: 10px;
 }
 
-div#my_site .current_user_ranking {
+.current_user_ranking {
   font-size: 13px;
 }
 
-div#my_site .document_url {
+.document_url {
   color: green;
 }
 
-div#my_site .editable_user_ranking {
+.editable_user_ranking {
   background-color: #fffb8f;
 }
 
@@ -141,6 +141,7 @@ div#my_site .editable_user_ranking {
   vertical-align: top;
   margin: auto;
   margin-right: 8px;
+  margin-bottoM: 10px;
 }
 
 .listing_entity {
@@ -148,8 +149,4 @@ div#my_site .editable_user_ranking {
   vertical-align: top;
   margin: auto;
   width: 500px;
-}
-
-.entity {
-  min-height: 170px;
 }

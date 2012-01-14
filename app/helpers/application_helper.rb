@@ -6,12 +6,12 @@ module ApplicationHelper
     html = ""
     num_records_shown = options[:limit] || 1
     for record in records[0..(num_records_shown-1)]
-      html << content_tag_for(:div, record) do
+      html << content_tag_for(:div, record, class: options[:class]) do
         yield(record)
       end
     end
 	 if records.size > num_records_shown
-	   html << toggle_each_visibility("See more #{records.first.class.to_s.downcase}..", records[num_records_shown..-1], &block)
+	   html << toggle_each_visibility("See more #{records.first.class.to_s.downcase.pluralize}..", records[num_records_shown..-1], &block)
     end
     html.html_safe
   end
@@ -19,12 +19,12 @@ module ApplicationHelper
   def toggle_each_visibility(name, list, &block)
     html = ""
     for record in list
-      html << content_tag_for(:div, record, :class => "limited", :style => "display: none;") do
+      html << content_tag_for(:div, record, :class => "#{list.first.id}_limited", :style => "display: none;") do
         yield(record)
       end
     end
 	 html << content_tag(:span, :class => "#{name}_link") do
-      link_to_function name, "toggle_visibility_for('#{list.first.class.to_s.downcase} limited');"
+      link_to_function name, "toggle_visibility_for('#{list.first.class.to_s.downcase} #{list.first.id}_limited');"
 	 end
     html
   end
