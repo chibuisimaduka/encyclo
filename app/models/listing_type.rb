@@ -1,6 +1,6 @@
 class ListingType
   
-  attr_reader :id, :show_tags, :show_descriptions, :show_documents
+  attr_reader :id, :show_tags, :show_descriptions, :show_documents, :show_picture
 
   def initialize(id, values)
     @id = id
@@ -8,10 +8,10 @@ class ListingType
   end
 
   LISTING_TYPES = {
-    "expanded" => ListingType.new(:expanded,        {:show_tags => true,  :show_descriptions => true,  :show_documents => true }),
-	 "entity_list" => ListingType.new(:entity_list,  {:show_tags => false, :show_descriptions => false, :show_documents => false}),
-	 "doc_list" => ListingType.new(:doc_list,        {:show_tags => false, :show_descriptions => false, :show_documents => true}),
-	 "doc_tag_list" => ListingType.new(:doc_tag_list,{:show_tags => true,  :show_descriptions => false, :show_documents => true})
+    "expanded" => ListingType.new(:expanded,        {:show_tags => true,  :show_descriptions => true,  :show_documents => true , :show_picture => true}),
+	 "entity_list" => ListingType.new(:entity_list,  {:show_tags => false, :show_descriptions => false, :show_documents => false, :show_picture => false}),
+	 "doc_list" => ListingType.new(:doc_list,        {:show_tags => false, :show_descriptions => false, :show_documents => true,  :show_picture => true}),
+	 "doc_tag_list" => ListingType.new(:doc_tag_list,{:show_tags => true,  :show_descriptions => false, :show_documents => true,  :show_picture => true})
   }
   EXPANDED = LISTING_TYPES["expanded"]
   ENTITY_LIST = LISTING_TYPES["entity_list"]

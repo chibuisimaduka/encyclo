@@ -10,6 +10,7 @@ gem 'json'
 gem 'haml'
 gem 'best_in_place'
 gem 'carrierwave'
+gem 'rmagick'
 
 gem 'nokogiri'
 

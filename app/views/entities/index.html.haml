@@ -14,7 +14,7 @@ Refine further:
 %br
 
 #entities
-  = rankable_list @tag, @entities, :limit => 20 do |entity|
-    = render :partial => entity
+  = rankable_list @tag, @entities, :limit => 20 do |entity, position|
+    = render :partial => entity, locals: {position: position}
 
 = render :partial => "entities/form"

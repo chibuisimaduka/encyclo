@@ -12,7 +12,6 @@
       - else
         = link_to "[like]", ranking_elements_path(record_id: record.id, tag_id: tag.id, rating: record.rank), method: :post
       %span.users_ranking>= record.rank ? "#{record.rank} from #{record.num_votes} users." : "No user ranking yet."
-      = "#{position += 1}."
-    = capture(record, &block)
+    = capture(record, (position += 1), &block)
 - if ranking_type == RankingType::USER && listing_type != ListingType::EXPANDED
   = sortable_element("#{tag.name}_ranking", :url => sort_path(:elements => "#{tag.name}_ranking", :ranking_id => @ranking.id), :tag => :div, :scroll => "window")

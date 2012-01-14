@@ -134,3 +134,17 @@ div#my_site .editable_user_ranking {
 #user_site {
   z-index: -1;
 }
+
+.listing_image {
+  display: inline-block;
+  vertical-align: top;
+  margin: auto;
+  width: 225;
+}
+
+.listing_entity {
+  display: inline-block;
+  vertical-align: top;
+  margin: auto;
+  width: 500;
+}
