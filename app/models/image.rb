@@ -6,5 +6,7 @@ class Image < ActiveRecord::Base
 
   validates_presence_of :image
 
+  #validates image format
+
   before_destroy :remove_image!
 end

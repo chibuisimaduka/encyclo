@@ -24,6 +24,17 @@ namespace :wolf do
     task :rank => :environment do
       rank(Entity.all)
     end
+
+    desc "Recreate images versions"
+    task :images => :environment do
+      Entity.all.each do |e|
+        unless e.images.blank?
+          e.images.each do |i|
+            i.image.recreate_versions!
+          end
+        end
+      end
+    end
   
     task :similarities => :environment do
       Entity.all.each do |e|

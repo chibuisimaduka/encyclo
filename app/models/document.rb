@@ -4,6 +4,10 @@ class Document < ActiveRecord::Base
   require "uri_validator"
   validates :source, :presence => true, :uri => { :format => /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix }
 
+  validates_presence_of :name
+  validates_presence_of :content
+  validates_presence_of :description
+
   require "downloader"
   include Downloader
 

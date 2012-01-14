@@ -139,12 +139,16 @@ div#my_site .editable_user_ranking {
   display: inline-block;
   vertical-align: top;
   margin: auto;
-  width: 225;
+  width: 125px;
 }
 
 .listing_entity {
   display: inline-block;
   vertical-align: top;
   margin: auto;
-  width: 500;
+  width: 500px;
+}
+
+.entity {
+  min-height: 170px;
 }

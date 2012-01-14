@@ -1,17 +1,5 @@
-%div{:id => "#{tag.name}_ranking"}
-  - position = 0
+%div{:id => "#{tag.name}_ranking", :style => "display: inline;"}
   = show_limited_results(records, local_assigns) do |record|
-    - if @ranking && ranking_type == RankingType::USER
-      = render :partial => "ranking_elements/ranking_element", :locals => {:ranking_id => @ranking.id, :record_id => record.id, :position => (position += 1)}
-    - else
-      -# FIXME: Does not work for documents..
-      - if @ranking_elements[record.id]
-        %span.current_user_ranking
-          = link_to "N/B", @ranking_elements[record.id], {:method => :delete} if @ranking_elements[record.id]
-          %span.editable_user_ranking= best_in_place @ranking_elements[record.id], :rating, html_attrs: {size: 1}, nil: "N/B"
-      - else
-        = link_to "[like]", ranking_elements_path(record_id: record.id, tag_id: tag.id, rating: record.rank), method: :post
-      %span.users_ranking>= record.rank ? "#{record.rank} from #{record.num_votes} users." : "No user ranking yet."
-    = capture(record, (position += 1), &block)
+    = capture(record, &block)
 - if ranking_type == RankingType::USER && listing_type != ListingType::EXPANDED
   = sortable_element("#{tag.name}_ranking", :url => sort_path(:elements => "#{tag.name}_ranking", :ranking_id => @ranking.id), :tag => :div, :scroll => "window")
