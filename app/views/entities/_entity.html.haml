@@ -12,14 +12,9 @@
       %span.current_user_ranking
         = link_to "N/B", @ranking_elements[entity.id], {:method => :delete} if @ranking_elements[entity.id]
         %span.editable_user_ranking= best_in_place @ranking_elements[entity.id], :rating, html_attrs: {size: 1}, nil: "N/B"
-    - else
+    - elsif current_user
       = link_to "[like]", ranking_elements_path(entity_id: entity.id, tag_id: tag.id, rating: entity.rank), method: :post
     %span.users_ranking>= entity.rank ? "#{entity.rank} from #{entity.num_votes} users." : "No user ranking yet."
   = link_to "destroy", entity, :method => :delete, :confirm => "Are you sure?"
-  - if listing_type.show_tags
-    %br
-    - for tag in entity.tags
-      = render :partial => "tags/tag_box", :locals => {:tag => tag} 
-    = render :partial => "tags/add_tag_form"
   - if listing_type.show_documents
     = render :partial => "documents/index", locals: {limit: 1}

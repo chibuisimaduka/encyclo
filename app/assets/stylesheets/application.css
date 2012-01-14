@@ -14,6 +14,7 @@ div#my_site .entity_name {
   font-size: 16px;
   color: #E98C08;
   display: inline;
+  margin-right: 4px;
 }
 
 div#my_site .rating {
@@ -139,7 +140,7 @@ div#my_site .editable_user_ranking {
   display: inline-block;
   vertical-align: top;
   margin: auto;
-  width: 125px;
+  margin-right: 8px;
 }
 
 .listing_entity {

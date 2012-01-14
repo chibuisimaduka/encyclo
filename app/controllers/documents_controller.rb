@@ -6,9 +6,10 @@ class DocumentsController < ApplicationController
 
   def create
     @entity = Entity.find(params[:entity_id])
-	 @document = @entity.documents.create(params[:document])
+	 @document = @entity.documents.build(params[:document])
     # FIXME: create does not work.
-    @document.fetch.process.save!
+    @document.fetch.process
+    @entity.documents.create(@document.attributes)
 	 redirect_to @entity
   end
 
