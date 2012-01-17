@@ -5,6 +5,8 @@ class Entity < ActiveRecord::Base
   has_many :entity_similarities
 
   has_many :images
+
+  validates_presence_of :name
   
   def tag_name
     self.tag.name

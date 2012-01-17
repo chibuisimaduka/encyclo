@@ -13,19 +13,6 @@ class Tag < ActiveRecord::Base
 
   #has_many :similarity_groups
   
-  def similar_tags
-    similar_tags_count = {}
-    tags = {}
-	 self.entities.each do |e|
-	   e.tags.each do |t|
-        tags[t.id] = t
-        similar_tags_count[t.id] = (similar_tags_count[t.id] or 0) + 1
-		end
-	 end
-	 similar_tags_count.delete self.id
-    (similar_tags_count.sort_by{|k,v| v}).reverse[0..9].collect(&:first).collect {|i| tags[i]}
-  end
-
   def full_name
     self.tag ? self.name + " " + self.tag.full_name : self.name
   end

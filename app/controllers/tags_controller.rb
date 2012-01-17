@@ -56,4 +56,8 @@ class TagsController < ApplicationController
     # FIXME: Don't show all tags ( no empty ones )
     redirect_to entities_path(:tag_name => Tag.offset(rand(Tag.count)).first.name)
   end
+
+  def get_autocomplete_items(parameters)
+    super(parameters).where(:tag_id => params[:tag_id])
+  end
 end

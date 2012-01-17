@@ -7,6 +7,7 @@ class EntitiesController < ApplicationController
     @tag = Tag.find_by_name(params[:tag_name], :include => [{:entities => :tags}, {:rankings => :ranking_elements}])
     open_tag(@tag)
     @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
+    @tags_filter << Tag.find_by_name(params[:new_filter]).id if params[:new_filter]
     @entities = @tag.all_entities
     @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
     

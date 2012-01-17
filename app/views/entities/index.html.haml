@@ -4,14 +4,14 @@
 
 %h2{:style => "display: inline;"}= @tag.name.capitalize.pluralize
 
+- unless @tags_filter.blank?
+  %br
+  Active filter:
+  - for similar_tag in Tag.find(@tags_filter)
+    = link_to similar_tag.name, entities_path(:tag_name => @tag.name, :filter => (@tags_filter - [similar_tag.id])), :class => "tag_box_clicked"
 %br
 Refine further:
-- for similar_tag in @tag.similar_tags
-  - if @tags_filter.include?(similar_tag.id)
-    = link_to similar_tag.name, entities_path(:tag_name => @tag.name, :filter => (@tags_filter - [similar_tag.id])), :class => "tag_box_clicked"
-  - else
-    = link_to similar_tag.name, entities_path(:tag_name => @tag.name, :filter => (@tags_filter + [similar_tag.id])), :class => "tag_box"
-%br
+= refine_further @tag
 
 #entities
   - position = 0
