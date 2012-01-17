@@ -1,7 +1,10 @@
 class TagsController < ApplicationController
+
+  autocomplete :tag, :name
   
   def index
-    @tags = Tag.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"])
+    @tags = params[:search] ? Tag.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"]) : Tag.where("tag_id IS NULL")
+    @tags.delete_if {|t| t.tag_id == Tag.find_by_name("document").id }
   end
 
   def toggle_on

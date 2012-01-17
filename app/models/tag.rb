@@ -9,19 +9,21 @@ class Tag < ActiveRecord::Base
   has_many :rankings, :include => :ranking_elements
 
   validates_length_of :name, :in => 3..24
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :through => :tag_id
 
   #has_many :similarity_groups
   
   def similar_tags
     similar_tags_count = {}
+    tags = {}
 	 self.entities.each do |e|
 	   e.tags.each do |t|
+        tags[t.id] = t
         similar_tags_count[t.id] = (similar_tags_count[t.id] or 0) + 1
 		end
 	 end
 	 similar_tags_count.delete self.id
-	 Tag.find((similar_tags_count.sort_by{|k,v| v}).reverse[0..9].collect(&:first))
+    (similar_tags_count.sort_by{|k,v| v}).reverse[0..9].collect(&:first).collect {|i| tags[i]}
   end
 
   def full_name

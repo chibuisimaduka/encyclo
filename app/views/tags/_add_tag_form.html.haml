@@ -1,4 +1,3 @@
 = form_for(@entity) do |f|
-  =# text_field_with_auto_complete :entity, :new_tag_name, { :size => 6 }, { :url => tags_path(:format => :js), :method => :get, :param_name => 'search' }
-  = f.text_field :new_tag_name, :size => 6
+  = f.autocomplete_field :new_tag_name, autocomplete_tag_name_tags_path, :size => 6
   = f.submit "Add"

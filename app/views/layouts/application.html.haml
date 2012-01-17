@@ -30,6 +30,8 @@
           |
           = link_to "Expand", set_listing_type_path(:listing_type => ListingType::EXPANDED), :method => :put
       #left-sidebar
+        #manage_tags_link
+          = link_to "Tags Ontology", tags_path
         #home_link_which_should_be_an_image
           = link_to "Home", root_path
         #random_tag

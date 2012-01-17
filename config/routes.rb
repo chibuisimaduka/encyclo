@@ -15,6 +15,7 @@ Encyclo::Application.routes.draw do
 
   resources :tags do
     collection do
+      get :autocomplete_tag_name
       get 'search'
       get 'random'
     end
