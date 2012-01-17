@@ -1,5 +1,6 @@
 class TagsController < ApplicationController
 
+  respond_to :html, :json
   autocomplete :tag, :name
   
   def index
@@ -36,6 +37,12 @@ class TagsController < ApplicationController
     else
 	   redirect_to(:back, :notice => 'Invalid tag name.')
     end
+  end
+
+  def update
+    @tag = Tag.find(params[:id])
+    @tag.update_attributes(params[:tag])
+    respond_with @tag
   end
 
   def destroy

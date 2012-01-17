@@ -1,0 +1,6 @@
+= content_for :left_sidebar do
+  #browse_tags
+    Browse tags
+    = render :partial => trunk_tags, locals: {editable_name: false}
+    = render :partial => "tags/form"
+= render :template => "layouts/application"

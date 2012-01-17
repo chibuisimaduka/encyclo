@@ -52,11 +52,6 @@
               %p
                 = text_field_tag :search_tag_name, params[:search_tag_name], size: "12"
                 = submit_tag "Go to", :name => nil
-          #browse_tags
-            Browse tags
-            = render :partial => trunk_tags
-            = render :partial => "tags/form"
-
       #content
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"
