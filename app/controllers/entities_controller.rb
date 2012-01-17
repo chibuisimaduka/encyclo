@@ -11,7 +11,8 @@ class EntitiesController < ApplicationController
     @entities = @tag.all_entities
     @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
     
-    redirect_to new_entity_path(:tag_id => @tag.id), :notice => "There is currently no entity who is a #{@tag.full_name}" if @entities.blank?
+    redirect_to new_entity_path(:tag_id => @tag.id), :notice => "There is currently no entity who is a #{@tag.full_name}" +
+      (@tags_filter.blank? ? "" : " that matches the given filters.") if @entities.blank?
 
     fetch_ranking_elements(@tag)
 
