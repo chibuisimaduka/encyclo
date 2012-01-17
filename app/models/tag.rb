@@ -1,5 +1,5 @@
 class Tag < ActiveRecord::Base
-  has_many :tags
+  has_many :tags, :order => "name"
   belongs_to :tag
 
   belongs_to :image
@@ -9,7 +9,7 @@ class Tag < ActiveRecord::Base
   has_many :rankings, :include => :ranking_elements
 
   validates_length_of :name, :in => 3..24
-  validates_uniqueness_of :name, :through => :tag_id
+  validates_uniqueness_of :name, :scope => :tag_id
 
   #has_many :similarity_groups
   
