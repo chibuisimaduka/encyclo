@@ -3,26 +3,20 @@ module Downloader
   require 'uri'
   require 'net/http'
 
-  def old_download(raw_uri)
-    uri = URI.parse(URI.escape(URI.unescape(raw_uri)))
-    full_path = (uri.query.blank?) ? uri.path : "#{uri.path}?#{uri.query}"
-    request = Net::HTTP::Get.new(URI.encode(full_path))
-    res = Net::HTTP.start(uri.host, uri.port) {|http|
-      http.request(request)
-    }
-    res.body
-  end
-  
-  def download(requested_url)
-    url = URI.parse(requested_url)
+  # FROM http://stackoverflow.com/questions/6934185/ruby-net-http-following-redirects
+  def download(uri_str, limit = 10)
+    raise ArgumentError, 'HTTP redirect too deep' if limit == 0
+
+    url = URI.parse(uri_str)
     full_path = (url.query.blank?) ? url.path : "#{url.path}?#{url.query}"
-    the_request = Net::HTTP::Get.new(full_path)
-
-    the_response = Net::HTTP.start(url.host, url.port) { |http|
-      http.request(the_request)
-    }
-
-    return the_response.body       
-end
+    req = Net::HTTP::Get.new(full_path)
+    response = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+    case response
+      when Net::HTTPSuccess     then return uri_str, response.body
+      when Net::HTTPRedirection then return download(response['location'], limit - 1)
+      else
+        response.error!
+    end
+  end
 
 end

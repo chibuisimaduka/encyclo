@@ -8,6 +8,8 @@ class Entity < ActiveRecord::Base
 
   validates_presence_of :name
   
+  before_save :update_documents_from_tag_sources
+  
   def tag_name
     self.tag.name
   end
@@ -39,6 +41,10 @@ class Entity < ActiveRecord::Base
   def new_tag_name=(name)
     self.tags << Tag.find_or_create_by_name(name)
     @new_tag_name = name
+  end
+
+  def update_documents_from_tag_sources
+    one_created = false; self.tag.sources.each { |source| one_created |= Document.create(self, source) }; one_created
   end
 
 end

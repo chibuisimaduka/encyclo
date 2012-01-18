@@ -20,6 +20,10 @@ namespace :wolf do
 
   namespace :entities do
 
+    task :update_documents => :environment do
+      Entity.all.each {|e| e.update_documents_from_tag_sources }
+    end
+
     desc "Do the initial ranking for entities."
     task :rank => :environment do
       rank(Entity.all)

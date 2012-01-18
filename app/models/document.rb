@@ -2,7 +2,8 @@ class Document < ActiveRecord::Base
   has_and_belongs_to_many :entities
   
   require "uri_validator"
-  validates :source, :presence => true, :uri => { :format => /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix }
+  #validates :source, :presence => true, :uri => { :format => /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix }
+  validates :source, :presence => true
 
   validates_presence_of :name
   validates_presence_of :content
@@ -15,7 +16,8 @@ class Document < ActiveRecord::Base
   require 'nokogiri'
 
   def fetch
-	 self.content = download(self.source)
+	 url, self.content = download(self.source)
+    self.source = url
     self
   end
 
@@ -24,6 +26,21 @@ class Document < ActiveRecord::Base
     self.name = "#{source_host} - #{title_from_meta_tag || title_from_title_tag}"
     self.description = description_from_meta_tag || description_from_first_paragraph
     self
+  end
+
+  def self.create(entity, source)
+    uri = URI.parse(URI.escape(URI.unescape(source.url)))
+    if (entity.documents.keep_if {|d| d.source_host == uri.host }).blank?
+      document = Document.new(source: source.url + URI.escape(URI.unescape(entity.name)))
+      document.entities << entity
+      entity.documents << document
+      document.fetch.process.save
+    end
+    false
+  end
+
+  def source_host
+    URI.parse(URI.escape(URI.unescape(self.source))).host
   end
 
 private
@@ -35,10 +52,6 @@ private
   def title_from_meta_tag
     title = @doc.css("meta[name=title]")
     title.first["content"] unless title.blank?
-  end
-
-  def source_host
-    URI.parse(URI.escape(URI.unescape(self.source))).host
   end
 
   def description_from_meta_tag
