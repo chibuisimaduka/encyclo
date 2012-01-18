@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120113173220) do
+ActiveRecord::Schema.define(:version => 20120118013220) do
 
   create_table "books", :force => true do |t|
     t.string   "name"
@@ -109,6 +109,13 @@ ActiveRecord::Schema.define(:version => 20120113173220) do
   create_table "songs", :force => true do |t|
     t.string   "name"
     t.string   "author"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sources", :force => true do |t|
+    t.string   "url"
+    t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

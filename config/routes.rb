@@ -1,4 +1,6 @@
 Encyclo::Application.routes.draw do
+  get "sources/update"
+
   get "images/create"
 
   root :to => "home#index"
@@ -14,6 +16,7 @@ Encyclo::Application.routes.draw do
   resources :documents
 
   resources :tags do
+    resources :sources
     collection do
       get :autocomplete_tag_name
       get 'search'

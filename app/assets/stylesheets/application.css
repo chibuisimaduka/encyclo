@@ -111,12 +111,6 @@ body {
   margin: auto;
 }
 
-h2 {
-  color: blue;
-  display: inline;
-  font-size: 24px;
-}
-
 .users_ranking {
   font-size: 10px;
 }
