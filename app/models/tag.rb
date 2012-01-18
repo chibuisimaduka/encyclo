@@ -2,6 +2,8 @@ class Tag < ActiveRecord::Base
   has_many :tags, :order => "name"
   belongs_to :tag
 
+  has_many :sources
+
   belongs_to :image
 
   has_many :entities, :order => "rank DESC"
