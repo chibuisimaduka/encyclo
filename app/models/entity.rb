@@ -8,7 +8,7 @@ class Entity < ActiveRecord::Base
   has_many :images
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_tag_id
   
   #before_save :update_documents_from_tag_sources
   
@@ -53,6 +53,10 @@ class Entity < ActiveRecord::Base
 
   def ancestors
     self.parent_tag ? [self.parent_tag] + self.parent_tag.entity.ancestors : []
+  end
+
+  def unambiguous_name
+    self.name + " ( " + self.parent_tag.name + " )"
   end
 
 end
