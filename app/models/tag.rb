@@ -1,10 +1,13 @@
 class Tag < ActiveRecord::Base
+  # TODO: Remove column tag_id from tags
   has_many :tags, :order => "name"
-  belongs_to :tag
 
   has_many :sources
 
   belongs_to :image
+
+  belongs_to :entity
+  validates_presence_of :entity_id
 
   has_many :entities, :order => "rank DESC", :include => :documents
   has_and_belongs_to_many :related_entities, :class_name => "Entity" # FIXME: Remove order rank if it is slower because not used when RankingType == USER
@@ -34,6 +37,10 @@ class Tag < ActiveRecord::Base
 
   def ranking_for(user)
     self.rankings.find_by_user_id(user.id) if user
+  end
+
+  def tag
+    self.entity.parent_tag
   end
 
 end

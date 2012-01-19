@@ -1,5 +1,6 @@
 class Entity < ActiveRecord::Base
-  belongs_to :tag
+  belongs_to :parent_tag, :class_name => "Tag"
+  has_one :tag
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
   has_many :entity_similarities
@@ -7,20 +8,16 @@ class Entity < ActiveRecord::Base
   has_many :images
 
   validates_presence_of :name
-  validates_presence_of :tag_id
+  validates_presence_of :parent_tag
   
   #before_save :update_documents_from_tag_sources
   
   def tag_name
-    self.tag.name
+    self.parent_tag.name
   end
 
   def tag_name=(name)
-    self.tag = Tag.find_or_create_by_name(name) unless name.blank?
-  end
-
-  def also_tag?
-    !Tag.find_by_name(self.name).blank?
+    self.parent_tag = Tag.find_or_create_by_name(name) unless name.blank?
   end
 
   def suggested_rating(ranking_elements)
@@ -46,7 +43,7 @@ class Entity < ActiveRecord::Base
 
   def update_documents_from_tag_sources
     one_created = false
-    self.tag.all_tags.each do |t|
+    self.parent_tag.all_tags.each do |t|
       t.sources.each do |source|
         one_created |= Document.create(self, source)
       end

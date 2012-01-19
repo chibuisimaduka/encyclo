@@ -66,6 +66,19 @@ namespace :wolf do
 
   end
 
+  namespace :tags do
+    
+    desc "Generate an entity for every tag that does not have a matching entity."
+    task :generate_entities => :environment do
+      Tag.all.each do |t|
+        if t.entity.blank?
+          t.create_entity!(name: t.name, parent_tag: t.tag)
+        end
+      end
+    end
+
+  end
+
 end
 
 def rank(list)
