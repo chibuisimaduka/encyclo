@@ -1,6 +1,11 @@
 # The Wolf fixes stuff.
 namespace :wolf do
 
+  desc "Backup the sorted_development database to the backups folder."
+  task :backup do
+    `mysqldump -u root sorted_development > backups/sorted_development_backup_#{Time.now.to_i}.sql`
+  end
+
   namespace :documents do
 
     desc "Do the initial ranking for documents."
@@ -22,7 +27,7 @@ namespace :wolf do
 
     desc "Update documents from tag sources for every entity"
     task :update_documents => :environment do
-      Entity.all.each do |e| 
+      (ENV['tag'] ? Tag.find_by_name(ENV['tag']).all_entities : Entity.all).each do |e| 
         puts "Updating #{e.name} documents."
         e.update_documents_from_tag_sources
       end

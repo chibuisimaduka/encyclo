@@ -7,6 +7,8 @@ Endless page for entities.
 You can play songs you have and it will play them based on your ranking.
 The more you like it, it will be more played.
 
+There is a "nostalgie" view where you are shown old things you used to like.
+
 == Application
 
 A user has_many rankings.

@@ -9,7 +9,7 @@ class Entity < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :tag_id
   
-  before_save :update_documents_from_tag_sources
+  #before_save :update_documents_from_tag_sources
   
   def tag_name
     self.tag.name
@@ -45,7 +45,13 @@ class Entity < ActiveRecord::Base
   end
 
   def update_documents_from_tag_sources
-    one_created = false; self.tag.all_tags.each {|t| t.sources.each { |source| one_created |= Document.create(self, source) }}; one_created
+    one_created = false
+    self.tag.all_tags.each do |t|
+      t.sources.each do |source|
+        one_created |= Document.create(self, source)
+      end
+    end
+    one_created ? true : nil # Returning false cancels the save.
   end
 
 end

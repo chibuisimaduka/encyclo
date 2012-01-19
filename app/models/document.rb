@@ -36,7 +36,7 @@ class Document < ActiveRecord::Base
       entity.documents << document
       document.fetch
       content = document.content.downcase
-      unless content.include?("no results found") or content.contains?("did you mean")
+      unless content.include?("no results found") or content.include?("did you mean")
         return document.process.save
       end
     end
