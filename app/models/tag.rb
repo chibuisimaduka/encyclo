@@ -1,5 +1,6 @@
 class Tag < ActiveRecord::Base
   # TODO: Remove column tag_id from tags
+  belongs_to :tag
   has_many :tags, :order => "name"
 
   has_many :sources
@@ -13,7 +14,7 @@ class Tag < ActiveRecord::Base
   has_and_belongs_to_many :related_entities, :class_name => "Entity" # FIXME: Remove order rank if it is slower because not used when RankingType == USER
   has_many :rankings, :include => :ranking_elements
 
-  validates_length_of :name, :in => 3..24
+  validates_length_of :name, :in => 3..60
   validates_uniqueness_of :name, :scope => :tag_id
 
   #has_many :similarity_groups
@@ -39,8 +40,8 @@ class Tag < ActiveRecord::Base
     self.rankings.find_by_user_id(user.id) if user
   end
 
-  def tag
-    self.entity.parent_tag
-  end
+  #def tag
+  #  self.entity.parent_tag
+  #end
 
 end

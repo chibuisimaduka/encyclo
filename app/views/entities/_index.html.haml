@@ -2,8 +2,6 @@
   #create_entity
     = link_to "Create an entity", new_entity_path(:tag_id => @tag.id)
 
-%h2{:style => "display: inline;"}= @tag.name.capitalize.pluralize
-
 - unless @tags_filter.blank?
   %br
   Active filter:

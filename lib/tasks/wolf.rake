@@ -25,6 +25,21 @@ namespace :wolf do
 
   namespace :entities do
 
+    desc "Fixed the matching tag and the parent tag of every entity."
+    task :fix_tags => :environment do
+      Entity.all.each do |e|
+        tag = Tag.find_by_name(e.name)
+        unless tag.blank?
+          # FIXME: Bad code, but I don't want to get into this.. Fucking associations..
+          tag.entity = e
+          tag.save!
+          e.tag = tag
+          e.parent_tag = tag.tag
+          e.save!
+        end
+      end
+    end
+
     desc "Update documents from tag sources for every entity"
     task :update_documents => :environment do
       (ENV['tag'] ? Tag.find_by_name(ENV['tag']).all_entities : Entity.all).each do |e| 

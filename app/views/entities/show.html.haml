@@ -32,6 +32,7 @@
     = render :partial => "documents/index"
   = toggle_visibility "Add a document.." do
     = render :partial => "documents/form"
-  = link_to "Create a document..", new_document_pathj
-
-= render :partial => "_index"
+  = link_to "Create a document..", new_document_path
+#sub_entities
+  = unless @entity.tag.blank?
+    = render :partial => "index"

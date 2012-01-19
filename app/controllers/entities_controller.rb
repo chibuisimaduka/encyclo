@@ -6,7 +6,7 @@ class EntitiesController < ApplicationController
   end
 
   def show
-    @entity = Entity.find(params[:id], :include => {:tag => [{:entities => :tags}, {:rankings => :ranking_elements}]})
+    @entity = Entity.find(params[:id])#, :include => {:tag => [{:entities => :tags}, {:rankings => :ranking_elements}]})
     # FIXME: fetch_ranking_elements(@entity.tag)
 
     unless @entity.tag.blank?
@@ -17,7 +17,8 @@ class EntitiesController < ApplicationController
       open_tag(@tag)
       @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
       @tags_filter << Tag.find_by_name(params[:new_filter]).id if params[:new_filter]
-      @entities = @tag.all_entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
+      @entities = @tag.entities
+      @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
       
       redirect_to new_entity_path(:tag_id => @tag.id), :notice => "There is currently no entity who is a #{@tag.full_name}" +
         (@tags_filter.blank? ? "" : " that matches the given filters.") if @entities.blank?
@@ -77,7 +78,7 @@ private
 
   def open_tag(tag)
     opened_tags[tag.name] = true
-    open_tag(tag.tag) if tag.tag
+    open_tag(tag.tag) if tag.tag && !opened_tags.has_key?(tag.tag.name)
   end
 
   def fetch_ranking_elements(tag)

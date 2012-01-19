@@ -1,5 +1,5 @@
 class Entity < ActiveRecord::Base
-  belongs_to :parent_tag, :class_name => "Tag"
+  belongs_to :parent_tag, :class_name => "Tag", :foreign_key => "tag_id"
   has_one :tag
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
@@ -8,7 +8,7 @@ class Entity < ActiveRecord::Base
   has_many :images
 
   validates_presence_of :name
-  validates_presence_of :parent_tag
+  validates_uniqueness_of :name, :case_sensitive => false
   
   #before_save :update_documents_from_tag_sources
   
