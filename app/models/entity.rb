@@ -7,6 +7,7 @@ class Entity < ActiveRecord::Base
   has_many :images
 
   validates_presence_of :name
+  validates_presence_of :tag_id
   
   before_save :update_documents_from_tag_sources
   
@@ -44,7 +45,7 @@ class Entity < ActiveRecord::Base
   end
 
   def update_documents_from_tag_sources
-    one_created = false; self.tag.sources.each { |source| one_created |= Document.create(self, source) }; one_created
+    one_created = false; self.tag.all_tags.each {|t| t.sources.each { |source| one_created |= Document.create(self, source) }}; one_created
   end
 
 end

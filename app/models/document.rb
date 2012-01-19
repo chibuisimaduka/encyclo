@@ -34,7 +34,11 @@ class Document < ActiveRecord::Base
       document = Document.new(source: source.url + URI.escape(URI.unescape(entity.name)))
       document.entities << entity
       entity.documents << document
-      document.fetch.process.save
+      document.fetch
+      content = document.content.downcase
+      unless content.include?("no results found") or content.contains?("did you mean")
+        return document.process.save
+      end
     end
     false
   end

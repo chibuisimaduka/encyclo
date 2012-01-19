@@ -11,9 +11,7 @@ gem 'haml'
 gem 'best_in_place'
 gem 'carrierwave'
 gem 'rmagick'
-
 gem 'nokogiri'
-
 gem 'rails3-jquery-autocomplete'
 
 # Gems used only for assets and not required

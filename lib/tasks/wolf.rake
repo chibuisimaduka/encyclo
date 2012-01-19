@@ -20,8 +20,12 @@ namespace :wolf do
 
   namespace :entities do
 
+    desc "Update documents from tag sources for every entity"
     task :update_documents => :environment do
-      Entity.all.each {|e| e.update_documents_from_tag_sources }
+      Entity.all.each do |e| 
+        puts "Updating #{e.name} documents."
+        e.update_documents_from_tag_sources
+      end
     end
 
     desc "Do the initial ranking for entities."
