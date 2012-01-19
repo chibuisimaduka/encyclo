@@ -37,11 +37,6 @@ class EntitiesController < ApplicationController
     end
   end
 
-  def new
-    @entity = Entity.new
-    @tag = Tag.find(params[:tag_id])
-  end
-
   def edit
     @entity = Entity.find(params[:id])
   end

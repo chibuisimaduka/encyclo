@@ -8,7 +8,7 @@ class Entity < ActiveRecord::Base
   has_many :images
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_tag_id
+  validates_uniqueness_of :name, :case_sensitive => false, :scope => :tag_id
   
   #before_save :update_documents_from_tag_sources
   
