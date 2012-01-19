@@ -8,8 +8,12 @@ Encyclo::Application.routes.draw do
   resources :entities do
     resources :images
     collection do
+      get :autocomplete_entity_name
       get 'search'
       get 'random'
+    end
+    member do
+      put 'tagify'
     end
   end
 
@@ -19,7 +23,6 @@ Encyclo::Application.routes.draw do
     resources :sources
     collection do
       get :autocomplete_tag_name
-      get 'search'
       get 'random'
     end
     member do

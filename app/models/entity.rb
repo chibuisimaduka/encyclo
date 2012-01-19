@@ -51,4 +51,8 @@ class Entity < ActiveRecord::Base
     one_created ? true : nil # Returning false cancels the save.
   end
 
+  def ancestors
+    self.parent_tag ? [self.parent_tag] + self.parent_tag.entity.ancestors : []
+  end
+
 end

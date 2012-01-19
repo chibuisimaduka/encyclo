@@ -1,5 +1,7 @@
 class EntitiesController < ApplicationController
 
+  autocomplete :entity, :name
+
   def search
     @entity = Entity.find_by_name(params[:search_entity_name])
     redirect_to @entity
@@ -20,9 +22,6 @@ class EntitiesController < ApplicationController
       @entities = @tag.entities
       @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
       
-      redirect_to new_entity_path(:tag_id => @tag.id), :notice => "There is currently no entity who is a #{@tag.full_name}" +
-        (@tags_filter.blank? ? "" : " that matches the given filters.") if @entities.blank?
-
       fetch_ranking_elements(@tag)
 
       if ranking_type == RankingType::USER && !@ranking
@@ -62,6 +61,12 @@ class EntitiesController < ApplicationController
     else
       render :action => "edit"
     end
+  end
+
+  def tagify
+    @entity = Entity.find(params[:id])
+    @entity.create_tag!(name: @entity.name)
+    redirect_to @entity
   end
 
   def destroy

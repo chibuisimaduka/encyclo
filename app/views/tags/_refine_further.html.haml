@@ -1,7 +1,7 @@
 - for tag in tags
   = tag.name
   \:
-  = form_tag(entities_path, method: :get) do
+  = form_tag(@entity, method: :get) do
     = autocomplete_field_tag :new_filter, '', autocomplete_tag_name_tags_path(tag_id: tag.id), size: 6
     = hidden_field_tag :tag_name, params[:tag_name]
     = submit_tag "Filter"

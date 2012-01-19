@@ -18,11 +18,6 @@ class TagsController < ApplicationController
 	 redirect_to :back
   end
 
-  def search
-    @tag = Tag.find_by_name(params[:search_tag_name])
-    redirect_to entities_path(:tag_name => @tag.name)
-  end
-
   def create
     @tag = Tag.find_by_name(params[:tag][:name])
     if @tag

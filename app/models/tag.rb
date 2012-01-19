@@ -1,7 +1,8 @@
 class Tag < ActiveRecord::Base
   # TODO: Remove column tag_id from tags
-  belongs_to :tag
-  has_many :tags, :order => "name"
+  # TODO: Remove column name from tag
+  #belongs_to :tag
+  has_many :tags, :through => :entities, :source => :tag
 
   has_many :sources
 
@@ -40,8 +41,8 @@ class Tag < ActiveRecord::Base
     self.rankings.find_by_user_id(user.id) if user
   end
 
-  #def tag
-  #  self.entity.parent_tag
-  #end
+  def tag
+    self.entity.parent_tag
+  end
 
 end
