@@ -7,7 +7,7 @@ class Tag < ActiveRecord::Base
 
   belongs_to :image
 
-  belongs_to :entity
+  belongs_to :entity, :dependent => :destroy
   validates_presence_of :entity_id
 
   has_many :entities, :order => "rank DESC", :include => :documents
