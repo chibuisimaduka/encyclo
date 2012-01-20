@@ -1,6 +1,6 @@
 class Entity < ActiveRecord::Base
   belongs_to :parent_tag, :class_name => "Tag", :foreign_key => "tag_id"
-  has_one :tag
+  has_one :tag, :dependent => :destroy
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
   has_many :entity_similarities
