@@ -4,8 +4,8 @@ class TagsController < ApplicationController
   autocomplete :tag, :name
   
   def index
-    @tags = params[:search] ? Tag.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"]) : Tag.where("tag_id IS NULL")
-    @tags.delete_if {|t| t.tag_id == Tag.find_by_name("document").id }
+    @tags = params[:search] ? Tag.find(:all, :conditions => ['name LIKE ?', "%#{params[:search]}%"]) : Tag.all(:joins => :entity, :conditions => {:entities => {:tag_id => nil}})
+    @tags.delete_if {|t| t.tag == Tag.find_by_name("document") }
   end
 
   def toggle_on
@@ -20,14 +20,16 @@ class TagsController < ApplicationController
 
   def create
     @tag = Tag.find_by_name(params[:tag][:name])
-    if @tag
-      @tag.tag_id = params[:tag][:tag_id]
-    else
+    parent_tag_id = params[:tag].delete([:tag_id])
+    unless @tag
       @tag = Tag.new(params[:tag])
+      @tag.entity = Entity.find_by_name(@tag.name)
+      @tag.create_entity!(name: @tag.name) if @tag.entity.blank?
     end
 
+    @tag.entity.tag_id = parent_tag_id
     if @tag.save
-      opened_tags[@tag.tag.name] = true if @tag.tag_id
+      opened_tags[@tag.tag.name] = true if @tag.tag
       redirect_to(:back, :notice => 'Tag was successfully created.')
     else
 	   redirect_to(:back, :notice => 'Invalid tag name.')

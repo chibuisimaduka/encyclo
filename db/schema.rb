@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120119163544) do
+ActiveRecord::Schema.define(:version => 20120120165108) do
 
   create_table "books", :force => true do |t|
     t.string   "name"
@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(:version => 20120119163544) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "tag_id"
     t.integer  "entity_id"
   end
 

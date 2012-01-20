@@ -1,7 +1,6 @@
 class Tag < ActiveRecord::Base
-  # TODO: Remove column tag_id from tags
   # TODO: Remove column name from tag
-  #belongs_to :tag
+  has_one :tag, :through => :entity, :source => :parent_tag
   has_many :tags, :through => :entities, :source => :tag
 
   has_many :sources
@@ -16,7 +15,7 @@ class Tag < ActiveRecord::Base
   has_many :rankings, :include => :ranking_elements
 
   validates_length_of :name, :in => 3..60
-  validates_uniqueness_of :name, :scope => :tag_id
+  #validate :name_is_unique_for_parent_tag
 
   #has_many :similarity_groups
   
@@ -41,8 +40,12 @@ class Tag < ActiveRecord::Base
     self.rankings.find_by_user_id(user.id) if user
   end
 
-  def tag
-    self.entity.parent_tag
+private
+  
+  def name_is_unique_for_parent_tag
+    if Tag.joins(:entity, :parent_tag).where("FIXME")
+      error.add("The name must be unique for the same parent tag.")
+    end
   end
 
 end
