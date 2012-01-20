@@ -4,7 +4,7 @@ class EntitiesController < ApplicationController
 
   def search
     @entity = Entity.find_by_name(params[:search_entity_name])
-    redirect_to @entity
+    redirect_to (params["commit"] == "Search" || @entity.documents.blank?) ? @entity : @entity.documents.first.source
   end
 
   def show

@@ -44,8 +44,9 @@
             What entity are you looking for?
             = form_tag search_entities_path, method: 'get' do
               %p
-                = autocomplete_field_tag :search_entity_name, params[:search_entity_name], autocomplete_entity_name_entities_path, size: "24"
-                = submit_tag "Go to", :name => nil
+                = autocomplete_field_tag :search_entity_name, params[:search_entity_name], autocomplete_entity_name_entities_path, size: "24", id: "search_entity_name_field"
+                = submit_tag "Search"
+                = submit_tag "Trust"
       #content
         - flash.each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"

@@ -12,6 +12,10 @@
 //= require best_in_place
 //= require_tree .
 
+$(document).ready(function() {
+  $('#search_entity_name_field').focus();
+})
+
 function toggle_visibility(id) {
   var e = document.getElementById(id);
   if(e.style.display == 'block')
