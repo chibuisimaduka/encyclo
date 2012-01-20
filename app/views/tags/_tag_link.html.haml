@@ -4,3 +4,4 @@
   = link_to tag.name, tag_entity_path(tag, :filter => params[:filter])
 = link_to_function "[a]", "toggle_visibility('create_tag_#{tag.id}');"
 = link_to "[s]", tag_path(tag)
+= link_to "[d]", tag_path(tag), method: :delete

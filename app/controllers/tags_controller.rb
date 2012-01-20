@@ -59,6 +59,7 @@ class TagsController < ApplicationController
   end
 
   def get_autocomplete_items(parameters)
-    super(parameters).where(:tag_id => params[:tag_id])
+    items = super(parameters)
+    params[:tag_id] ? items.joins(:entity).where(:entities => {:tag_id => params[:tag_id]}) : items
   end
 end
