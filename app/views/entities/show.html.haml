@@ -5,8 +5,8 @@
   |
   = link_to "Previous", @entity
   \----------
-  = join(@entity.ancestors.reverse, " > ") do |t|
-    = link_to t.name, t.entity
+  = join(@entity.ancestors.reverse, " > ") do |e|
+    = link_to e.name, e.parent
 #images
   - @entity.images.each do |image|
     .image
@@ -29,7 +29,7 @@
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
     %br
     - for tag in @entity.tags
-      = render :partial => "tags/tag_box", :locals => {:tag => tag} 
+      = render :partial => tag
     = render :partial => "entities/add_tag_form"
   #documents
     = render :partial => @entity.documents[0..3]

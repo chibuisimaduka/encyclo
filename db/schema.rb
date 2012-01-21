@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120120165108) do
+ActiveRecord::Schema.define(:version => 20120121030518) do
 
   create_table "books", :force => true do |t|
     t.string   "name"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20120120165108) do
     t.float    "rank"
     t.integer  "num_votes",  :default => 0
     t.integer  "tag_id"
+    t.integer  "entity_id"
   end
 
   create_table "entities_tags", :id => false, :force => true do |t|
