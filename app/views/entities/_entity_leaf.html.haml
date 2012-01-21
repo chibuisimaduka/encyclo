@@ -1,9 +1,14 @@
 .entity_leaf
+  - entity_limit = 5
   = "|"*(nested = (local_assigns.has_key?(:nested) ? nested : 0))
   - if opened_entities[entity_leaf.name]
     = link_to("-", {:controller => :entities, :action => :toggle_off, :entity_name => entity_leaf.name, :id => entity_leaf.id}, {:method => :put})
     = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable_name => editable_name}
-    = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities, :locals => {:nested => nested+1, :editable_name => editable_name}
+    = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[0..(entity_limit-1)], :locals => {:nested => nested+1, :editable_name => editable_name}
+    - if entity_leaf.entities.size > entity_limit
+      = ("|" * (nested + 1))
+      = toggle_visibility "#{entity_leaf.entities.size - entity_limit} more entities." do
+        = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[entity_limit..-1], :locals => {:nested => nested+1, :editable_name => editable_name}
   - else
     = link_to("+", {:controller => :entities, :action => :toggle_on, :entity_name => entity_leaf.name, :id => entity_leaf.id}, {:method => :put})
     = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable_name => editable_name}

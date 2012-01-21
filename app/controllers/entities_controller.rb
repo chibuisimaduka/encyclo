@@ -1,6 +1,10 @@
 class EntitiesController < ApplicationController
 
   autocomplete :entity, :name
+  
+  def index
+    @entities = Entity.where("parent_id IS NULL")
+  end
 
   def search
     @entity = Entity.find_by_name(params[:search_entity_name])
