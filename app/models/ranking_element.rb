@@ -8,7 +8,8 @@ class RankingElement < ActiveRecord::Base
   validates_uniqueness_of :record_id, :scope => :ranking_id
 
   def record
-    @record ||= (self.ranking.tag.type_of?("document")) ? Document.find(record_id) : Entity.find(record_id)
+    # FIXME: Not generic enough. Should work for entities AND documents.
+    @record ||= Entity.find_by_record_id(record_id)
   end
 
 end

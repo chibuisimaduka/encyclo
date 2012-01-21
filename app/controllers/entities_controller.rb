@@ -8,21 +8,18 @@ class EntitiesController < ApplicationController
   end
 
   def show
-    @entity = Entity.find(params[:id])#, :include => {:tag => [{:entities => :tags}, {:rankings => :ranking_elements}]})
-    # FIXME: fetch_ranking_elements(@entity.tag)
+    @entity = Entity.find(params[:id])
 
-    unless @entity.tag.blank?
-      @tag = @entity.tag
+    unless @entity.blank?
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
-      # FIXME: Should not be including entities.tags since used for similar tags I think..
-      open_tag(@tag)
+      open_entity(@entity)
       @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
       @tags_filter << Tag.find_by_name(params[:new_filter]).id if params[:new_filter]
-      @entities = @tag.entities
+      @entities = @entity.entities
       @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
       
-      fetch_ranking_elements(@tag)
+      fetch_ranking_elements(@entity)
 
       if ranking_type == RankingType::USER && !@ranking
         flash[:notice] = "You don't have ranked any entity yet.."
@@ -58,15 +55,19 @@ class EntitiesController < ApplicationController
     end
   end
 
-  def tagify
-    @entity = Entity.find(params[:id])
-    @entity.create_tag!(name: @entity.name)
-    redirect_to @entity
-  end
-
   def destroy
     @entity = Entity.find(params[:id])
     @entity.destroy
+	 redirect_to :back
+  end
+
+  def toggle_on
+    opened_entities[params[:entity_name]] = true
+	 redirect_to :back
+  end
+
+  def toggle_off
+    opened_entities.delete params[:entity_name]
 	 redirect_to :back
   end
 
@@ -76,19 +77,15 @@ class EntitiesController < ApplicationController
 
 private
 
-  def open_tag(tag)
-    opened_tags[tag.name] = true
-    open_tag(tag.tag) if tag.tag && !opened_tags.has_key?(tag.tag.name)
+  def open_entity(entity)
+    opened_entities[entity.name] = true
+    open_entity(entity.parent) if entity.parent
   end
 
-  def fetch_ranking_elements(tag)
-    @ranking = tag.ranking_for current_user
+  def fetch_ranking_elements(entity)
+    @ranking = entity.ranking_for current_user
     @ranking_elements = {}
-    if @ranking
-      @ranking.ranking_elements.all.each do |e|
-        @ranking_elements[e.record_id] = e
-      end
-    end
+    @ranking.ranking_elements.all.each { |e| @ranking_elements[e.record_id] = e} if @ranking
   end
 
 end

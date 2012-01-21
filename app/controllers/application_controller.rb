@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   helper_method :current_user
-  helper_method :opened_tags
+  helper_method :opened_entities
   helper_method :listing_type
   helper_method :ranking_type
 
@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     session[:ranking_type] = ranking_type
   end
 
-  def opened_tags
-    session[:opened_tag] ||= {}
+  def opened_entities
+    session[:opened_entities] ||= {}
   end
 end

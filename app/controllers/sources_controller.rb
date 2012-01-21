@@ -1,9 +1,9 @@
 class SourcesController < ApplicationController
 
   def create
-    @tag = Tag.find(params[:tag_id])
-    @tag.sources.create(params[:source])
-    redirect_to @tag
+    @entity = Tag.find(params[:entity_id])
+    @entity.sources.create(params[:source])
+    redirect_to @entity
   end
 
 end

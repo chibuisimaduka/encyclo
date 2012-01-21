@@ -1,6 +1,0 @@
-= form_for(Tag.new) do |f|
-  %span.fields
-    = f.autocomplete_field :name, autocomplete_tag_name_tags_path, :size => 15
-    = f.hidden_field(:tag_id, :value => tag_id) if local_assigns.has_key? :tag_id
-  %span.actions
-    = f.submit "Add tag"

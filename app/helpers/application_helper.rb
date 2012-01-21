@@ -36,12 +36,12 @@ module ApplicationHelper
 	 end
   end
 
-  def rankable_list(tag, records, options={}, &block)
-    render :partial => "helpers/rankable_list", :locals => {:tag => tag, :records => records, :block => block}.merge(options)
+  def rankable_list(entity, records, options={}, &block)
+    render :partial => "entities/rankable_list", :locals => {:entity => entity, :records => records, :block => block}.merge(options)
   end
 
-  def trunk_tags
-    ["movie", "world", "tutorial", "recipee", "book", "person"].collect {|name| Tag.find_by_name(name) }
+  def trunk_entities
+    ["movie", "world", "tutorial", "recipee", "book", "person"].collect {|name| Entity.find_by_name(name) }
   end
   
 end

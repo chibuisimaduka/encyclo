@@ -27,16 +27,14 @@
     
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
-    = link_to "tagify", tagify_entity_path(id: @entity.id), method: :put if @entity.tag.blank?
     %br
     - for tag in @entity.tags
       = render :partial => "tags/tag_box", :locals => {:tag => tag} 
-    = render :partial => "tags/add_tag_form"
+    = render :partial => "entities/add_tag_form"
   #documents
-    = render :partial => "documents/index"
+    = render :partial => @entity.documents[0..3]
   = toggle_visibility "Add a document.." do
     = render :partial => "documents/form"
   = link_to "Create a document..", new_document_path
 #sub_entities
-  - unless @entity.tag.blank?
-    = render :partial => "index"
+  = render :partial => "index"

@@ -1,10 +1,9 @@
 class Entity < ActiveRecord::Base
-  belongs_to :parent_tag, :class_name => "Tag", :foreign_key => "tag_id"
-  has_one :tag, :dependent => :destroy
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
   has_many :entity_similarities
   
+  belongs_to :parent, :class_name => "Entity"
   has_many :entities, :order => "rank DESC", :include => :documents
   
   has_many :rankings, :include => :ranking_elements
@@ -14,17 +13,17 @@ class Entity < ActiveRecord::Base
   has_many :images
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false, :scope => :tag_id
+  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
   
   #before_save :update_documents_from_tag_sources
   
-  def tag_name
-    self.parent_tag.name
-  end
+  #def tag_name
+  #  self.parent_tag.name
+  #end
 
-  def tag_name=(name)
-    self.parent_tag = Tag.find_or_create_by_name(name) unless name.blank?
-  end
+  #def tag_name=(name)
+  #  self.parent_tag = Tag.find_or_create_by_name(name) unless name.blank?
+  #end
 
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
@@ -55,10 +54,10 @@ class Entity < ActiveRecord::Base
     self.rankings.find_by_user_id(user.id) if user
   end
 
-  def update_documents_from_tag_sources
+  def update_documents_from_sources
     one_created = false
-    self.parent_tag.all_tags.each do |t|
-      t.sources.each do |source|
+    self.ancestors.each do |e|
+      e.sources.each do |source|
         one_created |= Document.create(self, source)
       end
     end
@@ -66,11 +65,11 @@ class Entity < ActiveRecord::Base
   end
 
   def ancestors
-    self.parent_tag ? [self.parent_tag] + self.parent_tag.entity.ancestors : []
+    self.parent.blank? ? [self] : self.parent.ancestors + [self]
   end
 
   def unambiguous_name
-    self.name + " ( " + self.parent_tag.name + " )"
+    self.name + " ( " + self.parent.name + " )"
   end
 
 end

@@ -1,19 +1,19 @@
 = content_for :left_sidebar do
   #create_entity
-    = link_to "Create an entity", new_entity_path(:tag_id => @tag.id)
+    = link_to "Create an entity", new_entity_path(:parent_id => @entity.id)
 
 - unless @tags_filter.blank?
   %br
   Active filter:
-  - for similar_tag in Tag.find(@tags_filter)
-    = link_to similar_tag.name, entity_path(id: @entity.id, filter: (@tags_filter - [similar_tag.id])), :class => "tag_box_clicked"
+  - for filter_tag in Tag.find(@tags_filter)
+    = link_to filter_tag.name, entity_path(id: @entity.id, filter: (@tags_filter - [filter_tag.id])), :class => "tag_box_clicked"
 %br
 Refine further:
-= refine_further @tag
+= refine_further @entity
 
 #entities
   - position = 0
-  = rankable_list @tag, @entities, :limit => 20 do |entity|
-    = render :partial => entity, locals: {position: (position += 1), tag: @tag}
+  = rankable_list @entity, @entities, :limit => 20 do |entity|
+    = render :partial => entity, locals: {position: (position += 1)}
 
 = render :partial => "entities/form"

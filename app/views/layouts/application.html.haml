@@ -30,16 +30,12 @@
           |
           = link_to "Expand", set_listing_type_path(:listing_type => ListingType::EXPANDED), :method => :put
       #left-sidebar
-        #manage_tags_link
-          = link_to "Tags Ontology", tags_path
         #home_link_which_should_be_an_image
           = link_to "Home", root_path
-        #random_tag
-          = link_to "Random tag", random_tags_path
         #random_entity
           = link_to "Random entity", random_entities_path
         = yield :left_sidebar
-        #index_tags
+        #index_entities
           #search_entity
             What entity are you looking for?
             = form_tag search_entities_path, method: 'get' do

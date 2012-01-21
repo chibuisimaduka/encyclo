@@ -6,6 +6,7 @@ Encyclo::Application.routes.draw do
   root :to => "home#index"
   
   resources :entities do
+    resources :sources
     resources :images
     collection do
       get :autocomplete_entity_name
@@ -13,22 +14,17 @@ Encyclo::Application.routes.draw do
       get 'random'
     end
     member do
-      put 'tagify'
-    end
+      put 'toggle_on'
+		put 'toggle_off'
+	 end
   end
 
   resources :documents
 
   resources :tags do
-    resources :sources
     collection do
       get :autocomplete_tag_name
-      get 'random'
     end
-    member do
-      put 'toggle_on'
-		put 'toggle_off'
-	 end
   end
   
   resources :ranking_elements do

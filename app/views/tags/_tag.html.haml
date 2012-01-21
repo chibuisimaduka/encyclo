@@ -1,12 +1,1 @@
-.tag
-  = "|"*(nested = (local_assigns.has_key?(:nested) ? nested : 0))
-  - if opened_tags[tag.name]
-    = link_to("-", {:controller => :tags, :action => :toggle_off, :tag_name => tag.name, :id => tag.id}, {:method => :put})
-    = render :partial => "tags/tag_link", :locals => {:tag => tag, :editable_name => editable_name}
-    = render :partial => tag.tags, :locals => {:nested => nested+1, :editable_name => editable_name}
-  - else
-    = link_to("+", {:controller => :tags, :action => :toggle_on, :tag_name => tag.name, :id => tag.id}, {:method => :put})
-    = render :partial => "tags/tag_link", :locals => {:tag => tag, :editable_name => editable_name}
-  .create_tag{:id => "create_tag_#{tag.id}"}
-    = "|"*(nested+1)
-    = render :partial => "tags/form", :locals => {:tag_id => tag.id}
+= tag.name, :class => "tag_box"

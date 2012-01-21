@@ -1,6 +1,4 @@
 class Tag < ActiveRecord::Base
-  # TODO: Remove column name from tag
-
   has_and_belongs_to_many :entities
 
   validates_length_of :name, :in => 3..60

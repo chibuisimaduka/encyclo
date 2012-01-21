@@ -1,7 +1,0 @@
-- tag = Tag.find_or_create_by_name("document").tags.find_or_create_by_name(@entity.name + "_document")
-= rankable_list tag, @entity.documents, :limit => (local_assigns.has_key?(:limit) ? limit : 3) do |doc|
-  =# link_to doc.name, {:controller => "documents", :action => "show", :id => doc.id}, {:class => "document_name"}
-  = link_to doc.name, doc.source, class: "document_name"
-  .document_url= doc.source
-  .document_description
-    = doc.description[0..200] + "..."

@@ -6,6 +6,6 @@ class Ranking < ActiveRecord::Base
   validates_presence_of :user_id
   validates_presence_of :entity_id
 
-  validates_uniqueness_of :tag_id, :scope => :user_id
+  validates_uniqueness_of :entity_id, :scope => :user_id
 
 end
