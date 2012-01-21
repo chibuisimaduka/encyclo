@@ -3,12 +3,21 @@
   = "|"*(nested = (local_assigns.has_key?(:nested) ? nested : 0))
   - if opened_entities[entity_leaf.name]
     = link_to("-", {:controller => :entities, :action => :toggle_off, :entity_name => entity_leaf.name, :id => entity_leaf.id}, {:method => :put})
-    = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable_name => editable_name}
-    = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[0..(entity_limit-1)], :locals => {:nested => nested+1, :editable_name => editable_name}
+    = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable_name => editable_name, :can_change_parent => can_change_parent}
+    = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[0..(entity_limit-1)], :locals => {:nested => nested+1, :editable_name => editable_name, :can_change_parent => can_change_parent}
     - if entity_leaf.entities.size > entity_limit
-      = ("|" * (nested + 1))
+      = "|" * (nested+1)
       = toggle_visibility "#{entity_leaf.entities.size - entity_limit} more entities." do
-        = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[entity_limit..-1], :locals => {:nested => nested+1, :editable_name => editable_name}
+        = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[entity_limit..-1], :locals => {:nested => nested+1, :editable_name => editable_name, :can_change_parent => can_change_parent}
   - else
     = link_to("+", {:controller => :entities, :action => :toggle_on, :entity_name => entity_leaf.name, :id => entity_leaf.id}, {:method => :put})
-    = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable_name => editable_name}
+    = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable_name => editable_name, :can_change_parent => can_change_parent}
+  - if can_change_parent
+    .change_entity_parent{:id => "change_entity_parent_#{entity_leaf.id}"}
+      = "|"*(nested+1)
+      = form_tag(change_parent_entities_path, method: :put) do
+        %span.fields
+          = autocomplete_field_tag :name, '', autocomplete_entity_name_entities_path, :size => 15
+          = hidden_field_tag(:parent_id, entity_leaf.id)
+        %span.actions
+          = submit_tag "Change parent"

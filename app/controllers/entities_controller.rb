@@ -75,6 +75,11 @@ class EntitiesController < ApplicationController
 	 redirect_to :back
   end
 
+  def change_parent
+    Entity.find_by_name(params[:name]).update_attribute :parent_id, params[:parent_id]
+    redirect_to :back
+  end
+
   def random
     redirect_to Entity.offset(rand(Entity.count)).first
   end

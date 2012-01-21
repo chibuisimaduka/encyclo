@@ -12,6 +12,7 @@ Encyclo::Application.routes.draw do
       get :autocomplete_entity_name
       get 'search'
       get 'random'
+      put 'change_parent'
     end
     member do
       put 'toggle_on'
