@@ -4,6 +4,12 @@ class Entity < ActiveRecord::Base
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
   has_many :entity_similarities
+  
+  has_many :entities, :order => "rank DESC", :include => :documents
+  
+  has_many :rankings, :include => :ranking_elements
+  
+  has_many :sources
 
   has_many :images
 
@@ -39,6 +45,14 @@ class Entity < ActiveRecord::Base
   def new_tag_name=(name)
     self.tags << Tag.find_or_create_by_name(name)
     @new_tag_name = name
+  end
+
+  def all_entities
+    self.entities + self.entities.map(&:all_entities).flatten
+  end
+
+  def ranking_for(user)
+    self.rankings.find_by_user_id(user.id) if user
   end
 
   def update_documents_from_tag_sources
