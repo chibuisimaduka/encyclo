@@ -14,7 +14,7 @@
   - if can_change_parent
     .change_entity_parent{:id => "change_entity_parent_#{entity_leaf.id}"}
       = "|"*(nested+1)
-      = form_tag(change_parent_entities_path, method: :put) do
+      = form_tag(change_parent_entities_path(format: :js), method: :put, remote: true) do
         %span.fields
           = autocomplete_field_tag :name, '', autocomplete_entity_name_entities_path, :size => 15
           = hidden_field_tag(:parent_id, entity_leaf.id)

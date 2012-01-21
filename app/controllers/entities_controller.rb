@@ -1,6 +1,6 @@
 class EntitiesController < ApplicationController
 
-  respond_to :html, :js
+  respond_to :html, :json
   autocomplete :entity, :name
   
   def index
@@ -74,12 +74,15 @@ class EntitiesController < ApplicationController
 
   def toggle_off
     @entity = Entity.find(params[:id])
-    opened_entities.delete params[:id].to_i
+    (@entity.all_entities + [@entity]).each do |e|
+      opened_entities.delete e.id
+    end
   end
 
   def change_parent
-    Entity.find_by_name(params[:name]).update_attribute :parent_id, params[:parent_id]
-    redirect_to :back
+    @entity = Entity.find_or_create_by_name(params[:name])
+    @entity.update_attribute :parent_id, params[:parent_id]
+    opened_entities[@entity.parent_id] = true
   end
 
   def random
