@@ -1,6 +1,6 @@
 = form_for(Entity.new) do |f|
   .fields
-    = f.hidden_field(:parent_id, :value => @entity.id)
+    = f.hidden_field(:parent_id, :value => parent.id)
     .field_name
       = f.label :name
       %br

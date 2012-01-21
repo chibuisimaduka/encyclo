@@ -1,5 +1,6 @@
 class EntitiesController < ApplicationController
 
+  respond_to :html, :js
   autocomplete :entity, :name
   
   def index
@@ -57,22 +58,23 @@ class EntitiesController < ApplicationController
     else
       render :action => "edit"
     end
+    respond_with @entity
   end
 
   def destroy
     @entity = Entity.find(params[:id])
     @entity.destroy
-	 redirect_to :back
+	 redirect_to @entity.parent ? @entity.parent : root_path
   end
 
   def toggle_on
-    opened_entities[params[:entity_name]] = true
-	 redirect_to :back
+    @entity = Entity.find(params[:id])
+    opened_entities[params[:id].to_i] = true
   end
 
   def toggle_off
-    opened_entities.delete params[:entity_name]
-	 redirect_to :back
+    @entity = Entity.find(params[:id])
+    opened_entities.delete params[:id].to_i
   end
 
   def change_parent
@@ -87,7 +89,7 @@ class EntitiesController < ApplicationController
 private
 
   def open_entity(entity)
-    opened_entities[entity.name] = true
+    opened_entities[entity.id] = true
     open_entity(entity.parent) if entity.parent
   end
 

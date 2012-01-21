@@ -1,4 +1,3 @@
-- @entity = entity
 - if listing_type.show_picture && !entity.images.blank?
   .listing_image= image_tag entity.images.first.image_url(:thumb).to_s
 .listing_entity
@@ -17,4 +16,4 @@
     %span.users_ranking>= entity.rank ? "#{entity.rank} from #{entity.num_votes} users." : "No user ranking yet."
   = link_to "destroy", entity, :method => :delete, :confirm => "Are you sure?"
   - if listing_type.show_documents
-    = render :partial => @entity.documents.first unless @entity.documents.blank?
+    = render :partial => entity.documents.first unless entity.documents.blank?
