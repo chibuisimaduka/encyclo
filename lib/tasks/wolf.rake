@@ -82,6 +82,16 @@ namespace :wolf do
   end
 
   namespace :tags do
+
+    desc "Merge tags with same name."
+    task :merge_tags_with_same_name do
+      Tag.all.each do |t|
+        tags = Tag.find_all_by_name(t.name) - [t]
+        unless tags.blank?
+          tags.each { |dup| t.merge_with(dup) }
+        end
+      end
+    end
     
     desc "Generate an entity for every tag that does not have a matching entity."
     task :generate_entities => :environment do

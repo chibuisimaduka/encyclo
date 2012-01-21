@@ -40,12 +40,16 @@ class Tag < ActiveRecord::Base
     self.rankings.find_by_user_id(user.id) if user
   end
 
+  def merge_with(tag)
+
+  end
+
 private
   
   def name_is_unique_for_parent_tag
-    if Tag.joins(:entity, :parent_tag).where("FIXME")
-      error.add("The name must be unique for the same parent tag.")
-    end
+    #if Tag.joins(:entity, :parent_tag).where("FIXME")
+    #  error.add("The name must be unique for the same parent tag.")
+    #end
   end
 
 end
