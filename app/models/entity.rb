@@ -4,7 +4,7 @@ class Entity < ActiveRecord::Base
   has_many :entity_similarities
   
   belongs_to :parent, :class_name => "Entity"
-  has_many :entities, :order => "rank DESC", :include => :documents
+  has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id
   
   has_many :rankings, :include => :ranking_elements
   
@@ -56,7 +56,7 @@ class Entity < ActiveRecord::Base
 
   def update_documents_from_sources
     one_created = false
-    self.ancestors.each do |e|
+    (self.ancestors + [self]).each do |e|
       e.sources.each do |source|
         one_created |= Document.create(self, source)
       end
@@ -65,7 +65,7 @@ class Entity < ActiveRecord::Base
   end
 
   def ancestors
-    self.parent.blank? ? [self] : self.parent.ancestors + [self]
+    self.parent.blank? ? [] : [self.parent] + self.parent.ancestors
   end
 
   def unambiguous_name
