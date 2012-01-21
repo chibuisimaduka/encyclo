@@ -74,7 +74,7 @@ class EntitiesController < ApplicationController
 
   def toggle_off
     @entity = Entity.find(params[:id])
-    (@entity.all_entities + [@entity]).each do |e|
+    (@entity.entities + [@entity]).each do |e|
       opened_entities.delete e.id
     end
   end
