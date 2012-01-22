@@ -1,5 +1,5 @@
 .entity_leaf{id: "entity_leaf_#{entity_leaf.id}"}
-  - entity_limit = 5
+  - entity_limit = 15
   = "|"*(nested = (local_assigns.has_key?(:nested) ? nested : 0))
   - if opened_entities[entity_leaf.id]
     = link_to("-", toggle_off_entity_path(id: entity_leaf.id, format: :js, nested: nested), {method: :put, remote: true})

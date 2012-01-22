@@ -41,7 +41,7 @@ module ApplicationHelper
   end
 
   def trunk_entities
-    ["movie", "world", "tutorial", "recipee", "book", "person"].collect {|name| Entity.find_by_name(name) }
+    # FIXME: TMP: ["movie", "world", "tutorial", "recipee", "book", "person"].collect {|name| Entity.find_by_name(name) }
   end
   
 end
