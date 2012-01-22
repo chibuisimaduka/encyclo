@@ -6,7 +6,7 @@ class Entity < ActiveRecord::Base
   belongs_to :parent, :class_name => "Entity"
   has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id
   
-  has_many :rankings, :include => :ranking_elements
+  has_many :ratings
   
   has_many :sources
 
@@ -50,8 +50,8 @@ class Entity < ActiveRecord::Base
     self.entities + self.entities.map(&:all_entities).flatten
   end
 
-  def ranking_for(user)
-    self.rankings.find_by_user_id(user.id) if user
+  def rating_for(user)
+    self.ratings.find_by_user_id(user.id)
   end
 
   def update_documents_from_sources

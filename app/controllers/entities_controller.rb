@@ -24,17 +24,18 @@ class EntitiesController < ApplicationController
       @entities = @entity.entities
       @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
       
-      fetch_ranking_elements(@entity)
-
-      if ranking_type == RankingType::USER && !@ranking
-        flash[:notice] = "You don't have ranked any entity yet.."
-        self.ranking_type = RankingType::TOP
-      elsif ranking_type == RankingType::USER
+      if ranking_type == RankingType::USER
+        raise "TODO too..."
         @entities.delete_if {|e| !@ranking_elements.has_key?(e.id) }
         @entities.sort_by {|e| @ranking_elements[e.id].rating }
+        if @entities.blank?
+          flash[:notice] = "You don't have ranked any entity yet.."
+          self.ranking_type = RankingType::TOP
+        end
       elsif ranking_type == RankingType::SUGGESTED
-        @entities.delete_if {|e| @ranking_elements.has_key?(e.id) }
-        @entities.sort_by {|e| e.suggested_rating(@ranking_elements) }
+        raise "TODO..."
+        @entities.delete_if {|e| e.has_rating_for(current_user) }
+        @entities.sort_by {|e| e.suggested_rating(@entity.entities) }
       end
     end
     respond_with @entity
@@ -91,12 +92,6 @@ private
   def open_entity(entity)
     opened_entities[entity.id] = true
     open_entity(entity.parent) if entity.parent
-  end
-
-  def fetch_ranking_elements(entity)
-    @ranking = entity.ranking_for current_user
-    @ranking_elements = {}
-    @ranking.ranking_elements.all.each { |e| @ranking_elements[e.record_id] = e} if @ranking
   end
 
 end

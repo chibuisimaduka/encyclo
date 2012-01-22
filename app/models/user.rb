@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation
 
-  has_many :rankings
+  has_many :ratings
 
   attr_accessor :password
   before_save :encrypt_password
