@@ -12,7 +12,7 @@ class RatingsController < ApplicationController
       @record.update_attribute :rank, (@record.ratings.size == 0) ? nil : updated_rank / @record.ratings.size
       respond_with Rating.new(entity_id: @record.id, user_id: current_user.id)
     else
-      @record.update_attribute :rank, updated_rank / (@record.ratings.size + 1)
+      @record.update_attribute :rank, updated_rank / (@rating.persisted? ? @record.ratings.size : @record.ratings.size + 1)
       @rating.persisted? ? @rating.update_attribute(:value, value) : @rating.value = value; @rating.save!
       respond_with @rating
     end
