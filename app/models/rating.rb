@@ -7,6 +7,9 @@ class Rating < ActiveRecord::Base
   validates_presence_of :user
   validates_presence_of :entity
 
+  #validates_numericality_of :value, :greater_than => 0.0
+  #validates_numericality_of :value, :less_than_or_equal_to => 10.0
+
   def record
     self.entity_id.blank? ? self.document : self.entity
   end

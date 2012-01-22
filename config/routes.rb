@@ -28,10 +28,7 @@ Encyclo::Application.routes.draw do
     end
   end
   
-  resources :ranking_elements do
-    collection do
-      put 'rank'
-    end
+  resources :ratings do
     member do
       put 'rank_up'
       put 'rank_down'
@@ -41,7 +38,7 @@ Encyclo::Application.routes.draw do
   put "set_ranking_type" => "ranking_types#update", :as => "set_ranking_type"
   put "set_listing_type" => "listing_types#update", :as => "set_listing_type"
 
-  post "sort" => "ranking_elements#sort", :as => "sort"
+  post "sort" => "ratings#sort", :as => "sort"
 
   get "log_in" => "sessions#new", :as => "log_in"
   get "log_out" => "sessions#destroy", :as => "log_out"
