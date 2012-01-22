@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120122042353) do
+ActiveRecord::Schema.define(:version => 20120122194827) do
 
   create_table "books", :force => true do |t|
     t.string   "name"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(:version => 20120122042353) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "rank"
-    t.integer  "num_votes",  :default => 0
     t.integer  "tag_id"
     t.integer  "parent_id"
   end

@@ -12,7 +12,7 @@
       %span.current_user_ranking
         %span.editable_user_ranking= best_in_place (entity.rating_for(current_user) || Rating.new(entity_id: entity.id, user_id: current_user.id)), :value, html_attrs: {size: 1}, nil: "-", path: {:controller => "ratings", :action => "update", :id => entity.id}
         -#%span.editable_user_ranking= best_in_place (entity.rating_for(current_user) || Rating.new(entity_id: entity.id, user_id: current_user.id, id: 99999)), :value, html_attrs: {size: 1}, nil: "-"
-    %span.users_ranking>= entity.rank ? "#{entity.rank} from #{entity.num_votes} users." : "No user votes yet."
+    %span.users_ranking>= entity.ratings.blank? ? "No user votes yet." : "#{entity.rank} from #{entity.ratings.size} users."
   = link_to "destroy", entity, :method => :delete, :confirm => "Are you sure?"
   - if listing_type.show_documents
     = render :partial => entity.documents.first unless entity.documents.blank?

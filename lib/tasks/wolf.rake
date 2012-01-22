@@ -50,7 +50,9 @@ namespace :wolf do
 
     desc "Do the initial ranking for entities."
     task :rank => :environment do
-      rank(Entity.all)
+      Entity.all.each do |e|
+        e.update_attribute :rank, e.ratings.blank? ? nil : e.ratings.collect(&:value).sum / e.ratings.size
+      end
     end
 
     desc "Recreate images versions"
@@ -104,17 +106,4 @@ namespace :wolf do
 
   end
 
-end
-
-def rank(list)
-  list.each do |e|
-    score = 0.0
-    num = 0
-    RankingElement.find_all_by_record_id(e.id).each do |r|
-      score += r.rating
-      num += 1
-    end
-    e.update_attribute(:rank, (score/num)) if num > 0
-    e.update_attribute(:num_votes, num)
-  end
 end
