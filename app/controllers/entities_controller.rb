@@ -37,6 +37,7 @@ class EntitiesController < ApplicationController
         @entities.sort_by {|e| e.suggested_rating(@ranking_elements) }
       end
     end
+    respond_with @entity
   end
 
   def edit
@@ -53,11 +54,7 @@ class EntitiesController < ApplicationController
 
   def update
     @entity = Entity.find(params[:id])
-    if @entity.update_attributes(params[:entity])
-      redirect_to(:back, :notice => 'Entity was successfully updated.')
-    else
-      render :action => "edit"
-    end
+    @entity.update_attributes(params[:entity])
     respond_with @entity
   end
 

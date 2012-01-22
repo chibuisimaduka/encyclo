@@ -23,8 +23,8 @@ class Document < ActiveRecord::Base
 
   def process
     @doc = Nokogiri::HTML(self.content)
-    self.name = "#{source_host} - #{title_from_meta_tag || title_from_title_tag}"
-    self.description = description_from_meta_tag || description_from_first_paragraph
+    self.name = title_from_meta_tag || title_from_title_tag
+    self.description = description_from_meta_tag || description_from_first_paragraph || "WTF"
     self
   end
 

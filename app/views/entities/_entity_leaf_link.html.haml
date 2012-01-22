@@ -1,7 +1,6 @@
-- if editable_name
+- if editable && editable != 'false'
   = best_in_place entity, :name
-  = link_to "[s]", entity
+  = link_to_function "[a]", "toggle_visibility('change_entity_parent_#{entity.id}');"
+  = link_to "[s]", entity_path(entity)
 - else
   = link_to entity.name, entity_path(entity, filter: params[:filter])
-- if can_change_parent
-  = link_to_function "[a]", "toggle_visibility('change_entity_parent_#{entity.id}');"

@@ -1,6 +1,6 @@
 = content_for :left_sidebar do
   #browse_entities
     Browse entities
-    = render :partial => "entities/entity_leaf", collection: trunk_entities, locals: {editable_name: false, can_change_parent: false}
+    = render :partial => "entities/entity_leaf", collection: trunk_entities, locals: {editable: false}
 = render :template => "layouts/application"
 = javascript_include_tag 'entities'

@@ -1,1 +1,1 @@
-$("#entity_leaf_<%= @entity.parent_id %>").replaceWith("<%= escape_javascript(render partial: "entities/entity_leaf", locals: {entity_leaf: @entity.parent, editable_name: true, can_change_parent: true, nested: params[:nested].to_i}) %>")
+$("#entity_leaf_<%= @entity.parent_id %>").replaceWith("<%= escape_javascript(render partial: "entities/entity_leaf", locals: {entity_leaf: @entity.parent, editable: true, nested: params[:nested].to_i}) %>")
