@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120121040055) do
+ActiveRecord::Schema.define(:version => 20120122041943) do
 
   create_table "books", :force => true do |t|
     t.string   "name"
@@ -88,21 +88,6 @@ ActiveRecord::Schema.define(:version => 20120121040055) do
     t.integer  "year"
     t.integer  "duration"
     t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "ranking_elements", :force => true do |t|
-    t.integer  "ranking_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "record_id"
-    t.integer  "rating"
-  end
-
-  create_table "rankings", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
