@@ -1,7 +1,7 @@
 class EntitiesController < ApplicationController
 
   respond_to :html, :json
-  autocomplete :entity, :name
+  autocomplete :entity, :name, :extra_data => [:parent_id]
   
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -88,6 +88,13 @@ class EntitiesController < ApplicationController
   end
 
 private
+
+  def json_for_autocomplete(items, method, extra_data=[])
+    items.collect do |e|
+      name = (items.find_all_by_name(e.name).size > 1 && !e.parent.blank?) ? e.name + " (#{e.parent.name})" : e.name
+      {"id" => e.id.to_s, "label" => name, "value" => name}
+    end
+  end
 
   def open_entity(entity)
     opened_entities[entity.id] = true

@@ -14,7 +14,7 @@ class Entity < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
-  
+
   #before_save :update_documents_from_tag_sources
   
   #def tag_name

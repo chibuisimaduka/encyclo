@@ -1,3 +1,10 @@
+= content_for :left_sidebar do
+  #browse_entities
+    Browse entities
+    = render :partial => "entities/entity_leaf", collection: trunk_entities, locals: {editable: false}
+
+= javascript_include_tag 'entities'
+
 #browsing_entities
   = link_to "Back", :back
   |
@@ -23,10 +30,10 @@
   #refine_document_filter
     #language_filter
       Filter by language:
-      %span.editable= best_in_place filters[:language], "to_s", type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ["", "Unkown"]), path: {:controller => "sessions", :action => "update"}
+      %span.editable= best_in_place filters[:language], "to_s", type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ["", "No filter"]), path: {:controller => "sessions", :action => "update"}
     #document_type_filter
       Filter by document type:
-      %span.editable= best_in_place filters[:document_type], "to_s", type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ["", "Unkown"]), path: {:controller => "sessions", :action => "update"}
+      %span.editable= best_in_place filters[:document_type], "to_s", type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ["", "No filter"]), path: {:controller => "sessions", :action => "update"}
   #entity_title
     = content_for :left_sidebar do
       #create_document
