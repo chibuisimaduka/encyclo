@@ -1,7 +1,15 @@
 class DocumentsController < ApplicationController
 
+  respond_to :html, :json
+
   def show
     @document = Document.find(params[:id])
+  end
+
+  def update
+    @document = Document.find(params[:id])
+    @document.update_attributes(params[:document])
+    respond_with @document
   end
 
   def create

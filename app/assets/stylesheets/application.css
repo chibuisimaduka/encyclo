@@ -37,6 +37,14 @@
   background-color: #cfcfcf;
 }
 
+.document_type {
+  display: inline;
+  border-style: groove;
+  border-width: 2px;
+  background-color: #fffb8f;
+  border-color: silver;
+}
+
 a:visited[id="entity_name"] {
   font-size: 16px;
   color: #E98C08;
@@ -120,6 +128,7 @@ body {
 }
 
 .document_url {
+  display: inline;
   color: green;
 }
 
