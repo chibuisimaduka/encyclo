@@ -2,6 +2,7 @@
   = link_to document.name, document.source, class: "document_name"
   .document_url_and_type
     .document_url= document.source
-    .document_type= best_in_place document, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(1, [nil, "Unkown"])
+    .document_type= best_in_place document, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, [nil, "Unkown"])
+    .document_language= best_in_place document, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, [nil, "Unkown"])
   .document_description
     = document.description[0..200] + "..."

@@ -10,6 +10,7 @@ class Document < ActiveRecord::Base
   validates_presence_of :description
 
   belongs_to :document_type
+  belongs_to :language
 
   require "downloader"
   include Downloader
