@@ -126,6 +126,7 @@ GEM
     uglifier (1.2.1)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
+    whatlanguage (1.0.0)
 
 PLATFORMS
   ruby
@@ -146,3 +147,4 @@ DEPENDENCIES
   ruby-debug19
   sass-rails (~> 3.1.5)
   uglifier (>= 1.0.3)
+  whatlanguage

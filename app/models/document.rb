@@ -27,7 +27,8 @@ class Document < ActiveRecord::Base
   def process
     @doc = Nokogiri::HTML(self.content)
     self.name = title_from_meta_tag || title_from_title_tag
-    self.description = description_from_meta_tag || description_from_first_paragraph || "WTF"
+    self.description = description_from_meta_tag || description_from_first_paragraph || "No description.."
+    self.language = Language.find_by_name(self.description.language)
     self
   end
 
