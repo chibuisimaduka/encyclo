@@ -15,4 +15,4 @@
     %span.users_ranking>= entity.ratings.blank? ? "No user votes yet." : "#{entity.rank} from #{entity.ratings.size} users."
   = link_to "destroy", entity, :method => :delete, :confirm => "Are you sure?"
   - if listing_type.show_documents
-    = render :partial => entity.documents.first unless entity.documents.blank?
+    = render :partial => entity.documents.where(filters).first  unless entity.documents.blank?

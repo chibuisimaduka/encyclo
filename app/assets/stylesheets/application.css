@@ -41,8 +41,8 @@
   display: inline;
   border-style: groove;
   border-width: 2px;
-  background-color: #fffb8f;
   border-color: silver;
+  background-color: #fffb8f;
 }
 
 a:visited[id="entity_name"] {
@@ -133,6 +133,10 @@ body {
 }
 
 .editable_user_ranking {
+  background-color: #fffb8f;
+}
+
+.editable {
   background-color: #fffb8f;
 }
 

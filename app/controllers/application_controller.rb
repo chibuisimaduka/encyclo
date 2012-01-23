@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :opened_entities
   helper_method :listing_type
   helper_method :ranking_type
+  helper_method :filters
 
   private
   def current_user
@@ -31,5 +32,9 @@ class ApplicationController < ActionController::Base
 
   def opened_entities
     session[:opened_entities] ||= {}
+  end
+
+  def filters
+    session[:filters] ||= {}
   end
 end

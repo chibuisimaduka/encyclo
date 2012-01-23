@@ -2,6 +2,16 @@ class SessionsController < ApplicationController
   def new
   end
 
+  FILTERS = [:language, :document_type]
+
+  def update
+    raise "FIXME"
+    FILTERS.each do |filter|
+      (session[:filters] ||= {})[filter] = params[filter] if params[filter]
+    end
+    redirect_to :back
+  end
+
   def create
     user = User.authenticate(params[:email], params[:password])
     if user
