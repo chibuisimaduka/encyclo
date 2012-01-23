@@ -1,0 +1,10 @@
+The Robot Exclusion Standard, also known as the Robots Exclusion Protocol or robots.txt protocol, is a convention to prevent cooperating web crawlers and other web robots from accessing all or part of a website which is otherwise publicly viewable. Robots are often used by search engines to categorize and archive web sites, or by webmasters to proofread source code. The standard is different from, but can be used in conjunction with, Sitemaps, a robot inclusion standard for websites
+
+If a site owner wishes to give instructions to web robots they must place a text file called robots.txt in the root of the web site hierarchy (e.g. www.example.com/robots.txt). This text file should contain the instructions in a specific format (see examples below). Robots that choose to follow the instructions try to fetch this file and read the instructions before fetching any other file from the web site. If this file doesn't exist web robots assume that the web owner wishes to provide no specific instructions.
+
+The protocol is purely advisory.
+
+Wikipedia: http://en.wikipedia.org/w/api.php?action=opensearch&search=#{name} => json[1][0]
+IMDb: http://sg.media-imdb.com/suggests/g/#{name}.json => json["d"][0]["id"]
+RottenTomatoes: http://www.rottentomatoes.com/search/json/?q=Gladiator => HTML...
+Dictionary: No javascript..
