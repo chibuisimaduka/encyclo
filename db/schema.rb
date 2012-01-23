@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120122194827) do
+ActiveRecord::Schema.define(:version => 20120123022106) do
 
   create_table "books", :force => true do |t|
     t.string   "name"
@@ -33,6 +33,11 @@ ActiveRecord::Schema.define(:version => 20120122194827) do
     t.integer  "entity_id"
   end
 
+  create_table "document_types", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "documents", :force => true do |t|
     t.string   "name"
     t.string   "source"
@@ -41,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20120122194827) do
     t.binary   "content"
     t.float    "rank"
     t.text     "description"
+    t.integer  "document_type_id"
   end
 
   create_table "documents_entities", :id => false, :force => true do |t|
