@@ -12,7 +12,6 @@ class Entity < ActiveRecord::Base
 
   has_many :images
 
-  # TODO: Name should only contain letters. No parenthesis.
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
 

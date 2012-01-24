@@ -25,11 +25,9 @@ dollar type equals action and comedy for mathcing predicate type = action AND mo
 # The dollar is there for better autocomplete purposes.
 # You can also specify that you thrust Isaac.
 
-== Application
+== FIXME
 
-A user has_many rankings.
-A ranking has a name and a sorted list of elements.
-An element has a name and an id.
+A book is an entity and also a document for other entities.
 
 == Debugging Rails
 

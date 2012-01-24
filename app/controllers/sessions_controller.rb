@@ -1,15 +1,13 @@
 class SessionsController < ApplicationController
+  
+  respond_to :html, :json
+
   def new
   end
 
-  FILTERS = [:language, :document_type]
-
   def update
-    raise "FIXME"
-    FILTERS.each do |filter|
-      (session[:filters] ||= {})[filter] = params[filter] if params[filter]
-    end
-    redirect_to :back
+    session[params[:model]].update_attributes params[params[:model]]
+    respond_with params[params[:model]]
   end
 
   def create

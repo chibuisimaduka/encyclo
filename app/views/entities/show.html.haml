@@ -37,10 +37,10 @@
   #refine_document_filter
     #language_filter
       Filter by language:
-      %span.editable= best_in_place filters[:language], "to_s", type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ["", "No filter"]), path: {:controller => "sessions", :action => "update"}
+      %span.editable= best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
     #document_type_filter
       Filter by document type:
-      %span.editable= best_in_place filters[:document_type], "to_s", type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ["", "No filter"]), path: {:controller => "sessions", :action => "update"}
+      %span.editable= best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_title
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
@@ -49,7 +49,7 @@
       = render :partial => tag
     = render :partial => "entities/add_tag_form"
   #documents
-    = render :partial => @entity.documents.where(filters)[0..3]
+    = render :partial => @entity.documents.where(filterer.filter_attributes)[0..3]
   = toggle_visibility "Add a document.." do
     = render :partial => "documents/form"
   = link_to "Create a document..", new_document_path
