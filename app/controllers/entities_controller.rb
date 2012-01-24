@@ -8,7 +8,7 @@ class EntitiesController < ApplicationController
   end
 
   def search
-    @entity = Entity.find_by_name(params[:search_entity_name])
+    @entity = Entity.find(params[:entity_id])
     redirect_to (params["commit"] == "Search" || @entity.documents.blank?) ? @entity : @entity.documents.first.source
   end
 
@@ -25,7 +25,7 @@ class EntitiesController < ApplicationController
       @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
       
       if ranking_type == RankingType::USER
-        raise "TODO too..."
+        raise "TODO ranking user..."
         @entities.delete_if {|e| !@ranking_elements.has_key?(e.id) }
         @entities.sort_by {|e| @ranking_elements[e.id].rating }
         if @entities.blank?
@@ -33,7 +33,7 @@ class EntitiesController < ApplicationController
           self.ranking_type = RankingType::TOP
         end
       elsif ranking_type == RankingType::SUGGESTED
-        raise "TODO..."
+        raise "TODO ranking suggested..."
         @entities.delete_if {|e| e.has_rating_for(current_user) }
         @entities.sort_by {|e| e.suggested_rating(@entity.entities) }
       end

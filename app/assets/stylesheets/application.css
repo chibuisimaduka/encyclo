@@ -152,6 +152,12 @@ body {
   margin-bottoM: 10px;
 }
 
+#home_page #search_entity {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+}
+
 .listing_entity {
   display: inline-block;
   vertical-align: top;

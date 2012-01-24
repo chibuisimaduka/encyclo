@@ -12,6 +12,7 @@ class Entity < ActiveRecord::Base
 
   has_many :images
 
+  # TODO: Name should only contain letters. No parenthesis.
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
 
@@ -69,7 +70,7 @@ class Entity < ActiveRecord::Base
   end
 
   def unambiguous_name
-    self.name + " ( " + self.parent.name + " )"
+    self.name + " (" + self.parent.name + ")"
   end
 
 end

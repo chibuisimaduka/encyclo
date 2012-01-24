@@ -38,13 +38,6 @@
           = link_to "Random entity", random_entities_path
         #random_document
           Random document
-        #index_entities
-          #search_entity
-            What are you looking for?
-            = form_tag search_entities_path, method: 'get' do
-              = autocomplete_field_tag :search_entity_name, params[:search_entity_name], autocomplete_entity_name_entities_path, size: "24", id: "search_entity_name_field"
-              = submit_tag "Search"
-              = submit_tag "I Trust You"
         = yield :left_sidebar
       #content
         - flash.each do |name, msg|

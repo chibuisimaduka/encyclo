@@ -1,4 +1,7 @@
 = content_for :left_sidebar do
+  #index_entities
+    #search_entity_sidebar_text What are you looking for?
+    = render :partial => "entities/search"
   #browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", collection: trunk_entities, locals: {editable: false}

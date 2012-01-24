@@ -1,0 +1,6 @@
+#search_entity
+  = form_tag search_entities_path, method: 'get' do
+    = hidden_field_tag :entity_id, '', id: "search_entity_id"
+    = autocomplete_field_tag :search_entity_name, params[:search_entity_name], autocomplete_entity_name_entities_path, size: local_assigns.has_key?(:field_size) ? field_size : "24", id: "search_entity_name_field", id_element: "#search_entity_id"
+    = submit_tag "Search"
+    = submit_tag "I Trust You"
