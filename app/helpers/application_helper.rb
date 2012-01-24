@@ -40,8 +40,4 @@ module ApplicationHelper
     render :partial => "entities/rankable_list", :locals => {:entity => entity, :records => records, :block => block}.merge(options)
   end
 
-  def trunk_entities
-    @trunk_entities ||= Entity.find_by_name("entity").entities
-  end
-  
 end

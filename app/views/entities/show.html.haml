@@ -1,10 +1,14 @@
 = content_for :left_sidebar do
+  #create_entity
+    = link_to "Create an entity", new_entity_path(:parent_id => @entity.id)
+  #create_document
+    = link_to "Create a document", new_document_path(:entity_id => @entity.id)
   #index_entities
     #search_entity_sidebar_text What are you looking for?
     = render :partial => "entities/search"
   #browse_entities
     Browse entities
-    = render :partial => "entities/entity_leaf", collection: trunk_entities, locals: {editable: false}
+    = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}
 
 = javascript_include_tag 'entities'
 
@@ -38,10 +42,6 @@
       Filter by document type:
       %span.editable= best_in_place filters[:document_type], "to_s", type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ["", "No filter"]), path: {:controller => "sessions", :action => "update"}
   #entity_title
-    = content_for :left_sidebar do
-      #create_document
-        = link_to "Create a document", new_document_path(:entity_id => @entity.id)
-    
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
     %br
