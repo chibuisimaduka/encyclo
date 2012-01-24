@@ -5,6 +5,7 @@
 - For the predicates, when it is an enum (e.g. genre(action,adventure..)) you
     link to the entity corresponding to the enum (e.g. genre) and it will get
     it's child as the enum values.
+- The entity navigation tree should show all entity parents but not cousins.
 
 == Features
 
