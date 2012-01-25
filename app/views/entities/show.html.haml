@@ -20,7 +20,7 @@
   = link_to "Previous", @entity
   \----------
   = join(@entity.ancestors.reverse, " > ") do |e|
-    = link_to e.name, e
+    = link_to e.name(current_language), e
 #images
   - @entity.images.each do |image|
     .image
@@ -42,7 +42,7 @@
       Filter by document type:
       %span.editable= best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_title
-    %h1.entity_name{:style => "font-size: 32;"}= @entity.name
+    %h1.entity_name{:style => "font-size: 32;"}= @entity.name(current_language)
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
     %br
     - for tag in @entity.tags

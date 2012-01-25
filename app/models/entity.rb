@@ -12,18 +12,19 @@ class Entity < ActiveRecord::Base
 
   has_many :images
 
+  has_many :names
+
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
 
   #before_save :update_documents_from_tag_sources
   
-  #def tag_name
-  #  self.parent_tag.name
-  #end
+  def name(language)
+    self.names.find_by_language_id(language.id)
+  end
 
-  #def tag_name=(name)
-  #  self.parent_tag = Tag.find_or_create_by_name(name) unless name.blank?
-  #end
+  def set_name(language, value)
+    self.names.find_or_create_by_language_id(language.id).update_attribute :value, value
+  end
 
   def suggested_rating(ranking_elements)
     expected_rating = 0.0

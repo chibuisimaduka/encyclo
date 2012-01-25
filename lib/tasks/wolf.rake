@@ -40,6 +40,13 @@ namespace :wolf do
       end
     end
 
+    task :migrate_name => :environment do
+      lang = Language.find_by_name "english"
+      Entity.all.each do |e|
+        e.set_name(lang, e["name"])
+      end
+    end
+
     desc "Update documents from tag sources for every entity"
     task :update_documents => :environment do
       (ENV['tag'] ? Tag.find_by_name(ENV['tag']).all_entities : Entity.all).each do |e| 

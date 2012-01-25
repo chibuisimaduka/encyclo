@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :listing_type
   helper_method :ranking_type
   helper_method :filterer
+  helper_method :current_language
 
   private
   def current_user
@@ -36,5 +37,9 @@ class ApplicationController < ActionController::Base
 
   def filterer
     session[:filterer] ||= Filterer.new
+  end
+
+  def current_language
+    session[:current_language] ||= Language.find_by_name("english")
   end
 end
