@@ -49,6 +49,10 @@ class Entity < ActiveRecord::Base
     @new_tag_name = name
   end
 
+  def all_components
+    self.parent.blank? ? self.components : self.components + self.parent.all_components
+  end
+
   def all_entities
     self.entities + self.entities.map(&:all_entities).flatten
   end

@@ -41,6 +41,10 @@
         %p= f.submit "Add image"
 #entity
   #refine_document_filter
+    #components_values
+      - for component in @entity.all_components
+        .component_value
+          = "#{component.component_entity.name}:"
     #language_filter
       Filter by language:
       %span.editable= best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
