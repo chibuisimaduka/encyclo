@@ -15,9 +15,10 @@ class DocumentsController < ApplicationController
   def create
     @entity = Entity.find(params[:entity_id])
 	 @document = @entity.documents.build(params[:document])
-    # FIXME: create does not work.
     @document.fetch.process
-    @entity.documents.create(@document.attributes)
+    attrs = @document.attributes
+    attrs.delete_if {|k,v| v.blank?}
+    @entity.documents.create!(attrs)
 	 redirect_to @entity
   end
 
