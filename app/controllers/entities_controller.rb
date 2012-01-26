@@ -1,7 +1,7 @@
 class EntitiesController < ApplicationController
 
   respond_to :html, :json
-  autocomplete :entity, :name, :extra_data => [:parent_id]
+  autocomplete :name, :value, :extra_data => [:entity_id]
   
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -78,6 +78,7 @@ class EntitiesController < ApplicationController
   end
 
   def change_parent
+    raise "FIXME: Broken"
     @entity = Entity.find_or_create_by_name(params[:name])
     @entity.update_attribute :parent_id, params[:parent_id]
     opened_entities[@entity.parent_id] = true
@@ -90,9 +91,9 @@ class EntitiesController < ApplicationController
 private
 
   def json_for_autocomplete(items, method, extra_data=[])
-    items.collect do |e|
-      name = (items.find_all_by_name(e.name).size > 1 && !e.parent.blank?) ? e.name + " (#{e.parent.name})" : e.name
-      {"id" => e.id.to_s, "label" => name, "value" => name}
+    items.find_all_by_language_id(current_language.id).map do |n|
+      name = (items.find_all_by_value(n.value).size > 1) ? n.value + " (#{n.entity.parent.name(current_language)})" : n.value
+      {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
   end
 

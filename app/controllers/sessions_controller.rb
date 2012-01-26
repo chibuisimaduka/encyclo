@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
   end
 
   def update
+    raise "FIXME"
     session[params[:model]].update_attributes params[params[:model]]
     respond_with params[params[:model]]
   end
