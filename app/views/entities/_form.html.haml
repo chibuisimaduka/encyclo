@@ -3,7 +3,6 @@
     = f.hidden_field(:parent_id, :value => parent.id)
     .field_name
       = f.label :name
-      %br
       = f.autocomplete_field :name, autocomplete_entity_name_entities_path, :id => "create_entity_name_field"
   .actions
     = f.submit "Create Sub-Entity"

@@ -4,8 +4,6 @@
   - for filter_tag in Tag.find(@tags_filter)
     = link_to filter_tag.name, entity_path(id: @entity.id, filter: (@tags_filter - [filter_tag.id])), :class => "tag_box_clicked"
 %br
-Refine further:
-= refine_further @entity
 
 #entities
   - position = 0
