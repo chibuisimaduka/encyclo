@@ -18,6 +18,8 @@ class Entity < ActiveRecord::Base
   has_many :components
   has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id"
 
+  has_many :predicates
+
   #before_save :update_documents_from_tag_sources
   
   #def tag_name

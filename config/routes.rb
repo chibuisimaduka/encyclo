@@ -21,8 +21,8 @@ Encyclo::Application.routes.draw do
   end
 
   resources :documents
-
   resources :components
+  resources :predicates
 
   resources :tags do
     collection do

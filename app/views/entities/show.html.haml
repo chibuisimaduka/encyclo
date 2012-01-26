@@ -40,11 +40,13 @@
           = f.text_field :remote_image_url
         %p= f.submit "Add image"
 #entity
-  #refine_document_filter
-    #components_values
+  #components_values
+    - if @entity.entities.blank?
       - for component in @entity.all_components
         .component_value
           = "#{component.component_entity.name}:"
+          %span.editable= best_in_place component.predicates.find_or_initialize_by_entity_id(@entity.id), :value, path: {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
+  #refine_document_filter
     #language_filter
       Filter by language:
       %span.editable= best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
