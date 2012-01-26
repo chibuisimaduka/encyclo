@@ -22,6 +22,8 @@ Encyclo::Application.routes.draw do
 
   resources :documents
 
+  resources :components
+
   resources :tags do
     collection do
       get :autocomplete_tag_name

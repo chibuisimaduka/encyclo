@@ -1,0 +1,7 @@
+= form_for(Component.new) do |f|
+  .fields
+    = f.hidden_field :entity_id, :value => entity.id, id: "entity_id"
+    = f.hidden_field :component_entity_id, id: "component_entity_id"
+    = autocomplete_field_tag :component_entity_name, '', autocomplete_entity_name_entities_path, id: "add_component_field", id_element: "#component_entity_id"
+  .actions
+    = f.submit "Add component"

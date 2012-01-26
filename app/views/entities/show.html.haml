@@ -6,6 +6,12 @@
   #index_entities
     #search_entity_sidebar_text What are you looking for?
     = render :partial => "entities/search"
+  #entity_components
+    Components:
+    - for component in @entity.components
+      .component_link
+        = link_to component.component_entity.name, component.component_entity #pluralize if component.type == single entity
+    = render :partial => "components/form", :locals => {:entity => @entity}
   #browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}
