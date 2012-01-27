@@ -2,14 +2,15 @@
   #index_entities
     #search_entity_sidebar_text What are you looking for?
     = render :partial => "entities/search"
-  #entity_subentities
-    Subentities:
-    = render partial: "subentities/subentity_link", collection: @entity.subentities
-    = render :partial => "subentities/form", :locals => {:entity => @entity}
-  #entity_components
-    Components:
-    = render partial: "components/component_link", collection: @entity.components
-    = render :partial => "components/form", :locals => {:entity => @entity}
+  - unless @entity.is_leaf
+    #entity_subentities
+      Subentities:
+      = render partial: "subentities/subentity_link", collection: @entity.subentities
+      = render :partial => "subentities/form", :locals => {:entity => @entity}
+    #entity_components
+      Components:
+      = render partial: "components/component_link", collection: @entity.components
+      = render :partial => "components/form", :locals => {:entity => @entity}
   #browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}
@@ -40,7 +41,7 @@
   #entity_title
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
-  #components_values= render partial: @entity.all_components if @entity.entities.blank?
+  #components_values= render partial: @entity.all_components if @entity.is_leaf
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..3]
   = render :partial => "documents/form"
   or

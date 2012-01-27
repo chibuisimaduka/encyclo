@@ -36,6 +36,12 @@ namespace :wolf do
 
   namespace :entities do
 
+    task :set_is_leaf => :environment do
+      Entity.all.each do |e|
+        e.update_attribute :is_leaf, e.entities.blank?
+      end
+    end
+
     desc "Fixed the matching tag and the parent tag of every entity."
     task :fix_tags => :environment do
       Entity.all.each do |e|
