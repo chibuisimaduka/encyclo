@@ -22,6 +22,7 @@ Encyclo::Application.routes.draw do
 
   resources :documents
   resources :components
+  resources :subentities
   resources :predicates
 
   resources :tags do

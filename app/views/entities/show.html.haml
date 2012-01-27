@@ -2,6 +2,10 @@
   #index_entities
     #search_entity_sidebar_text What are you looking for?
     = render :partial => "entities/search"
+  #entity_subentities
+    Subentities:
+    = render partial: "subentities/subentity_link", collection: @entity.subentities
+    = render :partial => "subentities/form", :locals => {:entity => @entity}
   #entity_components
     Components:
     = render partial: "components/component_link", collection: @entity.components

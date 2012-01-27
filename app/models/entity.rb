@@ -12,6 +12,8 @@ class Entity < ActiveRecord::Base
 
   has_many :images
 
+  has_many :subentities
+
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
 

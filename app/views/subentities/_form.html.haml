@@ -1,0 +1,7 @@
+= form_for(Subentity.new) do |f|
+  = f.hidden_field :entity_id, :value => entity.id, id: "entity_id"
+  = f.text_field :name
+  .block
+    Is many?
+    = f.check_box :is_many
+    = f.submit "Add component"
