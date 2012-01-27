@@ -65,6 +65,10 @@ class Entity < ActiveRecord::Base
     self.ratings.find_by_user_id(user.id)
   end
 
+  def all_subentities
+    self.parent.blank? ? self.subentities : self.subentities + self.parent.all_subentities
+  end
+
   def update_documents_from_sources
     one_created = false
     (self.ancestors + [self]).each do |e|

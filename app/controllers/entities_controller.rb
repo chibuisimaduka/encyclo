@@ -49,8 +49,11 @@ class EntitiesController < ApplicationController
     @entity = Entity.new(params[:entity])
 
     @entity.save!
-    #redirect_to(@entity, :notice => 'Entity was successfully created.')
-    redirect_to :back, :notice => 'Entity was successfully created.'
+    if params[:show]
+      redirect_to @entity
+    else
+      redirect_to :back, :notice => 'Entity was successfully created.'
+    end
   end
 
   def update
