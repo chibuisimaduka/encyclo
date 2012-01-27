@@ -4,7 +4,7 @@
     = render :partial => "entities/search"
   #entity_components
     Components:
-    - render partial: "components/component_link", collection: @entity.components
+    = render partial: "components/component_link", collection: @entity.components
     = render :partial => "components/form", :locals => {:entity => @entity}
   #browse_entities
     Browse entities
