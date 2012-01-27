@@ -1,3 +1,5 @@
-class ComponentType < ActiveRecord::Base
-  has_many :components
+class ComponentType
+  ENTITY = "entity"
+  ENTITIES = "entities"
+  ALL = [ENTITY, ENTITIES]
 end

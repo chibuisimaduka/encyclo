@@ -10,7 +10,8 @@
     Components:
     - for component in @entity.components
       .component_link
-        = link_to component.component_entity.name, component.component_entity #pluralize if component.type == single entity
+        = link_to component.name, component.component_entity # pluralize if component.type == single entity
+        %span.editable= best_in_place component, :component_type, type: :select, collection: (ComponentType::ALL.map{|t| [t, t] })
     = render :partial => "components/form", :locals => {:entity => @entity}
   #browse_entities
     Browse entities
@@ -43,8 +44,8 @@
   #components_values
     - if @entity.entities.blank?
       - for component in @entity.all_components
-        .component_value
-          = "#{component.component_entity.name}:"
+        .component
+          = component.name
           %span.editable= best_in_place component.predicates.find_or_initialize_by_entity_id(@entity.id), :value, path: {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
   #refine_document_filter
     #language_filter

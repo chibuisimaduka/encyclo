@@ -6,6 +6,17 @@ namespace :wolf do
     `mysqldump -u root sorted_development > backups/sorted_development_backup_#{Time.now.to_i}.sql`
   end
 
+  namespace :components do
+    
+    task :set_default_type => :environment do
+      default = ComponentType.find_by_name("entity")
+      Component.all.each do |c|
+        c.update_attribute :component_type_id, default.id
+      end
+    end
+
+  end
+
   namespace :documents do
 
     desc "Do the initial ranking for documents."
