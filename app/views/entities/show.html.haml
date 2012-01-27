@@ -41,12 +41,6 @@
           = f.text_field :remote_image_url
         %p= f.submit "Add image"
 #entity
-  #components_values
-    - if @entity.entities.blank?
-      - for component in @entity.all_components
-        .component
-          = component.name
-          %span.editable= best_in_place component.predicates.find_or_initialize_by_entity_id(@entity.id), :value, path: {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
   #refine_document_filter
     #language_filter
       Filter by language:
@@ -61,6 +55,12 @@
     - for tag in @entity.tags
       = render :partial => tag
     = render :partial => "entities/add_tag_form"
+  #components_values
+    - if @entity.entities.blank?
+      - for component in @entity.all_components
+        .component
+          = component.name
+          %span.editable= best_in_place component.predicates.find_or_initialize_by_entity_id(@entity.id), :value, path: {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
   #documents
     = render :partial => @entity.documents.where(filterer.filter_attributes)[0..3]
   = toggle_visibility "Add a document.." do
