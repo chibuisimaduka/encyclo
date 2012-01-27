@@ -1,3 +1,5 @@
+= "|"*nested
+= link_to(opened ? "-" : "+", toggle_entity_path(id: entity.id, format: :js, nested: nested, editable: editable), {method: :put, remote: true})
 - if editable && editable != 'false'
   = best_in_place entity, :name
   = link_to_function "[a]", "toggle_visibility('change_entity_parent_#{entity.id}');"

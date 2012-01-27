@@ -11,7 +11,8 @@ module ApplicationHelper
       end
     end
 	 if records.size > num_records_shown
-	   html << toggle_each_visibility("See more #{records.first.class.to_s.downcase.pluralize}..", records[num_records_shown..-1], &block)
+      more_message = options[:more_message] || "See more #{records.first.class.to_s.downcase.pluralize}.."
+	   html << toggle_each_visibility(more_message, records[num_records_shown..-1], &block)
     end
     html.html_safe
   end

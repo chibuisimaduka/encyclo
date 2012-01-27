@@ -65,15 +65,13 @@ class EntitiesController < ApplicationController
 	 redirect_to @entity.parent ? @entity.parent : root_path
   end
 
-  def toggle_on
+  def toggle
     @entity = Entity.find(params[:id])
-    opened_entities[params[:id].to_i] = true
-  end
 
-  def toggle_off
-    @entity = Entity.find(params[:id])
-    (@entity.entities + [@entity]).each do |e|
-      opened_entities.delete e.id
+    if opened_entities[@entity.id]
+      (@entity.entities + [@entity]).each { |e| opened_entities.delete e.id }
+    else
+      opened_entities[params[:id].to_i] = true
     end
   end
 

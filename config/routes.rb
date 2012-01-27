@@ -15,8 +15,7 @@ Encyclo::Application.routes.draw do
       put 'change_parent'
     end
     member do
-      put 'toggle_on'
-		put 'toggle_off'
+      put 'toggle'
 	 end
   end
 

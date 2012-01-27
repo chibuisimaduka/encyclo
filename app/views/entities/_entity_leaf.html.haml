@@ -1,16 +1,9 @@
 .entity_leaf{id: "entity_leaf_#{entity_leaf.id}"}
   - entity_limit = 15
-  = "|"*(nested = (local_assigns.has_key?(:nested) ? nested : 0))
+  = render :partial => "entities/entity_leaf_link", locals: {entity: entity_leaf, editable: editable, opened: opened_entities[entity_leaf.id], nested: local_assigns.has_key?(:nested) ? nested : 0}
   - if opened_entities[entity_leaf.id]
-    = link_to("-", toggle_off_entity_path(id: entity_leaf.id, format: :js, nested: nested, editable: editable), {method: :put, remote: true})
-    = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable => editable}
-    = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[0..(entity_limit-1)], :locals => {:nested => nested+1, :editable => editable}
-    - if entity_leaf.entities.size > entity_limit
-      = toggle_visibility ("|" * (nested+1)) + "#{entity_leaf.entities.size - entity_limit} more entities." do
-        = render :partial => "entities/entity_leaf", :collection => entity_leaf.entities[entity_limit..-1], :locals => {:nested => nested+1, :editable => editable}
-  - else
-    = link_to("+", toggle_on_entity_path(id: entity_leaf.id, format: :js, nested: nested, editable: editable), {method: :put, remote: true})
-    = render :partial => "entities/entity_leaf_link", :locals => {:entity => entity_leaf, :editable => editable}
+    = show_limited_results entity_leaf.entities, limit: 15, more_message: "#{entity_leaf.entities.size - entity_limit} more entities." do |child|
+      = render :partial => "entities/entity_leaf", :locals => {:nested => local_assigns.has_key?(:nested) ? nested+1 : 1, :editable => editable, :entity_leaf => child}
   - if editable && editable != 'false'
     .change_entity_parent{:id => "change_entity_parent_#{entity_leaf.id}"}
       = "|"*(nested+1)
