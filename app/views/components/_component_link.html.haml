@@ -1,0 +1,3 @@
+.component_link
+  = link_to component.name, component.component_entity
+  %span.editable= best_in_place component, :component_type, type: :select, collection: (ComponentType::ALL.map{|t| [t, t] })

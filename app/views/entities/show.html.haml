@@ -4,10 +4,7 @@
     = render :partial => "entities/search"
   #entity_components
     Components:
-    - for component in @entity.components
-      .component_link
-        = link_to component.name, component.component_entity # pluralize if component.type == single entity
-        %span.editable= best_in_place component, :component_type, type: :select, collection: (ComponentType::ALL.map{|t| [t, t] })
+    - render partial: "components/component_link", collection: @entity.components
     = render :partial => "components/form", :locals => {:entity => @entity}
   #browse_entities
     Browse entities
@@ -26,16 +23,8 @@
     = link_to e.name, e
 #images
   - @entity.images.each do |image|
-    .image
-      = image_tag image.image.to_s
-  .add_image
-    = toggle_visibility "Add an image.." do
-      = form_for [@entity, Image.new], html: {multipart: true} do |f|
-        %p= f.file_field :image
-        %p
-          = f.label :remote_image_url, "or image URL"
-          = f.text_field :remote_image_url
-        %p= f.submit "Add image"
+    .image= image_tag image.image.to_s
+  = render partial: "entities/add_image_form"
 #entity
   #refine_document_filter
     #language_filter
@@ -47,10 +36,6 @@
   #entity_title
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
-    %br
-    - for tag in @entity.tags
-      = render :partial => tag
-    = render :partial => "entities/add_tag_form"
   #components_values= render partial: @entity.all_components if @entity.entities.blank?
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..3]
   = render :partial => "documents/form"
