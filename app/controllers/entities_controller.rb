@@ -8,8 +8,10 @@ class EntitiesController < ApplicationController
   end
 
   def search
-    @entity = params[:entity_id].blank? ? Entity.find_by_name(params[:search_entity_name]) : Entity.find(params[:entity_id])
-    redirect_to (params["commit"] == "Search" || @entity.documents.blank?) ? @entity : @entity.documents.first.source
+    goto_doc = params[:search_entity_name][0] == "=" || params["commit"] != "Search"
+    name = params[:search_entity_name][0] == "=" ? params[:search_entity_name][1..-1].strip : params[:search_entity_name]
+    @entity = params[:entity_id].blank? ? Entity.find_by_name(name) : Entity.find(params[:entity_id])
+    redirect_to (goto_doc && !@entity.documents.blank?) ? @entity.documents.first.source : @entity
   end
 
   def show
@@ -89,6 +91,11 @@ class EntitiesController < ApplicationController
   end
 
 private
+
+  def get_autocomplete_items(parameters)
+    parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
+    super(parameters)
+  end
 
   def json_for_autocomplete(items, method, extra_data=[])
     items.collect do |e|
