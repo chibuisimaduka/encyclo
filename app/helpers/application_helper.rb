@@ -30,10 +30,11 @@ module ApplicationHelper
     html
   end
 
-  def toggle_visibility(name, &block)
-    content_tag(:span, :id => name, :style => "display: none;", &block) +
-	 content_tag(:span, :class => "#{name}_link") do
-      link_to_function name, "toggle_visibility('#{name}');"
+  def toggle_visibility(name, object=nil, options={}, &block)
+    id = object ? "#{name}_#{object.class.name.downcase}_#{object.id}" : name
+    content_tag(:span, :id => id, :style => "display: none;", &block) +
+	 content_tag(:span, :class => "#{id}_link") do
+      link_to_function name, "toggle_visibility('#{id}'#{options[:style] ? ", '#{options[:style]}'" : ''});"
 	 end
   end
 

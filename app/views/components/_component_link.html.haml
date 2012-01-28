@@ -1,3 +1,4 @@
 .component_link
   = link_to component_link.name, component_link.component_entity
-  %span.editable= best_in_place component_link, :component_type, type: :select, collection: (ComponentType::ALL.map{|t| [t, t] })
+  %span.editable= best_in_place component_link, :component_type, type: :select, collection: (ComponentType::ALL.to_a)
+  %span.editable= best_in_place component_link, :is_many, type: :checkbox, collection: ["One", "Many"]

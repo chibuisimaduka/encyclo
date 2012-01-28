@@ -7,12 +7,10 @@ class Component < ActiveRecord::Base
   validates_presence_of :entity_id
   validates_presence_of :component_entity_id
   validates_presence_of :component_type
+  validates_inclusion_of :is_many, :in => [true, false]
 
   def name
-    case self.component_type
-      when "entity"; "#{self.component_entity.name}:"
-      else "#{self.component_entity.name.pluralize}:"
-    end
+    self.is_many ? self.component_entity.name.pluralize : self.component_entity.name
   end
 
 end

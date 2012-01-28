@@ -1,3 +1,20 @@
 .component
   = component.name
-  %span.editable= best_in_place component.predicates.find_or_initialize_by_entity_id(@entity.id), :value, path: {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
+  - path = {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
+  - predicate = component.predicates.find_or_initialize_by_entity_id(@entity.id)
+  - predicate.values.each_with_index do |val, i|
+    - if component.component_type == ComponentType::ENTITY_REF
+      %span.editable= best_in_place predicate, :value, path: path.merge(index: i), :display_as => :"value_#{i}"
+    - elsif component.component_type == ComponentType::FLOAT
+      %span.editable= best_in_place predicate, :value, path: path.merge(index: i), :display_as => :"value_#{i}"
+    - else
+      = raise "Unhandled type #{component.component_type}"
+  - if predicate.component.is_many && !predicate.value.blank?
+    = toggle_visibility "Add", predicate, style: :inline do
+      %span.editable= best_in_place predicate, :value, path: path.merge(index: predicate.values.size), :display_as => :"value_#{predicate.values.size}"
+    -# case component.component_type
+      - when ComponentType::ENTITY_REF; 
+      - when ComponentType::INTEGER; raise "TODO"
+      - when ComponentType::BOOLEAN; raise "TODO"
+      - when ComponentType::FLOAT; best_in_place predicate, :value, path: path
+      - when ComponentType::RANGE; raise "TODO"

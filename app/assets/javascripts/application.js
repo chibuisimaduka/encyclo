@@ -16,12 +16,14 @@ $(document).ready(function() {
   $('#search_entity_name_field').focus();
 })
 
-function toggle_visibility(id) {
+function toggle_visibility(id, display) {
   var e = document.getElementById(id);
-  if(e.style.display == 'block')
+  if(!display)
+    display = 'block'
+  if(e.style.display == display)
     e.style.display = 'none';
   else
-    e.style.display = 'block';
+    e.style.display = display;
 }
 
 function toggle_visibility_for(className) {

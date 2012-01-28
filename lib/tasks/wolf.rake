@@ -9,9 +9,9 @@ namespace :wolf do
   namespace :components do
     
     task :set_default_type => :environment do
-      default = ComponentType.find_by_name("entity")
+      default = ComponentType::ENTITY_REF
       Component.all.each do |c|
-        c.update_attribute :component_type_id, default.id
+        c.update_attribute :component_type, default
       end
     end
 
