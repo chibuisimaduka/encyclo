@@ -39,11 +39,11 @@ private
   def validate_one_value(val)
     errors.add(:value, "can't be blank") if val.blank?
     case self.component.component_type
-      when ComponentType::ENTITY_REF; errors.add(:value, "must reference a valid entity.") if Entity.find_by_name(self.value).blank?
-      when ComponentTYPE::INTEGER; raise "TODO"
-      when ComponentTYPE::BOOLEAN; raise "TODO"
-      when ComponentTYPE::FLOAT; errors.add(:value, "must be of type float") if (Float(self.value) rescue false)
-      when ComponentTYPE::RANGE; raise "TODO"
+      when ComponentType::ENTITY_REF; errors.add(:value, "must reference a valid entity.") if Entity.find_by_name(val).blank?
+      when ComponentType::INTEGER; raise "TODO"
+      when ComponentType::BOOLEAN; raise "TODO"
+      when ComponentType::FLOAT; errors.add(:value, "must be of type float") if (Float(val) rescue false)
+      when ComponentType::RANGE; raise "TODO"
       else errors.add(:value, "must be of a valid type.")
     end
   end

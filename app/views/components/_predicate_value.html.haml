@@ -1,0 +1,6 @@
+- if component.component_type == ComponentType::ENTITY_REF
+  %span.editable= best_in_place predicate, :value, path: path.merge(index: i), :display_as => :"value_#{i}"
+- elsif component.component_type == ComponentType::FLOAT
+  %span.editable= best_in_place predicate, :value, path: path.merge(index: i), :display_as => :"value_#{i}"
+- else
+  = raise "Unhandled type #{component.component_type}"
