@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120128181516) do
+ActiveRecord::Schema.define(:version => 20120128211033) do
 
   create_table "components", :force => true do |t|
     t.integer  "entity_id"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(:version => 20120128181516) do
     t.datetime "updated_at"
     t.boolean  "is_many"
     t.integer  "component_type"
+  end
+
+  create_table "descriptions", :force => true do |t|
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "entity_id"
   end
 
   create_table "document_types", :force => true do |t|
@@ -65,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20120128181516) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "entity_id"
+    t.integer  "predicate_id"
   end
 
   create_table "entity_similarities", :force => true do |t|
