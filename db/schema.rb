@@ -11,13 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111220211928) do
+ActiveRecord::Schema.define(:version => 20120128181516) do
 
-  create_table "descriptions", :force => true do |t|
-    t.text     "content"
+  create_table "components", :force => true do |t|
+    t.integer  "entity_id"
+    t.integer  "component_entity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "entity_id"
+    t.boolean  "is_many"
+    t.integer  "component_type"
+  end
+
+  create_table "document_types", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "documents", :force => true do |t|
@@ -26,6 +34,10 @@ ActiveRecord::Schema.define(:version => 20111220211928) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.binary   "content"
+    t.float    "rank"
+    t.text     "description"
+    t.integer  "document_type_id"
+    t.integer  "language_id"
   end
 
   create_table "documents_entities", :id => false, :force => true do |t|
@@ -33,9 +45,113 @@ ActiveRecord::Schema.define(:version => 20111220211928) do
     t.integer "entity_id"
   end
 
+  create_table "entities", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "rank"
+    t.integer  "tag_id"
+    t.integer  "parent_id"
+    t.boolean  "is_leaf"
+  end
+
   create_table "entities_tags", :id => false, :force => true do |t|
     t.integer "entity_id"
     t.integer "tag_id"
+  end
+
+  create_table "entity_refs", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "entity_id"
+  end
+
+  create_table "entity_similarities", :force => true do |t|
+    t.integer  "coefficient"
+    t.integer  "entity_id"
+    t.integer  "other_entity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "images", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "entity_id"
+    t.string   "image"
+  end
+
+  create_table "images_tags", :id => false, :force => true do |t|
+    t.integer "image_id"
+    t.integer "tag_id"
+  end
+
+  create_table "languages", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "names", :force => true do |t|
+    t.string   "value"
+    t.integer  "language_id"
+    t.integer  "entity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "predicate_items", :force => true do |t|
+    t.integer  "predicate_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "value"
+  end
+
+  create_table "predicates", :force => true do |t|
+    t.integer  "component_id"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "entity_id"
+  end
+
+  create_table "ratings", :force => true do |t|
+    t.integer  "entity_id"
+    t.integer  "user_id"
+    t.float    "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sources", :force => true do |t|
+    t.string   "url"
+    t.integer  "tag_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subentities", :force => true do |t|
+    t.integer  "entity_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_many"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "entity_id"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "password_hash"
+    t.string   "password_salt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

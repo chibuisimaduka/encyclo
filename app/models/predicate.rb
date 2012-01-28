@@ -14,7 +14,12 @@ class Predicate < ActiveRecord::Base
   def add_value(index, value)
     if self.component.is_many
       vals = deserialized_values
-      vals[index] = value
+      if self.component.component_type == ComponentType::ENTITY_REF
+        entity = Entity.find_by_name(value)
+        vals[index] = EntityRef.new(name: value, entity_id: entity ? entity.id : nil).attributes
+      else
+        vals[index] = value
+      end
       self.value = vals.to_json
     else
       raise "Trying to add more than one value for a predicate which only takes one" if index != 0
@@ -23,13 +28,17 @@ class Predicate < ActiveRecord::Base
   end
 
   def method_missing(method_name, *args)
-    method_name[0..5] == "value_" ? values[method_name[6..-1].to_i] : super
+    super unless method_name[0..5] == "value_"
+    val = values[method_name[6..-1].to_i]
+    self.component.component_type == ComponentType::ENTITY_REF ? EntityRef.new(val).name : val
   end
 
   def self.validate_one_value(type, val)
     msg = "can't be blank" if val.blank?
     case type
-      when ComponentType::ENTITY_REF; msg = "must reference a valid entity. Was = #{val}." if Entity.find_by_name(val).blank?
+      when ComponentType::ENTITY_REF
+        entity_ref = EntityRef.new(val)
+        msg = "must reference a valid entity. Was = #{entity_ref.name}." if entity_ref.entity_id.blank?
       when ComponentType::INTEGER; raise "TODO"
       when ComponentType::BOOLEAN; raise "TODO"
       when ComponentType::FLOAT; msg = "must be of type float" if (Float(val) rescue false)
