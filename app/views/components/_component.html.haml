@@ -1,14 +1,13 @@
 = content_tag_for :div, component do
-  = component.name
-  - path = {controller: "predicates", action: "update", component_id: component.id, entity_id: @entity.id}
+  = component.name + ":"
   - predicate = component.predicates.find_or_initialize_by_entity_id(@entity.id)
   - predicate.values.each_with_index do |val, i|
-    = render partial: "components/predicate_value", locals: {predicate: predicate, component: component, i: i, path: path}
+    = render partial: "components/predicate_value", locals: {predicate: predicate, component: component, i: i, entity: @entity}
   -# if predicate.component.is_many && !predicate.value.blank?
     = link_to_function "Add", "$('#component_values').append('#{escape_javascript(render partial: "components/predicate_value", locals: {predicate: predicate, component: component, i: predicate.values.size, path: path})}');"
   - if predicate.component.is_many && !predicate.value.blank?
     = toggle_visibility "Add", predicate, style: :inline do
-      %span.editable= best_in_place predicate, :value, path: path.merge(index: predicate.values.size), :display_as => :"value_#{predicate.values.size}"
+      = render partial: "components/predicate_value", locals: {predicate: predicate, component: component, i: predicate.values.size, entity: @entity}
   -# case component.component_type
     - when ComponentType::ENTITY_REF; 
     - when ComponentType::INTEGER; raise "TODO"

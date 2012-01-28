@@ -1,6 +1,9 @@
+- handle_id = "edit_predicate_component_id_#{component.id}_entity_id_#{entity.id}_#{i}"
+- path = {controller: "predicates", action: "update", component_id: component.id, entity_id: entity.id}
 - if component.component_type == ComponentType::ENTITY_REF
-  %span.editable= best_in_place predicate, :value, path: path.merge(index: i), :display_as => :"value_#{i}"
+  = best_in_place predicate, :"value_#{i}", path: path.merge(index: i), activator: "##{handle_id}"
 - elsif component.component_type == ComponentType::FLOAT
-  %span.editable= best_in_place predicate, :value, path: path.merge(index: i), :display_as => :"value_#{i}"
+  = best_in_place predicate, :"value_#{i}", path: path.merge(index: i), activator: "##{handle_id}"
 - else
   = raise "Unhandled type #{component.component_type}"
+%span.editable{id: handle_id}= "[e]"

@@ -26,6 +26,19 @@ class Predicate < ActiveRecord::Base
     method_name[0..5] == "value_" ? values[method_name[6..-1].to_i] : super
   end
 
+  def self.validate_one_value(type, val)
+    msg = "can't be blank" if val.blank?
+    case type
+      when ComponentType::ENTITY_REF; msg = "must reference a valid entity. Was = #{val}." if Entity.find_by_name(val).blank?
+      when ComponentType::INTEGER; raise "TODO"
+      when ComponentType::BOOLEAN; raise "TODO"
+      when ComponentType::FLOAT; msg = "must be of type float" if (Float(val) rescue false)
+      when ComponentType::RANGE; raise "TODO"
+      else msg = "must be of a valid type."
+    end if msg.blank?
+    msg
+  end
+
 private
 
   def deserialized_values
@@ -33,18 +46,9 @@ private
   end
 
   def validate_component_type
-    self.values.each { |val| validate_one_value(val) }
-  end
-
-  def validate_one_value(val)
-    errors.add(:value, "can't be blank") if val.blank?
-    case self.component.component_type
-      when ComponentType::ENTITY_REF; errors.add(:value, "must reference a valid entity.") if Entity.find_by_name(val).blank?
-      when ComponentType::INTEGER; raise "TODO"
-      when ComponentType::BOOLEAN; raise "TODO"
-      when ComponentType::FLOAT; errors.add(:value, "must be of type float") if (Float(val) rescue false)
-      when ComponentType::RANGE; raise "TODO"
-      else errors.add(:value, "must be of a valid type.")
+    self.values.each do |val|
+      msg = Predicate.validate_one_value(self.component.component_type, val)
+      errors.add(:value, msg) unless msg.blank?
     end
   end
 

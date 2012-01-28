@@ -1,9 +1,22 @@
 # The Wolf fixes stuff.
 namespace :wolf do
 
-  desc "Backup the sorted_development database to the backups folder."
+  desc "Save the mysql dump to the backups directory. Load using mysql env < file."
   task :backup do
     `mysqldump -u root sorted_development > backups/sorted_development_backup_#{Time.now.to_i}.sql`
+  end
+
+  namespace :predicates do
+    
+    task :remove_invalid_values => :environment do
+      Predicate.all.each do |p|
+        vals = p.values
+        vals.delete_if {|v| !Predicate.validate_one_value(p.component.component_type, v).blank? }
+        p.value = vals.to_json
+        p.save!
+      end
+    end
+
   end
 
   namespace :components do
