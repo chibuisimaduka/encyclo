@@ -1,8 +1,10 @@
 = form_for(Entity.new) do |f|
   .fields
-    = f.hidden_field(:parent_id, :value => parent.id)
+    = f.hidden_field :parent_id, :value => parent.id
+    = hidden_field_tag :entity_id, '', id: "entity_to_change_parent_id"
     .field_name
       = f.label :name
-      = f.autocomplete_field :name, autocomplete_entity_name_entities_path, :id => "create_entity_name_field"
+      = f.autocomplete_field :name, autocomplete_entity_name_entities_path, id: "create_entity_name_field", id_element: "#entity_to_change_parent_id"
   .actions
+    = f.submit "Change parent"
     = f.submit "Create Sub-Entity"

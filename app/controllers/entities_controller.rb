@@ -48,13 +48,17 @@ class EntitiesController < ApplicationController
   end
 
   def create
-    @entity = Entity.new(params[:entity])
-
-    @entity.save!
-    if params[:show]
-      redirect_to @entity
+    if params["commit"] == "Change parent"
+      change_entity_parent(Entity.find(params[:entity_id]), params[:entity][:parent_id])
+      redirect_to :back, :notice => 'Entity parent was succesfully changed.'
     else
-      redirect_to :back, :notice => 'Entity was successfully created.'
+      @entity = Entity.new(params[:entity])
+      @entity.save!
+      if params[:show]
+        redirect_to @entity
+      else
+        redirect_to :back, :notice => 'Entity was successfully created.'
+      end
     end
   end
 
@@ -81,9 +85,7 @@ class EntitiesController < ApplicationController
   end
 
   def change_parent
-    @entity = Entity.find_or_create_by_name(params[:name])
-    @entity.update_attribute :parent_id, params[:parent_id]
-    opened_entities[@entity.parent_id] = true
+    change_entity_parent(Entity.find_or_create_by_name(params[:name]), params[:parent_id])
   end
 
   def random
@@ -91,6 +93,11 @@ class EntitiesController < ApplicationController
   end
 
 private
+
+  def change_entity_parent(entity, parent_id)
+    entity.update_attribute :parent_id, parent_id
+    opened_entities[entity.parent_id] = true
+  end
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="

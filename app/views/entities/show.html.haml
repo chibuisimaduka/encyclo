@@ -56,4 +56,10 @@
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path
-#sub_entities= render :partial => "index"
+#sub_entities
+  #entities
+    - position = 0
+    = rankable_list @entity, @entities, :limit => 20 do |entity|
+      = render :partial => entity, locals: {position: (position += 1)}
+  
+  = render :partial => "entities/form", locals: {parent: @entity}
