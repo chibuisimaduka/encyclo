@@ -2,7 +2,7 @@
   .listing_image= image_tag entity.images.first.image_url(:thumb).to_s
 .listing_entity
   = "#{position}."
-  = link_to entity.name, entity, :class => "entity_name"
+  = link_to entity.name.capitalize, entity, :class => "entity_name"
   - if ranking_type == RankingType::USER
     = raise "TODO"
     = render :partial => "ranking_elements/ranking_element", :locals => {:ranking_id => @ranking.id, :entity_id => entity.id, :position => (position += 1)}

@@ -39,7 +39,7 @@
       Filter by document type:
       = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_title
-    %h1.entity_name{:style => "font-size: 32;"}= @entity.name
+    %h1.entity_name{:style => "font-size: 32;"}= @entity.name.capitalize
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
