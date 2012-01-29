@@ -22,7 +22,7 @@ class Entity < ActiveRecord::Base
 
   has_many :predicates
 
-  has_many :references, :class_name => "EntityRef", :inverse_of => :entity
+  has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
 
   #before_save :update_documents_from_tag_sources
   

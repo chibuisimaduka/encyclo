@@ -10,6 +10,10 @@ class Component < ActiveRecord::Base
   validates_inclusion_of :is_many, :in => [true, false]
 
   def name
+    self.component_entity.name
+  end
+
+  def printable_name
     self.is_many ? self.component_entity.name.pluralize : self.component_entity.name
   end
 

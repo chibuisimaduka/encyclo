@@ -42,6 +42,12 @@
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #components_values= render partial: @entity.all_components if @entity.is_leaf
+  #references
+    - for ref in @entity.references
+      .reference
+        = link_to ref.predicate.component.name, ref.predicate.component.component_entity
+        in
+        = link_to ref.predicate.entity.name, ref.predicate.entity
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..3]
   = render :partial => "documents/form"
   or
