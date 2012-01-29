@@ -1,8 +1,9 @@
-= render partial: predicate.entity_refs, locals: {:component => predicate.component}
+= content_tag_for :span, predicate.component do
+  = predicate.component.name + ":"
+  = render partial: predicate.entity_refs, locals: {:component => predicate.component}
 - if predicate.entity_refs.blank?
   = render partial: predicate.entity_refs.build(), locals: {:component => predicate.component}
-- elsif predicate.component.is_many
-  = toggle_visibility "Add", predicate.component, style: :inline do
+- if predicate.component.is_many
+  %span.add_entity_ref_link{:"data-entity-ref-form" => render(partial: predicate.entity_refs.build(), locals: {:component => predicate.component}).sub("</span>", "-</span>"), :"data-component-id" => predicate.component.id}= "Add"
+  -# toggle_visibility "Add", predicate.component, style: :inline do
     = render partial: predicate.entity_refs.build(), locals: {:component => predicate.component}
--# if predicate.component.is_many && !predicate.value.blank?
-  = link_to_function "Add", "$('#component_values').append('#{escape_javascript(render partial: "components/predicate_value", locals: {predicate: predicate, component: component, i: predicate.values.size, path: path})}');"

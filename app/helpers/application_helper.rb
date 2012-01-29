@@ -42,4 +42,8 @@ module ApplicationHelper
     render :partial => "entities/rankable_list", :locals => {:entity => entity, :records => records, :block => block}.merge(options)
   end
 
+  def dash_if_blank(value)
+    value.blank? ? "-" : value
+  end
+
 end
