@@ -2,10 +2,11 @@
 
 - Endless page for entities.
 - Add all the links I have in chrome to the entities.
-- For the predicates, when it is an enum (e.g. genre(action,adventure..)) you
-    link to the entity corresponding to the enum (e.g. genre) and it will get
-    it's child as the enum values.
-- The entity navigation tree should show all entity parents but not cousins.
+- The entity navigation tree should show all entity parents but not all big cousins.
+- You should be able to filter by components.
+- The Matrix: actor: Keenu Reeves; You should see:
+  => actor: Keenu Reeves 
+  => Keenu Reeves: actor in The Matrix
 
 == Features
 
