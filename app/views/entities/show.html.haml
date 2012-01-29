@@ -24,7 +24,7 @@
   |
   = link_to "Previous", @entity
   \----------
-  = join(@entity.ancestors.reverse, " > ") do |e|
+  = join(@entity.map_all(:parent)[1..-1].reverse, " > ") do |e|
     = link_to e.name, e
 #images
   - @entity.images.each do |image|
@@ -42,7 +42,7 @@
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
-  #components_values= render partial: @entity.all_components if @entity.is_leaf
+  #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
   #references
     - for ref in @entity.references
       .reference

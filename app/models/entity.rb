@@ -24,16 +24,6 @@ class Entity < ActiveRecord::Base
 
   has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
 
-  #before_save :update_documents_from_tag_sources
-  
-  #def tag_name
-  #  self.parent_tag.name
-  #end
-
-  #def tag_name=(name)
-  #  self.parent_tag = Tag.find_or_create_by_name(name) unless name.blank?
-  #end
-
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
     similarity_sum = 0.0
@@ -46,29 +36,8 @@ class Entity < ActiveRecord::Base
     similarity_sum == 0.0 ? 0.0 : expected_rating / similarity_sum
   end
 
-  def new_tag_name
-    @new_tag_name
-  end
-
-  def new_tag_name=(name)
-    self.tags << Tag.find_or_create_by_name(name)
-    @new_tag_name = name
-  end
-
-  def all_components
-    self.parent.blank? ? self.components : self.components + self.parent.all_components
-  end
-
-  def all_entities
-    self.entities + self.entities.map(&:all_entities).flatten
-  end
-
   def rating_for(user)
     self.ratings.find_by_user_id(user.id)
-  end
-
-  def all_subentities
-    self.parent.blank? ? self.subentities : self.subentities + self.parent.all_subentities
   end
 
   def update_documents_from_sources
@@ -79,14 +48,6 @@ class Entity < ActiveRecord::Base
       end
     end
     one_created ? true : nil # Returning false cancels the save.
-  end
-
-  def ancestors
-    self.parent.blank? ? [] : [self.parent] + self.parent.ancestors
-  end
-
-  def unambiguous_name
-    self.name + " (" + self.parent.name + ")"
   end
 
 end

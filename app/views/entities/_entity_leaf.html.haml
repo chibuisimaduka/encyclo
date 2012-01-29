@@ -3,7 +3,7 @@
   = render :partial => "entities/entity_leaf_link", locals: {entity: entity_leaf, editable: editable, opened: opened_entities[entity_leaf.id], nested: nested}
   - if opened_entities[entity_leaf.id]
     - if entity_leaf.is_leaf
-      = show_limited_results entity_leaf.all_subentities, limit: 15 do |subentity|
+      = show_limited_results entity_leaf.map_all(:parent, :subentities), limit: 15 do |subentity|
         - if (entity = entity_leaf.entities.find_by_name(subentity.name))
           = link_to subentity.name, entity
         - else
