@@ -48,6 +48,9 @@
         = link_to ref.predicate.component.name, ref.predicate.component.component_entity
         in
         = link_to ref.predicate.entity.name, ref.predicate.entity
+  #sub_predicate_entities_values
+    - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten
+      .sub_predicate_entity_value= link_to ref.name, ref.entity
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..3]
   = render :partial => "documents/form"
   or
