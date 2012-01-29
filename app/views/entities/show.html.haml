@@ -34,19 +34,20 @@
   #refine_document_filter
     #language_filter
       Filter by language:
-      %span.editable= best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
+      = best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
     #document_type_filter
       Filter by document type:
-      %span.editable= best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
+      = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_title
     %h1.entity_name{:style => "font-size: 32;"}= @entity.name
+    = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #components_values= render partial: @entity.all_components if @entity.is_leaf
   #references
     - for ref in @entity.references
       .reference
         = link_to ref.predicate.component.name, ref.predicate.component.component_entity
-        in
+        for
         = link_to ref.predicate.entity.name, ref.predicate.entity
   #sub_predicate_entities_values
     - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten

@@ -1,5 +1,6 @@
 = content_tag_for :span, predicate.component do
-  = predicate.component.name + ":"
+  = link_to predicate.component.name, predicate.component.component_entity
+  \:
   = render partial: predicate.entity_refs, locals: {:component => predicate.component}
 - if predicate.entity_refs.blank?
   = render partial: predicate.entity_refs.build(), locals: {:component => predicate.component}

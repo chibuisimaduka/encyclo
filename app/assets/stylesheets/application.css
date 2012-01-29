@@ -118,12 +118,13 @@ body {
   color: green;
 }
 
-.editable_user_ranking {
+.best_in_place {
   background-color: #fffb8f;
 }
 
-.editable {
-  background-color: #fffb8f;
+
+.best_in_place[data-activator] {
+  background-color: white;
 }
 
 #user_site {
