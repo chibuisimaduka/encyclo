@@ -69,12 +69,12 @@ form {
 
 #left-sidebar {
   /* background-color: black; */
-  width: 240px;
+  width: 200px;
 }
 
 #content {
   /* background-color: blue; */
-  width: 750px;
+  width: 810px;
 }
 
 #navigation {
@@ -101,7 +101,7 @@ form {
 }
 
 #entity {
-  width: 500px;
+  width: 560px;
 }
 
 #entity_title {
@@ -117,7 +117,7 @@ form {
 }
 
 body {
-  width: 1000px;
+  width: 1024px;
   margin: auto;
 }
 
@@ -166,6 +166,7 @@ body {
   display: inline-block;
   vertical-align: top;
   margin: auto;
+  width: 388px;
 }
 
 a:visited[id="entity_name"] {
