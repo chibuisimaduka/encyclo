@@ -5,7 +5,7 @@ class Predicate < ActiveRecord::Base
 
   has_many :entity_refs, :inverse_of => :predicate
 
-  has_many :entities => :through => :entity_refs
+  has_many :entities, :through => :entity_refs
   has_one :component_entity, :through => :component
 
   # ======== VALIDATIONS ========
