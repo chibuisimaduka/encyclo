@@ -44,11 +44,14 @@
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
   #references
-    - for ref in @entity.references
-      .reference
-        = link_to ref.predicate.component.name, ref.predicate.component.component_entity
-        for
-        = link_to ref.predicate.entity.name, ref.predicate.entity
+    - @entity.references_by_predicate.each do |predicate, refs|
+      .reference_predicate
+        Predicate:
+        = link_to predicate.component.name.capitalize.pluralize, predicate.component.component_entity
+        - for ref in refs
+          .reference
+            Reference:
+            = link_to predicate.entity.name, predicate.entity
   #sub_predicate_entities_values
     - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten
       .sub_predicate_entity_value= link_to ref.name, ref.entity

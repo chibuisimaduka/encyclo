@@ -50,4 +50,12 @@ class Entity < ActiveRecord::Base
     one_created ? true : nil # Returning false cancels the save.
   end
 
+  def references_by_predicate
+    refs = {}
+    self.references.each do |ref|
+      refs[ref.predicate] = (refs[ref.predicate] || []) + [ref]
+    end
+    refs
+  end
+
 end

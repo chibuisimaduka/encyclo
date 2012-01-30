@@ -11,8 +11,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>757.0</double> 
-     <double>337.0</double> 
+     <double>686.0</double> 
+     <double>334.0</double> 
     </void> 
    </object> 
   </void> 
@@ -26,13 +26,22 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>763.0</double> 
-     <double>566.0</double> 
+     <double>692.0</double> 
+     <double>563.0</double> 
     </void> 
    </object> 
   </void> 
   <void method="addNode"> 
    <object id="ClassNode2" class="com.horstmann.violet.ClassNode"> 
+    <void property="attributes"> 
+     <void property="text"> 
+      <string>entity_id:integer
+component_entity_id:integer
+is_many:boolean
+type: ???
+</string> 
+     </void> 
+    </void> 
     <void property="name"> 
      <void property="text"> 
       <string>Component</string> 
@@ -41,8 +50,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>817.0</double> 
-     <double>117.0</double> 
+     <double>746.0</double> 
+     <double>114.0</double> 
     </void> 
    </object> 
   </void> 
@@ -56,8 +65,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>976.0</double> 
-     <double>473.0</double> 
+     <double>905.0</double> 
+     <double>470.0</double> 
     </void> 
    </object> 
   </void> 
@@ -71,8 +80,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>972.0</double> 
-     <double>170.0</double> 
+     <double>1042.0</double> 
+     <double>174.0</double> 
     </void> 
    </object> 
   </void> 
@@ -86,8 +95,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>977.0</double> 
-     <double>336.0</double> 
+     <double>906.0</double> 
+     <double>333.0</double> 
     </void> 
    </object> 
   </void> 
@@ -101,8 +110,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>521.0</double> 
-     <double>223.0</double> 
+     <double>450.0</double> 
+     <double>220.0</double> 
     </void> 
    </object> 
   </void> 
@@ -116,8 +125,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>482.0</double> 
-     <double>344.0</double> 
+     <double>411.0</double> 
+     <double>341.0</double> 
     </void> 
    </object> 
   </void> 
@@ -131,8 +140,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>748.0</double> 
-     <double>733.0</double> 
+     <double>677.0</double> 
+     <double>730.0</double> 
     </void> 
    </object> 
   </void> 
@@ -146,8 +155,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>638.0</double> 
-     <double>117.0</double> 
+     <double>567.0</double> 
+     <double>114.0</double> 
     </void> 
    </object> 
   </void> 
@@ -161,8 +170,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>572.0</double> 
-     <double>484.0</double> 
+     <double>501.0</double> 
+     <double>481.0</double> 
     </void> 
    </object> 
   </void> 

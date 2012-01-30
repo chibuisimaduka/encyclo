@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_26" class="java.beans.XMLDecoder"> 
+ <object class="com.horstmann.violet.ObjectDiagramGraph"> 
+  <void method="addNode"> 
+   <object id="ObjectNode0" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>The Matrix : Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>800.0</double> 
+     <double>638.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode1" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Keanu Reeves : Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1173.0</double> 
+     <double>51.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode2" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Actor : Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>406.0</double> 
+     <double>50.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode3" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Movie - Actor : Component</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>358.0</double> 
+     <double>353.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode4" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Movie : Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>398.0</double> 
+     <double>643.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode5" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>The Matrix - Actor : Predicate</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>760.0</double> 
+     <double>349.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode6" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Keanu Reeves - Actor : EntityRef</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>747.0</double> 
+     <double>52.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>component.component_entity</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Actor</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1025.0</double> 
+     <double>353.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>The Matrix</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1052.0</double> 
+     <double>387.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Keanu Reeves</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1053.0</double> 
+     <double>426.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Actor</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1049.0</double> 
+     <double>626.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Keanu Reeves</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1053.0</double> 
+     <double>698.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>The Matrix</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1052.0</double> 
+     <double>659.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Keanu Reeves</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>180.0</double> 
+     <double>117.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>The Matrix</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>179.0</double> 
+     <double>78.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>references[0].predicate.component.component_entity</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Actor</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1394.0</double> 
+     <double>32.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Keanu Reeves</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1467.0</double> 
+     <double>108.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>name</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>The Matrix</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1466.0</double> 
+     <double>69.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>component_entity</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Actor</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>129.33894436432576</double> 
+     <double>378.08517969467897</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode4"/> 
+   <object idref="ObjectNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode3"/> 
+   <object idref="ObjectNode2"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode4"/> 
+   <object idref="ObjectNode0"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode5"/> 
+   <object idref="ObjectNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode0"/> 
+   <object idref="ObjectNode5"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode6"/> 
+   <object idref="ObjectNode1"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode6"/> 
+   <object idref="ObjectNode5"/> 
+  </void> 
+ </object> 
+</java> 
