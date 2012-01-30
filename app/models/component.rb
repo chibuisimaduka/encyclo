@@ -1,9 +1,11 @@
 class Component < ActiveRecord::Base
-  belongs_to :entity
-  belongs_to :component_entity, :class_name => "Entity"
+  # ======== RELATIONS ========
+  belongs_to :entity, inverse_of: :components
+  belongs_to :component_entity, class_name: "Entity", inverse_of: :parent_components
 
   has_many :predicates, :inverse_of => :component
 
+  # ======== VALIDATIONS ========
   validates_presence_of :entity_id
   validates_presence_of :component_entity_id
   validates_presence_of :component_type

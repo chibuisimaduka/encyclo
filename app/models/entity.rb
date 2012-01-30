@@ -1,28 +1,28 @@
 class Entity < ActiveRecord::Base
-  has_and_belongs_to_many :tags
-  has_and_belongs_to_many :documents, :order => "rank DESC"
+  # ======== RELATIONS ========
+  #has_and_belongs_to_many :tags
+  has_and_belongs_to_many :documents, :order => "rank DESC", :inverse_of => :entities
+  
+  belongs_to :parent, :class_name => "Entity", :inverse_of => :entities
+  has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id, :inverse_of => :parent
+  
   has_many :entity_similarities
-  
-  belongs_to :parent, :class_name => "Entity"
-  has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id
-  
   has_many :ratings
-  
   has_many :sources
-
   has_many :images
 
   has_many :subentities
 
-  validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
+  has_many :components, :inverse_of => :entity
+  has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id", :inverse_of => :component_entity
 
-  has_many :components
-  has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id"
-
-  has_many :predicates
+  has_many :predicates, :inverse_of => :entity
 
   has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
+
+  # ======== VALIDATIONS ========
+  validates_presence_of :name
+  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
 
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
