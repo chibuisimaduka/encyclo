@@ -11,11 +11,19 @@
 /* .class */
 /* #id */
 
+#entity_name {
+  font-size: 32;
+}
+
 .entity_name {
   font-size: 16px;
   color: #E98C08;
   display: inline;
   margin-right: 4px;
+}
+
+.document_description {
+  color: black;
 }
 
 .rating {
@@ -74,13 +82,21 @@ form {
   /* background-color: yellow; */
 }
 
-#images, #entity {
+#components_values {
+  margin-top: 24px;
+}
+
+.component_predicate {
+  margin-top: 6px;
+}
+
+#content_sidebar, #entity {
   display: inline-block;
   vertical-align: top;
   margin: auto;
 }
 
-#images {
+#content_sidebar {
   width: 240px;
 }
 
@@ -113,9 +129,10 @@ body {
   font-size: 13px;
 }
 
-.document_url {
+.document_name {
   display: inline;
   color: green;
+  font-size: 16px;
 }
 
 .best_in_place {
@@ -136,7 +153,7 @@ body {
   vertical-align: top;
   margin: auto;
   margin-right: 8px;
-  margin-bottoM: 10px;
+  margin-bottom: 10px;
 }
 
 #home_page #search_entity {
@@ -149,7 +166,6 @@ body {
   display: inline-block;
   vertical-align: top;
   margin: auto;
-  width: 500px;
 }
 
 a:visited[id="entity_name"] {

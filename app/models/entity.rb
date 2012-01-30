@@ -53,7 +53,7 @@ class Entity < ActiveRecord::Base
   def references_by_predicate
     refs = {}
     self.references.each do |ref|
-      refs[ref.predicate] = (refs[ref.predicate] || []) + [ref]
+      refs[ref.predicate.component_entity.name] = (refs[ref.predicate.component_entity.name] || []) + [ref]
     end
     refs
   end

@@ -26,10 +26,6 @@
   \----------
   = join(@entity.map_all(:parent)[1..-1].reverse, " > ") do |e|
     = link_to e.name, e
-#images
-  - @entity.images.each do |image|
-    .image= image_tag image.image.to_s
-  = render partial: "entities/add_image_form"
 #entity
   #refine_document_filter
     #language_filter
@@ -39,26 +35,29 @@
       Filter by document type:
       = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_title
-    %h1.entity_name{:style => "font-size: 32;"}= @entity.name.capitalize
+    %h1#entity_name.entity_name= @entity.name.capitalize
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     = link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
-  #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
-  #references
-    - @entity.references_by_predicate.each do |predicate, refs|
-      .reference_predicate
-        Predicate:
-        = link_to predicate.component.name.capitalize.pluralize, predicate.component.component_entity
-        - for ref in refs
-          .reference
-            Reference:
-            = link_to predicate.entity.name, predicate.entity
-  #sub_predicate_entities_values
-    - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten
-      .sub_predicate_entity_value= link_to ref.name, ref.entity
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..3]
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path
+  #references
+    - @entity.references_by_predicate.each do |component_name, refs|
+      .reference_predicate
+        .predicate_name= link_to component_name.capitalize.pluralize, refs.first.predicate.component_entity
+        - position = 0
+        - for ref in refs
+          .reference
+            = render partial: ref.predicate.entity, locals: {position: (position += 1)}
+  #sub_predicate_entities_values
+    - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten
+      .sub_predicate_entity_value= link_to ref.name, ref.entity
+#content_sidebar
+  - @entity.images.each do |image|
+    .image= image_tag image.image.to_s
+  = render partial: "entities/add_image_form"
+  #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
 #sub_entities
   #entities
     - position = 0
