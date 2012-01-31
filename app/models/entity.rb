@@ -13,12 +13,20 @@ class Entity < ActiveRecord::Base
 
   has_many :subentities
 
-  has_many :components, :inverse_of => :entity
-  has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id", :inverse_of => :component_entity
+  has_many :association_definitions, :inverse_of => :entity
+  has_many :associated_association_definitions, :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
 
-  has_many :predicates, :inverse_of => :entity
+  has_many :associations, :inverse_of => :entity
+  has_many :associated_associations, :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
 
-  has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
+  # ======== TODO: DEPRECATED ========
+
+  #has_many :predicates, :inverse_of => :entity
+
+  #has_many :components, :inverse_of => :entity
+  #has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id", :inverse_of => :component_entity
+
+  #has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
 
   # ======== VALIDATIONS ========
   validates_presence_of :name
