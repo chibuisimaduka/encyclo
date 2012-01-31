@@ -2,14 +2,23 @@ module EntitiesHelper
   
   def associations_by_definition(entity)
     associations_by_def = {}
-    entity.map_all(:parent, :all_association_definitions).each do |association_def|
-      associations_by_def[association_def] = []
+    entity.association_definitions.each do |association_definition|
+      associations_by_def[association_definition] = []
     end
-
     entity.associations.each do |association|
-      associations_by_def[association.definition] += association
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
     end
+    associations_by_def
+  end
 
+  def associated_associations_by_definition(entity)
+    associations_by_def = {}
+    entity.associated_association_definitions.each do |association_definition|
+      associations_by_def[association_definition] = []
+    end
+    entity.associated_associations.each do |association|
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
+    end
     associations_by_def
   end
 

@@ -11,8 +11,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>982.0</double> 
-     <double>666.0</double> 
+     <double>810.0</double> 
+     <double>627.0</double> 
     </void> 
    </object> 
   </void> 
@@ -26,8 +26,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>501.0</double> 
-     <double>357.0</double> 
+     <double>329.0</double> 
+     <double>318.0</double> 
     </void> 
    </object> 
   </void> 
@@ -41,8 +41,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>580.0</double> 
-     <double>671.0</double> 
+     <double>408.0</double> 
+     <double>632.0</double> 
     </void> 
    </object> 
   </void> 
@@ -56,8 +56,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>934.0</double> 
-     <double>359.0</double> 
+     <double>762.0</double> 
+     <double>320.0</double> 
     </void> 
    </object> 
   </void> 
@@ -71,8 +71,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>588.0</double> 
-     <double>78.0</double> 
+     <double>416.0</double> 
+     <double>39.0</double> 
     </void> 
    </object> 
   </void> 
@@ -86,8 +86,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>964.0</double> 
-     <double>77.0</double> 
+     <double>792.0</double> 
+     <double>38.0</double> 
     </void> 
    </object> 
   </void> 
@@ -109,8 +109,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>247.0</double> 
-     <double>368.0</double> 
+     <double>75.0</double> 
+     <double>329.0</double> 
     </void> 
    </object> 
   </void> 
@@ -133,8 +133,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>183.0</double> 
-     <double>403.0</double> 
+     <double>11.0</double> 
+     <double>364.0</double> 
     </void> 
    </object> 
   </void> 
@@ -156,8 +156,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>193.0</double> 
-     <double>433.0</double> 
+     <double>21.0</double> 
+     <double>394.0</double> 
     </void> 
    </object> 
   </void> 
@@ -171,8 +171,73 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>266.0</double> 
-     <double>76.0</double> 
+     <double>94.0</double> 
+     <double>37.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Movie has_many Actor
+Actor has_many Movie</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1149.0</double> 
+     <double>230.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Country has_many State
+State has_one Country</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1151.0</double> 
+     <double>314.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Country has_one President
+President has_one Country</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1146.0</double> 
+     <double>386.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.NoteNode"> 
+    <void property="text"> 
+     <void property="text"> 
+      <string>Which one is the entity and which one must be kept
+the same for both the association definition and the
+associations of reference those.</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>47.0</double> 
+     <double>494.0</double> 
     </void> 
    </object> 
   </void> 

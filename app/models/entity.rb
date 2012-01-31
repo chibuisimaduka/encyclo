@@ -58,12 +58,28 @@ class Entity < ActiveRecord::Base
     one_created ? true : nil # Returning false cancels the save.
   end
 
-  def all_associations
-    associations + associated_associations
+  def parents_by_definition
+    (self.associations.all(:include => [:definition => :entity]).map(&:definition).map(&:entity) +
+    self.associated_associations.all(:include => [:definition => :associated_entity]).map(&:definition).map(&:associated_entity)).uniq
+  end
+
+  def entities_by_definition
+    # Maybe include childs childs..
+    (self.association_definitions.all(:include => [:associations => :entity]).map(&:associations).flatten.map(&:entity) +
+    self.associated_association_definitions.all(:include => [:associations => :associated_entity]).map(&:associations).flatten.map(&:associated_entity)).uniq
   end
 
   def all_association_definitions
-    association_definitions + associated_association_definitions
+    self.map_all :parent, :bidirectional_association_definitions
   end
 
+  def bidirectional_association_definitions
+    (association_definitions || []) + (associated_association_definitions.each {|a| a.inversed = true} || [])
+  end
+
+  def all_parent_association_definitions
+    self.map_all :parent, include_self: false, do |e|
+      (e.association_definitions || []) + (e.associated_association_definitions.each {|a| a.inversed = true} || [])
+    end
+  end
 end

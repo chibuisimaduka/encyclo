@@ -34,6 +34,10 @@
     #document_type_filter
       Filter by document type:
       = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
+  #entity_parents_by_definition
+    Entity parents by definition
+    - position = 0
+    = render partial: @entity.parents_by_definition, locals: {position: position += 1}
   #entity_title
     %h1#entity_name.entity_name= @entity.name.capitalize
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
@@ -45,12 +49,18 @@
   #associations
     Associations
     - associations_by_definition(@entity).each do |definition, associations|
-      .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity}
+      .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: false}
+    - associated_associations_by_definition(@entity).each do |definition, associations|
+      .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: true}
 #content_sidebar
   - @entity.images.each do |image|
     .image= image_tag image.image.to_s
   = render partial: "entities/add_image_form"
   -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
+#entities_by_definition
+  Entities by definition
+  - position = 0
+  = render partial: @entity.entities_by_definition, locals: {position: position += 1}
 #sub_entities
   Subentities
   #entities

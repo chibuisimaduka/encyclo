@@ -1,9 +1,10 @@
 = content_tag_for :div, definition do
-  = link_to definition.associated_entity.name, definition.associated_entity
-  \:
+  - definition_entity = inversed ? definition.entity : definition.associated_entity
+  .association_definition_name= link_to definition_entity.name, definition_entity # TODO: Pluralize if has_many
   - position = 0
   - for association in associations
-    = render partial: association.associated_entity, locals: {position: position += 1}
+    = render partial: inversed ? association.entity : association.associated_entity, locals: {position: position += 1}
+    = link_to "Remove", association, method: :delete
   
 - if definition.entity_has_many
-  %span.add_association_link{:"data-form-content" => render(partial: "associations/form", locals: {:entity => entity}), :"data-definition-id" => definition.id}= "Add"
+  %span.add_association_link{:"data-form-content" => render(partial: "associations/form", locals: {:entity => entity, definition: definition}), :"data-definition-id" => definition.id}= "Add"
