@@ -43,22 +43,27 @@
   or
   = link_to "Create a document", new_document_path
   #references
+    References
     - @entity.references_by_predicate.each do |component_name, refs|
       .reference_predicate
-        .predicate_name= link_to component_name.capitalize.pluralize, refs.first.predicate.component_entity
+        .predicate_name= link_to refs.first.predicate.entity.parent.name.capitalize.pluralize, refs.first.predicate.entity.parent
         - position = 0
         - for ref in refs
           .reference
             = render partial: ref.predicate.entity, locals: {position: (position += 1)}
   #sub_predicate_entities_values
+    Subpredicates
+    - position = 0
     - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten
-      .sub_predicate_entity_value= link_to ref.name, ref.entity
+      = render partial: ref.entity, locals: {position: position += 1}
+      -#.sub_predicate_entity_value= link_to ref.name, ref.entity
 #content_sidebar
   - @entity.images.each do |image|
     .image= image_tag image.image.to_s
   = render partial: "entities/add_image_form"
   #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
 #sub_entities
+  Subentities
   #entities
     - position = 0
     = rankable_list @entity, @entities, :limit => 20 do |entity|

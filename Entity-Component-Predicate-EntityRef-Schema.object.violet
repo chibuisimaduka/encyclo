@@ -113,7 +113,7 @@
       <int>1</int> 
      </void> 
      <void property="text"> 
-      <string>component.component_entity</string> 
+      <string>component_entity</string> 
      </void> 
     </void> 
     <void property="value"> 
@@ -136,7 +136,7 @@
       <int>1</int> 
      </void> 
      <void property="text"> 
-      <string>name</string> 
+      <string>entity</string> 
      </void> 
     </void> 
     <void property="value"> 
@@ -159,7 +159,7 @@
       <int>1</int> 
      </void> 
      <void property="text"> 
-      <string>name</string> 
+      <string>entities[0]</string> 
      </void> 
     </void> 
     <void property="value"> 
@@ -170,8 +170,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1053.0</double> 
-     <double>426.0</double> 
+     <double>1045.0</double> 
+     <double>425.0</double> 
     </void> 
    </object> 
   </void> 
@@ -262,8 +262,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>180.0</double> 
-     <double>117.0</double> 
+     <double>176.0</double> 
+     <double>92.0</double> 
     </void> 
    </object> 
   </void> 
@@ -285,8 +285,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>179.0</double> 
-     <double>78.0</double> 
+     <double>175.0</double> 
+     <double>53.0</double> 
     </void> 
    </object> 
   </void> 
@@ -297,7 +297,7 @@
       <int>1</int> 
      </void> 
      <void property="text"> 
-      <string>references[0].predicate.component.component_entity</string> 
+      <string>references[0].component_entityname</string> 
      </void> 
     </void> 
     <void property="value"> 
@@ -308,8 +308,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1394.0</double> 
-     <double>32.0</double> 
+     <double>1327.0</double> 
+     <double>26.0</double> 
     </void> 
    </object> 
   </void> 
@@ -377,8 +377,31 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>129.33894436432576</double> 
-     <double>378.08517969467897</double> 
+     <double>125.33894436432576</double> 
+     <double>348.08517969467897</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.FieldNode"> 
+    <void property="name"> 
+     <void property="justification"> 
+      <int>1</int> 
+     </void> 
+     <void property="text"> 
+      <string>entity</string> 
+     </void> 
+    </void> 
+    <void property="value"> 
+     <void property="text"> 
+      <string>Movie</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>173.33894436432576</double> 
+     <double>379.08517969467897</double> 
     </void> 
    </object> 
   </void> 
