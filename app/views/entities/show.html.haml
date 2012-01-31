@@ -44,11 +44,8 @@
   = link_to "Create a document", new_document_path
   #associations
     Associations
-    - @entity.associations.each do |association|
-      .association
-        -#.associatino_name= link_to refs.first.predicate.entity.parent.name.capitalize.pluralize, refs.first.predicate.entity.parent
-        - position = 0
-        = render partial: association.associated_entity, locals: {position: (position += 1)}
+    - associations_by_definition(@entity).each do |definition, associations|
+      .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity}
 #content_sidebar
   - @entity.images.each do |image|
     .image= image_tag image.image.to_s

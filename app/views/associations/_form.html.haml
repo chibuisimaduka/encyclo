@@ -1,0 +1,5 @@
+= form_for(Association.new) do |f|
+  = f.hidden_field :entity_id, :value => entity.id, :id => "entity_id"
+  = f.hidden_field :associated_entity_id, id: "associated_entity_id"
+  = autocomplete_field_tag :associated_entity_name, '', autocomplete_entity_name_entities_path, id: "add_association_field", id_element: "#associated_entity_id"
+  = f.submit "Add"

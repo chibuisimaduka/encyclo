@@ -1,8 +1,0 @@
--# FIXME: Should be using entity_ref.component instead of local variable component.
-- handle_id = "edit_predicate_component_id_#{component.id}_#{entity_ref.id || 1}"
-- path = {controller: "entity_refs", action: "update", component_id: component.id, entity_id: @entity.id, entity_ref_id: entity_ref.id}
-- if entity_ref.name.blank?
-  = best_in_place entity_ref, :name, path: path
-- else
-  = link_to(best_in_place(entity_ref, :name, path: path, activator: "##{handle_id}"), entity_path(id: entity_ref.entity_id))
-  %span.best_in_place{id: handle_id}= "[e]"
