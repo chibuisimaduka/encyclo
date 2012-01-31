@@ -3,14 +3,14 @@
     #search_entity_sidebar_text What are you looking for?
     = render :partial => "entities/search"
   - unless @entity.is_leaf
-    #entity_subentities
+    -##entity_subentities
       Subentities:
       = render partial: "subentities/subentity_link", collection: @entity.subentities
       = render :partial => "subentities/form", :locals => {:entity => @entity}
-    #entity_components
-      Components:
-      = render partial: "components/component_link", collection: @entity.components
-      = render :partial => "components/form", :locals => {:entity => @entity}
+    #association_definitions
+      Association definitions:
+      = render partial: @entity.all_association_definitions
+      = render :partial => "association_definitions/form", :locals => {:entity => @entity}
   #browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}
@@ -42,26 +42,18 @@
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path
-  #references
-    References
-    - @entity.references_by_predicate.each do |component_name, refs|
-      .reference_predicate
-        .predicate_name= link_to refs.first.predicate.entity.parent.name.capitalize.pluralize, refs.first.predicate.entity.parent
+  #associations
+    Associations
+    - @entity.associations.each do |association|
+      .association
+        -#.associatino_name= link_to refs.first.predicate.entity.parent.name.capitalize.pluralize, refs.first.predicate.entity.parent
         - position = 0
-        - for ref in refs
-          .reference
-            = render partial: ref.predicate.entity, locals: {position: (position += 1)}
-  #sub_predicate_entities_values
-    Subpredicates
-    - position = 0
-    - for ref in @entity.parent_components.map(&:predicates).flatten.map(&:entity_refs).flatten
-      = render partial: ref.entity, locals: {position: position += 1}
-      -#.sub_predicate_entity_value= link_to ref.name, ref.entity
+        = render partial: association.associated_entity, locals: {position: (position += 1)}
 #content_sidebar
   - @entity.images.each do |image|
     .image= image_tag image.image.to_s
   = render partial: "entities/add_image_form"
-  #components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
+  -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
 #sub_entities
   Subentities
   #entities

@@ -14,10 +14,10 @@ class Entity < ActiveRecord::Base
   has_many :subentities
 
   has_many :association_definitions, :inverse_of => :entity
-  has_many :associated_association_definitions, :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
+  has_many :associated_association_definitions, :class_name => "AssociationDefinition", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
 
   has_many :associations, :inverse_of => :entity
-  has_many :associated_associations, :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
+  has_many :associated_associations, :class_name => "Association", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
 
   # ======== TODO: DEPRECATED ========
 
@@ -58,12 +58,12 @@ class Entity < ActiveRecord::Base
     one_created ? true : nil # Returning false cancels the save.
   end
 
-  def references_by_predicate
-    refs = {}
-    self.references.each do |ref|
-      refs[ref.predicate.component_entity.name] = (refs[ref.predicate.component_entity.name] || []) + [ref]
-    end
-    refs
+  def all_associations
+    associations + associated_associations
+  end
+
+  def all_association_definitions
+    association_definitions + associated_association_definitions
   end
 
 end

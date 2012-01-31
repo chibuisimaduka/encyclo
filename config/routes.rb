@@ -20,10 +20,10 @@ Encyclo::Application.routes.draw do
   end
 
   resources :documents
-  resources :components
   resources :subentities
-  resources :predicates
-  resources :entity_refs
+
+  resources :associations
+  resources :association_definitions
 
   resources :tags do
     collection do
