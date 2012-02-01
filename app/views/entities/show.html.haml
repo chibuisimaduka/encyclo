@@ -58,15 +58,11 @@
     .image= image_tag image.image_url(:big_thumb).to_s
   = render partial: "entities/add_image_form"
   -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
-#entities_by_definition
-  Entities by definition
-  - position = 0
-  = render partial: @entity.entities_by_definition, locals: {position: position += 1}
 #sub_entities
   Subentities
   #entities
     - position = 0
-    = rankable_list @entity, @entities, :limit => 20 do |entity|
+    = rankable_list @entity, (@entities + @entity.entities_by_definition).uniq, :limit => 20 do |entity|
       = render :partial => entity, locals: {position: (position += 1)}
   
   = render :partial => "entities/form", locals: {parent: @entity}
