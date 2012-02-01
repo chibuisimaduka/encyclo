@@ -62,7 +62,6 @@
   Subentities
   #entities
     - position = 0
-    = rankable_list @entity, (@entities + @entity.entities_by_definition).uniq, :limit => 20 do |entity|
+    = rankable_list @entity, @entities, :limit => 20 do |entity|
       = render :partial => entity, locals: {position: (position += 1)}
-  
   = render :partial => "entities/form", locals: {parent: @entity}

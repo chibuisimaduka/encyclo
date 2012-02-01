@@ -23,7 +23,7 @@ class EntitiesController < ApplicationController
       open_entity(@entity)
       @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
       @tags_filter << Tag.find_by_name(params[:new_filter]).id if params[:new_filter]
-      @entities = @entity.entities
+      @entities = (@entity.entities + @entity.entities_by_definition).uniq
       @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
       
       if ranking_type == RankingType::USER
