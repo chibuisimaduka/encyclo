@@ -70,16 +70,8 @@ class Entity < ActiveRecord::Base
   end
 
   def all_association_definitions
-    self.map_all :parent, :bidirectional_association_definitions
-  end
-
-  def bidirectional_association_definitions
-    (association_definitions || []) + (associated_association_definitions || [])
-  end
-
-  def all_parent_association_definitions
-    self.map_all :parent, include_self: false, do |e|
-      (e.association_definitions || []) + (e.associated_association_definitions.each {|a| a.inversed = true} || [])
+    self.map_all :parent do |a|
+      (a.association_definitions || []) + (a.associated_association_definitions || [])
     end
   end
 end

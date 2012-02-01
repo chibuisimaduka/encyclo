@@ -14,4 +14,10 @@ class AssociationDefinitionsController < ApplicationController
     redirect_to :back
   end
 
+  def destroy
+    @association_definition = AssociationDefinition.find(params[:id])
+    @association_definition.destroy
+    redirect_to :back
+  end
+
 end
