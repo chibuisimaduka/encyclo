@@ -55,7 +55,7 @@
       .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: true}
 #content_sidebar
   - @entity.images.each do |image|
-    .image= image_tag image.image.to_s
+    .image= image_tag image.image_url(:big_thumb).to_s
   = render partial: "entities/add_image_form"
   -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
 #entities_by_definition
