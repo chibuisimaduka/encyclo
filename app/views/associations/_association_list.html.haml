@@ -6,5 +6,5 @@
     = render partial: inversed ? association.entity : association.associated_entity, locals: {position: position += 1}
     = link_to "Remove", association, method: :delete
   
-- if definition.entity_has_many
+- if definition.entity_has_many || associations.blank?
   %span.add_association_link{:"data-form-content" => render(partial: "associations/form", locals: {:entity => entity, definition: definition}), :"data-definition-id" => definition.id}= "Add"

@@ -74,7 +74,7 @@ class Entity < ActiveRecord::Base
   end
 
   def bidirectional_association_definitions
-    (association_definitions || []) + (associated_association_definitions.each {|a| a.inversed = true} || [])
+    (association_definitions || []) + (associated_association_definitions || [])
   end
 
   def all_parent_association_definitions

@@ -2,7 +2,7 @@ module EntitiesHelper
   
   def associations_by_definition(entity)
     associations_by_def = {}
-    entity.association_definitions.each do |association_definition|
+    entity.map_all(:parent, :association_definitions).each do |association_definition|
       associations_by_def[association_definition] = []
     end
     entity.associations.each do |association|
@@ -13,7 +13,7 @@ module EntitiesHelper
 
   def associated_associations_by_definition(entity)
     associations_by_def = {}
-    entity.associated_association_definitions.each do |association_definition|
+    entity.map_all(:parent, :associated_association_definitions).each do |association_definition|
       associations_by_def[association_definition] = []
     end
     entity.associated_associations.each do |association|
