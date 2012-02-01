@@ -5,7 +5,7 @@ module ActiveRecordUtils
     parent = self.send(parent_name)
     values = include_self ? (block_given? ? yield(self) : self.send(parent_name)) : parent.blank? ? [] : (block_given? ? yield(parent) : parent.send(parent_name))
     values = values.blank? ? [] : [values] unless values.is_a? Array
-    parent.blank? ? values : values + parent.collect_all(parent_name, &block)
+    parent.blank? ? values : values + parent.collect_all(parent_name, include_self, &block)
   end
 
   alias map_all collect_all
