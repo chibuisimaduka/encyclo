@@ -14,5 +14,7 @@
         -#= best_in_place (entity.rating_for(current_user) || Rating.new(entity_id: entity.id, user_id: current_user.id, id: 99999)), :value, html_attrs: {size: 1}, nil: "-"
     %span.users_ranking>= entity.ratings.blank? ? "No user votes yet." : "#{entity.rank} from #{entity.ratings.size} users."
   %span.admin_area= link_to "destroy", entity, :method => :delete, :confirm => "Are you sure?"
+  - if local_assigns.has_key? :association
+    = link_to "Remove", association, method: :delete
   - if listing_type.show_documents
     = render :partial => entity.documents.where(filterer.filter_attributes).first  unless entity.documents.blank?
