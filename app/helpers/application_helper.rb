@@ -42,8 +42,13 @@ module ApplicationHelper
     render :partial => "entities/rankable_list", :locals => {:entity => entity, :records => records, :block => block}.merge(options)
   end
 
-  def dash_if_blank(value)
-    value.blank? ? "-" : value
+  def link_to_insert(name, content, selector)
+    out = "<span class='link_to_insert'"
+    out << " data-selector='#{selector}'"
+    out << " data-content='#{content}'"
+    out << ">#{name}</span>"
+    raw out
+    #FIXME: Why doesn't this work? content_tag :span, name, :class => "link_to_insert", :"data-content" => content, :"data-selector" => selector
   end
 
 end

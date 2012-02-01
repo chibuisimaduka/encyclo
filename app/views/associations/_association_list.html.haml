@@ -5,4 +5,4 @@
   - for association in associations
     = render partial: inversed ? association.entity : association.associated_entity, locals: {position: position += 1, association: association}
 - if (inversed ? definition.associated_entity_has_many : definition.entity_has_many) || associations.blank?
-  %span.add_association_link{:"data-form-content" => render(partial: "associations/form", locals: {:entity => entity, definition: definition, inversed: inversed}), :"data-definition-id" => definition.id}= "Add"
+  = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition, inversed: inversed}), "#association_definition_#{definition.id}"
