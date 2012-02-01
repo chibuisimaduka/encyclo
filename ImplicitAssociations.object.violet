@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_26" class="java.beans.XMLDecoder"> 
+ <object class="com.horstmann.violet.ObjectDiagramGraph"> 
+  <void method="addNode"> 
+   <object id="ObjectNode0" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Country:Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>386.0</double> 
+     <double>67.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode1" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>City:Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>400.0</double> 
+     <double>348.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode2" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Restaurant:Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>382.0</double> 
+     <double>626.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode3" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Canada:Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>729.0</double> 
+     <double>73.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode4" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Montreal:Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>732.0</double> 
+     <double>351.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode5" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Picapica Restaurant:Entity</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>689.0</double> 
+     <double>626.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode6" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Montreal-Picapica:Association</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>666.0</double> 
+     <double>486.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode7" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Canada-Montreal:Association</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>684.0</double> 
+     <double>201.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode8" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>City-Country:AssociationDef</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>337.0</double> 
+     <double>203.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode9" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>City-Restaurant:AssociationDef</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>332.0</double> 
+     <double>492.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode10" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Restaurant-Country:AssociationDef</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>13.0</double> 
+     <double>400.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="ObjectNode11" class="com.horstmann.violet.ObjectNode"> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>Canada-Picapica:Association(implicit)</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>997.0</double> 
+     <double>398.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.NoteNode"> 
+    <void property="text"> 
+     <void property="text"> 
+      <string>Intersect the associations of the two associated
+entities and set one with the other if only one has
+a value for it.</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>986.0</double> 
+     <double>197.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode11"/> 
+   <object idref="ObjectNode7"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode5"/> 
+   <object idref="ObjectNode6"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode2"/> 
+   <object idref="ObjectNode5"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode1"/> 
+   <object idref="ObjectNode4"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode0"/> 
+   <object idref="ObjectNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode8"/> 
+   <object idref="ObjectNode7"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode9"/> 
+   <object idref="ObjectNode6"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode3"/> 
+   <object idref="ObjectNode7"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode0"/> 
+   <object idref="ObjectNode8"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode1"/> 
+   <object idref="ObjectNode8"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode7"/> 
+   <object idref="ObjectNode4"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode4"/> 
+   <object idref="ObjectNode6"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode1"/> 
+   <object idref="ObjectNode9"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode2"/> 
+   <object idref="ObjectNode9"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode10"/> 
+   <object idref="ObjectNode8"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode11"/> 
+   <object idref="ObjectNode5"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ObjectRelationshipEdge"/> 
+   <object idref="ObjectNode10"/> 
+   <object idref="ObjectNode2"/> 
+  </void> 
+ </object> 
+</java> 
