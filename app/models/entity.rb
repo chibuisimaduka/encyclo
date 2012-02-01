@@ -13,11 +13,11 @@ class Entity < ActiveRecord::Base
 
   has_many :subentities
 
-  has_many :association_definitions, :inverse_of => :entity
-  has_many :associated_association_definitions, :class_name => "AssociationDefinition", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
+  has_many :association_definitions, :inverse_of => :entity, :dependent => :destroy
+  has_many :associated_association_definitions, :class_name => "AssociationDefinition", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
 
-  has_many :associations, :inverse_of => :entity
-  has_many :associated_associations, :class_name => "Association", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity
+  has_many :associations, :inverse_of => :entity, :dependent => :destroy
+  has_many :associated_associations, :class_name => "Association", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
 
   # ======== TODO: DEPRECATED ========
 
