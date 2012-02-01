@@ -64,7 +64,6 @@ class Entity < ActiveRecord::Base
   end
 
   def entities_by_definition
-    # Maybe include childs childs..
     (self.association_definitions.all(:include => [:associations => :entity]).map(&:associations).flatten.map(&:entity) +
     self.associated_association_definitions.all(:include => [:associations => :associated_entity]).map(&:associations).flatten.map(&:associated_entity)).uniq
   end

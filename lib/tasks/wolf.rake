@@ -4,6 +4,7 @@ namespace :wolf do
   desc "Save the mysql dump to the backups directory. Load using mysql env < file."
   task :backup do
     `mysqldump -u root sorted_development > backups/sorted_development_backup_#{Time.now.to_i}.sql`
+    puts "Succesfully saved to backups/sorted_development_backup_#{Time.now.to_i}.sql"
   end
 
   namespace :predicates do

@@ -2,9 +2,18 @@ module ActiveRecordUtils
 
   def collect_all(parent_name, include_self=true, &block)
     parent = self.send(parent_name)
-    values = include_self ? (block_given? ? yield(self) : self.send(parent_name)) : parent.blank? ? [] : (block_given? ? yield(parent) : parent.send(parent_name))
-    values = values.blank? ? [] : [values] unless values.is_a? Array
-    parent.blank? ? values : values + parent.collect_all(parent_name, include_self, &block)
+    if parent.is_a? Array
+      values = include_self ? (block_given? ? yield(self) : self) : parent.blank? ? [] : (block_given? ? (parent.map {|p| yield(p)}) : parent)
+      values = values.blank? ? [] : [values] unless values.is_a? Array
+      return values if parent.blank?
+      (parent.map do |p|
+        p.collect_all(parent_name, include_self, &block)
+      end).flatten
+    else
+      values = include_self ? (block_given? ? yield(self) : self) : parent.blank? ? [] : (block_given? ? yield(parent) : parent)
+      values = values.blank? ? [] : [values] unless values.is_a? Array
+      parent.blank? ? values : values + parent.collect_all(parent_name, include_self, &block)
+    end
   end
 
   alias map_all collect_all
