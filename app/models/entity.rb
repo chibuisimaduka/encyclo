@@ -19,6 +19,12 @@ class Entity < ActiveRecord::Base
   has_many :associations, :inverse_of => :entity, :dependent => :destroy
   has_many :associated_associations, :class_name => "Association", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
 
+  has_many :associations_definitions, :through => :associations, :source => "definition"
+  has_many :associated_associations_definitions, :through => :associated_associations, :source => "definition"
+
+  has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
+  has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
+
   # ======== TODO: DEPRECATED ========
 
   #has_many :predicates, :inverse_of => :entity
@@ -56,11 +62,6 @@ class Entity < ActiveRecord::Base
       end
     end
     one_created ? true : nil # Returning false cancels the save.
-  end
-
-  def parents_by_definition
-    (self.associations.all(:include => [:definition => :entity]).map(&:definition).map(&:entity) +
-    self.associated_associations.all(:include => [:definition => :associated_entity]).map(&:definition).map(&:associated_entity)).uniq
   end
 
   def entities_by_definition

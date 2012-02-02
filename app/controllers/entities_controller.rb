@@ -1,7 +1,7 @@
 class EntitiesController < ApplicationController
 
   respond_to :html, :json
-  autocomplete :entity, :name, :extra_data => [:parent_id]
+  autocomplete :entity, :name, :extra_data => ["entities.parent_id"]
   
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -102,12 +102,19 @@ private
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
-    params[:parent_id].blank? ? super(parameters) : super(parameters).where(parent_id: params[:parent_id])# FIXME: This should include parent by definitions too.
+    items = super(parameters)
+    #params[:parent_id].blank? ? items : (items.where(parent_id: params[:parent_id]) |
+    #  items.joins(:associations => {:definition => :entity}).where(:id => params[:parent_id]) |
+    #  items.joins(:associated_associations => {:definition => :associated_entity}).where(:id => params[:parent_id]))
+    params[:parent_id].blank? ? items : (items.where(parent_id: params[:parent_id]) |
+      items.joins(:associations => :definition).where("association_definitions.entity_id" => params[:parent_id]) |
+      items.joins(:associated_associations => :definition).where("association_definitions.associated_entity_id" => params[:parent_id]))
   end
 
   def json_for_autocomplete(items, method, extra_data=[])
+    all_names = items.map(&:name)
     items.collect do |e|
-      name = (items.find_all_by_name(e.name).size > 1 && !e.parent.blank?) ? e.name + " (#{e.parent.name})" : e.name
+      name = (all_names.index(e.name) != all_names.rindex(e.name) && !e.parent.blank?) ? e.name + " (#{e.parent.name})" : e.name
       {"id" => e.id.to_s, "label" => name, "value" => name}
     end
   end
