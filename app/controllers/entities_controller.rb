@@ -14,6 +14,8 @@ class EntitiesController < ApplicationController
     redirect_to (goto_doc && !@entity.documents.blank?) ? @entity.documents.first.source : @entity
   end
 
+  require "pretty_printer"
+
   def show
     @entity = Entity.find(params[:id])
 
@@ -41,6 +43,9 @@ class EntitiesController < ApplicationController
         @entities.sort_by {|e| e.suggested_rating(@entity.entities) }
       end
     end
+
+    @printer = PrettyPrinter.new(@entity)
+
     respond_with @entity
   end
 

@@ -41,14 +41,13 @@
       Filter by document type:
       = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_parents_by_definition
-    Entity parents by definition
     - position = 0
     = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {position: position += 1}
   #entity_title
     %h1#entity_name.entity_name= @entity.name.capitalize
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     %span.admin_area= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
-  #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..3]
+  #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path
