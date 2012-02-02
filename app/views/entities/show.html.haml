@@ -12,6 +12,11 @@
       = render partial: @entity.association_definitions, locals: {inversed: false}
       = render partial: @entity.associated_association_definitions, locals: {inversed: true}
       = render :partial => "association_definitions/form", :locals => {:entity => @entity}
+  #refine_entity_search
+    = form_tag(entity_path(@entity), method: :get) do
+      = render partial: "association_definitions/refine_form", locals: {inversed: false}
+      = render partial: "association_definitions/refine_form", locals: {inversed: true}
+      = submit_tag "Refine"
   #browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}

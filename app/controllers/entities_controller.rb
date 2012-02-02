@@ -21,10 +21,11 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       open_entity(@entity)
-      @tags_filter = params[:filter] ? params[:filter].collect(&:to_i) : []
-      @tags_filter << Tag.find_by_name(params[:new_filter]).id if params[:new_filter]
       @entities = (@entity.entities + @entity.entities_by_definition).uniq
-      @entities.delete_if { |e| (e.tag_ids & @tags_filter).size != @tags_filter.size } unless @tags_filter.blank?
+      params[:filter].each do |definition_id, vals|
+        @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
+          !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
+      end if params[:filter]
       
       if ranking_type == RankingType::USER
         raise "TODO ranking user..."
@@ -101,7 +102,7 @@ private
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
-    super(parameters)
+    params[:parent_id].blank? ? super(parameters) : super(parameters).where(parent_id: params[:parent_id])# FIXME: This should include parent by definitions too.
   end
 
   def json_for_autocomplete(items, method, extra_data=[])
