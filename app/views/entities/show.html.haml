@@ -41,10 +41,9 @@
       Filter by document type:
       = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_parents_by_definition
-    - position = 0
-    = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {position: position += 1}
+    = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false}
   #entity_title
-    %h1#entity_name.entity_name= @entity.name.capitalize
+    #entity_name.entity_name= @entity.name
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     %span.admin_area= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..(@printer.num_documents - 1)]
@@ -52,20 +51,16 @@
   or
   = link_to "Create a document", new_document_path
   #associations
-    Associations
     - associations_by_definition(@entity).each do |definition, associations|
       .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: false}
     - associated_associations_by_definition(@entity).each do |definition, associations|
       .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: true}
+  #entities
+    = rankable_list @entity, @entities, :limit => 20 do |entity|
+      = render :partial => entity
+  = render :partial => "entities/form", locals: {parent: @entity}
 #content_sidebar
   - @entity.images.each do |image|
     .image= image_tag image.image_url(:big_thumb).to_s
   = render partial: "entities/add_image_form"
   -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
-#sub_entities
-  Subentities
-  #entities
-    - position = 0
-    = rankable_list @entity, @entities, :limit => 20 do |entity|
-      = render :partial => entity, locals: {position: (position += 1)}
-  = render :partial => "entities/form", locals: {parent: @entity}

@@ -3,8 +3,7 @@
   - definition_entity = inversed ? definition.entity : definition.associated_entity
   - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? definition_entity.name.pluralize : definition_entity.name
   .association_definition_name= link_to name, definition_entity
-  - position = 0
   - for association in associations
-    = render partial: inversed ? association.entity : association.associated_entity, locals: {position: position += 1, association: association}
+    = render partial: inversed ? association.entity : association.associated_entity, locals: {association: association}
 - if (inversed ? definition.associated_entity_has_many : definition.entity_has_many) || associations.blank?
   = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition, inversed: inversed}), "##{id}"

@@ -13,6 +13,7 @@
 
 #entity_name {
   font-size: 32;
+  font-weight: bold;
 }
 
 .entity_name {
@@ -105,15 +106,15 @@ form {
 }
 
 #entity_title {
-  margin-bottom: 24px;
+  margin-bottom: 4px;
 }
 
 .document {
-  margin-bottom: 14px;
+  margin-bottom: 6px;
 }
 
 .image {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 body {

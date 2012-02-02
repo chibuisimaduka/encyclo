@@ -74,4 +74,8 @@ class Entity < ActiveRecord::Base
       (a.association_definitions || []) + (a.associated_association_definitions || [])
     end
   end
+
+  def name
+    super.split.map(&:capitalize).join(" ")
+  end
 end
