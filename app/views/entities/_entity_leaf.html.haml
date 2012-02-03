@@ -16,7 +16,7 @@
       = "|"*(nested+1)
       = form_tag(change_parent_entities_path(format: :js, nested: nested), method: :put, remote: true) do
         %span.fields
-          = autocomplete_field_tag :name, '', autocomplete_entity_name_entities_path, :size => 15
+          = autocomplete_field_tag :name, '', autocomplete_name_value_entities_path, :size => 15
           = hidden_field_tag(:parent_id, entity_leaf.id)
         %span.actions
           = submit_tag "Change parent"

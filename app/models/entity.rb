@@ -25,7 +25,7 @@ class Entity < ActiveRecord::Base
   has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
   has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
 
-  has_many :names
+  has_many :names, :inverse_of => :entity
 
   # ======== TODO: DEPRECATED ========
 
@@ -38,7 +38,7 @@ class Entity < ActiveRecord::Base
   
   # ======== VALIDATIONS ========
 
-  validates_presence_of :names
+  validate :validate_has_one_name
 
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
@@ -75,6 +75,12 @@ class Entity < ActiveRecord::Base
     self.map_all :parent do |a|
       (a.association_definitions || []) + (a.associated_association_definitions || [])
     end
+  end
+
+private
+
+  def validate_has_one_name
+    errors.add(:names, "An entity needs at leat one name.") unless self.names.length > 0
   end
 
 end

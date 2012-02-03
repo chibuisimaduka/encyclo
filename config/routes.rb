@@ -6,6 +6,7 @@ Encyclo::Application.routes.draw do
   root :to => "home#index"
   
   resources :entities do
+    resources :names
     resources :sources
     resources :images
     collection do

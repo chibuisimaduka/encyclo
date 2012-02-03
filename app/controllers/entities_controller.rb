@@ -58,7 +58,9 @@ class EntitiesController < ApplicationController
       change_entity_parent(Entity.find(params[:entity_id]), params[:entity][:parent_id])
       redirect_to :back, :notice => 'Entity parent was succesfully changed.'
     else
+      name_attrs = params[:entity].delete(:names)[0]# There should be a method that creates the associated entity with the hash.
       @entity = Entity.new(params[:entity])
+      @entity.names.build(name_attrs)
       @entity.save!
       if params[:show]
         redirect_to @entity
@@ -108,7 +110,7 @@ private
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
     items = super(parameters).where(:language_id => current_language.id)
-    params[:parent_id].blank? ? items : (items.joins(:entity).where(parent_id: params[:parent_id]) |
+    params[:parent_id].blank? ? items : (items.joins(:entity).where("entities.parent_id" => params[:parent_id]) |
       items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
       items.joins(:entity => {:associated_associations => :definition}).where("association_definitions.associated_entity_id" => params[:parent_id]))
   end

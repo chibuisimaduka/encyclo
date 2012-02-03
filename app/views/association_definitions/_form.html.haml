@@ -6,6 +6,6 @@
     = f.check_box :entity_has_many
     Other many?
     = f.check_box :associated_entity_has_many
-    = autocomplete_field_tag :associated_entity_name, '', autocomplete_entity_name_entities_path, id: "add_association_definition_field", id_element: "#def_associated_entity_id"
+    = autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_definition_field", id_element: "#def_associated_entity_id"
   .actions
     = f.submit "Add definition"
