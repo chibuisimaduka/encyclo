@@ -32,12 +32,12 @@ module ApplicationHelper
 
   def toggle_block(options={}, &block)
     visible = options[:visible] || true
-    if options[:handle]
-      raw "<span class='toggle_block'><span class='toggle_block_content'>#{capture(visible, &block)}</span>" +
-        "<span class='toggle_block_handle' data-toggled-content=#{capture(!visible, &block)}>#{options[:handle]}</span></span>"
-    else
-      raw "<span class='toggle_block toggle_block_handle' data-toggled-content=#{capture(!visible, &block)}>#{capture(visible, &block)}</span>"
-    end
+    out = "<span class='toggle_block'>"
+    out << "<span class='toggle_block_content#{options[:handle] ? " toggle_block_handle" : ''}'>#{capture(visible, &block)}</span>"
+    out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}</span>"
+    out << "<span class='toggle_block_handle'>#{options[:handle]}</span>" if options[:handle]
+    out << "</span>"
+    raw out
   end
 
   def toggle_visibility(name, object=nil, options={}, &block)
