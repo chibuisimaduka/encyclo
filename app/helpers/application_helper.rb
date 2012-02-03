@@ -30,6 +30,16 @@ module ApplicationHelper
     html
   end
 
+  def toggle_block(options={}, &block)
+    visible = options[:visible] || true
+    if options[:handle]
+      raw "<span class='toggle_block'><span class='toggle_block_content'>#{capture(visible, &block)}</span>" +
+        "<span class='toggle_block_handle' data-toggled-content=#{capture(!visible, &block)}>#{options[:handle]}</span></span>"
+    else
+      raw "<span class='toggle_block toggle_block_handle' data-toggled-content=#{capture(!visible, &block)}>#{capture(visible, &block)}</span>"
+    end
+  end
+
   def toggle_visibility(name, object=nil, options={}, &block)
     id = object ? "#{name}_#{object.class.name.downcase}_#{object.id}" : name
     content_tag(:span, :id => id, :style => "display: none;", &block) +
