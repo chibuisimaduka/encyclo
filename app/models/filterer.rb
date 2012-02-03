@@ -19,7 +19,8 @@ class Filterer
   end
 
   def update_attributes(attrs)
-    @attributes.merge!(attrs)
+    sanitized_attrs = Hash[attrs.map {|k,v| [k.to_sym, v]}]
+    @attributes.merge!(sanitized_attrs)
     @attributes.delete_if {|k,v| v.blank? }
   end
 

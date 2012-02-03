@@ -41,9 +41,9 @@
     %span.admin_area= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #refine_document_filter
     Filter by: language
-    = best_in_place documents_filter, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
+    = best_in_place_filter documents_filter, :language_id, (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
     ; document type:
-    = best_in_place documents_filter, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
+    = best_in_place_filter documents_filter, :document_type_id, (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
   #documents= render partial: @entity.documents.where(documents_filter.attributes)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or

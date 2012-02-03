@@ -61,4 +61,8 @@ module ApplicationHelper
     #FIXME: Why doesn't this work? content_tag :span, name, :class => "link_to_insert", :"data-content" => content, :"data-selector" => selector
   end
 
+  def best_in_place_filter(filter, method, collection, session_key, options={})
+    best_in_place filter, method, {type: :select, collection: collection, path: {controller: "sessions", action: "update", value_key: "filterer", session_key: session_key}}.merge(options)
+  end
+
 end

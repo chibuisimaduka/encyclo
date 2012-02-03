@@ -6,8 +6,9 @@ class SessionsController < ApplicationController
   end
 
   def update
-    session[params[:model]].update_attributes params[params[:model]]
-    respond_with params[params[:model]]
+    value = params[params[:value_key]]
+    session[params[:session_key]].update_attributes value
+    respond_with value
   end
 
   def create
