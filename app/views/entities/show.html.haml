@@ -33,19 +33,17 @@
   = join(@entity.map_all(:parent).reverse, " > ") do |e|
     = link_to e.name, e
 #entity
-  #refine_document_filter
-    #language_filter
-      Filter by language:
-      = best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
-    #document_type_filter
-      Filter by document type:
-      = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #entity_parents_by_definition
     = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false}
   #entity_title
     #entity_name.entity_name= @entity.name
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     %span.admin_area= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
+  #refine_document_filter
+    Filter by: language
+    = best_in_place filterer, :language_id, type: :select, collection: (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
+    ; document type:
+    = best_in_place filterer, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), path: {controller: "sessions", action: "update", model: "filterer"}, nil: "No filter"
   #documents= render partial: @entity.documents.where(filterer.filter_attributes)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or

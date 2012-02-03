@@ -16,11 +16,10 @@
   font-weight: bold;
 }
 
-.entity_name {
+.entity_name, .entity_name a {
   font-size: 16px;
   color: #E98C08;
   display: inline;
-  margin-right: 4px;
 }
 
 .document_description {
@@ -168,6 +167,10 @@ body {
   vertical-align: top;
   margin: auto;
   width: 388px;
+}
+
+.definition {
+  display: inline;
 }
 
 a:visited[id="entity_name"] {
