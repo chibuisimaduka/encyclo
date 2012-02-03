@@ -25,6 +25,8 @@ class Entity < ActiveRecord::Base
   has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
   has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
 
+  has_many :names
+
   # ======== TODO: DEPRECATED ========
 
   #has_many :predicates, :inverse_of => :entity
@@ -33,10 +35,10 @@ class Entity < ActiveRecord::Base
   #has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id", :inverse_of => :component_entity
 
   #has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
-
+  
   # ======== VALIDATIONS ========
-  validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false, :scope => :parent_id
+
+  validates_presence_of :names
 
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
@@ -75,7 +77,4 @@ class Entity < ActiveRecord::Base
     end
   end
 
-  def name
-    super.split.map(&:capitalize).join(" ")
-  end
 end

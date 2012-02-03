@@ -35,7 +35,7 @@ class Document < ActiveRecord::Base
   def self.create(entity, source)
     uri = URI.parse(URI.escape(URI.unescape(source.url)))
     if (entity.documents.keep_if {|d| d.source_host == uri.host }).blank?
-      document = Document.new(source: source.url + URI.escape(URI.unescape(entity.name)))
+      document = Document.new(source: source.url + URI.escape(URI.unescape(entity.names.find_by_language_id(Language.find_by_name("english")))))
       document.entities << entity
       entity.documents << document
       document.fetch

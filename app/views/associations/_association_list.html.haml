@@ -1,7 +1,7 @@
 - id = "definition_#{definition.id}_#{inversed ? "i" : "n"}"
 .definition{id: id}
   - definition_entity = inversed ? definition.entity : definition.associated_entity
-  - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? definition_entity.name.pluralize : definition_entity.name
+  - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? entity_name(definition_entity).pluralize : entity_name(definition_entity)
   %span.association_definition_name= link_to name, definition_entity
   \:
   = toggle_block handle: "See more.." do |visible|

@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
   helper_method :opened_entities
   helper_method :listing_type
   helper_method :ranking_type
-  helper_method :filterer
+  helper_method :documents_filter
+  helper_method :language_filter
+  helper_method :current_language
 
   private
   def current_user
@@ -34,7 +36,15 @@ class ApplicationController < ActionController::Base
     session[:opened_entities] ||= {}
   end
 
-  def filterer
-    session[:filterer] ||= Filterer.new
+  def language_filter
+    session[:language_filter] ||= Filterer.new(:id)
+  end
+
+  def documents_filter
+    session[:documents_filter] ||= Filterer.new(:language_id, :document_type_id)
+  end
+
+  def current_language
+    session[:current_language] ||= Language.find_by_name("english")
   end
 end

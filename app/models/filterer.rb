@@ -1,25 +1,26 @@
 class Filterer
 
-  attr_reader :filter_attributes
+  attr_reader :attributes, :filters
 
-  FILTERS = [:language_id, :document_type_id]
-   
-  FILTERS.each do |filter|
-    define_method(filter) do
-      @filter_attributes[filter.to_s]
-    end
-    define_method("#{filter}=") do |value|
-      value.blank? ? @filter_attributes.delete(filter.to_s) : @filter_attributes[filter.to_s] = value
-    end
+  def initialize(*filters)
+    @attributes = {}
+    @filters = filters.map(&:to_sym)
   end
 
-  def initialize
-    @filter_attributes = {}
+  def method_missing(method_name, *args)
+    if method_name[-1] == "="
+      super unless @filters.include?(method_name[0..-2].to_sym)
+      raise "Wrong number of arguments for setter #{method_name[0..-2]}" if args.size != 1
+      @attributes[method_name[0..-2].to_sym] = args[0]
+    else
+      super unless @filters.include?(method_name.to_sym)
+      @attributes[method_name.to_sym]
+    end
   end
 
   def update_attributes(attrs)
-    @filter_attributes.merge!(attrs)
-    @filter_attributes.delete_if {|k,v| v.blank? }
+    @attributes.merge!(attrs)
+    @attributes.delete_if {|k,v| v.blank? }
   end
 
 end

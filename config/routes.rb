@@ -9,7 +9,7 @@ Encyclo::Application.routes.draw do
     resources :sources
     resources :images
     collection do
-      get :autocomplete_entity_name
+      get :autocomplete_name_value
       get 'search'
       get 'random'
       put 'change_parent'

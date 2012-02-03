@@ -1,7 +1,7 @@
 - (inversed ? @entity.associated_association_definitions : @entity.association_definitions).each do |association_def|
   .association_filter
     - other_entity = (inversed ? association_def.entity : association_def.associated_entity)
-    = other_entity.name
+    = entity_name(other_entity)
     - field_id = params[:filter] && params[:filter][association_def.id.to_s] ? params[:filter][association_def.id.to_s][:associated_entity_id] : ''
     = hidden_field_tag "filter[#{association_def.id}][associated_entity_id]", field_id, id: "refine_associated_entity_id_#{association_def.id}"
     - field_name = "refine_association_entity_name_#{association_def.id}"

@@ -32,4 +32,9 @@ module EntitiesHelper
     str.html_safe
   end
 
+  def entity_name(entity)
+    name = entity.names.find_by_language_id(current_language.id) || entity.names.first
+    name.value.split.map(&:capitalize).join(" ") if name
+  end
+
 end

@@ -134,6 +134,14 @@ ActiveRecord::Schema.define(:version => 20120131013739) do
     t.integer  "entity_id"
   end
 
+  create_table "names", :force => true do |t|
+    t.string   "value"
+    t.integer  "language_id"
+    t.integer  "entity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ratings", :force => true do |t|
     t.integer  "entity_id"
     t.integer  "user_id"
