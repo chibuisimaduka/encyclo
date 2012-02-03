@@ -1,7 +1,7 @@
 class EntitiesController < ApplicationController
 
   respond_to :html, :json
-  autocomplete :entity, :name, :extra_data => ["entities.parent_id"]
+  autocomplete :name, :value, :extra_data => ["names.entity_id"]
   
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -107,20 +107,17 @@ private
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
-    items = super(parameters)
-    #params[:parent_id].blank? ? items : (items.where(parent_id: params[:parent_id]) |
-    #  items.joins(:associations => {:definition => :entity}).where(:id => params[:parent_id]) |
-    #  items.joins(:associated_associations => {:definition => :associated_entity}).where(:id => params[:parent_id]))
-    params[:parent_id].blank? ? items : (items.where(parent_id: params[:parent_id]) |
-      items.joins(:associations => :definition).where("association_definitions.entity_id" => params[:parent_id]) |
-      items.joins(:associated_associations => :definition).where("association_definitions.associated_entity_id" => params[:parent_id]))
+    items = super(parameters).where(:language_id => current_language.id)
+    params[:parent_id].blank? ? items : (items.joins(:entity).where(parent_id: params[:parent_id]) |
+      items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
+      items.joins(:entity => {:associated_associations => :definition}).where("association_definitions.associated_entity_id" => params[:parent_id]))
   end
 
   def json_for_autocomplete(items, method, extra_data=[])
-    all_names = items.map(&:name)
-    items.collect do |e|
-      name = (all_names.index(e.name) != all_names.rindex(e.name) && !e.parent.blank?) ? e.name + " (#{e.parent.name})" : e.name
-      {"id" => e.id.to_s, "label" => name, "value" => name}
+    all_names = items.map(&:value)
+    items.collect do |n|
+      name = (all_names.index(n.value) != all_names.rindex(n.value) && !n.entity.parent.blank?) ? n.value + " (#{n.entity.parent.name})" : n.value
+      {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
   end
 
