@@ -34,7 +34,7 @@ module ApplicationHelper
     visible = options[:visible] || true
     out = "<span class='toggle_block'>"
     out << "<span class='toggle_block_content#{options[:handle] ? " toggle_block_handle" : ''}'>#{capture(visible, &block)}</span>"
-    out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}</span>"
+    out << "<span class='toggled_block_content'>#{capture(!visible, &block)}</span>"
     out << "<span class='toggle_block_handle'>#{options[:handle]}</span>" if options[:handle]
     out << "</span>"
     raw out

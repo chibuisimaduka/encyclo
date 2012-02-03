@@ -3,4 +3,5 @@ $(document).ready(function() {
     $(this).parent().find('.toggle_block_content').toggle();
     $(this).parent().find('.toggled_block_content').toggle();
   })
+  $('.toggled_block_content').hide();
 });
