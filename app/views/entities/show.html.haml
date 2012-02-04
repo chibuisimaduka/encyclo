@@ -31,20 +31,18 @@
   = link_to "Previous", @entity
   \----------
   = join(@entity.map_all(:parent).reverse, " > ") do |e|
-    = link_to e.name, e
+    = link_to_entity e
 #entity
   #entity_parents_by_definition
     = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false}
   #entity_title
-    #entity_name.entity_name= entity_name(@entity)
+    #entity_name.entity_name= best_in_place_entity_name(@entity)
     = best_in_place @entity, :is_leaf, type: :checkbox, collection: ["Branch", "Leaf"]
     %span.admin_area= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #refine_document_filter
-    Filter by: language
-    = best_in_place_filter documents_filter, :language_id, (Language.all.sort_by(&:name).map{|l| [l.id, l.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
-    ; document type:
+    Filter by document type:
     = best_in_place_filter documents_filter, :document_type_id, (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
-  #documents= render partial: @entity.documents.where(documents_filter.attributes)[0..(@printer.num_documents - 1)]
+  #documents= render partial: @entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path

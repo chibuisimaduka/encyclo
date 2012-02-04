@@ -32,9 +32,30 @@ module EntitiesHelper
     str.html_safe
   end
 
+  def link_to_entity(entity)
+    link_to entity_name(entity), entity
+  end
+
+  def best_in_place_entity_name(entity, is_link=false)
+    name = raw_entity_name(entity)
+    best_in_place_name = best_in_place(name, :value, {display_as: :pretty_value, activator: "#rename_#{name.id}", path: {:controller => :names, :action => :update, :entity_id => entity.id, :id => name.id}})
+    out = is_link ? link_to(best_in_place_name, entity) : best_in_place_name
+    out << exception_star("This is the english name. Click to enter the french name.") unless name.language == current_language
+    out << "<span id='rename_#{name.id}'>[e]</span>".html_safe
+    raw out
+  end
+
   def entity_name(entity)
-    name = entity.names.find_by_language_id(current_language.id) || entity.names.first
-    name.value.split.map(&:capitalize).join(" ") if name
+    raw_entity_name(entity).pretty_value
+  end
+
+  def exception_star(msg)
+    "<span class='exception_star' title='#{msg}'>*</span>".html_safe
+  end
+private
+
+  def raw_entity_name(entity)
+    entity.names.find_by_language_id(current_language.id) || entity.names.first
   end
 
 end

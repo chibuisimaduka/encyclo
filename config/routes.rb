@@ -4,9 +4,8 @@ Encyclo::Application.routes.draw do
   get "images/create"
 
   root :to => "home#index"
-  
+
   resources :entities do
-    resources :names
     resources :sources
     resources :images
     collection do
@@ -25,6 +24,8 @@ Encyclo::Application.routes.draw do
 
   resources :associations
   resources :association_definitions
+  
+  resources :names
 
   resources :tags do
     collection do

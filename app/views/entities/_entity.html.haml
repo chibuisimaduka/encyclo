@@ -3,7 +3,7 @@
   - if showing_image
     .listing_image= image_tag entity.images.first.image_url(:thumb).to_s
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
-    = link_to entity_name(entity), entity, :class => "entity_name"
+    %span.entity_name= best_in_place_entity_name(entity, true)
     - if ranking_type == RankingType::USER
       = raise "TODO"
       = render :partial => "ranking_elements/ranking_element", :locals => {:ranking_id => @ranking.id, :entity_id => entity.id, :position => (position += 1)}
@@ -16,5 +16,5 @@
       %span.users_ranking>= entity.ratings.blank? ? "No user votes yet." : "#{entity.rank} from #{entity.ratings.size} users."
     = link_to image_tag("delete_button.png"), entity, :method => :delete, :confirm => "Are you sure?"
     - if listing_type.show_documents
-      - documents = entity.documents.where(documents_filter.attributes)
+      - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
       = render :partial => documents.first unless documents.blank?

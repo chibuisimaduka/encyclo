@@ -12,8 +12,13 @@ class Name < ActiveRecord::Base
     self.value
   end
 
+  def pretty_value
+    self.value.split.map(&:capitalize).join(" ")
+  end
+
 private
   def validate_name_uniqueness
+    raise "FIXME: Validation is fucked up."
     unless Name.joins(:entity).where(["names.value = ? AND entities.parent_id = ? AND names.language_id = ?", self.value, self.entity.parent_id, self.language_id]).blank?
       errors.add(:value, "Duplicate name #{self.value} for language #{self.language.name} and entity parent #{self.entity.parent_id}.")
     end
