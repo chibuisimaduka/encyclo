@@ -62,7 +62,7 @@ module ApplicationHelper
   end
 
   def best_in_place_filter(filter, method, collection, session_key, options={})
-    best_in_place filter, method, {type: :select, collection: collection, path: {controller: "sessions", action: "update", value_key: "filterer", session_key: session_key}}.merge(options)
+    best_in_place filter, method, {type: :select, collection: collection, path: {controller: "sessions", action: "update", value_key: "filterer", session_key: session_key, id: "fixme"}}.merge(options)
   end
 
 end
