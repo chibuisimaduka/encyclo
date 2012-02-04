@@ -15,23 +15,3 @@
 $(document).ready(function() {
   $('#search_entity_name_field').focus();
 })
-
-function toggle_visibility(id, display) {
-  var e = document.getElementById(id);
-  if(!display)
-    display = 'block'
-  if(e.style.display == display)
-    e.style.display = 'none';
-  else
-    e.style.display = display;
-}
-
-function toggle_visibility_for(className) {
-  var e = document.getElementsByClassName(className);
-  for ( var i=0, len=e.length; i<len; ++i ){
-    if(e[i].style.display == 'block')
-      e[i].style.display = 'none';
-    else
-      e[i].style.display = 'block';
-  }
-}
