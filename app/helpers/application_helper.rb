@@ -1,51 +1,29 @@
 module ApplicationHelper
 
-  # Options are :
-  # limit: The number of records shown before "show_more_results" link, default 1.
-  def show_limited_results(records, options={}, &block)
-    html = ""
-    num_records_shown = options[:limit] || 1
-    for record in records[0..(num_records_shown-1)]
-      html << content_tag_for(:div, record, class: options[:class]) do
-        yield(record)
+  def show_more_records(records, options={}, &block)
+    if options[:limit] && records.size > options[:limit].to_i
+      toggle_block({handle: "Show more records.."}.merge(options)) do |is_not_more|
+        (records[is_not_more ? 0..(options[:limit]-1) : options[:limit]..-1].map {|r| capture(r, !is_not_more, &block) }).join.html_safe
       end
+    else
+      raw (records.map {|r| capture(r, false, &block) }).join
     end
-	 if records.size > num_records_shown
-      more_message = options[:more_message] || "See more #{records.first.class.to_s.downcase.pluralize}.."
-	   html << toggle_each_visibility(more_message, records[num_records_shown..-1], &block)
-    end
-    html.html_safe
-  end
-
-  def toggle_each_visibility(name, list, &block)
-    html = ""
-    for record in list
-      html << content_tag_for(:div, record, :class => "#{list.first.id}_limited", :style => "display: none;") do
-        yield(record)
-      end
-    end
-	 html << content_tag(:span, :class => "#{name}_link") do
-      link_to_function name, "toggle_visibility_for('#{list.first.class.to_s.downcase} #{list.first.id}_limited');"
-	 end
-    html
   end
 
   def toggle_block(options={}, &block)
-    visible = options[:visible] || true
+    visible = options.has_key?(:visible) ? options[:visible] : true
     out = "<span class='toggle_block'>"
-    out << "<span class='toggle_block_content#{options[:handle] ? " toggle_block_handle" : ''}'>#{capture(visible, &block)}</span>"
+    out << "<span class='toggle_block_content#{options[:handle] ? "" : " toggle_block_handle"}'>#{capture(visible, &block)}</span>"
     out << "<span class='toggled_block_content'>#{capture(!visible, &block)}</span>"
     out << "<span class='toggle_block_handle'>#{options[:handle]}</span>" if options[:handle]
     out << "</span>"
     raw out
   end
 
-  def toggle_visibility(name, object=nil, options={}, &block)
-    id = object ? "#{name}_#{object.class.name.downcase}_#{object.id}" : name
-    content_tag(:span, :id => id, :style => "display: none;", &block) +
-	 content_tag(:span, :class => "#{id}_link") do
-      link_to_function name, "toggle_visibility('#{id}'#{options[:style] ? ", '#{options[:style]}'" : ''});"
-	 end
+  def toggle_visibility(options={}, &block)
+    toggle_block({visible: false}.merge(options)) do |visible|
+      visible ? capture(&block) : ""
+    end
   end
 
   def rankable_list(entity, records, options={}, &block)
@@ -58,7 +36,6 @@ module ApplicationHelper
     out << " data-content='#{content}'"
     out << ">#{name}</span>"
     raw out
-    #FIXME: Why doesn't this work? content_tag :span, name, :class => "link_to_insert", :"data-content" => content, :"data-selector" => selector
   end
 
   def best_in_place_filter(filter, method, collection, session_key, options={})

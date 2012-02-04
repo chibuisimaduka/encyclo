@@ -1,5 +1,5 @@
 .add_image
-  = toggle_visibility "Add an image.." do
+  = toggle_visibility handle: "Add an image.." do
     = form_for [@entity, Image.new], html: {multipart: true} do |f|
       %p= f.file_field :image
       %p
