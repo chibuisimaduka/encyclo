@@ -17,7 +17,7 @@
             = link_to "Log in", log_in_path
           | ---------------------------------
           Language:
-          = best_in_place_filter language_filter, :id, (Language.all.sort_by(&:name).map{|l| [l.id, l.name]}), "language_filter"
+          = best_in_place_filter language_filter, :id, (Language::ALL.map{|l| [l.id, l.name]}), "language_filter"
         #user_nav
           = link_to "Your ranking", set_ranking_type_path(:ranking_type => RankingType::USER), :method => :put
           |

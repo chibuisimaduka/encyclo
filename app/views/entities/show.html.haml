@@ -17,7 +17,7 @@
       = render partial: "association_definitions/refine_form", locals: {inversed: false}
       = render partial: "association_definitions/refine_form", locals: {inversed: true}
       = submit_tag "Refine"
-  #browse_entities
+  -#browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}
 
@@ -41,7 +41,7 @@
     %span.admin_area= link_to "destroy", @entity, :method => :delete, :confirm => "Are you sure?"
   #refine_document_filter
     Filter by document type:
-    = best_in_place_filter documents_filter, :document_type_id, (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
+    = best_in_place_filter documents_filter, :document_type_id, (DocumentType::ALL.map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
   #documents= render partial: @entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
