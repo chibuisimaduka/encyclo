@@ -6,6 +6,7 @@ class Name < ActiveRecord::Base
   validates_presence_of :language
   validates_presence_of :value
 
+  validates_uniqueness_of :language_id, :scope => :entity_id
   validate :validate_name_uniqueness
   
   def to_s
@@ -17,8 +18,8 @@ class Name < ActiveRecord::Base
   end
 
 private
+  
   def validate_name_uniqueness
-    raise "FIXME: Validation is fucked up."
     unless Name.joins(:entity).where(["names.value = ? AND entities.parent_id = ? AND names.language_id = ?", self.value, self.entity.parent_id, self.language_id]).blank?
       errors.add(:value, "Duplicate name #{self.value} for language #{self.language.name} and entity parent #{self.entity.parent_id}.")
     end
