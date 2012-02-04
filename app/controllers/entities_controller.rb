@@ -45,8 +45,6 @@ class EntitiesController < ApplicationController
     end
 
     @printer = PrettyPrinter.new(@entity)
-
-    respond_with @entity
   end
 
   def edit

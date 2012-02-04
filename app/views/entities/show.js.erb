@@ -1,1 +1,1 @@
-$("#content").replaceWith(<%= javascript_escape(render :template => "entities/show")%>)
+$("#content").html('<%= escape_javascript(render :template => "/entities/show.html.haml")%>');
