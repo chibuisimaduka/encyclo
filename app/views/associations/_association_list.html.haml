@@ -4,10 +4,13 @@
   - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? entity_name(definition_entity).pluralize : entity_name(definition_entity)
   %span.association_definition_name= link_to name, definition_entity
   \:
-  = show_more_records associations, handle: "See more..", limit: 3 do |association, is_more|
-    - if is_more
-      .more_association_entity= render partial: "associations/entity", locals: {inversed: inversed, entity_showed: entity, association: association, definition_entity: definition_entity}
-    - else
-      = render partial: "associations/entity", locals: {inversed: inversed, entity_showed: entity, association: association, definition_entity: definition_entity}
+  - if associations.size > 0
+    = toggle_block handle: "Expand.." do |not_expanded|
+      = show_more_records associations, handle: "See more..", limit: 3 do |association, is_more|
+        - content_tag (is_more ? :div : :span) do
+          - if not_expanded
+            = render partial: "associations/entity", locals: {inversed: inversed, entity_showed: entity, association: association, definition_entity: definition_entity}
+          - else
+            = render partial: inversed ? association.entity : association.associated_entity
 - if (inversed ? definition.associated_entity_has_many : definition.entity_has_many) || associations.blank?
   = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition, inversed: inversed}), "##{id}"
