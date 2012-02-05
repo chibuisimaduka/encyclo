@@ -46,10 +46,6 @@ module EntitiesHelper
     raw out
   end
 
-  def entity_name(entity)
-    raw_entity_name(entity).pretty_value
-  end
-
   def exception_star(msg)
     "<span class='exception_star' title='#{msg}'>*</span>".html_safe
   end
@@ -69,10 +65,6 @@ private
     def pretty_value
       @helper.link_to(@name.pretty_value, @entity)
     end
-  end
-
-  def raw_entity_name(entity)
-    entity.names.find_by_language_id(current_language.id) || entity.names.first
   end
 
 end

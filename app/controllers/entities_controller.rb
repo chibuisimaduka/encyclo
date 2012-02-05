@@ -2,6 +2,9 @@ class EntitiesController < ApplicationController
 
   respond_to :html, :json
   autocomplete :name, :value, :extra_data => ["names.entity_id"]
+
+  helper_method :entity_name
+  helper_method :raw_entity_name
   
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -23,7 +26,7 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       open_entity(@entity)
-      @entities = (@entity.entities + @entity.entities_by_definition).uniq
+      @entities = (@entity.entities.limit(100) + @entity.entities_by_definition).uniq
       params[:filter].each do |definition_id, vals|
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
@@ -98,6 +101,14 @@ class EntitiesController < ApplicationController
     redirect_to Entity.offset(rand(Entity.count)).first
   end
 
+  def entity_name(entity)
+    raw_entity_name(entity).pretty_value
+  end
+
+  def raw_entity_name(entity)
+    entity.names.find_by_language_id(current_language.id) || entity.names.first
+  end
+
 private
 
   def change_entity_parent(entity, parent_id)
@@ -108,6 +119,7 @@ private
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
     items = super(parameters).where(:language_id => current_language.id)
+    items.joins(:entity).select("entities.parent_id")
     params[:parent_id].blank? ? items : (items.joins(:entity).where("entities.parent_id" => params[:parent_id]) |
       items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
       items.joins(:entity => {:associated_associations => :definition}).where("association_definitions.associated_entity_id" => params[:parent_id]))
@@ -116,7 +128,8 @@ private
   def json_for_autocomplete(items, method, extra_data=[])
     all_names = items.map(&:value)
     items.collect do |n|
-      name = (all_names.index(n.value) != all_names.rindex(n.value) && !n.entity.parent.blank?) ? n.value + " (#{n.entity.parent.name})" : n.value
+      puts n.id
+      name = (all_names.index(n.value) != all_names.rindex(n.value) && !n.entity.parent_id.blank?) ? n.value + " (#{entity_name(n.entity.parent)})" : n.value
       {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120201154926) do
+ActiveRecord::Schema.define(:version => 20120205041759) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -64,7 +64,6 @@ ActiveRecord::Schema.define(:version => 20120201154926) do
   end
 
   create_table "entities", :force => true do |t|
-    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "rank"

@@ -25,7 +25,7 @@ class Entity < ActiveRecord::Base
   has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
   has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
 
-  has_many :names, :inverse_of => :entity
+  has_many :names, :inverse_of => :entity, :dependent => :destroy
 
   # ======== TODO: DEPRECATED ========
 

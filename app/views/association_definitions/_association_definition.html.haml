@@ -1,5 +1,5 @@
 .association_definition
-  = link_to (inversed ? association_definition.entity : association_definition.associated_entity).name, (inversed ? association_definition.entity : association_definition.associated_entity)
+  = link_to entity_name(inversed ? association_definition.entity : association_definition.associated_entity), (inversed ? association_definition.entity : association_definition.associated_entity)
   -# FIXME: The following does not work in both ways.
   = best_in_place association_definition, (inversed ? :associated_entity_has_many : :entity_has_many), type: :checkbox, collection: ["1", "N"]
   = best_in_place association_definition, (inversed ? :entity_has_many : :associated_entity_has_many), type: :checkbox, collection: ["O_1", "O_N"]

@@ -23,7 +23,7 @@ task :load_words => :environment do
   lang = Language.find_by_name("english")
   entity_word = Name.find_by_value_and_language_id("word", lang.id).entity
   File.open(ENV['SRC_FILE'], "r") do |infile|
-    while (word = infile.gets)
+    while (word = infile.gets.strip)
       entity = Entity.new(parent_id: entity_word.id)
       entity.names.build(language_id: lang.id, value: word)
       entity.save
