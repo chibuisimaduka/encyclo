@@ -30,3 +30,14 @@ task :load_words => :environment do
     end
   end
 end
+
+desc "Enter the years as entities."
+task :load_years => :environment do
+  lang = Language.find_by_name("english")
+  entity_year = Entity.find 49203
+  2100.times do |i|
+    entity = Entity.new(parent_id: entity_year.id)
+    entity.names.build(language_id: lang.id, value: i)
+    entity.save
+  end
+end
