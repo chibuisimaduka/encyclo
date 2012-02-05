@@ -16,3 +16,17 @@ task :load_entities => :environment do
     end
   end
 end
+
+desc "Create entities having the parent word based on words seperated by newlines."
+task :load_words => :environment do
+  raise "Missing SRC_FILE" unless ENV['SRC_FILE']
+  lang = Language.find_by_name("english")
+  entity_word = Name.find_by_value_and_language_id("word", lang.id).entity
+  File.open(ENV['SRC_FILE'], "r") do |infile|
+    while (word = infile.gets)
+      entity = Entity.new(parent_id: entity_word.id)
+      entity.names.build(language_id: lang.id, value: word)
+      entity.save
+    end
+  end
+end
