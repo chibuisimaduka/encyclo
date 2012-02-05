@@ -30,7 +30,7 @@
   |
   = link_to "Previous", @entity
   \----------
-  = join(@entity.map_all(:parent).reverse, " > ") do |e|
+  = join(@entity.map_all(:parent, false).reverse, " > ") do |e|
     = link_to_entity e
 #entity
   #entity_parents_by_definition

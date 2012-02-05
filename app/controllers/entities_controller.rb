@@ -102,6 +102,7 @@ class EntitiesController < ApplicationController
   end
 
   def entity_name(entity)
+    debugger if raw_entity_name(entity).blank?
     raw_entity_name(entity).pretty_value
   end
 
@@ -118,7 +119,7 @@ private
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
-    items = super(parameters).where(:language_id => current_language.id)
+    items = super(parameters).where("language_id = ? OR language_id = ?", current_language.id, Language::MAP[:universal].id)
     items.joins(:entity).select("entities.parent_id")
     params[:parent_id].blank? ? items : (items.joins(:entity).where("entities.parent_id" => params[:parent_id]) |
       items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
