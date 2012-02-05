@@ -5,10 +5,10 @@ module EntitiesHelper
     entity.map_all(:parent, false, &:association_definitions).each do |association_definition|
       associations_by_def[association_definition] = []
     end
-    entity.associations.each do |association|
+    entity.map_all(:parent, &:associations).each do |association|
       associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
     end
-    associations_by_def
+    associations_by_def.sort {|k,v| v.size }
   end
 
   def associated_associations_by_definition(entity)
@@ -16,10 +16,10 @@ module EntitiesHelper
     entity.map_all(:parent, false, &:associated_association_definitions).each do |association_definition|
       associations_by_def[association_definition] = []
     end
-    entity.associated_associations.each do |association|
+    entity.map_all(:parent, &:associated_associations).each do |association|
       associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
     end
-    associations_by_def
+    associations_by_def.sort {|k,v| v.size }
   end
 
   def join(array, separator=" ", &block)

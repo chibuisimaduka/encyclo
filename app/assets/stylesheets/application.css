@@ -22,6 +22,10 @@
   display: inline;
 }
 
+#entities {
+  border-top: 2px solid gray;
+}
+
 .document_description {
   color: black;
 }
