@@ -1,6 +1,5 @@
 class Entity < ActiveRecord::Base
   # ======== RELATIONS ========
-  #has_and_belongs_to_many :tags
   has_and_belongs_to_many :documents, :order => "rank DESC"
   
   belongs_to :parent, :class_name => "Entity", :inverse_of => :entities
@@ -26,17 +25,6 @@ class Entity < ActiveRecord::Base
   has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
 
   has_many :names, :inverse_of => :entity, :dependent => :destroy
-
-  # ======== TODO: DEPRECATED ========
-
-  #has_many :predicates, :inverse_of => :entity
-
-  #has_many :components, :inverse_of => :entity
-  #has_many :parent_components, :class_name => "Component", :foreign_key => "component_entity_id", :inverse_of => :component_entity
-
-  #has_many :references, :class_name => "EntityRef", :inverse_of => :entity, :include => [:predicate => :component]
-  
-  # ======== VALIDATIONS ========
 
   validate :validate_has_one_name
 
@@ -75,6 +63,10 @@ class Entity < ActiveRecord::Base
     self.map_all :parent do |a|
       (a.association_definitions || []) + (a.associated_association_definitions || [])
     end
+  end
+
+  def to_s
+    self.names.first.pretty_value
   end
 
 private

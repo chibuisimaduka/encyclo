@@ -6,5 +6,14 @@ class Association < ActiveRecord::Base
   validates_presence_of :entity_id
   validates_presence_of :associated_entity_id
   validates_presence_of :association_definition_id
-  
+
+  validate :valid_association
+
+private
+  def valid_association
+    if entity_id == associated_entity_id
+      errors.add(:associated_entity_id, "Cannot associated with itself.")
+    end
+  end
+
 end

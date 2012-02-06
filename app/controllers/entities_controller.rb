@@ -127,10 +127,10 @@ private
   end
 
   def json_for_autocomplete(items, method, extra_data=[])
-    all_names = items.map(&:value)
+    all_names = items.map {|e| e.value.downcase }
     items.collect do |n|
       puts n.id
-      name = (all_names.index(n.value) != all_names.rindex(n.value) && !n.entity.parent_id.blank?) ? n.value + " (#{entity_name(n.entity.parent)})" : n.value
+      name = (all_names.index(n.value.downcase) != all_names.rindex(n.value.downcase) && !n.entity.parent_id.blank?) ? n.value + " (#{entity_name(n.entity.parent)})" : n.value
       {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
   end
