@@ -1,5 +1,4 @@
-- entity = inversed ? association.entity : association.associated_entity
 .entity_name= link_to_entity entity
 %span.admin_buttons
   = link_to image_tag("delete_button.png"), entity, :method => :delete, :confirm => "Are you sure?"
-  = link_to image_tag("remove_button.png", :title => "#{entity_name(entity)} is not a #{entity_name(definition_entity)} for #{entity_name(entity_showed)}?"), association, method: :delete
+  = link_to image_tag("remove_button.png", :title => "#{entity_name(entity)} is not a #{entity_name(definition_entity)} for #{entity_name(entity_showed)}?"), association, method: :delete if association

@@ -4,13 +4,15 @@
   - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? entity_name(definition_entity).pluralize : entity_name(definition_entity)
   %span.association_definition_name= link_to name, definition_entity
   \:
-  - if associations.size > 0
+  - entities_associations_map = associations.map {|a| [inversed ? a.entity : a.associated_entity, a] }
+  - entities_associations_map += nested_entity_values(entity, definition.nested_entity, inversed ? definition.entity : definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
+  - if entities_associations_map.size > 0
     = toggle_block handle: "Expand.." do |not_expanded|
-      = show_more_records associations, handle: "See more..", limit: 3 do |association, is_more|
+      = show_more_records entities_associations_map, handle: "See more..", limit: 3 do |entity_association, is_more|
         - content_tag (is_more ? :div : :span) do
           - if not_expanded
-            = render partial: "associations/entity", locals: {inversed: inversed, entity_showed: entity, association: association, definition_entity: definition_entity}
+            = render partial: "associations/entity", locals: {entity: entity_association.first, entity_showed: entity, association: entity_association.second, definition_entity: definition_entity}
           - else
-            = render partial: inversed ? association.entity : association.associated_entity
+            = render partial: entity_association.first
 - if (inversed ? definition.associated_entity_has_many : definition.entity_has_many) || associations.blank?
   = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition, inversed: inversed}), "##{id}"

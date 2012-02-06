@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120205041759) do
+ActiveRecord::Schema.define(:version => 20120205232409) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20120205041759) do
     t.boolean  "associated_entity_has_many"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "nested_entity_id"
   end
 
   create_table "associations", :force => true do |t|

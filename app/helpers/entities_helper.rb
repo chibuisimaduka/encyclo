@@ -22,6 +22,17 @@ module EntitiesHelper
     associations_by_def.sort {|k,v| v.size }
   end
 
+  def nested_entity_values(entity, nested_entity, associated_entity)
+    entities = associations_for(entity, nested_entity)
+    (entities.map {|e| associations_for(e, associated_entity) }).flatten
+  end
+
+  def associations_for(entity, nested_entity)
+    associations = entity.associations.joins(:definition).where("association_definitions.associated_entity_id = ?", nested_entity.id)
+    (!associations.blank?) ? associations.map(&:associated_entity) :
+      entity.associated_associations.joins(:definition).where("association_definitions.entity_id = ?", nested_entity.id).map(&:entity)
+  end
+
   def join(array, separator=" ", &block)
     str = ""
     array.each do |e|

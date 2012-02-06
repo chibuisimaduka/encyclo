@@ -1,6 +1,10 @@
 .association_definition
-  = link_to entity_name(inversed ? association_definition.entity : association_definition.associated_entity), (inversed ? association_definition.entity : association_definition.associated_entity)
+  = link_to_entity(inversed ? association_definition.entity : association_definition.associated_entity)
   -# FIXME: The following does not work in both ways.
-  = best_in_place association_definition, (inversed ? :associated_entity_has_many : :entity_has_many), type: :checkbox, collection: ["1", "N"]
-  = best_in_place association_definition, (inversed ? :entity_has_many : :associated_entity_has_many), type: :checkbox, collection: ["O_1", "O_N"]
-  %span.admin_area= link_to "Del", association_definition, method: :delete
+  = best_in_place association_definition, (inversed ? :associated_entity_has_many : :entity_has_many), type: :checkbox, collection: ["One", "Many"]
+  \/
+  = best_in_place association_definition, (inversed ? :entity_has_many : :associated_entity_has_many), type: :checkbox, collection: ["One", "Many"]
+  - if association_definition.nested_entity
+    Through
+    = link_to_entity(association_definition.nested_entity) 
+  %span.admin_area= link_to "Del", association_definition, method: :delete, :confirm => "Are you sure?"

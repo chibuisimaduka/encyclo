@@ -7,9 +7,4 @@ class Association < ActiveRecord::Base
   validates_presence_of :associated_entity_id
   validates_presence_of :association_definition_id
   
-  attr_accessor :inversed
-
-  def other_entity
-    inversed ? self.entity : self.associated_entity
-  end
 end
