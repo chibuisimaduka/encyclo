@@ -23,14 +23,23 @@ module EntitiesHelper
   end
 
   def nested_entity_values(entity, nested_entity, associated_entity)
-    entities = associations_for(entity, nested_entity)
-    (entities.map {|e| associations_for(e, associated_entity) }).flatten
+    entities = nested_entities_for(entity, nested_entity)
+    (entities.map {|e| nested_entities_for(e, associated_entity) }).flatten
   end
 
-  def associations_for(entity, nested_entity)
-    associations = entity.associations.joins(:definition).where("association_definitions.associated_entity_id = ?", nested_entity.id)
-    (!associations.blank?) ? associations.map(&:associated_entity) :
-      entity.associated_associations.joins(:definition).where("association_definitions.entity_id = ?", nested_entity.id).map(&:entity)
+  def nested_entities_for(entity, nested_entity)
+    if (nested_nested_entity = definition_for(entity, nested_entity).nested_entity)
+       (nested_entities_for(entity, nested_nested_entity).map {|e| nested_entities_for(e, nested_entity) }).flatten
+    else
+      associations = entity.associations.joins(:definition).where("association_definitions.associated_entity_id = ?", nested_entity.id)
+      (!associations.blank?) ? associations.map(&:associated_entity) :
+        entity.associated_associations.joins(:definition).where("association_definitions.entity_id = ?", nested_entity.id).map(&:entity)
+    end
+  end
+
+  def definition_for(entity, nested_entity)
+    association_definition = entity.map_all(:parent, &:association_definitions).select {|a| a.associated_entity_id == nested_entity.id }
+    (association_definition.blank? ? (entity.map_all(:parent, &:associated_association_definitions).select {|a| a.entity_id == nested_entity.id }) : association_definition).first
   end
 
   def join(array, separator=" ", &block)
