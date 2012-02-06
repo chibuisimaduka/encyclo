@@ -28,7 +28,7 @@ module EntitiesHelper
   end
 
   def nested_entities_for(entity, nested_entity)
-    if (nested_nested_entity = definition_for(entity, nested_entity).nested_entity)
+    if ((nested_def = definition_for(entity, nested_entity)) && (nested_nested_entity = nested_def.nested_entity))
        (nested_entities_for(entity, nested_nested_entity).map {|e| nested_entities_for(e, nested_entity) }).flatten
     else
       associations = entity.associations.joins(:definition).where("association_definitions.associated_entity_id = ?", nested_entity.id)
