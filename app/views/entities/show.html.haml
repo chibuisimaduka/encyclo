@@ -45,7 +45,7 @@
   #documents= render partial: @entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
-  = link_to "Create a document", new_document_path
+  = link_to "Create a document", new_document_path(entity_id: @entity.id)
   #associations
     - associations_by_definition(@entity).each do |definition, associations|
       .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: false}

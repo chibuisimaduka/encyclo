@@ -1,0 +1,25 @@
+%h1 Create a document
+= form_for @document do |f|
+  #new_doc_name
+    Name:
+    = f.text_field :name
+
+  #new_doc_about
+    About:
+    = hidden_field_tag :entity_id, @entity ? @entity.id : '', id: "document_entity_id"
+    = autocomplete_field_tag :document_entity_name, @entity ? entity_name(@entity) : '', autocomplete_name_value_entities_path, size: 40, id: "new_document_entity_name_field", id_element: "#document_entity_id"
+
+  Document type:
+  = select :document, :document_type_id, (DocumentType::ALL.map{|d| [d.name, d.id] })
+
+  = f.hidden_field :source, value: Document::SOURCE_ENCYCLO
+  = f.hidden_field :language_id, value: current_language.id
+
+  #new_doc_description_text Description:
+  #new_doc_description_field= f.text_area :description, :size => "60x6"
+
+  #new_doc_content_text Content:
+  #new_doc_content_field= f.text_area :content, :size => "60x27"
+
+  #new_doc_submit_button
+    = f.submit "Create document"

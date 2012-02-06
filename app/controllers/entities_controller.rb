@@ -2,9 +2,6 @@ class EntitiesController < ApplicationController
 
   respond_to :html, :json
   autocomplete :name, :value, :extra_data => ["names.entity_id"]
-
-  helper_method :entity_name
-  helper_method :raw_entity_name
   
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -99,15 +96,6 @@ class EntitiesController < ApplicationController
 
   def random
     redirect_to Entity.offset(rand(Entity.count)).first
-  end
-
-  def entity_name(entity)
-    debugger if raw_entity_name(entity).blank?
-    raw_entity_name(entity).pretty_value
-  end
-
-  def raw_entity_name(entity)
-    entity.names.find_by_language_id(current_language.id) || entity.names.first
   end
 
 private

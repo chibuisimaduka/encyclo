@@ -9,6 +9,18 @@ class ApplicationController < ActionController::Base
   helper_method :language_filter
   helper_method :current_language
 
+  # FIXME: REALLY UGLY. SHOULD NOT BE HERE. ( entity_name )
+  helper_method :entity_name
+  helper_method :raw_entity_name
+
+  def entity_name(entity)
+    raw_entity_name(entity).pretty_value
+  end
+
+  def raw_entity_name(entity)
+    entity.names.find_by_language_id(current_language.id) || entity.names.first
+  end
+
   private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
