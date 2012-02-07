@@ -56,7 +56,7 @@
   #refine_document_filter
     Filter by document type:
     = best_in_place_filter documents_filter, :document_type_id, (DocumentType::ALL.map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
-  #documents= render partial: @entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)[0..(@printer.num_documents - 1)]
+  #documents= render partial: (@entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes).keep_if {|d| !destroyable_deleted?(d)})[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path(entity_id: @entity.id)

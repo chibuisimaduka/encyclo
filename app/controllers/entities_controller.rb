@@ -2,7 +2,7 @@ class EntitiesController < ApplicationController
 
   respond_to :html, :json
   autocomplete :name, :value, :extra_data => ["names.entity_id"]
-  
+
   def index
     @entities = Entity.where("parent_id IS NULL")
   end
@@ -24,7 +24,7 @@ class EntitiesController < ApplicationController
 
       open_entity(@entity)
       @entities = @entity.subentities.limit(100) | @entity.entities_by_definition
-      @entities.delete_if {|e| entity_deleted?(e) }
+      @entities.delete_if {|e| destroyable_deleted?(e) }
       params[:filter].each do |definition_id, vals|
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
@@ -100,12 +100,6 @@ class EntitiesController < ApplicationController
     redirect_to Entity.offset(rand(Entity.count)).first
   end
 
-  def entity_deleted?(entity)
-    return false unless entity.delete_request
-    entity.delete_request.concurring_users.include?(current_user) || (!entity.delete_request.opposing_users.include?(current_user) &&
-      (entity.delete_request.concurring_users.length - entity.delete_request.opposing_users.length) > 3)
-  end
-
 private
 
   def change_entity_parent(entity, parent_id)
@@ -134,6 +128,12 @@ private
   def open_entity(entity)
     opened_entities[entity.id] = true
     open_entity(entity.parent) if entity.parent
+  end
+
+  def destroyable_deleted?(destroyable)
+    return false unless destroyable.delete_request
+    destroyable.delete_request.concurring_users.include?(current_user) || (!destroyable.delete_request.opposing_users.include?(current_user) &&
+      (destroyable.delete_request.concurring_users.length - destroyable.delete_request.opposing_users.length) > 3)
   end
 
 end

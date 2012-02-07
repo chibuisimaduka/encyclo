@@ -1,4 +1,5 @@
 class Entity < ActiveRecord::Base
+ 
   # ======== RELATIONS ========
   has_and_belongs_to_many :documents, :order => "rank DESC"
   
