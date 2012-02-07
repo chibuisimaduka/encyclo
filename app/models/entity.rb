@@ -10,8 +10,6 @@ class Entity < ActiveRecord::Base
   has_many :sources
   has_many :images
 
-  has_many :subentities
-
   has_many :association_definitions, :inverse_of => :entity, :dependent => :destroy
   has_many :associated_association_definitions, :class_name => "AssociationDefinition", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
 
@@ -27,6 +25,14 @@ class Entity < ActiveRecord::Base
   has_many :names, :inverse_of => :entity, :dependent => :destroy
 
   validate :validate_has_one_name
+
+  def component_entities
+    self.entities.where(:is_component => true)
+  end
+
+  def subentities
+    self.entities.where(:is_component => false)
+  end
 
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
