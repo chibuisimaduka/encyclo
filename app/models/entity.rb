@@ -24,16 +24,17 @@ class Entity < ActiveRecord::Base
 
   has_many :names, :inverse_of => :entity, :dependent => :destroy
 
-  has_many :components
+  has_many :components, :inverse_of => :entity
+  belongs_to :component, :inverse_of => :entities
 
   validate :validate_has_one_name
 
   def component_entities
-    self.entities.where(:is_component => true)
+    self.entities.where("component_id IS NOT NULL")
   end
 
   def subentities
-    self.entities.where(:is_component => false)
+    self.entities.where("component_id IS NULL")
   end
 
   def suggested_rating(ranking_elements)
@@ -71,6 +72,10 @@ class Entity < ActiveRecord::Base
     self.map_all :parent do |a|
       (a.association_definitions || []) + (a.associated_association_definitions || [])
     end
+  end
+
+  def is_component?
+    !self.component_id.blank?
   end
 
   def to_s

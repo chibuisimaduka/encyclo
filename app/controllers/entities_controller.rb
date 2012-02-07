@@ -23,7 +23,7 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       open_entity(@entity)
-      @entities = (@entity.entities.limit(100) | @entity.entities_by_definition).uniq
+      @entities = (@entity.subentities.limit(100) | @entity.entities_by_definition).uniq
       params[:filter].each do |definition_id, vals|
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?

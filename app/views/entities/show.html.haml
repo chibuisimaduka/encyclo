@@ -16,10 +16,18 @@
     = render partial: @entity.components
     = render partial: "components/form", locals: {entity: @entity}
   #components
-    Components: (FIXME)
-    = render partial: @entity.map_all(:parent, &:components)
+    Components:
+    - unless @entity.is_component?
+      - for component in @entity.map_all(:parent, false, &:components)
+        .component_value
+          - if (entity = component.entities.find_by_parent_id(@entity.id))
+            = link_to_entity entity
+          - else
+            %span.missing= link_to entity_name(component.associated_entity), entities_path(entity: {:parent_id => @entity.id, "names[][language_id]" => current_language.id,
+              "names[][value]" => entity_name(component.associated_entity), :component_id => component.id}, :show => true), method: :posth
   #refine_entity_search
     - if !@entity.association_definitions.blank? || !@entity.associated_association_definitions.blank?
+      Refine further :
       = form_tag(entity_path(@entity), method: :get) do
         = render partial: "association_definitions/refine_form", locals: {inversed: false}
         = render partial: "association_definitions/refine_form", locals: {inversed: true}
