@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207161241) do
+ActiveRecord::Schema.define(:version => 20120207163633) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20120207161241) do
     t.integer  "parent_id"
     t.boolean  "is_leaf"
     t.integer  "component_id"
+    t.integer  "user_id"
   end
 
   create_table "entity_refs", :force => true do |t|

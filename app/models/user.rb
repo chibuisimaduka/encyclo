@@ -4,14 +4,19 @@ class User < ActiveRecord::Base
 
   has_many :ratings
 
+  has_many :entities, :inverse_of => :user
+
   attr_accessor :password
   before_save :encrypt_password
 
+  validate :valid_password, :on => :create
   validates_confirmation_of :password
-  validates_presence_of :password, :on => :create
+
   validates_presence_of :email
   validates_uniqueness_of :email, :scope => :is_ip_address
   validates_inclusion_of :is_ip_address, :in => [false, true]
+  
+  validate :valid_password
 
   def encrypt_password
     if password.present?
@@ -26,6 +31,13 @@ class User < ActiveRecord::Base
       user
     else
       nil
+    end
+  end
+
+private
+  def valid_password
+    unless is_ip_address
+      validates_presence_of :password
     end
   end
 

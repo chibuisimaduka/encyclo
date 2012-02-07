@@ -27,6 +27,11 @@ class Entity < ActiveRecord::Base
   has_many :components, :inverse_of => :entity
   belongs_to :component, :inverse_of => :entities
 
+  # ========== USER RELATED STUFF ============
+
+  belongs_to :user, :inverse_of => :entities
+  validates_presence_of :user_id
+
   validate :validate_has_one_name
 
   def component_entities
