@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120205232409) do
+ActiveRecord::Schema.define(:version => 20120207002312) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -30,15 +30,6 @@ ActiveRecord::Schema.define(:version => 20120205232409) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_implicit"
-  end
-
-  create_table "components", :force => true do |t|
-    t.integer  "entity_id"
-    t.integer  "component_entity_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "is_many"
-    t.integer  "component_type"
   end
 
   create_table "document_types", :force => true do |t|
@@ -73,11 +64,6 @@ ActiveRecord::Schema.define(:version => 20120205232409) do
     t.boolean  "is_leaf"
   end
 
-  create_table "entities_tags", :id => false, :force => true do |t|
-    t.integer "entity_id"
-    t.integer "tag_id"
-  end
-
   create_table "entity_refs", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -101,11 +87,6 @@ ActiveRecord::Schema.define(:version => 20120205232409) do
     t.string   "image"
   end
 
-  create_table "images_tags", :id => false, :force => true do |t|
-    t.integer "image_id"
-    t.integer "tag_id"
-  end
-
   create_table "languages", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -125,14 +106,6 @@ ActiveRecord::Schema.define(:version => 20120205232409) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "value"
-  end
-
-  create_table "predicates", :force => true do |t|
-    t.integer  "component_id"
-    t.string   "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "entity_id"
   end
 
   create_table "ratings", :force => true do |t|
@@ -156,13 +129,6 @@ ActiveRecord::Schema.define(:version => 20120205232409) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_many"
-  end
-
-  create_table "tags", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "entity_id"
   end
 
   create_table "users", :force => true do |t|
