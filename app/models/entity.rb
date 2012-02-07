@@ -24,6 +24,8 @@ class Entity < ActiveRecord::Base
 
   has_many :names, :inverse_of => :entity, :dependent => :destroy
 
+  has_many :components
+
   validate :validate_has_one_name
 
   def component_entities

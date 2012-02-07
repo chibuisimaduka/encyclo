@@ -20,7 +20,8 @@ Encyclo::Application.routes.draw do
   end
 
   resources :documents
-  resources :subentities
+
+  resources :components
 
   resources :associations
   resources :association_definitions
