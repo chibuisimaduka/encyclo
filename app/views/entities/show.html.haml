@@ -19,10 +19,11 @@
     Components: (FIXME)
     = render partial: @entity.map_all(:parent, &:components)
   #refine_entity_search
-    = form_tag(entity_path(@entity), method: :get) do
-      = render partial: "association_definitions/refine_form", locals: {inversed: false}
-      = render partial: "association_definitions/refine_form", locals: {inversed: true}
-      = submit_tag "Refine"
+    - if !@entity.association_definitions.blank? || !@entity.associated_association_definitions.blank?
+      = form_tag(entity_path(@entity), method: :get) do
+        = render partial: "association_definitions/refine_form", locals: {inversed: false}
+        = render partial: "association_definitions/refine_form", locals: {inversed: true}
+        = submit_tag "Refine"
   -#browse_entities
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}

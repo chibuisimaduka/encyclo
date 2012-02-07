@@ -1,17 +1,18 @@
-= form_for(AssociationDefinition.new) do |f|
-  .fields
-    = f.hidden_field :entity_id, :value => entity.id, id: "def_entity_id"
-
-    Many?
-    = f.check_box :entity_has_many
-    Other many?
-    = f.check_box :associated_entity_has_many
-
-    = f.hidden_field :associated_entity_id, id: "def_associated_entity_id"
-    = autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_definition_associated_entity_field", id_element: "#def_associated_entity_id"
-
-    Through
-    = f.hidden_field :nested_entity_id, id: "def_nested_entity_id"
-    = autocomplete_field_tag :nested_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_definition_nested_entity_field", id_element: "#def_nested_entity_id"
-  .actions
-    = f.submit "Add definition"
+= toggle_visibility handle: "Add" do
+  = form_for(AssociationDefinition.new) do |f|
+    .fields
+      = f.hidden_field :entity_id, :value => entity.id, id: "def_entity_id"
+  
+      Many?
+      = f.check_box :entity_has_many
+      Other many?
+      = f.check_box :associated_entity_has_many
+  
+      = f.hidden_field :associated_entity_id, id: "def_associated_entity_id"
+      = autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_definition_associated_entity_field", id_element: "#def_associated_entity_id"
+  
+      Through
+      = f.hidden_field :nested_entity_id, id: "def_nested_entity_id"
+      = autocomplete_field_tag :nested_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_definition_nested_entity_field", id_element: "#def_nested_entity_id"
+    .actions
+      = f.submit "Add definition"
