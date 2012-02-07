@@ -27,7 +27,7 @@ class Entity < ActiveRecord::Base
   has_many :components, :inverse_of => :entity
   belongs_to :component, :inverse_of => :entities
 
-  has_one :delete_request, :inverse_of => :entity
+  has_one :delete_request, :inverse_of => :entity, :dependent => :destroy
 
   belongs_to :user, :inverse_of => :entities
   validates_presence_of :user_id

@@ -4,6 +4,6 @@
   - elsif entity.delete_request.opposing_users.include?(current_user)
     = link_to "[cancel oppose delete]", remove_opposing_user_delete_request_path(entity.delete_request), method: :put
   - else
-    = link_to "[delete]", add_concurring_user_delete_request_path(entity.delete_request), method: :put
+    = link_to image_tag("delete_button.png"), add_concurring_user_delete_request_path(entity.delete_request), method: :put
     = link_to "[oppose delete]", add_opposing_user_delete_request_path(entity.delete_request), method: :put
 = link_to image_tag("delete_button.png"), delete_requests_path(:entity_id => entity.id), method: :post, :confirm => "Are you sure?"
