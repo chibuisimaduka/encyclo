@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
   private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_or_create_by_email_and_is_ip_address(request.remote_ip, true)
   end
 
   def listing_type

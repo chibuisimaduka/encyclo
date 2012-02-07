@@ -1,6 +1,7 @@
 %h1 Sign Up
 
 = form_for @user do |f|
+  = f.hidden_field :is_ip_address, :value => false
   %p
     = f.label :email
     %br
