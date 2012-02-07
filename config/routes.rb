@@ -19,6 +19,8 @@ Encyclo::Application.routes.draw do
 	 end
   end
 
+  resources :delete_requests
+
   resources :documents
 
   resources :components

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207163633) do
+ActiveRecord::Schema.define(:version => 20120207182547) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -35,6 +35,18 @@ ActiveRecord::Schema.define(:version => 20120207163633) do
   create_table "components", :force => true do |t|
     t.integer  "entity_id"
     t.integer  "associated_entity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "concurring_users_delete_requests", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "delete_request_id"
+  end
+
+  create_table "delete_requests", :force => true do |t|
+    t.integer  "entity_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -108,6 +120,11 @@ ActiveRecord::Schema.define(:version => 20120207163633) do
     t.integer  "entity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "opposing_users_delete_requests", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "delete_request_id"
   end
 
   create_table "predicate_items", :force => true do |t|

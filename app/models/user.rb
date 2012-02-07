@@ -15,6 +15,10 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email, :scope => :is_ip_address
   validates_inclusion_of :is_ip_address, :in => [false, true]
+
+  has_many :delete_requests, :inverse_of => :user
+  has_and_belongs_to_many :concurring_delete_requests, :class_name => "DeleteRequest", :join_table => "concurring_users_delete_requests"
+  has_and_belongs_to_many :opposing_delete_requests, :class_name => "DeleteRequest", :join_table => "opposing_users_delete_requests"
   
   validate :valid_password
 
