@@ -8,6 +8,15 @@ namespace :wolf do
     puts "Succesfully saved to #{filename}"
   end
 
+  desc "Destroy any invalid record. You must update the list of models though."
+  task :clean => :environment do
+    [Name, Entity, Document].each do |model|
+      model.all.each do |record|
+        record.destroy unless record.valid?
+      end
+    end
+  end
+
   namespace :predicates do
     
     task :remove_invalid_values => :environment do

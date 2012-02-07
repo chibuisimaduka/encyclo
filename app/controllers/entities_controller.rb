@@ -23,7 +23,8 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       open_entity(@entity)
-      @entities = (@entity.subentities.limit(100) | @entity.entities_by_definition).uniq
+      @entities = @entity.subentities.limit(100) | @entity.entities_by_definition
+      @entities.delete_if {|e| entity_deleted?(e) }
       params[:filter].each do |definition_id, vals|
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
@@ -58,6 +59,7 @@ class EntitiesController < ApplicationController
     else
       name_attrs = params[:entity].delete(:names)[0]# There should be a method that creates the associated entity with the hash.
       @entity = Entity.new(params[:entity])
+      @entity.user_id = current_user.id
       @entity.names.build(name_attrs)
       @entity.save!
       if params[:show]
@@ -98,6 +100,12 @@ class EntitiesController < ApplicationController
     redirect_to Entity.offset(rand(Entity.count)).first
   end
 
+  def entity_deleted?(entity)
+    return false unless entity.delete_request
+    entity.delete_request.concurring_users.include?(current_user) || (!entity.delete_request.opposing_users.include?(current_user) &&
+      (entity.delete_request.concurring_users.length - entity.delete_request.opposing_users.length) > 3)
+  end
+
 private
 
   def change_entity_parent(entity, parent_id)
@@ -118,7 +126,7 @@ private
     all_names = items.map {|e| e.value.downcase }
     items.collect do |n|
       puts n.id
-      name = (all_names.index(n.value.downcase) != all_names.rindex(n.value.downcase) && !n.entity.parent_id.blank?) ? n.value + " (#{entity_name(n.entity.parent)})" : n.value
+      name = (all_names.index(n.value.downcase) != all_names.rindex(n.value.downcase) && !n.entity.parent.blank?) ? n.value + " (#{entity_name(n.entity.parent)})" : n.value
       {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
   end

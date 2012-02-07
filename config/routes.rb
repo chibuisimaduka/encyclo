@@ -19,7 +19,14 @@ Encyclo::Application.routes.draw do
 	 end
   end
 
-  resources :delete_requests
+  resources :delete_requests do
+    member do
+      put 'add_concurring_user'
+      put 'add_opposing_user'
+      put 'remove_concurring_user'
+      put 'remove_opposing_user'
+    end
+  end
 
   resources :documents
 
