@@ -2,14 +2,13 @@ class DeleteRequest < ActiveRecord::Base
 
   attr_accessible #none
 
-  belongs_to :entity, :inverse_of => :delete_request
+  belongs_to :destroyable, :inverse_of => :delete_request, :polymorphic => true
 
   has_and_belongs_to_many :concurring_users, :class_name => "User", :join_table => "concurring_users_delete_requests"
   has_and_belongs_to_many :opposing_users, :class_name => "User", :join_table => "opposing_users_delete_requests" 
 
-  validates_presence_of :entity_id
-
-  validates_uniqueness_of :entity_id
+  validates_presence_of :destroyable_id
+  validates_uniqueness_of :destroyable_id, :scope => :destroyable_type
 
   validate :consistent_users, :still_valid
 

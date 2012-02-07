@@ -12,6 +12,8 @@ class Document < ActiveRecord::Base
 
   validates_uniqueness_of :name
 
+  has_one :delete_request, :inverse_of => :destroyable, :dependent => :destroy, :as => :destroyable
+
   belongs_to :document_type
   belongs_to :language
 

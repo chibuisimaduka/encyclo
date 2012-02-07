@@ -8,6 +8,7 @@ Encyclo::Application.routes.draw do
   resources :entities do
     resources :sources
     resources :images
+    resources :delete_requests, :only => :create
     collection do
       get :autocomplete_name_value
       get 'search'
@@ -28,7 +29,9 @@ Encyclo::Application.routes.draw do
     end
   end
 
-  resources :documents
+  resources :documents do
+    resources :delete_requests, :only => :create
+  end 
 
   resources :components
 

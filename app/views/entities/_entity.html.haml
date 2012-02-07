@@ -14,7 +14,7 @@
           = best_in_place (entity.rating_for(current_user) || Rating.new(entity_id: entity.id, user_id: current_user.id)), :value, html_attrs: {size: 1}, path: {:controller => "ratings", :action => "update", :id => entity.id}, type: :select, collection: [[0.0, "Unkown"], [1.0, "1"], [2.0, "2"], [3.0, "3"], [4.0, "4"], [5.0, "5"], [6.0, "6"], [7.0, "7"], [8.0, "8"], [9.0, "9"], [10.0, "10"]]
           -#= best_in_place (entity.rating_for(current_user) || Rating.new(entity_id: entity.id, user_id: current_user.id, id: 99999)), :value, html_attrs: {size: 1}, nil: "-"
       %span.users_ranking>= entity.ratings.blank? ? "No user votes yet." : "#{entity.rank} from #{entity.ratings.size} users."
-    = render partial: "delete_requests/link", locals: {entity: entity}
+    = render partial: "delete_requests/link", locals: {destroyable: entity}
     - if listing_type.show_documents
       - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
       = render :partial => documents.first unless documents.blank?

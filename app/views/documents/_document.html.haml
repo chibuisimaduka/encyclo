@@ -1,5 +1,5 @@
 = content_tag_for :div, document do
   .document_name= link_to document.name, document.source, class: "document_name"
   .document_type= best_in_place document, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, [nil, "Unkown"])
-  = link_to image_tag("delete_button.png"), document, method: :delete
+  = render partial: "delete_requests/link", locals: {destroyable: document}
   .description= link_to document.description[0..200] + "...", document.source, class: "document_description", title: document.source
