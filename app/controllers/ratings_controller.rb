@@ -3,17 +3,17 @@ class RatingsController < ApplicationController
   respond_to :html, :json
 
   def update
-    @rating = Rating.find_or_initialize_by_entity_id_and_user_id(params[:id], current_user.id)
-    @record = @rating.record
+    @rankable = find_polymorphic_association
+    @rating = @rankable.ratings.find_or_initialize_by_user_id(current_user.id)
     value = params[:rating][:value].to_f
-    updated_rank = ((@record.rank || 0) * @record.ratings.size) - (@rating.value || 0) + value
-    if value == 0.0 && @rating.persisted?
-      @record.ratings.delete(@rating)
-      @record.update_attribute :rank, (@record.ratings.size == 0) ? nil : updated_rank / @record.ratings.size
-      respond_with Rating.new(entity_id: @record.id, user_id: current_user.id)
-    else
-      @record.update_attribute :rank, updated_rank / (@rating.persisted? ? @record.ratings.size : @record.ratings.size + 1)
-      @rating.persisted? ? @rating.update_attribute(:value, value) : @rating.value = value; @rating.save!
+    updated_rank = ((@rankable.rank || 0) * @rankable.ratings.size) - (@rating.value || 0) + value
+    if params[:rating][:value] == "null" && @rating.persisted?
+      @rankable.ratings.delete(@rating)
+      @rankable.update_attribute :rank, (@rankable.ratings.size == 0) ? nil : updated_rank / @rankable.ratings.size
+      respond_with Rating.new(rankable_id: @rankable.id, user_id: current_user.id)
+    elsif params[:rating][:value] != "null"
+      @rankable.update_attribute :rank, updated_rank / @rankable.ratings.size
+      @rating.persisted? ? @rating.update_attributes(value: value) : @rating.value = value; @rating.save!
       respond_with @rating
     end
   end

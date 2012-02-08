@@ -21,7 +21,18 @@ class ApplicationController < ActionController::Base
     entity.names.find_by_language_id(current_language.id) || entity.names.first
   end
 
-  private
+protected
+  
+  def find_polymorphic_association
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return $1.classify.constantize.find(value)
+      end
+    end
+    nil
+  end
+
+private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
     @current_user ||= User.find_or_create_by_email_and_is_ip_address(request.remote_ip, true)

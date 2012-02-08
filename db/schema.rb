@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207224643) do
+ActiveRecord::Schema.define(:version => 20120208152758) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -141,6 +141,8 @@ ActiveRecord::Schema.define(:version => 20120207224643) do
     t.float    "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "rankable_id"
+    t.string   "rankable_type"
   end
 
   create_table "sources", :force => true do |t|

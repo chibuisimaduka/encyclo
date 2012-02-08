@@ -7,7 +7,7 @@ class Entity < ActiveRecord::Base
   has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id, :inverse_of => :parent
   
   has_many :entity_similarities
-  has_many :ratings
+  has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
   has_many :sources
   has_many :images
 

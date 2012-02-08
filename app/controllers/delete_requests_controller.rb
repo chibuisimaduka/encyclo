@@ -1,7 +1,7 @@
 class DeleteRequestsController < ApplicationController
 
   def create
-    @destroyable = find_destroyable
+    @destroyable = find_polymorphic_association
     @delete_request = @destroyable.build_delete_request
     @delete_request.concurring_users << current_user
     @delete_request.save!
@@ -36,12 +36,4 @@ class DeleteRequestsController < ApplicationController
 	 redirect_to :back
   end
 
-  def find_destroyable
-    params.each do |name, value|
-      if name =~ /(.+)_id$/
-        return $1.classify.constantize.find(value)
-      end
-    end
-    nil
-  end
 end
