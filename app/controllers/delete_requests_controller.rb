@@ -4,6 +4,7 @@ class DeleteRequestsController < ApplicationController
     @destroyable = find_polymorphic_association
     @delete_request = @destroyable.build_delete_request
     @delete_request.concurring_users << current_user
+    @delete_request.deleted = true if @delete_request.considered_deleted?
     @delete_request.save!
 	 redirect_to :back
   end
@@ -18,14 +19,14 @@ class DeleteRequestsController < ApplicationController
   def remove_opposing_user
     @delete_request = DeleteRequest.find(params[:id])
     @delete_request.opposing_users.delete(current_user)
-    # TODO: Delete destroyable if most thinks it should
+    @delete_request.update_attribute :deleted, true if @delete_request.considered_deleted?
 	 redirect_to :back
   end
 
   def add_concurring_user
     @delete_request = DeleteRequest.find(params[:id])
     @delete_request.concurring_users << current_user
-    # TODO: Delete destroyable if most thinks it should
+    @delete_request.update_attribute :deleted, true if @delete_request.considered_deleted?
 	 redirect_to :back
   end
   
