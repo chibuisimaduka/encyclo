@@ -63,7 +63,7 @@ module EntitiesHelper
     #out = is_link ? link_to(best_in_place_name, entity, remote: true, format: :js) : best_in_place_name
     out << exception_star("This is the english name. Click to enter the french name.") unless name.language_id == current_language.id
     out << (content_tag :span, :id => "rename_#{name.id}" do
-      image_tag("edit_button.png")
+      "&nbsp".html_safe + image_tag("edit_button.png")
     end)
     raw out
   end
