@@ -8,8 +8,8 @@
     = render :partial => "subentities/form", :locals => {:entity => @entity}
   #association_definitions
     Association definitions:
-    = render partial: @entity.association_definitions, locals: {inversed: false}
-    = render partial: @entity.associated_association_definitions, locals: {inversed: true}
+    = render partial: @entity.association_definitions.keep_if {|a| !destroyable_deleted?(a) }, locals: {inversed: false}
+    = render partial: @entity.associated_association_definitions.keep_if {|a| !destroyable_deleted?(a) }, locals: {inversed: true}
     = render :partial => "association_definitions/form", :locals => {:entity => @entity}
   #components_definitions
     Components definitions:

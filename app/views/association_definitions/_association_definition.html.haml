@@ -7,4 +7,4 @@
   - if association_definition.nested_entity
     Through
     = link_to_entity(association_definition.nested_entity) 
-  %span.admin_area= link_to "Del", association_definition, method: :delete, :confirm => "Are you sure?"
+  = render partial: "delete_requests/link", locals: {destroyable: association_definition}

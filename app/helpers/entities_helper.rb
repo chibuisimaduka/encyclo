@@ -9,6 +9,7 @@ module EntitiesHelper
       associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless destroyable_deleted?(association)
     end
     associations_by_def.sort {|k,v| v.size }
+    associations_by_def.keep_if {|k,v| !destroyable_deleted?(k) }
   end
 
   def associated_associations_by_definition(entity)
@@ -20,6 +21,7 @@ module EntitiesHelper
       associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless destroyable_deleted?(association)
     end
     associations_by_def.sort {|k,v| v.size }
+    associations_by_def.keep_if {|k,v| !destroyable_deleted?(k) }
   end
 
   def nested_entity_values(entity, nested_entity, associated_entity)
