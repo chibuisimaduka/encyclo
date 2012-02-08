@@ -17,7 +17,7 @@
 }
 
 .entity_name, .entity_name a {
-  font-size: 16px;
+  font-size: 18px;
   color: #E98C08;
   display: inline;
 }
@@ -32,11 +32,6 @@
 
 .rating {
   font-size: 12px;
-}
-
-.document_name {
-  font-size: 14px;
-  color: #E08400;
 }
 
 .document_type {
@@ -128,8 +123,8 @@ body {
 
 .best_in_place {
   background-color: #fffb8f;
+  cursor: hand;
 }
-
 
 .best_in_place[data-activator] {
   background-color: white;

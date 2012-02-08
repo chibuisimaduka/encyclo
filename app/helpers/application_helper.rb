@@ -26,6 +26,18 @@ module ApplicationHelper
     raw out
   end
 
+  def hover_block(&block)
+    content_tag :span, :class => "hover_block", &block
+  end
+
+  def hover_key(&block)
+    content_tag :span, :class => "hover_block_key", &block
+  end
+
+  def hover_value(&block)
+    content_tag :span, :class => "hover_block_value", &block
+  end
+
   def toggle_visibility(options={}, &block)
     toggle_block({visible: false}.merge(options)) do |visible|
       visible ? capture(&block) : ""

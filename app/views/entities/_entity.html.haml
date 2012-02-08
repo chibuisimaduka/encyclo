@@ -3,9 +3,12 @@
   - if showing_image
     .listing_image= image_tag entity.images.first.image_url(:thumb).to_s
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
-    %span.entity_name= best_in_place_entity_name(entity, true)
-    = render partial: "ratings/rankable", locals: {rankable: entity}
-    = render partial: "delete_requests/link", locals: {destroyable: entity}
-    - if listing_type.show_documents
-      - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
-      = render :partial => documents.first unless documents.blank?
+    = hover_block do
+      = hover_key do
+        %span.entity_name= best_in_place_entity_name(entity, true)
+        = render partial: "ratings/rankable", locals: {rankable: entity}
+        = hover_value do
+          = render partial: "delete_requests/link", locals: {destroyable: entity}
+      - if listing_type.show_documents
+        - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
+        = render :partial => documents.first unless documents.blank?
