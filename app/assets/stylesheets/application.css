@@ -39,21 +39,8 @@
   color: #E08400;
 }
 
-.tag_box, .tag_box_clicked {
-  border-style: groove;
-  border-width: 2px;
-  border-color: gray;
-}
-
-.tag_box_clicked {
-  background-color: #cfcfcf;
-}
-
 .document_type {
   display: inline;
-  border-style: groove;
-  border-width: 2px;
-  border-color: silver;
   background-color: #fffb8f;
 }
 

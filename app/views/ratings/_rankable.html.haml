@@ -2,5 +2,4 @@
   %span.current_user_ranking
     - rating = (rating_for(rankable) || Rating.new(id: 99999, rankable_id: rankable.id, user_id: current_user.id))
     = best_in_place rating, :value, html_attrs: {size: 1}, path: polymorphic_path([rankable, :rating]), type: :select, collection: [["null", "Unkown"], [1.0, "1"], [2.0, "2"], [3.0, "3"], [4.0, "4"], [5.0, "5"], [6.0, "6"], [7.0, "7"], [8.0, "8"], [9.0, "9"], [10.0, "10"]], nil: "Rate"
-    -#= best_in_place (rankable.rating_for(current_user) || Rating.new(rankable_id: rankable.id, user_id: current_user.id, id: 99999)), :value, html_attrs: {size: 1}, nil: "-"
-%span.users_ranking>= rankable.ratings.blank? ? "No user votes yet." : "#{rankable.rank} from #{rankable.ratings.size} users."
+-#%span.users_ranking>= rankable.ratings.blank? ? "No user votes yet." : "#{rankable.rank} from #{rankable.ratings.size} users."
