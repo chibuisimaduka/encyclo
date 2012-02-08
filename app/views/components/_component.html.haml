@@ -1,3 +1,3 @@
 = content_tag_for :div, component do
   = link_to_entity component.associated_entity
-  = link_to image_tag("delete_button.png"), component, :method => :delete
+  = render partial: "delete_requests/link", locals: {destroyable: component}

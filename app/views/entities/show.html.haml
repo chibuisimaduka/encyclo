@@ -13,7 +13,7 @@
     = render :partial => "association_definitions/form", :locals => {:entity => @entity}
   #components_definitions
     Components definitions:
-    = render partial: @entity.components
+    = render partial: @entity.components.keep_if {|c| !destroyable_deleted?(c)}
     = render partial: "components/form", locals: {entity: @entity}
   #components
     Components:
