@@ -15,6 +15,8 @@ class Document < ActiveRecord::Base
 
   has_one :delete_request, :inverse_of => :destroyable, :dependent => :destroy, :as => :destroyable
 
+  has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
+
   belongs_to :document_type
   belongs_to :language
 

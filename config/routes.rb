@@ -9,7 +9,7 @@ Encyclo::Application.routes.draw do
     resources :sources
     resources :images
     resources :delete_requests, :only => :create
-    resources :ratings
+    resources :ratings, :only => :update
     collection do
       get :autocomplete_name_value
       get 'search'
@@ -32,6 +32,7 @@ Encyclo::Application.routes.draw do
 
   resources :documents do
     resources :delete_requests, :only => :create
+    resources :ratings, :only => :update
   end 
 
   resources :components do
