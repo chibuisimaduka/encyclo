@@ -6,4 +6,4 @@
   - else
     = link_to image_tag("delete_button.png"), add_concurring_user_delete_request_path(destroyable.delete_request), method: :put
     = link_to "[oppose delete]", add_opposing_user_delete_request_path(destroyable.delete_request), method: :put
-= link_to image_tag("delete_button.png"), [destroyable, :delete_requests], method: :post, :confirm => "Are you sure?"
+= link_to (local_assigns.has_key?(:link) && !link.blank? ? link : image_tag("delete_button.png")), [destroyable, :delete_requests], method: :post, :confirm => "Are you sure?"

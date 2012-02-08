@@ -3,6 +3,8 @@ class Association < ActiveRecord::Base
   belongs_to :associated_entity, :class_name => "Entity", :inverse_of => :associated_associations
   belongs_to :definition, :class_name => "AssociationDefinition", :foreign_key => "association_definition_id", :inverse_of => :associations
 
+  has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable
+
   validates_presence_of :entity_id
   validates_presence_of :associated_entity_id
   validates_presence_of :association_definition_id

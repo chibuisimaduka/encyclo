@@ -35,7 +35,9 @@ Encyclo::Application.routes.draw do
 
   resources :components
 
-  resources :associations
+  resources :associations do
+    resources :delete_requests, :only => :create
+  end
   resources :association_definitions
   
   resources :names

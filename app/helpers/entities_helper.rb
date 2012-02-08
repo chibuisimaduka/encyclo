@@ -6,7 +6,7 @@ module EntitiesHelper
       associations_by_def[association_definition] = []
     end
     entity.map_all(:parent, &:associations).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless destroyable_deleted?(association)
     end
     associations_by_def.sort {|k,v| v.size }
   end
@@ -17,7 +17,7 @@ module EntitiesHelper
       associations_by_def[association_definition] = []
     end
     entity.map_all(:parent, &:associated_associations).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless destroyable_deleted?(association)
     end
     associations_by_def.sort {|k,v| v.size }
   end
