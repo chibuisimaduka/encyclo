@@ -3,6 +3,8 @@ class EntitiesController < ApplicationController
   respond_to :html, :json
   autocomplete :name, :value, :extra_data => ["names.entity_id"]
 
+  helper_method :destroyable_deleted?
+
   def index
     @entities = Entity.where("parent_id IS NULL")
   end

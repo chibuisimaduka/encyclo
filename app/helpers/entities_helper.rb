@@ -62,7 +62,9 @@ module EntitiesHelper
     out = best_in_place(is_link ? BestInPlaceEntityLink.new(entity, name, self) : name, :value, {display_as: :pretty_value, activator: "#rename_#{name.id}", path: {:controller => :names, :action => :update, :entity_id => entity.id, :id => name.id}, object_name: :name})
     #out = is_link ? link_to(best_in_place_name, entity, remote: true, format: :js) : best_in_place_name
     out << exception_star("This is the english name. Click to enter the french name.") unless name.language_id == current_language.id
-    out << "<span id='rename_#{name.id}'>[e]</span>".html_safe
+    out << (content_tag :span, :id => "rename_#{name.id}" do
+      image_tag("edit_button.png")
+    end)
     raw out
   end
 
