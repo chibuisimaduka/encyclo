@@ -26,7 +26,8 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       open_entity(@entity)
-      @entities = @entity.subentities.limit(100) | @entity.entities_by_definition
+      # FIXME: Limit 250
+      @entities = @entity.subentities.limit(250) | @entity.entities_by_definition
       @entities.delete_if {|e| destroyable_deleted?(e) }
       params[:filter].each do |definition_id, vals|
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
@@ -34,6 +35,7 @@ class EntitiesController < ApplicationController
       end if params[:filter]
       
       @entities.sort_by {|e| r = rating_for(e); r ? r.value : 0 }
+      @entities = @entities.paginate(:page => params[:page])
       #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
     end
 

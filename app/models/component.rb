@@ -1,4 +1,7 @@
 class Component < ActiveRecord::Base
+ 
+  default_scope includes(:delete_request)
+
   belongs_to :entity, :inverse_of => :components
   belongs_to :associated_entity, :class_name => "Entity"
   has_many :entities, :inverse_of => :component

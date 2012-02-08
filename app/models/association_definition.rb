@@ -1,4 +1,7 @@
 class AssociationDefinition < ActiveRecord::Base
+ 
+  default_scope includes(:delete_request)
+
   belongs_to :entity, :inverse_of => :association_definitions
   belongs_to :associated_entity, :class_name => "Entity", :inverse_of => :associated_association_definitions
   belongs_to :nested_entity, :class_name => "Entity"

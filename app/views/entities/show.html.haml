@@ -66,8 +66,9 @@
     - associated_associations_by_definition(@entity).each do |definition, associations|
       .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: @entity, inversed: true}
   #entities
-    = rankable_list @entity, @entities, :limit => 20 do |entity|
-      = render :partial => entity
+    - for entity in @entities
+      = render partial: entity
+    = will_paginate @entities
   = render :partial => "entities/form", locals: {parent: @entity}
 #content_sidebar
   - @entity.images.each do |image|
