@@ -35,6 +35,8 @@ class Entity < ActiveRecord::Base
 
   validate :validate_has_one_name
 
+  self.per_page = 20
+
   def component_entities
     self.entities.where("component_id IS NOT NULL")
   end

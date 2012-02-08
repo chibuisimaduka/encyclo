@@ -127,6 +127,7 @@ GEM
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     whatlanguage (1.0.0)
+    will_paginate (3.0.3)
 
 PLATFORMS
   ruby
@@ -148,3 +149,4 @@ DEPENDENCIES
   sass-rails (~> 3.1.5)
   uglifier (>= 1.0.3)
   whatlanguage
+  will_paginate
