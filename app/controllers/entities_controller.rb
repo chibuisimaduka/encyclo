@@ -4,6 +4,7 @@ class EntitiesController < ApplicationController
   autocomplete :name, :value, :extra_data => ["names.entity_id"]
 
   helper_method :destroyable_deleted?
+  helper_method :rating_for
 
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -32,19 +33,8 @@ class EntitiesController < ApplicationController
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
       end if params[:filter]
       
-      if ranking_type == RankingType::USER
-        raise "TODO ranking user..."
-        @entities.delete_if {|e| !@ranking_elements.has_key?(e.id) }
-        @entities.sort_by {|e| @ranking_elements[e.id].rating }
-        if @entities.blank?
-          flash[:notice] = "You don't have ranked any entity yet.."
-          self.ranking_type = RankingType::TOP
-        end
-      elsif ranking_type == RankingType::SUGGESTED
-        raise "TODO ranking suggested..."
-        @entities.delete_if {|e| e.has_rating_for(current_user) }
-        @entities.sort_by {|e| e.suggested_rating(@entity.entities) }
-      end
+      @entities.sort_by {|e| r = rating_for(e); r ? r.value : 0 }
+      #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
     end
 
     @printer = PrettyPrinter.new(@entity)
@@ -100,6 +90,10 @@ class EntitiesController < ApplicationController
 
   def random
     redirect_to Entity.offset(rand(Entity.count)).first
+  end
+
+  def rating_for(rankable)
+    rankable.ratings.find_by_user_id(current_user.id)
   end
 
 private

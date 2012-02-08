@@ -55,10 +55,6 @@ class Entity < ActiveRecord::Base
     similarity_sum == 0.0 ? 0.0 : expected_rating / similarity_sum
   end
 
-  def rating_for(user)
-    self.ratings.find_by_user_id(user.id)
-  end
-
   def update_documents_from_sources
     one_created = false
     (self.ancestors + [self]).each do |e|
