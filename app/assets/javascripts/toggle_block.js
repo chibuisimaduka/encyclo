@@ -1,7 +1,7 @@
 $(document).ready(function() {
   $('.toggle_block_handle').click(function() {
-    toggleElements($(this).parent().children('.toggle_block_content'));
-    toggleElements($(this).parent().children('.toggled_block_content'));
+    toggleElements($(this).closest('.toggle_block').children('.toggle_block_content'));
+    toggleElements($(this).closest('.toggle_block').children('.toggled_block_content'));
   })
   $('.toggled_block_content').hide();
 });
