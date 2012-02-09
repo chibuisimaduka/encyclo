@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :concurring_delete_requests, :class_name => "DeleteRequest", :join_table => "concurring_users_delete_requests"
   has_and_belongs_to_many :opposing_delete_requests, :class_name => "DeleteRequest", :join_table => "opposing_users_delete_requests"
   
+  has_and_belongs_to_many :edit_requests, :join_table => "users_edit_requests"
+  
   validate :valid_password
 
   def encrypt_password

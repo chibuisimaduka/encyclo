@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209031309) do
+ActiveRecord::Schema.define(:version => 20120209160355) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -74,6 +74,13 @@ ActiveRecord::Schema.define(:version => 20120209031309) do
   create_table "documents_entities", :id => false, :force => true do |t|
     t.integer "document_id"
     t.integer "entity_id"
+  end
+
+  create_table "edit_requests", :force => true do |t|
+    t.integer  "editable_id"
+    t.string   "editable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "entities", :force => true do |t|
@@ -183,6 +190,11 @@ ActiveRecord::Schema.define(:version => 20120209031309) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_ip_address"
+  end
+
+  create_table "users_edit_requests", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "edit_request_id"
   end
 
 end
