@@ -7,6 +7,18 @@ class EditRequest < ActiveRecord::Base
   validates_presence_of :editable_id
   validates_presence_of :editable_type
 
+  def self.update(editable, user)
+    if (old_type = user.edit_requests.find_by_editable_type(editable.class.name))
+      old_type.agreeing_users.delete(user)
+      old_type.destroy unless old_type.valid?
+    end
+    if editable.edit_request
+      editable.edit_request.agreeing_users << user unless editable.edit_request.agreeing_users.include?(user)
+    else
+      editable.create_edit_request(:agreeing_users => [user])
+    end
+  end
+
 private
   def consistent_users
     agreeing_users.includes(:edit_requests => :agreeing_users).each do |user|
