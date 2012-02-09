@@ -1,7 +1,9 @@
 Encyclo::Application.routes.draw do
   get "sources/update"
 
-  get "images/create"
+  resources :images do
+    resources :ratings, :only => :update
+  end
 
   root :to => "home#index"
 

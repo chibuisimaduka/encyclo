@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120208221851) do
+ActiveRecord::Schema.define(:version => 20120209015745) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20120208221851) do
     t.datetime "updated_at"
     t.integer  "entity_id"
     t.string   "image"
+    t.float    "rank"
   end
 
   create_table "languages", :force => true do |t|
@@ -127,6 +128,13 @@ ActiveRecord::Schema.define(:version => 20120208221851) do
   create_table "opposing_users_delete_requests", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "delete_request_id"
+  end
+
+  create_table "possible_name_spellings", :force => true do |t|
+    t.string   "spelling"
+    t.integer  "name_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "predicate_items", :force => true do |t|
