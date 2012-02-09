@@ -1,5 +1,0 @@
-%div{:id => "#{entity_name(entity)}_ranking", :style => "display: inline;"}
-  = show_more_records(records, local_assigns.merge(class: listing_type == ListingType::EXPANDED ? "entity_expanded" : nil)) do |record|
-    = capture(record, &block)
-- if ranking_type == RankingType::USER && listing_type != ListingType::EXPANDED
-  = sortable_element("#{entity_name(entity)}_ranking", :url => sort_path(:elements => "#{entity.name}_ranking", :ranking_id => @ranking.id), :tag => :div, :scroll => "window")
