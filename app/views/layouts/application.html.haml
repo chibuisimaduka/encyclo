@@ -19,16 +19,6 @@
           #language_navigation
             Language:
             = best_in_place_filter language_filter, :id, (Language::ALL.map{|l| [l.id, l.name]}) - [Language::MAP[:universal]], "language_filter"
-        #user_nav
-          = link_to "Your ranking", set_ranking_type_path(:ranking_type => RankingType::USER), :method => :put
-          |
-          = link_to "Top ranking", set_ranking_type_path(:ranking_type => RankingType::TOP), :method => :put
-          |
-          = link_to "Suggestions", set_ranking_type_path(:ranking_type => RankingType::SUGGESTED), :method => :put
-          | ---------------- | 
-          = link_to "Entity List", set_listing_type_path(:listing_type => ListingType::ENTITY_LIST), :method => :put
-          |
-          = link_to "Expand", set_listing_type_path(:listing_type => ListingType::EXPANDED), :method => :put
       #left-sidebar
         #home_link_which_should_be_an_image
           = link_to "Home", root_path

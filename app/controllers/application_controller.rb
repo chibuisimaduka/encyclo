@@ -26,24 +26,6 @@ private
     @current_user ||= User.find_or_create_by_email_and_is_ip_address(request.remote_ip, true)
   end
 
-  def listing_type
-    @listing_type ||= (ListingType::LISTING_TYPES[session[:listing_type_id].to_s] or ListingType::ENTITY_LIST)
-  end
-
-  def listing_type=(listing_type)
-    @listing_type = listing_type
-	 session[:listing_type_id] = listing_type.id
-  end
-
-  def ranking_type
-    @ranking_type ||= session[:ranking_type].to_s
-  end
-
-  def ranking_type=(ranking_type)
-    @ranking_type = ranking_type
-    session[:ranking_type] = ranking_type
-  end
-
   def opened_entities
     session[:opened_entities] ||= {}
   end

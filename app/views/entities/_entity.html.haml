@@ -1,5 +1,5 @@
 .entity
-  - showing_image = listing_type.show_picture && !entity.images.blank? && !(local_assigns[:show_pictures] == false)
+  - showing_image = !entity.images.blank? && !(local_assigns[:show_pictures] == false)
   - if showing_image
     .listing_image= image_tag entity.images.first.image_url(:thumb).to_s
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
@@ -8,6 +8,5 @@
       = render partial: "ratings/rankable", locals: {rankable: entity}
       = hover_hidden do
         = render partial: "delete_requests/link", locals: {destroyable: entity}
-    - if listing_type.show_documents
-      - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
-      = render :partial => documents.first unless documents.blank?
+    - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
+    = render :partial => documents.first unless documents.blank?
