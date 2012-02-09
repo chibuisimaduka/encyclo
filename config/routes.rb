@@ -33,6 +33,7 @@ Encyclo::Application.routes.draw do
   end
 
   resources :documents do
+    resources :possible_document_types, :only => :create
     resources :delete_requests, :only => :create
     resources :ratings, :only => :update
   end 

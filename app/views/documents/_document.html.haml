@@ -1,7 +1,12 @@
 = content_tag_for :div, document do
   = hover_block do
     = hover_key do
-      .document_type= best_in_place document, :document_type_id, type: :select, collection: (DocumentType.all.sort_by(&:name).map{|d| [d.id, d.name] }).insert(0, [nil, "Unkown"])
+      .document_type
+        - handle = document.possible_document_types.blank? ? "Unknown" : document.possible_document_types.first.document_type.name
+        = toggle_visibility handle: handle, toggled_handle: "cancel" do
+          = form_for [document, PossibleDocumentType.new] do |f|
+            = select :possible_document_type, :document_type_id, DocumentType.all.sort_by(&:name).map{|d| [d.name, d.id] }, nil: "Unkown"
+            = f.submit "Set"
       .document_name= link_to document.name, document.source, class: "document_name"
       = render partial: "ratings/rankable", locals: {rankable: document}
       = hover_value do

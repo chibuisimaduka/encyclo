@@ -19,7 +19,8 @@ class Document < ActiveRecord::Base
 
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
 
-  belongs_to :document_type
+  has_many :possible_document_types, :inverse_of => :document
+
   belongs_to :language
 
   SOURCE_ENCYCLO = "http://www.encyclo.com"

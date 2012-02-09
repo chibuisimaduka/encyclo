@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209015745) do
+ActiveRecord::Schema.define(:version => 20120209031309) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -128,6 +128,13 @@ ActiveRecord::Schema.define(:version => 20120209015745) do
   create_table "opposing_users_delete_requests", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "delete_request_id"
+  end
+
+  create_table "possible_document_types", :force => true do |t|
+    t.integer  "document_id"
+    t.integer  "document_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "possible_name_spellings", :force => true do |t|
