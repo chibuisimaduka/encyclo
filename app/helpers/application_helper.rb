@@ -34,6 +34,10 @@ module ApplicationHelper
     content_tag :span, :class => "hover_block_hidden", &block
   end
 
+  def hover_shown(&block)
+    content_tag :span, :class => "hover_block_shown", &block
+  end
+
   def toggle_visibility(options={}, &block)
     toggle_block({visible: false}.merge(options)) do |visible|
       visible ? capture(&block) : ""
