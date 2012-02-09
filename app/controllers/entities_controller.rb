@@ -118,7 +118,7 @@ private
     all_names = items.map {|e| e.value.downcase }
     items.collect do |n|
       puts n.id
-      name = (all_names.index(n.value.downcase) != all_names.rindex(n.value.downcase) && !n.entity.parent.blank?) ? n.value + " (#{entity_name(n.entity.parent)})" : n.value
+      name = (all_names.index(n.value.downcase) != all_names.rindex(n.value.downcase) && !n.entity.parent.blank?) ? n.value + " (#{n.entity.parent.name(current_user, current_language)})" : n.value
       {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
   end

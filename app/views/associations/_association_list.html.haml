@@ -3,7 +3,8 @@
 - entities_associations_map += nested_entity_values(entity, definition.nested_entity, inversed ? definition.entity : definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
 .definition{id: id}
   - definition_entity = inversed ? definition.entity : definition.associated_entity
-  - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? entity_name(definition_entity).pluralize : entity_name(definition_entity)
+  - raw_name = definition_entity.name(current_user, current_language)
+  - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? raw_name.pluralize : raw_name
   %span.association_definition_name= link_to name, definition_entity
   \:
   - if entities_associations_map.size > 0
