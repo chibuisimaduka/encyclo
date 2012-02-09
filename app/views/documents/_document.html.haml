@@ -1,8 +1,8 @@
 = content_tag_for :div, document do
   = hover_block do
     .document_type
-      - handle = document.possible_document_types.blank? ? "Unknown" : document.possible_document_types.first.document_type.name
-      = toggle_visibility handle: handle, toggled_handle: "cancel" do
+      - document_type = document.possible_document_type(current_user)
+      = toggle_visibility handle: document_type ? document_type.document_type.name : "Unkown", toggled_handle: "cancel" do
         = form_for [document, PossibleDocumentType.new] do |f|
           = select :possible_document_type, :document_type_id, DocumentType.all.sort_by(&:name).map{|d| [d.name, d.id] }, nil: "Unkown"
           = f.submit "Set"
