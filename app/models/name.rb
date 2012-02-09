@@ -4,6 +4,8 @@ class Name < ActiveRecord::Base
   
   validates_presence_of :entity
   validates_presence_of :language
+
+  has_many :possible_name_spelling, :inverse_of => :name
   validates_presence_of :value
 
   validates_uniqueness_of :language_id, :scope => :entity_id
