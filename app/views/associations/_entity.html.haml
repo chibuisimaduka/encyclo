@@ -1,6 +1,2 @@
-= hover_block do
-  .entity_name= link_to_entity entity
-  = hover_shown do
-    ,
-  = hover_hidden do
-    %span.admin_buttons= render partial: "delete_requests/link", locals: {destroyable: association, link: image_tag("remove_button.png", :title => "#{entity.name(current_user, current_language)} is not a #{definition_entity.name(current_user, current_language)} for #{entity_showed.name(current_user, current_language)}?")} if association
+.entity_name= link_to_entity entity
+%span.admin_buttons= render partial: "delete_requests/link", locals: {destroyable: association, link: image_tag("remove_button.png", :title => "#{entity.name(current_user, current_language)} is not a #{definition_entity.name(current_user, current_language)} for #{entity_showed.name(current_user, current_language)}?")} if association

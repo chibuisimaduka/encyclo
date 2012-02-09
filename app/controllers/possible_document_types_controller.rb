@@ -12,7 +12,6 @@ class PossibleDocumentTypesController < ApplicationController
     else
       @possible_document_type.create_edit_request(:agreeing_users => [current_user])
     end
-    redirect_to :back
   end
 
 end
