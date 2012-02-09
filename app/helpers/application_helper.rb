@@ -30,12 +30,8 @@ module ApplicationHelper
     content_tag :span, :class => "hover_block", &block
   end
 
-  def hover_key(&block)
-    content_tag :span, :class => "hover_block_key", &block
-  end
-
-  def hover_value(&block)
-    content_tag :span, :class => "hover_block_value", &block
+  def hover_hidden(&block)
+    content_tag :span, :class => "hover_block_hidden", &block
   end
 
   def toggle_visibility(options={}, &block)
