@@ -11,15 +11,17 @@
 /* .class */
 /* #id */
 
-#entity_name {
-  font-size: 32;
-  font-weight: bold;
-}
-
 .entity_name, .entity_name a {
   font-size: 18px;
   color: #E98C08;
   display: inline;
+}
+
+#entity_name, #entity_name .best_in_place a {
+  font-size: 32;
+  font-weight: bold;
+  display: inline;
+  color: #E98C08;
 }
 
 #entities {
