@@ -50,7 +50,9 @@ Encyclo::Application.routes.draw do
     resources :delete_requests, :only => :create
   end
   
-  resources :names
+  resources :names do
+    resources :possible_name_spellings, :only => :create
+  end
 
   resources :tags do
     collection do
