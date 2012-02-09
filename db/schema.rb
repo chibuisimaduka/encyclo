@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209160355) do
+ActiveRecord::Schema.define(:version => 20120209194832) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(:version => 20120209160355) do
     t.datetime "updated_at"
     t.integer  "destroyable_id"
     t.string   "destroyable_type"
-    t.boolean  "destroyed"
   end
 
   create_table "document_types", :force => true do |t|

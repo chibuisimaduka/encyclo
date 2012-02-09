@@ -18,6 +18,7 @@ class DeleteRequest < ActiveRecord::Base
   end
 
   def self.alive_scope(destroyables, user=nil)
+    raise "FIXME: Destroyed is a dangerous attribute name since used by ActiveRecord"
     if user
       destroyables.joins(:delete_request => :concurring_users).where("delete_requests.destroyed = FALSE OR concurring_users_delete_requests.user_id = ?", user.id)
     else
