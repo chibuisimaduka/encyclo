@@ -6,6 +6,9 @@
     Subentities:
     = render partial: "subentities/subentity_link", collection: @entity.subentities
     = render :partial => "subentities/form", :locals => {:entity => @entity}
+  #refine_document_filter
+    Filter doc type:
+    = best_in_place_filter documents_filter, :document_type_id, (DocumentType::ALL.map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
   #association_definitions
     Association definitions:
     = render partial: @entity.association_definitions.keep_if {|a| !destroyable_deleted?(a) }, locals: {inversed: false}
@@ -53,9 +56,6 @@
   #entity_title
     #entity_name.entity_name= best_in_place_entity_name(@entity)
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  #refine_document_filter
-    Filter by document type:
-    = best_in_place_filter documents_filter, :document_type_id, (DocumentType::ALL.map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
   #documents= render partial: (@entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes).keep_if {|d| !destroyable_deleted?(d)})[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
