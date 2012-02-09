@@ -6,6 +6,12 @@ class RemoteDocumentProcessor
   require 'uri'
   require 'nokogiri'
 
+  ENGLISH_LANGUAGES_MAP = {
+    :english => Language::MAP[:english],
+    :french => Language::MAP[:francais],
+    :spanish => Language::MAP[:spanish]
+  }
+
   def initialize(document)
     raise "Can only process remote document" if document.local_document?
     @document = document
@@ -14,15 +20,15 @@ class RemoteDocumentProcessor
   def fetch
 	 url, @document.content = download(@document.source)
     @document.source = url
-    @document
+    self
   end
 
   def process
     @doc = Nokogiri::HTML(@document.content)
     @document.name = title_from_meta_tag || title_from_title_tag
     @document.description = description_from_meta_tag || description_from_first_paragraph || "No description.."
-    @document.language = Language.find_by_name(@document.description.language)
-    @document
+    @document.language = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym]
+    self
   end
 
   def self.create(entity, source)
