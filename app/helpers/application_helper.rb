@@ -15,11 +15,11 @@ module ApplicationHelper
     out = "<span class='toggle_block'>"
     if options[:handle] && options[:toggled_handle] 
       out << "<span class='toggle_block_content'>#{capture(visible, &block)}#{handle_element(options[:handle])}</span>"
-      out << "<span class='toggled_block_content'>#{capture(!visible, &block)}#{handle_element(options[:toggled_handle])}</span>"
+      out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}#{handle_element(options[:toggled_handle])}</span>"
     else
       handle = options[:handle] || options[:toggled_handle]
       out << "<span class='toggle_block_content#{handle ? "" : " toggle_block_handle"}'>#{capture(visible, &block)}</span>"
-      out << "<span class='toggled_block_content'>#{capture(!visible, &block)}</span>"
+      out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}</span>"
       out << handle_element(handle) if handle
     end
     out << "</span>"
@@ -31,7 +31,7 @@ module ApplicationHelper
   end
 
   def hover_hidden(&block)
-    content_tag :span, :class => "hover_block_hidden", &block
+    content_tag :span, {:style => "display: none;", :class => "hover_block_hidden"}, &block
   end
 
   def toggle_visibility(options={}, &block)
