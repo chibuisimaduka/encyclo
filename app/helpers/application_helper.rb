@@ -44,10 +44,6 @@ module ApplicationHelper
     end
   end
 
-  def rankable_list(entity, records, options={}, &block)
-    render :partial => "entities/rankable_list", :locals => {:entity => entity, :records => records, :block => block}.merge(options)
-  end
-
   def link_to_insert(name, content, selector)
     out = "<span class='link_to_insert'"
     out << " data-selector='#{selector}'"
