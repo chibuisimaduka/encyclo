@@ -36,10 +36,6 @@ private
     session[:opened_entities] ||= {}
   end
 
-  def language_filter
-    session[:language_filter] ||= default_language_filter
-  end
-
   def default_language_filter
     filterer = Filterer.new(:id)
     filterer.id = Language.find_by_name("english").id
@@ -51,6 +47,6 @@ private
   end
 
   def current_language
-    session[:current_language] = session[:current_language] ? (session[:current_language].id == language_filter.id ? session[:current_language] : Language.find(language_filter.id)) : Language.find_by_name("english")
+    session[:current_language] ||= Language.find_by_name("english")
   end
 end

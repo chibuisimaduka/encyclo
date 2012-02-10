@@ -78,7 +78,11 @@ Encyclo::Application.routes.draw do
   get "sign_up" => "users#new", :as => "sign_up"
 
   resources :users
-  resources :sessions
+  resources :sessions do
+    collection do
+      get "change_language"
+    end
+  end
 
   root :to => "home#index"
 

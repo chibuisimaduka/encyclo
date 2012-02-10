@@ -18,7 +18,11 @@
               = link_to "Sign up", sign_up_path
           #language_navigation
             Language:
-            = best_in_place_filter language_filter, :id, (Language::ALL.map{|l| [l.id, l.name]}) - [Language::MAP[:universal]], "language_filter"
+            = toggle_visibility handle: current_language.name, toggled_handle: "cancel" do
+              = form_tag change_language_sessions_path, method: :get do
+                = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
+                = submit_tag "Set"
+            -# {path: {controller: "sessions", action: "update", value_key: "filterer", session_key: session_key, id: "fixme"}}.
       #left-sidebar
         #home_link_which_should_be_an_image
           = link_to "Home", root_path
