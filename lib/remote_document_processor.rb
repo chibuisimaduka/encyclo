@@ -27,7 +27,7 @@ class RemoteDocumentProcessor
     @doc = Nokogiri::HTML(@document.content)
     @document.name = title_from_meta_tag || title_from_title_tag
     @document.description = description_from_meta_tag || description_from_first_paragraph || "No description.."
-    @document.language = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym]
+    @document.language_id = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym].id
     self
   end
 
