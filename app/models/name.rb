@@ -8,13 +8,25 @@ class Name < ActiveRecord::Base
   has_many :possible_name_spellings, :inverse_of => :name
 
   validates_uniqueness_of :language_id, :scope => :entity_id
-  validate :validate_name_uniqueness, :validate_universal_uniqueness
+  validate :validate_name_uniqueness, :validate_universal_uniqueness, :validate_has_possible_name_spellings
 
   def pretty_value
     self.value.split.map(&:capitalize).join(" ")
   end
+
+  def set_value(value, user)
+    @possible_name_spelling = self.possible_name_spellings.find_or_create_by_spelling(value)
+    EditRequest.update(@possible_name_spelling, @possible_name_spelling.name.possible_name_spellings, user)
+    self.update_attributes(value: EditRequest.probable_editable(self.possible_name_spellings, user).spelling)
+  end
   
 private
+
+  def validate_has_possible_name_spellings
+    unless possible_name_spellings.length > 0
+      raise "Need at least one possible name spelling."
+    end
+  end
 
   def validate_universal_uniqueness
     other_names = (self.entity.names - [self])

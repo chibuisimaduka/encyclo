@@ -20,10 +20,13 @@ class EditRequest < ActiveRecord::Base
     (editables_map.sort_by{|k,v| v}).last[0] unless editables_map.blank?
   end
 
-  def self.update(editable, user)
-    if (old_type = user.edit_requests.find_by_editable_type(editable.class.name))
-      old_type.agreeing_users.delete(user)
-      old_type.destroy unless old_type.valid?
+  def self.update(editable, editables, user)
+    deprecated_editables = editables.joins(:edit_request => :agreeing_users).where("users.id = ?", user.id) - [editable]
+    unless deprecated_editables.blank?
+      deprecated_editables.each do |e|
+        e.edit_request.agreeing_users.delete(user)
+        e.edit_request.destroy unless e.edit_request.valid?
+      end
     end
     if editable.edit_request
       editable.edit_request.agreeing_users << user unless editable.edit_request.agreeing_users.include?(user)

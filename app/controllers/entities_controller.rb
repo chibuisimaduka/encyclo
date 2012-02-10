@@ -53,7 +53,8 @@ class EntitiesController < ApplicationController
       name_attrs = params[:entity].delete(:names)[0]# There should be a method that creates the associated entity with the hash.
       @entity = Entity.new(params[:entity])
       @entity.user_id = current_user.id
-      @entity.names.build(name_attrs)
+      @name = @entity.names.build(language_id: current_language.id)
+      @name.set_value(params[:name], current_user)
       @entity.save!
       if params[:show]
         redirect_to @entity
