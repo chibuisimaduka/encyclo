@@ -14,10 +14,15 @@ class Name < ActiveRecord::Base
     self.value.split.map(&:capitalize).join(" ")
   end
 
-  def set_value(value, user)
-    @possible_name_spelling = self.possible_name_spellings.find_or_create_by_spelling(value)
-    EditRequest.update(@possible_name_spelling, @possible_name_spelling.name.possible_name_spellings, user)
-    self.update_attributes(value: EditRequest.probable_editable(self.possible_name_spellings, user).spelling)
+  def set_value(spelling, user)
+    @possible_name_spelling = self.possible_name_spellings.find_or_create_by_spelling(spelling)
+    EditRequest.update(@possible_name_spelling, self.possible_name_spellings, user)
+    if self.persisted?
+      self.update_attributes(value: EditRequest.probable_editable(self.possible_name_spellings, user).spelling)
+    else
+      self.value = spelling
+      self.save!
+    end
   end
   
 private

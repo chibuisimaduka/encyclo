@@ -35,7 +35,7 @@ class Entity < ActiveRecord::Base
   belongs_to :user, :inverse_of => :entities
   validates_presence_of :user_id
 
-  validate :validate_has_one_name
+  validate :validate_has_one_name, :validate_not_parent_of_itself
 
   self.per_page = 20
 
@@ -99,6 +99,10 @@ private
 
   def validate_has_one_name
     errors.add(:names, "An entity needs at leat one name.") unless self.names.length > 0
+  end
+
+  def validate_not_parent_of_itself
+    errors.add(:parent_id, "An entity can't be parent of itself") if self.id == parent_id
   end
 
 end

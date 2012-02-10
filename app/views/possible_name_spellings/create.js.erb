@@ -1,1 +1,1 @@
-$('#name_<%= @name.id %>').html('<%= j(render partial: "entities/name", locals: {entity: @name.entity}) %>');
+$('#name_<%= @name.id %>').html('<%= j(render partial: "entities/name", locals: {entity: @name.entity, link_entity: params[:link_entity]}) %>');

@@ -50,7 +50,6 @@ class EntitiesController < ApplicationController
       change_entity_parent(Entity.find(params[:entity_id]), params[:entity][:parent_id])
       redirect_to :back, :notice => 'Entity parent was succesfully changed.'
     else
-      name_attrs = params[:entity].delete(:names)[0]# There should be a method that creates the associated entity with the hash.
       @entity = Entity.new(params[:entity])
       @entity.user_id = current_user.id
       @name = @entity.names.build(language_id: current_language.id)
@@ -97,7 +96,7 @@ class EntitiesController < ApplicationController
 private
 
   def change_entity_parent(entity, parent_id)
-    entity.update_attribute :parent_id, parent_id
+    entity.update_attributes(parent_id: parent_id)
     opened_entities[entity.parent_id] = true
   end
 
