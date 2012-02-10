@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209194832) do
+ActiveRecord::Schema.define(:version => 20120210192229) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20120209194832) do
     t.integer  "entity_id"
     t.string   "image"
     t.float    "rank"
+    t.string   "source"
   end
 
   create_table "languages", :force => true do |t|
