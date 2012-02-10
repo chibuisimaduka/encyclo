@@ -2,6 +2,7 @@ Encyclo::Application.routes.draw do
   get "sources/update"
 
   resources :images do
+    resources :delete_requests, :only => :create
     resources :ratings, :only => :update
   end
 
