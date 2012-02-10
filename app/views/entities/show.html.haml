@@ -54,7 +54,7 @@
   #entity_parents_by_definition
     = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false}
   #entity_title
-    #entity_name= render partial: "name", locals: {entity: @entity}
+    #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
   #documents= render partial: (@entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes).keep_if {|d| !destroyable_deleted?(d)})[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"

@@ -2,7 +2,7 @@
 = content_tag_for :span, name do
   = toggle_block handle: image_tag("edit_button.png"), toggled_handle: "cancel" do |visible|
     - if visible
-      = entity.name(current_user, current_language)
+      = link_entity ? link_to_entity(entity) : entity.name(current_user, current_language)
     - else
       = form_for [name, PossibleNameSpelling.new], :remote => true, :format => :js do |f|
         = f.autocomplete_field :spelling, autocomplete_name_value_entities_path, :value => entity.name(current_user, current_language), :size => 12
