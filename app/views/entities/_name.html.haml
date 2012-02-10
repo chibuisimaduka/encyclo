@@ -1,10 +1,11 @@
 - name = entity.raw_name(current_language)
-= toggle_block handle: image_tag("edit_button.png"), toggled_handle: "cancel" do |visible|
-  - if visible
-    = entity.name(current_user, current_language)
-  - else
-    = form_for [name, PossibleNameSpelling.new] do |f|
-      = f.autocomplete_field :spelling, autocomplete_name_value_entities_path, :value => entity.name(current_user, current_language), :size => 12
-      = f.submit "Set"
-- unless name.language_id == current_language.id or name.language_id == Language::MAP[:universal].id
-  %span.exception_star{:title => 'This is the english name. Click to enter the french name.'}= "*"
+= content_tag_for :span, name do
+  = toggle_block handle: image_tag("edit_button.png"), toggled_handle: "cancel" do |visible|
+    - if visible
+      = entity.name(current_user, current_language)
+    - else
+      = form_for [name, PossibleNameSpelling.new], :remote => true, :format => :js do |f|
+        = f.autocomplete_field :spelling, autocomplete_name_value_entities_path, :value => entity.name(current_user, current_language), :size => 12
+        = f.submit "Set"
+  - unless name.language_id == current_language.id or name.language_id == Language::MAP[:universal].id
+    %span.exception_star{:title => 'This is the english name. Click to enter the french name.'}= "*"
