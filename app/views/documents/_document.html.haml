@@ -1,7 +1,7 @@
 = content_tag_for :div, document do
   = hover_block do
     .document_type
-      - document_type = document.possible_document_type(current_user)
+      - document_type = EditRequest.probable_editable(document.possible_document_types, current_user)
       = toggle_visibility handle: document_type ? document_type.document_type.name : "Unkown", toggled_handle: "cancel" do
         = form_for [document, PossibleDocumentType.new], format: :js, remote: true do |f|
           = select :possible_document_type, :document_type_id, DocumentType.all.sort_by(&:name).map{|d| [d.name, d.id] }, nil: "Unkown"

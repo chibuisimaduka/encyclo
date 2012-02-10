@@ -4,7 +4,6 @@ class EntitiesController < ApplicationController
   autocomplete :name, :value, :extra_data => ["names.entity_id"]
 
   helper_method :destroyable_deleted?
-  helper_method :rating_for
 
   def index
     @entities = Entity.where("parent_id IS NULL")
@@ -92,10 +91,6 @@ class EntitiesController < ApplicationController
 
   def random
     redirect_to Entity.offset(rand(Entity.count)).first
-  end
-
-  def rating_for(rankable)
-    rankable.ratings.find_by_user_id(current_user.id)
   end
 
 private

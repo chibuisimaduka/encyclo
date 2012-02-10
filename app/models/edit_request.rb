@@ -7,6 +7,19 @@ class EditRequest < ActiveRecord::Base
   validates_presence_of :editable_id
   validates_presence_of :editable_type
 
+  def self.user_editable(editables, user)
+    editables.joins(:edit_request => :agreeing_users).where("users.id = ?", user.id).first
+  end
+
+  def self.probable_editable(editables, user)
+    user_editable(editables, user) || most_agreed_editable(editables)
+  end
+
+  def self.most_agreed_editable(editables)
+    editables_map = Hash[editables.includes(:edit_request => :agreeing_users).map{|t| [t, t.edit_request.agreeing_users.length]}]
+    (editables_map.sort_by{|k,v| v}).last[0] unless editables_map.blank?
+  end
+
   def self.update(editable, user)
     if (old_type = user.edit_requests.find_by_editable_type(editable.class.name))
       old_type.agreeing_users.delete(user)

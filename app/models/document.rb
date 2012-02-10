@@ -29,12 +29,4 @@ class Document < ActiveRecord::Base
     self.source == SOURCE_ENCYCLO
   end
 
-  def possible_document_type(user)
-    possible_document_types.joins(:edit_request => :agreeing_users).where("users.id = ?", user.id).first || most_agreed_possible_document_type
-  end
-
-  def most_agreed_possible_document_type
-    doc_types = Hash[possible_document_types.includes(:edit_request => :agreeing_users).map{|t| [t, t.edit_request.agreeing_users.length]}]
-    (doc_types.sort_by{|k,v| v}).last[0] unless doc_types.blank?
-  end
 end

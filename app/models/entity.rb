@@ -85,10 +85,11 @@ class Entity < ActiveRecord::Base
   end
 
   def name(user, language)
-    raw_name(user, language).pretty_value
+    user_name = EditRequest.user_editable(raw_name(language).possible_name_spellings, user) 
+    user_name ? user_name.pretty_value : raw_name(language).pretty_value
   end
 
-  def raw_name(user, language)
+  def raw_name(language)
     raw_name = names.find_by_language_id(language.id)
     raw_name ||= names.find_by_language_id(Language::MAP[:english].id) unless language.id == Language::MAP[:english].id
     raw_name ||= names.first

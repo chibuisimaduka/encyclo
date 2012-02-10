@@ -5,20 +5,15 @@ class Name < ActiveRecord::Base
   validates_presence_of :entity
   validates_presence_of :language
 
-  has_many :possible_name_spelling, :inverse_of => :name
-  validates_presence_of :value
+  has_many :possible_name_spellings, :inverse_of => :name
 
   validates_uniqueness_of :language_id, :scope => :entity_id
   validate :validate_name_uniqueness, :validate_universal_uniqueness
-  
-  def to_s
-    self.value
-  end
 
   def pretty_value
     self.value.split.map(&:capitalize).join(" ")
   end
-
+  
 private
 
   def validate_universal_uniqueness

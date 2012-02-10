@@ -60,6 +60,17 @@ namespace :wolf do
 
   namespace :entities do
 
+    task :names => :environment do
+      user = User.find_by_email("webmaster")
+      raise "Need a valid user" if user.blank?
+      Entity.all.each do |e|
+        e.names.each do |n|
+          possible_name_spelling = n.possible_name_spellings.find_or_create_by_spelling(n.value)
+          EditRequest.update(possible_name_spelling, user)
+        end
+      end
+    end
+
     task :set_is_leaf => :environment do
       Entity.all.each do |e|
         e.update_attribute :is_leaf, e.entities.blank?
