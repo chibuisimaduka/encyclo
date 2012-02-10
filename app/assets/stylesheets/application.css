@@ -173,6 +173,14 @@ body {
   cursor: hand;
 }
 
+.editable {
+  display: inline;
+}
+
+.editable .toggle_block_handle {
+  background-color: #fffb8f;
+}
+
 .definition {
   display: inline;
 }

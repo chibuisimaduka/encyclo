@@ -47,6 +47,13 @@ class Entity < ActiveRecord::Base
     self.entities.where("component_id IS NULL")
   end
 
+  def subentities_leaves
+    (self.subentities.map do |e|
+      es = e.subentities.limit(250)
+      es.blank? ? e : e.subentities_leaves
+    end).flatten
+  end
+
   def suggested_rating(ranking_elements)
     expected_rating = 0.0
     similarity_sum = 0.0
