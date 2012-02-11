@@ -51,7 +51,8 @@ private
         @entity.documents << doc
         return @entity.save
       end
-      processor.process 
+      @document.language_id = current_language.id
+      processor.process
     end
     attrs = @document.attributes
     attrs.delete_if {|k,v| v.blank?}

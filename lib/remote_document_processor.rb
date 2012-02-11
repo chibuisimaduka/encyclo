@@ -6,11 +6,12 @@ class RemoteDocumentProcessor
   require 'uri'
   require 'nokogiri'
 
-  ENGLISH_LANGUAGES_MAP = {
+  ENGLISH_LANGUAGES_MAP = Hash.new {|hash, key| Language::MAP[key]}
+  ENGLISH_LANGUAGES_MAP.merge({
     :english => Language::MAP[:english],
     :french => Language::MAP[:francais],
     :spanish => Language::MAP[:spanish]
-  }
+  })
 
   def initialize(document)
     raise "Can only process remote document" if document.local_document?
@@ -27,7 +28,7 @@ class RemoteDocumentProcessor
     @doc = Nokogiri::HTML(@document.content)
     @document.name = title_from_meta_tag || title_from_title_tag
     @document.description = description_from_meta_tag || description_from_first_paragraph || "No description.."
-    @document.language_id = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym].id
+    #@document.language_id = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym].id
     self
   end
 
