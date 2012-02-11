@@ -1,1 +1,1 @@
-$('#name_<%= @name.id %>').html('<%= j(render partial: "entities/name", locals: {entity: @name.entity, link_entity: params[:link_entity]}) %>');
+$('#name_<%= @original_name.id %>').replaceWith('<%= j(render partial: "entities/name", locals: {entity: @name.entity, link_entity: params[:link_entity]}) %>');

@@ -3,8 +3,12 @@ class SessionsController < ApplicationController
   respond_to :html, :json
 
   def change_language
-    session[:current_language] = Language.find(params[:current_language][:id])
-    redirect_to :back
+    if params[:current_language].blank? || params[:current_language][:id].blank? || (lang = Language.find(params[:current_language][:id])).blank?
+      redirect_to :back, :notice => "Cannot change language: Invalid language given."
+    else
+      session[:current_language] = lang
+      redirect_to :back
+    end
   end
 
   def update
