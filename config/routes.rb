@@ -3,7 +3,7 @@ Encyclo::Application.routes.draw do
 
   resources :images do
     resources :delete_requests, :only => :create
-    resources :ratings, :only => :update
+    resources :ratings#, :only => :update
   end
 
   root :to => "home#index"
