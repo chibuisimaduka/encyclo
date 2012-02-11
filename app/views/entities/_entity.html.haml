@@ -3,7 +3,15 @@
   - if showing_image
     .listing_image
       = image_tag entity.images.first.image_url(:thumb).to_s unless entity.images.blank?
-      = render partial: "entities/add_image_form", locals: {entity: entity} if data_mode?
+      - if data_mode?
+        .add_image
+          = toggle_visibility handle: "Add an image.." do
+            = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
+              %p= f.file_field :image
+              %p
+                = f.label :remote_image_url, "or image URL"
+                = f.text_field :remote_image_url
+              %p= f.submit "Add image"
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
     = hover_block do
       %span.entity_name= render partial: "entities/name", locals: {entity: entity, link_entity: true}
