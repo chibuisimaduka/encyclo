@@ -30,10 +30,6 @@ private
     @current_user ||= User.find_or_create_by_email_and_is_ip_address(request.remote_ip, true)
   end
 
-  def opened_entities
-    session[:opened_entities] ||= {}
-  end
-
   def default_language_filter
     filterer = Filterer.new(:id)
     filterer.id = Language.find_by_name("english").id

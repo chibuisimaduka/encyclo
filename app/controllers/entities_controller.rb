@@ -5,10 +5,6 @@ class EntitiesController < ApplicationController
 
   helper_method :destroyable_deleted?
 
-  def index
-    @entities = Entity.where("parent_id IS NULL")
-  end
-
   def search
     goto_doc = params[:search_entity_name][0] == "=" || params["commit"] != "Search"
     name = params[:search_entity_name][0] == "=" ? params[:search_entity_name][1..-1].strip : params[:search_entity_name]
@@ -24,7 +20,6 @@ class EntitiesController < ApplicationController
     unless @entity.blank?
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
-      open_entity(@entity)
       # FIXME: Limit 250
       @entities = @entity.entities_by_definition | @entity.subentities_leaves
       @entities.delete_if {|e| destroyable_deleted?(e) }
@@ -75,16 +70,6 @@ class EntitiesController < ApplicationController
 	 redirect_to @entity.parent ? @entity.parent : root_path
   end
 
-  def toggle
-    @entity = Entity.find(params[:id])
-
-    if opened_entities[@entity.id]
-      (@entity.entities + [@entity]).each { |e| opened_entities.delete e.id }
-    else
-      opened_entities[params[:id].to_i] = true
-    end
-  end
-
   def change_parent
     change_entity_parent(Entity.find_or_create_by_name(params[:name]), params[:parent_id])
   end
@@ -116,11 +101,6 @@ private
       name = (all_names.index(n.value.downcase) != all_names.rindex(n.value.downcase) && !n.entity.parent.blank?) ? n.value + " (#{n.entity.parent.name(current_user, current_language)})" : n.value
       {"id" => n.entity.id.to_s, "label" => name, "value" => name}
     end
-  end
-
-  def open_entity(entity)
-    opened_entities[entity.id] = true
-    open_entity(entity.parent) if entity.parent
   end
 
   def destroyable_deleted?(destroyable)
