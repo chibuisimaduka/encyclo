@@ -12,22 +12,11 @@ class RatingsController < ApplicationController
       @rankable.update_attribute :rank, (@rankable.ratings.size == 0) ? nil : updated_rank / @rankable.ratings.size
       respond_with Rating.new(rankable_id: @rankable.id, user_id: current_user.id)
     elsif params[:rating][:value] != "null"
-      @rankable.update_attribute :rank, updated_rank / @rankable.ratings.size
-      @rating.persisted? ? @rating.update_attributes(value: value) : @rating.value = value; @rating.save!
+      if @rating.persisted? ? @rating.update_attributes(value: value) : @rating.value = value; @rating.save
+        @rankable.update_attributes(rank: updated_rank / @rankable.ratings.size)
+      end
       respond_with @rating
     end
-  end
-
-  def rank_up
-    raise "TODO"
-  end
-
-  def rank_down
-    raise "TODO"
-  end
-
-  def sort
-    raise "TODO"
   end
 
 end
