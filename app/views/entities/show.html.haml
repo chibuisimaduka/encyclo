@@ -8,7 +8,11 @@
     = render :partial => "subentities/form", :locals => {:entity => @entity}
   #refine_document_filter
     Filter doc type:
-    = best_in_place_filter documents_filter, :document_type_id, (DocumentType::ALL.map{|d| [d.id, d.name] }).insert(0, ['', "No filter"]), "documents_filter", nil: "No filter"
+    .editable
+      = toggle_visibility handle: document_type_filter ? document_type_filter.name : "none", toggled_handle: "cancel" do
+        = form_tag change_document_type_filter_sessions_path, method: :get do
+          = select :document_type_filter, :id, (DocumentType::ALL.map{|d| [d.name, d.id] }).insert(0, ["No filter", ''])
+          = submit_tag "Set"
   #association_definitions
     Association definitions:
     = render partial: @entity.association_definitions.keep_if {|a| !destroyable_deleted?(a) }, locals: {inversed: false}
@@ -56,7 +60,7 @@
   #entity_title
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  #documents= render partial: (@entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes).keep_if {|d| !destroyable_deleted?(d)})[0..(@printer.num_documents - 1)]
+  #documents= render partial: (@entity.documents.where(:language_id => current_language.id).where(document_type_filter.blank? ? {} : {:document_type_id => document_type_filter.id}).keep_if {|d| !destroyable_deleted?(d)})[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path(entity_id: @entity.id)

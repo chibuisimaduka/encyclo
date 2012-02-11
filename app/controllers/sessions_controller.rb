@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   respond_to :html, :json
 
   def change_language
-    if params[:current_language].blank? || params[:current_language][:id].blank? || (lang = Language.find(params[:current_language][:id])).blank?
+    if params[:current_language].blank? || params[:current_language][:id].blank? || (lang = (Language.find(params[:current_language][:id]) rescue nil)).blank?
       redirect_to :back, :notice => "Cannot change language: Invalid language given."
     else
       session[:current_language] = lang
@@ -11,10 +11,16 @@ class SessionsController < ApplicationController
     end
   end
 
-  def update
-    value = params[params[:value_key]]
-    session[params[:session_key]].update_attributes value
-    respond_with value
+  def change_document_type_filter
+    if params[:document_type_filter].blank? || params[:document_type_filter][:id].blank?
+      session[:document_type_filter] = nil
+      redirect_to :back
+    elsif (doc_type = (DocumentType.find(params[:document_type_filter][:id]) rescue nil)).blank?
+      redirect_to :back, :notice => "Cannot change document type: Invalid document type given."
+    else
+      session[:document_type_filter] = doc_type
+      redirect_to :back
+    end
   end
 
   def create

@@ -2,8 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   helper_method :current_user
-  helper_method :opened_entities
-  helper_method :documents_filter
+  helper_method :document_type_filter
   helper_method :current_language
   helper_method :data_mode?
 
@@ -30,14 +29,8 @@ private
     @current_user ||= User.find_or_create_by_email_and_is_ip_address(request.remote_ip, true)
   end
 
-  def default_language_filter
-    filterer = Filterer.new(:id)
-    filterer.id = Language.find_by_name("english").id
-    filterer
-  end
-
-  def documents_filter
-    session[:documents_filter] ||= Filterer.new(:language_id, :document_type_id)
+  def document_type_filter
+    session[:document_type_filter]
   end
 
   def current_language

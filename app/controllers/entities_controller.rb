@@ -28,7 +28,7 @@ class EntitiesController < ApplicationController
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
       end if params[:filter]
       
-      @entities = (@entities.sort_by {|e| r = rating_for(e); r ? r.value : 0 }).reverse
+      @entities = (@entities.sort_by {|e| r = rating_for(e); r ? r.value : 0 })
       @entities = @entities.paginate(:page => params[:page])
       #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
     end
