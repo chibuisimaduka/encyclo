@@ -3,11 +3,9 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :opened_entities
-  helper_method :listing_type
-  helper_method :ranking_type
   helper_method :documents_filter
-  helper_method :language_filter
   helper_method :current_language
+  helper_method :data_mode?
 
   helper_method :rating_for # FIXME: TMP
   
@@ -48,5 +46,9 @@ private
 
   def current_language
     session[:current_language] ||= Language.find_by_name("english")
+  end
+
+  def data_mode?
+    true
   end
 end

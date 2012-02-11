@@ -1,12 +1,20 @@
-.entity
-  - showing_image = !entity.images.blank? && !(local_assigns[:show_pictures] == false)
+= content_tag_for :div, entity do
+  - showing_image = (!entity.images.blank? && !(local_assigns[:show_pictures] == false)) || data_mode?
   - if showing_image
-    .listing_image= image_tag entity.images.first.image_url(:thumb).to_s
+    .listing_image
+      = image_tag entity.images.first.image_url(:thumb).to_s unless entity.images.blank?
+      = render partial: "entities/add_image_form", locals: {entity: entity} if data_mode?
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
     = hover_block do
-      %span.entity_name= render partial: "name", locals: {entity: entity, link_entity: true}
+      %span.entity_name= render partial: "entities/name", locals: {entity: entity, link_entity: true}
       = render partial: "ratings/rankable", locals: {rankable: entity}
       = hover_hidden do
         = render partial: "delete_requests/link", locals: {destroyable: entity}
     - documents = entity.documents.where(:language_id => current_language.id).where(documents_filter.attributes)
     = render :partial => documents.first unless documents.blank?
+    - if data_mode?
+      .document_form
+        = form_for(Document.new, :remote => true, :format => :js) do |f|
+          = f.text_field :source
+          = hidden_field_tag :entity_id, entity.id
+          = f.submit "Add document"

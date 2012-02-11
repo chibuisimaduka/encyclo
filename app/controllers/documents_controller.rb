@@ -21,12 +21,11 @@ class DocumentsController < ApplicationController
 
   def create
     @entity = Entity.find(params[:entity_id])
-	 @document = @entity.documents.build(params[:document])
-    RemoteDocumentProcessor.new(@document).fetch.process unless @document.local_document?
-    attrs = @document.attributes
-    attrs.delete_if {|k,v| v.blank?}
-    @entity.documents.create!(attrs)
-	 redirect_to @entity
+    create_document(params[:document])
+    respond_to do |format|
+      format.html { redirect_to @entity }
+      format.js
+    end
   end
 
   def destroy
@@ -34,6 +33,29 @@ class DocumentsController < ApplicationController
     entity = @document.entities.first
     @document.destroy
     redirect_to entity
+  end
+
+private
+  def create_document(doc_attrs)
+	 @document = Document.new(doc_attrs)
+    unless @document.local_document?
+      if (doc = Document.find_by_source(@document.source))
+        return doc if @entity.documents.include?(doc)
+        @entity.documents << doc
+        return @entity.save
+      end
+      processor = RemoteDocumentProcessor.new(@document).fetch
+      # Check again for the source because it might have been redirected.
+      if (doc = Document.find_by_source(@document.source))
+        return doc if @entity.documents.include?(doc)
+        @entity.documents << doc
+        return @entity.save
+      end
+      processor.process 
+    end
+    attrs = @document.attributes
+    attrs.delete_if {|k,v| v.blank?}
+    @entity.documents.create!(attrs)
   end
 
 end

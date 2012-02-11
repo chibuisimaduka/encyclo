@@ -1,6 +1,6 @@
 .add_image
   = toggle_visibility handle: "Add an image.." do
-    = form_for [@entity, Image.new], html: {multipart: true} do |f|
+    = form_for [entity, Image.new], html: {multipart: true} do |f|
       %p= f.file_field :image
       %p
         = f.label :remote_image_url, "or image URL"
