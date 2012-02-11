@@ -20,10 +20,40 @@ module Downloader
     end
   end
 
-  def scrap(uri_str, entity_name)
-    data = Scrubyt::Extractor.define do
-      fetch uri_str # FIXME: Will it call the good fetch method?
-    end
+  def download_images(html)
+    scrape_urls(html) { |url|
+      if IMAGE_FILE_EXTENSIONS.include?(extract_extension(url))
+        save_file(to_absolute_uri(original_uri, url))
+      end
+    }
+  end
+
+private
+  URL_ATTRIBUTES = ['href', 'src']
+  IMAGE_FILE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png', 'tiff']  
+
+  require 'hpricot'
+  require 'open-uri'
+
+  # Originaly FROM http://crunchlife.com/articles/2009/01/07/another-ruby-image-scraper
+  def scrape_urls(html)      
+    Hpricot.buffer_size = 262144
+    URL_ATTRIBUTES.each { |attribute|
+      Hpricot(html).search("[@#{attribute}]").map { |tag|
+        yield tag[attribute]
+      }
+    }
+  end
+
+  def to_absolute_uri(original_uri, url)
+    url = URI.parse(url)     
+    url = original_uri + url if url.relative?  
+    url.normalize        
+  end
+
+  def extract_extension(url)
+    index = url.rindex('.')
+    url[index..-1] if index
   end
 
 end
