@@ -1,28 +1,23 @@
-== TODO
+== TODOs
 
-- Endless page for entities.
-- Add all the links I have in chrome to the entities.
-- The entity navigation tree should show all entity parents but not all big cousins.
-- You should be able to filter by components.
-- The Matrix: actor: Keenu Reeves; You should see:
-  => actor: Keenu Reeves 
-  => Keenu Reeves: actor in The Matrix
+- Data consistency rules at the database level. (avoid duplicates at least)
+- Figure out the document types.
 
-== Features
+== Feature ideas
 
 - You can play songs you have and it will play them based on your ranking.
 The more you like it, it will be more played.
 
 - There is a "nostalgie" view where you are shown old things you used to like.
 
-- The search bar is hacker frendly. You can do more than simple search like in google:
+- The search bar is hacker frendly. You can do more than simple search like in google.
 Ex: string < ruby :doc
 string for entity named string
 smaller than ruby for child of ruby
 colon doc for seeing a documentation document
-Ex2: movie $type=action,comedy
+Ex2: movie $genre=action,comedy
 movie for seing a movie
-dollar type equals action and comedy for mathcing predicate type = action AND movie
+dollar genre equals action and comedy for mathcing predicate genre = action AND movie
 # The dollar is there for better autocomplete purposes.
 # You can also specify that you thrust Isaac.
 
@@ -30,41 +25,6 @@ dollar type equals action and comedy for mathcing predicate type = action AND mo
 
 A book is an entity and also a document for other entities.
 
-== Debugging Rails
-
-Sometimes your application goes wrong. Fortunately there are a lot of tools that
-will help you debug it and get it back on the rails.
-
-First area to check is the application log files. Have "tail -f" commands
-running on the server.log and development.log. Rails will automatically display
-debugging and runtime information to these files. Debugging info will also be
-shown in the browser on requests from 127.0.0.1.
-
-You can also log your own messages directly into the log file from your code
-using the Ruby logger class from inside your controllers. Example:
-
-  class WeblogController < ActionController::Base
-    def destroy
-      @weblog = Weblog.find(params[:id])
-      @weblog.destroy
-      logger.info("#{Time.now} Destroyed Weblog ID ##{@weblog.id}!")
-    end
-  end
-
-The result will be a message in your log file along the lines of:
-
-  Mon Oct 08 14:22:29 +1000 2007 Destroyed Weblog ID #1!
-
-More information on how to use the logger is at http://www.ruby-doc.org/core/
-
-== Console
-
-Options:
-
-* Passing the <tt>-s, --sandbox</tt> argument will rollback any modifications
-  made to the database.
-* Passing an environment name as an argument will load the corresponding
-  environment. Example: <tt>rails console production</tt>.
-
-To reload your controllers and models after launching the console run
-<tt>reload!</tt>
+== REMINDER
+Console options:
+* Passing the <tt>-s, --sandbox</tt> argument will rollback any modifications made to the database.

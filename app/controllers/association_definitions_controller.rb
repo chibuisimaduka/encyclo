@@ -10,7 +10,9 @@ class AssociationDefinitionsController < ApplicationController
 
   def create
     @association_definition = AssociationDefinition.new(params[:association_definition])
-    @association_definition.save!
+    if !@association_definition.save
+      flash[:notice] = "Error while creating the association definition."
+    end
     redirect_to :back
   end
 

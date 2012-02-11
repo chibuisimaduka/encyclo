@@ -49,12 +49,12 @@ class EntitiesController < ApplicationController
       @entity.user_id = current_user.id
       @name = @entity.names.build(language_id: current_language.id)
       @name.set_value(params[:name], current_user)
-      @entity.save!
-      if params[:show]
-        redirect_to @entity
+      if @entity.save
+        flash[:notice] = 'Entity was successfully created.'
       else
-        redirect_to :back, :notice => 'Entity was successfully created.'
+        flash[:notice] = 'An error has occured while creating the entity.'
       end
+      redirect_to params[:show] ? @entity : :back
     end
   end
 

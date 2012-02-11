@@ -3,7 +3,9 @@ class AssociationsController < ApplicationController
   
   def create
     @association = Association.new(params[:association])
-    @association.save!
+    if !@association.save
+      flash[:notice] = "Error while creating association"
+    end
     redirect_to :back
   end
 

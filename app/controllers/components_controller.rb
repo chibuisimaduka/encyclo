@@ -10,7 +10,9 @@ class ComponentsController < ApplicationController
 
   def create
     @component = Component.new(params[:component])
-    @component.save!
+    if !@component.save
+      flash[:notice] = "An error has occured while creating component"
+    end
     redirect_to :back
   end
 

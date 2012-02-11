@@ -21,7 +21,7 @@ class Name < ActiveRecord::Base
       self.update_attributes(value: EditRequest.probable_editable(self.possible_name_spellings, user).spelling)
     else
       self.value = spelling
-      self.save!
+      self.save
     end
   end
   
