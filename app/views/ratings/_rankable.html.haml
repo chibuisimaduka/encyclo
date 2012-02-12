@@ -3,21 +3,20 @@
   = content_tag_for :span, rating do
     = hover_block do
       .editable
-        = toggle_visibility_if rating.value.blank?, handle: "Rate", toggled_handle: "cancel" do
-          = form_for([rankable, rating], remote: true, format: :js) do
-            = toggle_block_if rating.persisted?, toggled_handle: "cancel" do |visible|
-              - if visible
-                = rating.value.to_i
-              - else
-                = select rating, :value, ((1..10).map {|i| [i.to_s, i.to_f + (rating.value.to_f % 1)] }), {}, :onchange => 'this.form.submit()'
-            %span>= "."
+        - onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"
+        = toggle_visibility_if rating.value.blank?, toggle_handle: "Rate", toggled_handle: "cancel" do
+          = toggle_block_if rating.persisted?, toggled_handle: "cancel", :show_not_visible => true do |visible|
+            - if visible
+              = rating.value.to_i
+            - else
+              = select rating, :value, ((1..10).map {|i| [i.to_s, i.to_f + (rating.value.to_f % 1)] }), {}, :onchange => onchange
+          %span>= "."
           - if rating.persisted?
-            = form_for([rankable, rating], remote: true, format: :js) do
-              = toggle_block_if rating.persisted?, toggled_handle: "cancel" do |visible|
-                - if visible
-                  = ((rating.value.to_f % 1) * 10).to_i
-                - else
-                  = select rating, :value, ((0..9).map {|i| [i.to_s, rating.value.to_i + (i.to_f/10)] }), {}, :onchange => 'this.form.submit()'
+            = toggle_block toggled_handle: "cancel" do |visible|
+              - if visible
+                = ((rating.value.to_f % 1) * 10).to_i
+              - else
+                = select rating, :value, ((0..9).map {|i| [i.to_s, rating.value.to_i + (i.to_f/10)] }), {}, :onchange =>  onchange
       = hover_hidden do
         - if rating.persisted?
           = link_to image_tag("remove_button.png"), rating, method: :delete
