@@ -46,12 +46,14 @@ module ApplicationHelper
     raw out
   end
 
-  def hover_block(&block)
-    content_tag :span, :class => "hover_block", &block
+  def hover_block(name=nil, &block)
+    content_tag :span, name ? {:class => "hover_block", :id => "hover_block_#{name}"} : {:class => "hover_block"}, &block
   end
 
-  def hover_hidden(&block)
-    content_tag :span, {:style => "display: none;", :class => "hover_block_hidden"}, &block
+  def hover_hidden(block_name=nil, &block)
+    options = {:style => "display: none;", :class => "hover_block_hidden"}
+    options[:block_id] = "hover_block_#{block_name}" if block_name
+    content_tag :span, options, &block
   end
 
   def toggle_visibility(options={}, &block)

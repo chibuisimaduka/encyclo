@@ -13,7 +13,7 @@
                 = f.text_field :remote_image_url
               %p= f.submit "Add image"
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
-    = hover_block do
+    = hover_block :entity_name do
       %span.entity_name= render partial: "entities/name", locals: {entity: entity, link_entity: true}
       = render partial: "ratings/rankable", locals: {rankable: entity}
       = hover_hidden do
