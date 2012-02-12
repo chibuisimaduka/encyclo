@@ -1,6 +1,6 @@
 class Entity < ActiveRecord::Base
  
-  default_scope includes([:ratings, :delete_request])
+  default_scope includes([:ratings, :delete_request, :documents])
 
   # ======== RELATIONS ========
   has_and_belongs_to_many :documents, :order => "rank DESC"
@@ -77,8 +77,8 @@ class Entity < ActiveRecord::Base
   end
 
   def entities_by_definition
-    (self.association_definitions.all(:include => [:associations => :entity]).map(&:associations).flatten.map(&:entity) +
-    self.associated_association_definitions.all(:include => [:associations => :associated_entity]).map(&:associations).flatten.map(&:associated_entity)).uniq
+    (self.association_definitions.all(:include => [:associations => {:entity => :documents}]).map(&:associations).flatten.map(&:entity) +
+    self.associated_association_definitions.all(:include => [:associations => {:associated_entity => :documents}]).map(&:associations).flatten.map(&:associated_entity)).uniq
   end
 
   def all_association_definitions

@@ -11,6 +11,7 @@
 - Add user favorites. (movie, song...)
 - Make many games in this site to encourage users to do stuff. Collect coins..
 - Cancel toggle_visibility by pressing the escape key.
+- A watchlist. A list of entities that the user wants to watch or is watching.
 
 == FIXMEs
 
