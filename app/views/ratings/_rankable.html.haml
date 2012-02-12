@@ -1,6 +1,6 @@
 - unless current_user.is_ip_address?
   - rating = (rating_for(rankable) || Rating.new(rankable_id: rankable.id, user_id: current_user.id))
-  = content_tag_for :span, rating do
+  = content_tag_for :span, rating, :rankable_id => rankable.id, :rankable_type => rankable.class.name do
     .editable
       - onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"
       = toggle_visibility_if rating.value.blank?, toggle_handle: "Rate", toggled_handle: "cancel" do
@@ -8,12 +8,12 @@
           - if visible
             = rating.value.to_i
           - else
-            = select rating, :value, ((1..10).map {|i| [i.to_s, i.to_f + (rating.value.to_f % 1)] }), {}, :onchange => onchange
+            = select rating, :value, ((1..10).map {|i| [i.to_s, i.to_f + (rating.value.to_f % 1).round(1)] }), {}, :onchange => onchange
         %span>= "."
         - if rating.persisted?
           = toggle_block toggled_handle: "cancel" do |visible|
             - if visible
-              = ((rating.value.to_f % 1) * 10).to_i
+              = ((rating.value.to_f % 1).round(1) * 10).to_i
             - else
               = select rating, :value, ((0..9).map {|i| [i.to_s, rating.value.to_i + (i.to_f/10)] }), {}, :onchange =>  onchange
     = hover_hidden(:entity_name) do

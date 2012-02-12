@@ -1,1 +1,1 @@
-$('#rating_<%= @rating.id %>').replaceWith('<%= j(render partial: "rankable", locals: {rankable: @rankable}) %>');
+$('[rankable_id="<%= @rankable.id %>"][rankable_type="<%= @rankable.class.name %>"]').replaceWith('<%= j(render partial: "rankable", locals: {rankable: @rankable}) %>');
