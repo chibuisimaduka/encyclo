@@ -25,6 +25,7 @@ module ApplicationHelper
   # visible: Whether to show the visible part or the other.
   def toggle_block(options={}, &block)
     visible = options.has_key?(:visible) ? options[:visible] : true
+    escapable = options.has_key?(:escapable) ? options[:escapable] : false
     out = "<span class='toggle_block'>"
     if options[:handle]
       out << "<span class='toggle_block_content'>#{capture(visible, &block)}</span>"
@@ -57,7 +58,7 @@ module ApplicationHelper
   end
 
   def toggle_visibility(options={}, &block)
-    toggle_block({visible: false}.merge(options)) do |visible|
+    toggle_block({visible: false, escapable: false}.merge(options)) do |visible|
       visible ? capture(&block) : ""
     end
   end
