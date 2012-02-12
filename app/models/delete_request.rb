@@ -12,18 +12,17 @@ class DeleteRequest < ActiveRecord::Base
 
   validate :consistent_users, :still_valid
 
+  validates_inclusion_of :considered_destroyed, :in => [true, false]
+
   def considered_deleted?
     #concurring_users.include?(current_user) || (!destroyable.delete_request.opposing_users.include?(current_user) &&
     concurring_users.length - opposing_users.length > 3
   end
 
   def self.alive_scope(destroyables, user=nil)
-    raise "FIXME: Destroyed is a dangerous attribute name since used by ActiveRecord"
-    if user
-      destroyables.joins(:delete_request => :concurring_users).where("delete_requests.destroyed = FALSE OR concurring_users_delete_requests.user_id = ?", user.id)
-    else
-      destroyables.joins(:delete_request).where("delete_requests.destroyed = FALSE")
-    end
+    return destroyables if destroyables.blank?
+    publicly_alives = destroyables.where("#{destroyables.table_name}.id NOT IN (SELECT destroyable_id FROM delete_requests WHERE destroyable_type = '#{destroyables.model_name}' AND considered_destroyed = TRUE)")
+    #publicly_alives.joins(:delete_request => :concurring_users).where("concurring_users_delete_requests.user_id <> ?", user.id) if user
   end
 
 private
