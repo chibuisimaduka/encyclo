@@ -2,6 +2,34 @@
 
 - Data consistency rules at the database level. (avoid duplicates at least)
 - Figure out the document types.
+- Create a static form field to enter commands that are most likely just javascript code. (ex: login, logout, [create entity])
+- A select function to see the associations/attributes/components/documents/... that you want. ( similar to SQL select )
+- A order function to order by associations/attributes/components/documents/... Pretty self explanatory.
+- When adding coordinates to entities, add a nearby entities feature. You can see entities who are close.
+- Image and document pagination.
+- Be able to change the language of a document.
+- Add user favorites. (movie, song...)
+
+== FIXMEs
+
+- When deleting entities, you should not be able to see it in the search.
+- The entity validations should all be based on the current user. Based on what he has deleted.
+- Not definitive changing parents of entity.
+- Make the names accent sensitives. You curently can't just add an accent to a name.
+
+== Content TODOs
+
+- List of colors: http://en.wikipedia.org/wiki/List_of_colors
+- Put my code on the site. (hover and toggle at least)
+- Add sciences like mathematics documents and create it's hierarchy.
+- Add a prononciation component to entities.
+
+== Content FIXMEs
+
+- Is flag an association or a component of a location.
+- A book is an entity and also a document for other entities. What to do with this? Document type = entity ?
+- What the hell is the name of a quote? Is it even an entity. Should be for everything except for the name.
+  Because a quote should have documents, not images though.. Associations?
 
 == Feature ideas
 
@@ -20,10 +48,6 @@ movie for seing a movie
 dollar genre equals action and comedy for mathcing predicate genre = action AND movie
 # The dollar is there for better autocomplete purposes.
 # You can also specify that you thrust Isaac.
-
-== FIXME
-
-A book is an entity and also a document for other entities.
 
 == REMINDER
 Console options:
