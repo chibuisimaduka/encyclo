@@ -61,12 +61,7 @@ Encyclo::Application.routes.draw do
     end
   end
   
-  resources :ratings do
-    member do
-      put 'rank_up'
-      put 'rank_down'
-	 end
-  end
+  resources :ratings, :only => :destroy
 
   put "set_ranking_type" => "ranking_types#update", :as => "set_ranking_type"
   put "set_listing_type" => "listing_types#update", :as => "set_listing_type"

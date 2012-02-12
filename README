@@ -10,6 +10,7 @@
 - Be able to change the language of a document.
 - Add user favorites. (movie, song...)
 - Make many games in this site to encourage users to do stuff. Collect coins..
+- Cancel toggle_visibility by pressing the escape key.
 
 == FIXMEs
 
@@ -17,6 +18,7 @@
 - The entity validations should all be based on the current user. Based on what he has deleted.
 - Not definitive changing parents of entity.
 - Make the names accent sensitives. You curently can't just add an accent to a name.
+- The editing of association definitions many/one.
 
 == Content TODOs
 

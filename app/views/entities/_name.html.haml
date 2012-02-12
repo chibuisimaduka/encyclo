@@ -1,6 +1,6 @@
 - name = entity.raw_name(current_language)
 = content_tag_for :span, name do
-  = toggle_block handle: image_tag("edit_button.png"), toggled_handle: "cancel" do |visible|
+  = toggle_block toggle_handle: image_tag("edit_button.png"), toggled_handle: "cancel" do |visible|
     - if visible
       = link_entity && link_entity != "false" ? link_to_entity(entity) : entity.name(current_user, current_language)
     - else

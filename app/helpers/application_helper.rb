@@ -10,17 +10,37 @@ module ApplicationHelper
     end
   end
 
+  def toggle_visibility_if(condition, options={}, &block)
+    condition ? toggle_visibility(options, &block) : capture(&block)
+  end
+
+  def toggle_block_if(condition, options={}, &block)
+    condition ? toggle_block(options, &block) : capture(options[:show_not_visible] ? false : true , &block)
+  end
+
+  # OPTIONS
+  # handle: The string to always use as handle.
+  # toggle_handle: The string handle to swap once.
+  # toggled_handle: The string handle to swap back once.
+  # visible: Whether to show the visible part or the other.
   def toggle_block(options={}, &block)
     visible = options.has_key?(:visible) ? options[:visible] : true
     out = "<span class='toggle_block'>"
-    if options[:handle] && options[:toggled_handle] 
-      out << "<span class='toggle_block_content'>#{capture(visible, &block)}#{handle_element(options[:handle])}</span>"
-      out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}#{handle_element(options[:toggled_handle])}</span>"
-    else
-      handle = options[:handle] || options[:toggled_handle]
-      out << "<span class='toggle_block_content#{handle ? "" : " toggle_block_handle"}'>#{capture(visible, &block)}</span>"
+    if options[:handle]
+      out << "<span class='toggle_block_content'>#{capture(visible, &block)}</span>"
       out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}</span>"
-      out << handle_element(handle) if handle
+      out << handle_element(options[:handle])
+    else
+      if options[:toggle_handle]
+        out << "<span class='toggle_block_content'>#{capture(visible, &block)}#{handle_element(options[:toggle_handle])}</span>"
+      else
+        out << "<span class='toggle_block_content toggle_block_handle'>#{capture(visible, &block)}</span>"
+      end
+      if options[:toggled_handle]
+        out << "<span class='toggled_block_content' style='display: none;'>#{capture(!visible, &block)}#{handle_element(options[:toggled_handle])}</span>"
+      else
+        out << "<span class='toggled_block_content toggle_block_handle' style='display: none;'>#{capture(!visible, &block)}</span>"
+      end
     end
     out << "</span>"
     raw out

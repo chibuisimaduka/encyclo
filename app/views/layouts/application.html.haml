@@ -19,7 +19,7 @@
           #language_navigation
             Language:
             .editable
-              = toggle_visibility handle: current_language.name, toggled_handle: "cancel" do
+              = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
                 = form_tag change_language_sessions_path, method: :get do
                   = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
                   = submit_tag "Set"
