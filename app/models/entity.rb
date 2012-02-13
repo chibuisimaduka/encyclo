@@ -19,6 +19,9 @@ class Entity < ActiveRecord::Base
   has_many :associations, :inverse_of => :entity, :dependent => :destroy
   has_many :associated_associations, :class_name => "Association", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
 
+  has_many :direct_entities_by_definition, :through => :associations, :source => :associated_entity
+  has_many :indirect_entities_by_definition, :through => :associated_associations, :source => :entity
+
   has_many :associations_definitions, :through => :associations, :source => "definition"
   has_many :associated_associations_definitions, :through => :associated_associations, :source => "definition"
 
@@ -78,8 +81,7 @@ class Entity < ActiveRecord::Base
   end
 
   def entities_by_definition
-    (self.association_definitions.all(:include => [:associations => {:entity => :documents}]).map(&:associations).flatten.map(&:entity) +
-    self.associated_association_definitions.all(:include => [:associations => {:associated_entity => :documents}]).map(&:associations).flatten.map(&:associated_entity)).uniq
+    self.direct_entities_by_definition + self.indirect_entities_by_definition
   end
 
   def all_association_definitions

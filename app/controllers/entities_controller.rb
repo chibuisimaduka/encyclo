@@ -21,6 +21,7 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       # FIXME: Limit 250
+      #@entities = DeleteRequest.alive_scope(@entity.entities_by_definition | @entity.subentities_leaves, current_user)
       @entities = @entity.entities_by_definition | @entity.subentities_leaves
       @entities.delete_if {|e| destroyable_deleted?(e) }
       params[:filter].each do |definition_id, vals|
