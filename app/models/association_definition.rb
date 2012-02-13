@@ -8,7 +8,7 @@ class AssociationDefinition < ActiveRecord::Base
 
   has_many :associations, :inverse_of => :definition#, :dependent => :destory TODO: Able it when the site has versioning and backups.
 
-  has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable
+  has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable, :dependent => :destroy
 
   validates_presence_of :entity_id
   validates_presence_of :associated_entity_id

@@ -4,9 +4,9 @@ class DeleteRequestsController < ApplicationController
     @destroyable = find_polymorphic_association
     @delete_request = @destroyable.build_delete_request
     @delete_request.concurring_users << current_user
-    @delete_request.deleted = true if @delete_request.considered_deleted?
+    @delete_request.considered_destroyed = @delete_request.considered_deleted?
     if !@delete_request.save
-      flash[:notice] = "An error has occured while creating delete request."
+      flash[:notice] = "An error has occured while creating delete request. #{@delete_request.errors.full_messages.join("\n")}"
     end
 	 redirect_to :back
   end

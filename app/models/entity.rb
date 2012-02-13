@@ -47,10 +47,11 @@ class Entity < ActiveRecord::Base
     self.entities.where("component_id IS NULL")
   end
 
-  def subentities_leaves
-    (self.subentities.map do |e|
-      es = e.subentities.limit(250)
-      es.blank? ? e : e.subentities_leaves
+  def subentities_leaves(checked_entities=nil)
+    return [] if checked_entities && checked_entities.include?(self.id)
+    (self.subentities.limit(10).map do |e|
+      es = e.subentities.limit(10)
+      es.blank? ? e : e.subentities_leaves((checked_entities || []) + [self.id])
     end).flatten
   end
 
