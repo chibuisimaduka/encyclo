@@ -20,7 +20,7 @@
     = render :partial => "association_definitions/form", :locals => {:entity => @entity}
   #components_definitions
     Components definitions:
-    = render partial: @entity.components.keep_if {|c| !destroyable_deleted?(c)}
+    = render partial: DeleteRequest.alive_scope(@entity.components, current_user)
     = render partial: "components/form", locals: {entity: @entity}
   #components
     Components:
@@ -60,7 +60,7 @@
   #entity_title
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  #documents= render partial: (@entity.documents.where(:language_id => current_language.id).where(document_type_filter.blank? ? {} : {:document_type_id => document_type_filter.id}).keep_if {|d| !destroyable_deleted?(d)})[0..(@printer.num_documents - 1)]
+  #documents= render partial: DeleteRequest.alive_scope(@entity.documents.where(:language_id => current_language.id).where(document_type_filter.blank? ? {} : {:document_type_id => document_type_filter.id}), current_user)[0..(@printer.num_documents - 1)]
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path(entity_id: @entity.id)
@@ -74,7 +74,7 @@
     = will_paginate @entities
   = render :partial => "entities/form", locals: {parent: @entity}
 #content_sidebar
-  - (@entity.images.keep_if {|i| !destroyable_deleted?(i)})[0..4].each do |image|
+  - DeleteRequest.alive_scope(@entity.images, current_user)[0..4].each do |image|
     .image
       = render partial: "ratings/rankable", locals: {rankable: image}
       = render partial: "delete_requests/link", locals: {destroyable: image, link: image_tag("delete_button_15_px.png")}
