@@ -28,6 +28,10 @@ class Entity < ActiveRecord::Base
   has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
   has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
 
+  has_and_belongs_to_many :ancestors, :class_name => "Entity", :join_table => "entities_ancestors", :association_foreign_key => :ancestor_id
+  # A little descendant does not include close descendants. @see descendants
+  has_and_belongs_to_many :little_descendants, :class_name => "Entity", :join_table => "entities_ancestors", :foreign_key => :ancestor_id
+
   has_many :names, :inverse_of => :entity, :dependent => :destroy
 
   has_many :components, :inverse_of => :entity, :dependent => :destroy
@@ -103,6 +107,14 @@ class Entity < ActiveRecord::Base
     raw_name = names.find_by_language_id(language.id)
     raw_name ||= names.find_by_language_id(Language::MAP[:english].id) unless language.id == Language::MAP[:english].id
     raw_name ||= names.first
+  end
+
+  def calculate_ancestors(include_parents=false)
+    parents = self.parents_by_definition | self.associated_parents_by_definition
+    parents |= [self.parent] if self.parent
+    ancestors = parents.flat_map {|e| e.calculate_ancestors(true) }
+    ancestors += parents if include_parents
+    ancestors
   end
 
 private

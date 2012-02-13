@@ -60,6 +60,15 @@ namespace :wolf do
 
   namespace :entities do
 
+    task :ancestors => :environment do
+      Entity.transaction do
+        Entity.all.each do |e|
+          e.ancestors = e.calculate_ancestors
+          e.save
+        end
+      end
+    end
+
     task :names => :environment do
       user = User.find_by_email("webmaster")
       raise "Need a valid user" if user.blank?
