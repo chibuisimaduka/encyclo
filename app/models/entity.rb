@@ -46,12 +46,16 @@ class Entity < ActiveRecord::Base
 
   self.per_page = 20
 
-  def component_entities
-    self.entities.where("component_id IS NOT NULL")
+  def descendants
+    self.little_descendants | self.entities | self.entities_by_definition
+  end
+ 
+  def self.component_scope(entities)
+    entities.where("component_id IS NOT NULL")
   end
 
-  def subentities
-    self.entities.where("component_id IS NULL")
+  def self.subentity_scope(entities)
+    entities.where("component_id IS NULL")
   end
 
   def subentities_leaves(checked_entities=nil)
@@ -85,7 +89,7 @@ class Entity < ActiveRecord::Base
   end
 
   def entities_by_definition
-    self.direct_entities_by_definition + self.indirect_entities_by_definition
+    self.direct_entities_by_definition | self.indirect_entities_by_definition
   end
 
   def all_association_definitions

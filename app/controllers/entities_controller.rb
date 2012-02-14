@@ -21,9 +21,11 @@ class EntitiesController < ApplicationController
 	   redirect_to log_in_path if !current_user && ranking_type == RankingType::USER
 
       # FIXME: Limit 250
-      #@entities = DeleteRequest.alive_scope(@entity.entities_by_definition | @entity.subentities_leaves, current_user)
-      @entities = @entity.entities_by_definition | @entity.subentities_leaves
-      @entities.delete_if {|e| destroyable_deleted?(e) }
+      #@entities = DeleteRequest.alive_scope(Entity.subentity_scope(@entity.descendants), current_user).limit(100)
+      @entities = DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user).limit(50)
+      @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user).limit(50)
+      @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user).limit(50)
+      @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.little_descendants), current_user).limit(50)  # TODO: order
       params[:filter].each do |definition_id, vals|
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?

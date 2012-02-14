@@ -1,5 +1,7 @@
 module ActiveRecordUtils
 
+  # TODO: union
+
   # TODO: block should be the mandatory argument and parent_name optional
   def collect_all(parent_name, include_self=true, &block)
     parent = self.send(parent_name)
