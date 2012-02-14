@@ -16,6 +16,8 @@ gem 'rails3-jquery-autocomplete'
 gem 'whatlanguage'
 gem "will_paginate"
 
+gem 'ruby-prof'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
