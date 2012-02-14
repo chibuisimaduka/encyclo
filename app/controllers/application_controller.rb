@@ -6,12 +6,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_language
   helper_method :data_mode?
 
-  helper_method :rating_for # FIXME: TMP
-  
-  def rating_for(rankable)
-    rankable.ratings.find_by_user_id(current_user.id)
-  end
-
 protected
   
   def find_polymorphic_association
