@@ -23,6 +23,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  def change_data_mode
+    session[:data_mode] = !!params[:data_mode]
+    redirect_to :back
+  end
+
   def create
     user = User.authenticate(params[:email], params[:password])
     if user

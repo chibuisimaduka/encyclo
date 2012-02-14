@@ -15,6 +15,7 @@ class EntitiesController < ApplicationController
   require "pretty_printer"
 
   def show
+    before_time = Time.now
     @entity = Entity.find(params[:id])
 
     unless @entity.blank?
@@ -30,13 +31,13 @@ class EntitiesController < ApplicationController
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
       end if params[:filter]
-      
       @entities = (@entities.sort_by {|e| r = Rating.for(e, current_user); r ? r.value : e.rank || 0}).reverse
       @entities = @entities.paginate(:page => params[:page])
       #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
     end
 
     @printer = PrettyPrinter.new(@entity)
+    puts "elapsed time in controller = #{Time.now - before_time}s"
   end
 
   def edit

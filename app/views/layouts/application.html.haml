@@ -16,20 +16,26 @@
               = render partial: "sessions/form"
               or
               = link_to "Sign up", sign_up_path
-          #language_navigation
-            Language:
-            .editable
-              = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
-                = form_tag change_language_sessions_path, method: :get do
-                  = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
-                  = submit_tag "Set"
+          = cache('language_select') do
+            #language_navigation
+              Data mode:
+              = form_tag change_data_mode_sessions_path, method: :get do
+                = check_box_tag :data_mode, "yes", data_mode?
+                = submit_tag "Set"
+              Language:
+              .editable
+                = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
+                  = form_tag change_language_sessions_path, method: :get do
+                    = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
+                    = submit_tag "Set"
       #left-sidebar
-        #home_link_which_should_be_an_image
-          = link_to "Home", root_path
-        #random_entity
-          = link_to "Proposed entity", random_entities_path
-        #random_document
-          Proposed document
+        = cache('left-sidebar_navigation') do
+          #home_link_which_should_be_an_image
+            = link_to "Home", root_path
+          #random_entity
+            = link_to "Proposed entity", random_entities_path
+          #random_document
+            Proposed document
         = yield :left_sidebar
       #content
         - flash.each do |name, msg|

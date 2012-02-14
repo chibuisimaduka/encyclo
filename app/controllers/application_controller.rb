@@ -32,6 +32,6 @@ private
   end
 
   def data_mode?
-    true
+    session[:data_mode] ||= false
   end
 end
