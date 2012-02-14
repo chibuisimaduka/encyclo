@@ -52,8 +52,16 @@ namespace :wolf do
       Document.all.each {|d| d.fetch.process.save! }
     end
 
-    task :reprocess => :environment do
-      Document.all.each {|d| d.process.save! }
+    task :reprocess_remote => :environment do
+      require 'remote_document_processor'
+      Document.transaction do
+        Document.all.each do |d|
+          unless d.local_document?
+            RemoteDocumentProcessor.new(d).process
+            d.save
+          end
+        end
+      end
     end
 
   end

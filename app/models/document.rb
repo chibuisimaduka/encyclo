@@ -1,4 +1,6 @@
 class Document < ActiveRecord::Base
+
+  MAX_DESCRIPTION_LENGTH = 250
  
   default_scope includes(:delete_request)
  
@@ -11,6 +13,7 @@ class Document < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :content
   validates_presence_of :description
+  validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
   validates_presence_of :language_id
 
   validates_uniqueness_of :name

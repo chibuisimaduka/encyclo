@@ -32,7 +32,7 @@ private
   URL_ATTRIBUTES = ['href', 'src']
   IMAGE_FILE_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png', 'tiff']  
 
-  require 'hpricot'
+  #require 'hpricot'
   require 'open-uri'
 
   # Originaly FROM http://crunchlife.com/articles/2009/01/07/another-ruby-image-scraper

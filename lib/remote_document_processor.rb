@@ -27,7 +27,7 @@ class RemoteDocumentProcessor
   def process
     @doc = Nokogiri::HTML(@document.content)
     @document.name = title_from_meta_tag || title_from_title_tag
-    @document.description = description_from_meta_tag || description_from_first_paragraph || "No description.."
+    @document.description = (description_from_meta_tag || description_from_first_paragraph || "There is no description avaible..")[0..(Document::MAX_DESCRIPTION_LENGTH-1)]
     #@document.language_id = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym].id
     self
   end

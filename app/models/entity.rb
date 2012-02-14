@@ -1,6 +1,6 @@
 class Entity < ActiveRecord::Base
  
-  default_scope includes([:ratings, :delete_request, :documents])
+  default_scope includes([:ratings, :delete_request, :documents, :images])
 
   # ======== RELATIONS ========
   has_and_belongs_to_many :documents, :order => "rank DESC"
