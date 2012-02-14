@@ -20,3 +20,5 @@
 **.swp
 
 /public/uploads
+
+/wip/**
