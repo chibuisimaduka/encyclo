@@ -2,7 +2,10 @@ class ImagesController < ApplicationController
 
   def create
     @entity = Entity.find(params[:entity_id])
-    if !@entity.images.create({:source => params[:image][:remote_image_url], :user_id => current_user.id}.merge(params[:image]))
+    @image = @entity.images.build(params[:image])
+    @image.user_id = current_user.id
+    @image.source = params[:image][:remote_image_url]
+    if !@entity.save
       flash[:notice] = "An error has occured while creating the images."
     end
     respond_to do |format|
