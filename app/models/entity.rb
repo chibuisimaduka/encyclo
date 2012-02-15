@@ -21,8 +21,11 @@ class Entity < ActiveRecord::Base
   has_many :associations, :inverse_of => :entity, :dependent => :destroy
   has_many :associated_associations, :class_name => "Association", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
 
-  has_many :direct_entities_by_definition, :through => :associations, :source => :associated_entity
-  has_many :indirect_entities_by_definition, :through => :associated_associations, :source => :entity
+  has_many :association_definitions_associations, :through => :association_definitions, :source => :associations
+  has_many :associated_association_definitions_associations, :through => :associated_association_definitions, :source => :associations
+
+  has_many :direct_entities_by_definition, :through => :association_definitions_associations, :source => :entity
+  has_many :indirect_entities_by_definition, :through => :associated_association_definitions_associations, :source => :associated_entity
 
   has_many :associations_definitions, :through => :associations, :source => "definition"
   has_many :associated_associations_definitions, :through => :associated_associations, :source => "definition"

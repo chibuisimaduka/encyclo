@@ -32,7 +32,7 @@ private
   require 'remote_document_processor'
 
   def create_document(doc_attrs)
-	 @document = Document.new(doc_attrs)
+	 @document = @entity.documents.build(doc_attrs)
     @document.user_id = current_user.id
     unless @document.local_document?
       if (doc = Document.find_by_source(@document.source))
@@ -50,9 +50,7 @@ private
       @document.language_id = current_language.id
       processor.process
     end
-    attrs = @document.attributes
-    attrs.delete_if {|k,v| v.blank?}
-    @entity.documents.create(attrs)
+    @entity.save
   end
 
 end
