@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :opposing_delete_requests, :class_name => "DeleteRequest", :join_table => "opposing_users_delete_requests"
   
   has_and_belongs_to_many :edit_requests, :join_table => "users_edit_requests"
+
+  before_destroy :destroy_invalid_associations
   
   validate :valid_password
 
@@ -50,6 +52,22 @@ private
   def valid_password
     unless is_ip_address
       validates_presence_of :password
+    end
+  end
+
+  def destroy_invalid_associations
+    # OPTIMIZE: There is got to be a better way..
+    edit_requests.each do |e|
+      e.agreeing_users.delete(self)
+      e.destroy unless e.valid?
+    end
+    concurring_delete_requests.each do |d|
+      d.concurring_users.delete(self)
+      d.destroy unless d.valid?
+    end
+    opposing_delete_requests.each do |o|
+      o.opposing_users.delete(self)
+      o.update_attributes(:considered_destroyed => true) if o.considered_deleted?
     end
   end
 

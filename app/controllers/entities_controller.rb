@@ -6,7 +6,7 @@ class EntitiesController < ApplicationController
   def search
     goto_doc = params[:search_entity_name][0] == "=" || params["commit"] != "Search"
     name = params[:search_entity_name][0] == "=" ? params[:search_entity_name][1..-1].strip : params[:search_entity_name]
-    @entity = Entity.find_by_id_or_by_name(params[:entity_id], name)
+    @entity = Entity.find_by_id_or_by_name(params[:entity_id], name, current_language)
     redirect_to (goto_doc && !@entity.documents.blank?) ? @entity.documents.first.source : @entity
   end
 
@@ -38,7 +38,7 @@ class EntitiesController < ApplicationController
 
   def create
     if params["commit"] == "Change parent"
-      Entity.find_by_id_or_by_name(params[:entity_id], [:name]).update_attributes(parent_id: params[:entity][:parent_id])
+      Entity.find_by_id_or_by_name(params[:entity_id], params[:name], current_language).update_attributes(parent_id: params[:entity][:parent_id])
       redirect_to :back, :notice => 'Entity parent was succesfully changed.'
     else
       @entity = Entity.new(params[:entity])
