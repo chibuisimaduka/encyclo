@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120213040436) do
+ActiveRecord::Schema.define(:version => 20120215005454) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20120213040436) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "nested_entity_id"
+    t.integer  "user_id"
   end
 
   create_table "associations", :force => true do |t|
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20120213040436) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_implicit"
+    t.integer  "user_id"
   end
 
   create_table "components", :force => true do |t|
@@ -37,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20120213040436) do
     t.integer  "associated_entity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "concurring_users_delete_requests", :id => false, :force => true do |t|
@@ -69,6 +72,7 @@ ActiveRecord::Schema.define(:version => 20120213040436) do
     t.text     "description"
     t.integer  "document_type_id"
     t.integer  "language_id"
+    t.integer  "user_id"
   end
 
   create_table "documents_entities", :id => false, :force => true do |t|
@@ -122,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20120213040436) do
     t.string   "image"
     t.float    "rank"
     t.string   "source"
+    t.integer  "user_id"
   end
 
   create_table "languages", :force => true do |t|

@@ -38,6 +38,7 @@ class DocumentsController < ApplicationController
 private
   def create_document(doc_attrs)
 	 @document = Document.new(doc_attrs)
+    @document.user_id = current_user.id
     unless @document.local_document?
       if (doc = Document.find_by_source(@document.source))
         return doc if @entity.documents.include?(doc)

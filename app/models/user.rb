@@ -4,7 +4,14 @@ class User < ActiveRecord::Base
 
   has_many :ratings
 
-  has_many :entities, :inverse_of => :user
+  # ======= USER CREATIONS =======
+  has_many :entities, :inverse_of => :user, :dependent => :destroy
+  has_many :documents, :inverse_of => :user, :dependent => :destroy
+  has_many :associations, :inverse_of => :user, :dependent => :destroy
+  has_many :association_definitions, :inverse_of => :user, :dependent => :destroy
+  has_many :components, :inverse_of => :user, :dependent => :destroy
+  has_many :images, :inverse_of => :user, :dependent => :destroy
+  # ==== END USER CREATIONS ====
 
   attr_accessor :password
   before_save :encrypt_password

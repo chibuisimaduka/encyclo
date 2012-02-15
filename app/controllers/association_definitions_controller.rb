@@ -10,6 +10,7 @@ class AssociationDefinitionsController < ApplicationController
 
   def create
     @association_definition = AssociationDefinition.new(params[:association_definition])
+    @association_definition.user_id = current_user.id
     if !@association_definition.save
       flash[:notice] = "Error while creating the association definition."
     end

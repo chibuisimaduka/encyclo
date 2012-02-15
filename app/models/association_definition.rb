@@ -2,6 +2,7 @@ class AssociationDefinition < ActiveRecord::Base
  
   default_scope includes(:delete_request)
 
+  belongs_to :user, :inverse_of => :association_definitions
   belongs_to :entity, :inverse_of => :association_definitions
   belongs_to :associated_entity, :class_name => "Entity", :inverse_of => :associated_association_definitions
   belongs_to :nested_entity, :class_name => "Entity"
@@ -10,6 +11,7 @@ class AssociationDefinition < ActiveRecord::Base
 
   has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable, :dependent => :destroy
 
+  validates_presence_of :user_id
   validates_presence_of :entity_id
   validates_presence_of :associated_entity_id
   validates_inclusion_of :entity_has_many, :in => [true, false]

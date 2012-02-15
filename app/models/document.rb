@@ -4,12 +4,14 @@ class Document < ActiveRecord::Base
  
   default_scope includes(:delete_request)
  
+  belongs_to :user, :inverse_of => :documents
   has_and_belongs_to_many :entities
   
   #require "uri_validator"
   #validates :source, :presence => true, :uri => { :format => /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix }
   validates :source, :presence => true
 
+  validates_presence_of :user_id
   validates_presence_of :name
   validates_presence_of :content
   validates_presence_of :description
