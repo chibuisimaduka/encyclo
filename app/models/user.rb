@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation
 
-  has_many :ratings
+  has_many :ratings, :inverse_of => :user, :dependent => :destroy
 
   # ======= USER CREATIONS =======
   has_many :entities, :inverse_of => :user, :dependent => :destroy
