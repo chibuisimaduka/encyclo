@@ -2,21 +2,22 @@
   - rating = (Rating.for(rankable, current_user) || Rating.new(rankable_id: rankable.id, user_id: current_user.id))
   = content_tag_for :span, rating, :rankable_id => rankable.id, :rankable_type => rankable.class.name do
     .editable
-      - onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"
-      = toggle_visibility_if rating.value.blank?, toggle_handle: "Rate", toggled_handle: "cancel" do
-        = toggle_block_if rating.persisted?, toggled_handle: "cancel", :show_not_visible => true do |visible|
-          - if visible
-            = rating.value.to_i
-          - else
-            = select rating, :value, ((1..10).map {|i| [i.to_s, i.to_f + (rating.value.to_f % 1).round(1)] }), {}, :onchange => onchange
-        - if rating.persisted?
-          %span>= "."
-          = toggle_block toggled_handle: "cancel" do |visible|
+      = hover_block do
+        - onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"
+        = toggle_visibility_if rating.value.blank?, toggle_handle: "Rate", toggled_handle: "cancel" do
+          = toggle_block_if rating.persisted?, toggled_handle: "cancel", :show_not_visible => true do |visible|
             - if visible
-              = ((rating.value.to_f % 1).round(1) * 10).to_i
+              = rating.value.to_i
             - else
-              = select rating, :value, ((0..9).map {|i| [i.to_s, rating.value.to_i + (i.to_f/10)] }), {}, :onchange =>  onchange
-    = hover_hidden(:entity_name) do
-      - if rating.persisted?
-        = link_to image_tag("remove_button.png"), rating, method: :delete, :title => "Cancel rating."
+              = select rating, :value, ((1..10).map {|i| [i.to_s, i.to_f + (rating.value.to_f % 1).round(1)] }), {}, :onchange => onchange
+          - if rating.persisted?
+            %span>= "."
+            = toggle_block toggled_handle: "cancel" do |visible|
+              - if visible
+                = ((rating.value.to_f % 1).round(1) * 10).to_i
+              - else
+                = select rating, :value, ((0..9).map {|i| [i.to_s, rating.value.to_i + (i.to_f/10)] }), {}, :onchange =>  onchange
+        = hover_hidden do
+          - if rating.persisted?
+            = link_to image_tag("remove_button.png"), rating, method: :delete, :title => "Cancel rating."
 -#%span.users_ranking>= rankable.ratings.blank? ? "No user votes yet." : "#{rankable.rank} from #{rankable.ratings.size} users."
