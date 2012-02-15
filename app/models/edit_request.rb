@@ -1,11 +1,9 @@
 class EditRequest < ActiveRecord::Base
   belongs_to :editable, :polymorphic => true, :dependent => :destroy
+  validates_presence_of :editable
+  
   has_and_belongs_to_many :agreeing_users, :class_name => "User", :join_table => "users_edit_requests"
-
   validate :has_agreeing_users
-
-  validates_presence_of :editable_id
-  validates_presence_of :editable_type
 
   def self.user_editable(editables, user)
     editables.joins(:edit_request => :agreeing_users).where("users.id = ?", user.id).first

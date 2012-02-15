@@ -2,6 +2,8 @@ class Entity < ActiveRecord::Base
  
   default_scope includes([:ratings, :delete_request, :documents, :images, :names => {:possible_name_spellings => {:edit_request => :agreeing_users}}])
 
+  attr_protected :user_id, :user
+
   # ======== RELATIONS ========
   has_and_belongs_to_many :documents, :order => "rank DESC"
   
@@ -28,9 +30,9 @@ class Entity < ActiveRecord::Base
   has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
   has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
 
-  has_and_belongs_to_many :ancestors, :class_name => "Entity", :join_table => "entities_ancestors", :association_foreign_key => :ancestor_id
   # A little descendant does not include close descendants. @see descendants
   has_and_belongs_to_many :little_descendants, :class_name => "Entity", :join_table => "entities_ancestors", :foreign_key => :ancestor_id
+  has_and_belongs_to_many :ancestors, :class_name => "Entity", :join_table => "entities_ancestors", :association_foreign_key => :ancestor_id
 
   has_many :names, :inverse_of => :entity, :dependent => :destroy
 
@@ -40,7 +42,7 @@ class Entity < ActiveRecord::Base
   has_one :delete_request, :inverse_of => :destroyable, :dependent => :destroy, :as => :destroyable
 
   belongs_to :user, :inverse_of => :entities
-  validates_presence_of :user_id
+  validates_presence_of :user
 
   validate :validate_has_one_name, :validate_not_parent_of_itself
 

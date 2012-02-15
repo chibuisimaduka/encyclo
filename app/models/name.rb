@@ -1,8 +1,8 @@
 class Name < ActiveRecord::Base
   belongs_to :entity, :inverse_of => :names
-  belongs_to :language, :inverse_of => :names
-  
   validates_presence_of :entity
+
+  belongs_to :language, :inverse_of => :names
   validates_presence_of :language
 
   has_many :possible_name_spellings, :inverse_of => :name

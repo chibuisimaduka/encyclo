@@ -3,7 +3,7 @@ class PossibleNameSpelling < ActiveRecord::Base
 
   has_one :edit_request, :as => :editable
 
-  #validates_presence_of :name_id #FIXME: For some reason this doesn't work ofr creating names. Reproduce by uncommenting and create an entity.
+  #validates_presence_of :name_id #FIXME: For some reason this doesn't work for creating names. Reproduce by uncommenting and create an entity.
   validates_presence_of :spelling
 
   def pretty_value

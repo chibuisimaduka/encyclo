@@ -2,7 +2,7 @@ class Association < ActiveRecord::Base
  
   default_scope includes(:delete_request)
 
-  attr_accessible :entity_id, :associated_entity_id, :association_definition_id
+  attr_protected :user_id, :user
 
   belongs_to :user, :inverse_of => :associations
   validates_presence_of :user
