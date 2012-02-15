@@ -22,8 +22,10 @@ class EntitiesController < ApplicationController
     @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user).limit(50)
     @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.little_descendants), current_user).limit(50)  # TODO: order
     params[:filter].each do |definition_id, vals|
-      @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
-        !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
+      unless params["refine_#{definition_id}"].blank?
+        @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
+          !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
+      end
     end if params[:filter]
     @entities = (@entities.sort_by {|e| r = Rating.for(e, current_user); r ? r.value : e.rank || 0}).reverse
     @entities = @entities.paginate(:page => params[:page])
