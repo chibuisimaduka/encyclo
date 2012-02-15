@@ -22,6 +22,7 @@
 - Make the names accent sensitives. You curently can't just add an accent to a name.
 - The editing of association definitions many/one.
 - If you look at Entity, you should see the best ranked entities overall. How do you do that? Same for other big categories..
+- Be able to set the language universal for an entity and it's sub-descendants.
 
 == Content TODOs
 

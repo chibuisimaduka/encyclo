@@ -6,10 +6,10 @@ module EntitiesHelper
       associations_by_def[association_definition] = []
     end
     entity.map_all(:parent, &:associations).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless destroyable_deleted?(association)
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless DeleteRequest.alive?(association)
     end
     associations_by_def.sort {|k,v| v.size }
-    associations_by_def.keep_if {|k,v| !destroyable_deleted?(k) }
+    associations_by_def.keep_if {|k,v| !DeleteRequest.alive?(k) }
   end
 
   def associated_associations_by_definition(entity)
@@ -18,10 +18,10 @@ module EntitiesHelper
       associations_by_def[association_definition] = []
     end
     entity.map_all(:parent, &:associated_associations).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless destroyable_deleted?(association)
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless DeleteRequest.alive?(association)
     end
     associations_by_def.sort {|k,v| v.size }
-    associations_by_def.keep_if {|k,v| !destroyable_deleted?(k) }
+    associations_by_def.keep_if {|k,v| !DeleteRequest.alive?(k) }
   end
 
   def nested_entity_values(entity, nested_entity, associated_entity)
