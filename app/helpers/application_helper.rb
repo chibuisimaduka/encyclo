@@ -47,13 +47,13 @@ module ApplicationHelper
     raw out
   end
 
-  def hover_block(name=nil, &block)
-    content_tag :span, name ? {:class => "hover_block", :id => "hover_block_#{name}"} : {:class => "hover_block"}, &block
+  def hover_block(*keys, &block)
+    content_tag :span, keys.blank? ? {:class => "hover_block", :id => rand(1000)} : {:id => rand(1000), :class => "hover_block " + keys.join(' ')}, &block
   end
 
-  def hover_hidden(block_name=nil, &block)
+  def hover_hidden(key=nil, &block)
     options = {:style => "display: none;", :class => "hover_block_hidden"}
-    options[:block_id] = "hover_block_#{block_name}" if block_name
+    options[:block_key] = key if key
     content_tag :span, options, &block
   end
 
