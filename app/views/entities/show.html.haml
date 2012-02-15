@@ -31,8 +31,8 @@
           - if (entity = component.entities.find_by_parent_id(@entity.id))
             = link_to_entity entity
           - else
-            %span.missing= link_to entity_name(component.associated_entity), entities_path(entity: {:parent_id => @entity.id, "names[][language_id]" => current_language.id,
-              "names[][value]" => entity_name(component.associated_entity), :component_id => component.id}, :show => true), method: :posth
+            - missing_name = component.associated_entity.name(current_user, current_language)
+            %span.missing= link_to missing_name, entities_path(entity: {:parent_id => @entity.id, :component_id => component.id}, name: missing_name, show: true), method: :post
   #refine_entity_search
     - if !@entity.association_definitions.blank? || !@entity.associated_association_definitions.blank?
       Refine further :

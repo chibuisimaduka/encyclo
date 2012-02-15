@@ -25,9 +25,9 @@ class DeleteRequest < ActiveRecord::Base
       .where("(delete_requests.id IS NULL) OR (? NOT IN (SELECT user_id FROM concurring_users_delete_requests WHERE delete_request_id = delete_requests.id))", user.id) if user
   end
 
-  def self.alive?(destroyable)
+  def self.alive?(destroyable, user)
     return false unless destroyable.delete_request
-    destroyable.delete_request.concurring_users.include?(current_user) || (!destroyable.delete_request.opposing_users.include?(current_user) &&
+    destroyable.delete_request.concurring_users.include?(user) || (!destroyable.delete_request.opposing_users.include?(user) &&
       (destroyable.delete_request.concurring_users.length - destroyable.delete_request.opposing_users.length) > 3)
   end
 
