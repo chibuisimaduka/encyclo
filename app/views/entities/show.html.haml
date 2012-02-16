@@ -45,8 +45,6 @@
     Browse entities
     = render :partial => "entities/entity_leaf", locals: {editable: false, entity_leaf: @entity.parent_id.blank? ? @entity : @entity.parent}
 
-= javascript_include_tag 'entities'
-
 #browsing_entities
   = link_to "Back", :back
   |
