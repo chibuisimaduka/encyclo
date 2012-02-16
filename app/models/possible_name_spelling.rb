@@ -6,11 +6,13 @@ class PossibleNameSpelling < ActiveRecord::Base
   #validates_presence_of :name_id #FIXME: For some reason this doesn't work for creating names. Reproduce by uncommenting and create an entity.
   validates_presence_of :spelling
 
+  after_destroy :recalculate_name
+
   def pretty_value
     self.spelling.split.map(&:capitalize).join(" ")
   end
 
-  def after_destroy
+  def recalculate_name
     name.recalculate_value
   end
 

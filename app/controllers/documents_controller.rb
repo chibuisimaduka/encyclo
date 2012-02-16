@@ -3,6 +3,7 @@ class DocumentsController < ApplicationController
   respond_to :html, :json
 
   def new
+    redirect_to :back, :notice => "You must be logged in to create a document.." if current_user.is_ip_address?
     @document = Document.new
     @entity = Entity.find(params[:entity_id]) if params[:entity_id]
   end
