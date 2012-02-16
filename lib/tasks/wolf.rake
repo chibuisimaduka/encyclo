@@ -10,9 +10,11 @@ namespace :wolf do
 
   desc "Destroy any invalid record. You must update the list of models though."
   task :clean => :environment do
-    [Name, Entity, Document].each do |model|
-      model.all.each do |record|
-        record.destroy unless record.valid?
+    [EditRequest].each do |model|
+      model.transaction do
+        model.all.each do |record|
+          record.destroy unless record.valid?
+        end
       end
     end
   end
@@ -77,7 +79,15 @@ namespace :wolf do
       end
     end
 
-    task :names => :environment do
+    task :calculate_names_value => :environment do
+      Name.transaction do
+        Name.includes(:possible_name_spellings => {:edit_request => :agreeing_users}).all.each do |n|
+          n.recalculate_value
+        end
+      end
+    end
+
+    task :create_possible_name_spellings => :environment do
       user = User.find_by_email("webmaster")
       raise "Need a valid user" if user.blank?
       Entity.includes(:names => {:possible_name_spellings => {:edit_request => :agreeing_users}}).all.each do |e|

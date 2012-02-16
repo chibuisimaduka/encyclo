@@ -10,4 +10,8 @@ class PossibleNameSpelling < ActiveRecord::Base
     self.spelling.split.map(&:capitalize).join(" ")
   end
 
+  def after_destroy
+    name.recalculate_value
+  end
+
 end

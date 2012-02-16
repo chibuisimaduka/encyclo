@@ -18,11 +18,15 @@ class Name < ActiveRecord::Base
     @possible_name_spelling = self.possible_name_spellings.find_or_create_by_spelling(spelling)
     EditRequest.update(@possible_name_spelling, self.possible_name_spellings, user)
     if self.persisted?
-      self.update_attributes(value: EditRequest.probable_editable(self.possible_name_spellings, user).spelling)
+       recalculate_value
     else
       self.value = spelling
       self.save
     end
+  end
+
+  def recalculate_value
+    update_attributes(value: EditRequest.most_agreed_editable(self.possible_name_spellings).spelling)
   end
   
 private
