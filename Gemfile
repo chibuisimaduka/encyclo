@@ -23,6 +23,8 @@ gem "factory_girl_rails", "~> 1.2"
 
 gem 'capybara'
 
+gem 'passenger'
+
 group :test, :development do
   gem 'rspec-rails', "~> 2.6"
 end
