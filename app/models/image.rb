@@ -8,7 +8,7 @@ class Image < ActiveRecord::Base
   belongs_to :entity, :inverse_of => :images
   validates_presence_of :entity
 
-  has_many :ratings, :as => :rankable
+  has_many :ratings, :as => :rankable, :dependent => :destroy
   has_one :delete_request, :as => :destroyable, :dependent => :destroy
 
   mount_uploader :image, ImageUploader

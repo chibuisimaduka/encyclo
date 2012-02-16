@@ -18,7 +18,7 @@ class Document < ActiveRecord::Base
 
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
 
-  has_many :possible_document_types, :inverse_of => :document
+  has_many :possible_document_types, :inverse_of => :document, :dependent => :destroy
   
   #require "uri_validator"
   #validates :source, :presence => true, :uri => { :format => /(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix }
