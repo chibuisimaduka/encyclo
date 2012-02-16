@@ -68,7 +68,7 @@ FactoryGirl.define do
     source "http://www.some_url.ca/"
     description "A description about the content about something."
     content "Some content about something."
-    document_types
+    #document_types
     language
     user
     
@@ -88,7 +88,7 @@ FactoryGirl.define do
     user
   end
   
-  factory :english_language do
+  factory :language do
     name "english"
   end
 
