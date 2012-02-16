@@ -14,15 +14,16 @@
           = form_tag change_document_type_filter_sessions_path, method: :get do
             = select :document_type_filter, :id, (DocumentType::ALL.map{|d| [d.name, d.id] }).insert(0, ["No filter", ''])
             = submit_tag "Set"
-  #association_definitions
-    Association definitions:
-    = render partial: DeleteRequest.alive_scope(@entity.association_definitions, current_user), locals: {inversed: false}
-    = render partial: DeleteRequest.alive_scope(@entity.associated_association_definitions, current_user), locals: {inversed: true}
-    = render :partial => "association_definitions/form", :locals => {:entity => @entity}
-  #components_definitions
-    Components definitions:
-    = render partial: DeleteRequest.alive_scope(@entity.components, current_user)
-    = render partial: "components/form", locals: {entity: @entity}
+  - if data_mode?
+    #association_definitions
+      Association definitions:
+      = render partial: DeleteRequest.alive_scope(@entity.association_definitions, current_user), locals: {inversed: false}
+      = render partial: DeleteRequest.alive_scope(@entity.associated_association_definitions, current_user), locals: {inversed: true}
+      = render :partial => "association_definitions/form", :locals => {:entity => @entity}
+    #components_definitions
+      Components definitions:
+      = render partial: DeleteRequest.alive_scope(@entity.components, current_user)
+      = render partial: "components/form", locals: {entity: @entity}
   #components
     Components:
     - unless @entity.is_component?

@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :user do
-    email  'john_doe@encyclo.com'
-    password_hash "$2a$10$SYMloqmm5geGvBagmwn6bO4K73L9oOQubs5qNXvafpk8zQsHp7y.a"
-    password_salt "$2a$10$SYMloqmm5geGvBagmwn6bO"
+    sequence(:email) {|n|  "john_doe_#{n}@encyclo.com" }
+    password "foobar"
+    password_confirmation { password }
     is_ip_address false
 
     factory :ip_address do
@@ -77,9 +77,14 @@ FactoryGirl.define do
     end
   end
 
-  factory :edit_request do
-    # editable
+  factory :possible_spelling_edit_request, :class => EditRequest do
+    agreeing_users {|d| Factory.create_list(:user, 2, :edit_requests => [d]) }
+    association :editable, :factory => :possible_name_spelling
+  #  after_create 
   end
+
+  #factory :editable_edit_request do
+  #end
 
   factory :entity do
     rank 8.0
@@ -98,8 +103,7 @@ FactoryGirl.define do
 
   factory :name do
     value "Some name"
-    possible_name_spellings
-    entity
+    #entity
     language
   end
   
