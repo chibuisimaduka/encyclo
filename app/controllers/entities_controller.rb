@@ -7,7 +7,7 @@ class EntitiesController < ApplicationController
     goto_doc = params[:search_entity_name][0] == "=" || params["commit"] != "Search"
     name = params[:search_entity_name][0] == "=" ? params[:search_entity_name][1..-1].strip : params[:search_entity_name]
     @entity = Entity.find_by_id_or_by_name(params[:entity_id], name, current_language)
-    redirect_to (goto_doc && !@entity.documents.blank?) ? @entity.documents.first.source : @entity
+    redirect_to (goto_doc && !@entity.documents.blank?) ? @entity.documents.first.link : @entity
   end
 
   require "pretty_printer"

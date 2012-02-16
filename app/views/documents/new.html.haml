@@ -7,7 +7,7 @@
   #new_doc_about
     About:
     = hidden_field_tag :entity_id, @entity ? @entity.id : '', id: "document_entity_id"
-    = autocomplete_field_tag :document_entity_name, @entity ? entity_name(@entity) : '', autocomplete_name_value_entities_path, size: 40, id: "new_document_entity_name_field", id_element: "#document_entity_id"
+    = autocomplete_field_tag :document_entity_name, @entity ? @entity.name(current_user, current_language) : '', autocomplete_name_value_entities_path, size: 40, id: "new_document_entity_name_field", id_element: "#document_entity_id"
 
   Document type:
   = select :document, :document_type_id, (DocumentType::ALL.map{|d| [d.name, d.id] })

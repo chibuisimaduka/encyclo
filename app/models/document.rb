@@ -29,9 +29,11 @@ class Document < ActiveRecord::Base
   validates_presence_of :description
   validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
 
-  validates_uniqueness_of :name, :scope => :language_id
-
   SOURCE_ENCYCLO = "http://www.encyclo.com"
+
+  def link
+    local_document? ? self : self.source
+  end
 
   def local_document?
     self.source == SOURCE_ENCYCLO

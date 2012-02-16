@@ -13,6 +13,7 @@
 - Cancel toggle_visibility by pressing the escape key.
 - A watchlist. A list of entities that the user wants to watch or is watching.
 - Remove duplication for select menus with javascript. Add the content instead of hidding it.
+- A better document show view.
 
 == FIXMEs
 

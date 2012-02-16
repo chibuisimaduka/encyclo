@@ -7,7 +7,7 @@
           = cache 'document_type_select' do
             = select :possible_document_type, :document_type_id, DocumentType.all.sort_by(&:name).map{|d| [d.name, d.id] }, nil: "Unkown"
             = f.submit "Set"
-    .document_name= link_to document.name, document.source, class: "document_name"
+    .document_name= link_to document.name, document.link, class: "document_name"
     = hover_block :rating do
       = render partial: "ratings/rankable", locals: {rankable: document}
     = hover_hidden do

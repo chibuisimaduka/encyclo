@@ -20,11 +20,16 @@ class DocumentsController < ApplicationController
   def create
     @entity = Entity.find(params[:entity_id])
     if !create_document(params[:document])
-      flash[:notice] = "Error while creating the document."
-    end
-    respond_to do |format|
-      format.html { redirect_to @entity }
-      format.js
+      flash[:notice] = "Error while creating the document. #{@document.errors.full_messages.join("\n")}"
+      respond_to do |format|
+        format.html { render action: "new" }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @entity }
+        format.js
+      end
     end
   end
 
@@ -50,7 +55,8 @@ private
       @document.language_id = current_language.id
       processor.process
     end
-    @entity.save
+    # OPTIMIZE: I really don't understand rails sometimes..(often)
+    @entity.save ? @document.save : false
   end
 
 end
