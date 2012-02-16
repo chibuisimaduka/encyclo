@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  editable_id: 1
-  editable_name: MyString
-
-two:
-  editable_id: 1
-  editable_name: MyString

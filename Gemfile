@@ -18,6 +18,15 @@ gem "will_paginate"
 
 gem 'ruby-prof'
 
+gem 'factory_girl'
+gem "factory_girl_rails", "~> 1.2"
+
+gem 'capybara'
+
+group :test, :development do
+  gem 'rspec-rails', "~> 2.6"
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
