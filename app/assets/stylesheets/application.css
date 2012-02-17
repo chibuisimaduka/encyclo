@@ -184,6 +184,10 @@ body {
   width: 388px;
 }
 
+.nested_entity {
+  margin-left: 60px;
+}
+
 .toggle_block_handle {
   cursor: hand;
 }

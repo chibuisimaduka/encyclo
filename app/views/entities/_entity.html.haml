@@ -1,4 +1,5 @@
-= content_tag_for :div, entity do
+- options = (local_assigns.has_key?(:nested) && nested) ? {:class => "nested_entity"} : {}
+= content_tag_for :div, entity, options do
   - showing_image = false
   - unless local_assigns[:show_pictures] == false
     - image = entity.images.first# || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil

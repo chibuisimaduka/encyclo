@@ -1,8 +1,4 @@
 = content_for :left_sidebar do
-  -##entity_subentities
-    Subentities:
-    = render partial: "subentities/subentity_link", collection: @entity.subentities
-    = render :partial => "subentities/form", :locals => {:entity => @entity}
   #refine_document_filter
     Filter doc type:
     .editable
