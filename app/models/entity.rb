@@ -126,9 +126,9 @@ class Entity < ActiveRecord::Base
     ancestors
   end
 
-  def self.find_by_id_or_by_name(id, name, language)
+  def self.find_all_by_id_or_by_name(id, name, language)
     # FIXME: Doesn't work if current_user has change the name.
-    id.blank? ? Name.find_by_language_id_and_value(language.id, name).entity : Entity.find(id)
+    id.blank? ? Name.find_all_by_language_id_and_value(language.id, name).map(&:entity) : [Entity.find(id)]
   end
 
 private

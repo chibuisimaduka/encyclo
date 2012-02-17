@@ -1,7 +1,4 @@
 = content_for :left_sidebar do
-  #index_entities
-    #search_entity_sidebar_text What are you looking for?
-    = render :partial => "entities/search"
   -##entity_subentities
     Subentities:
     = render partial: "subentities/subentity_link", collection: @entity.subentities

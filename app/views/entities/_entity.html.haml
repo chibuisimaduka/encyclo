@@ -1,19 +1,24 @@
 = content_tag_for :div, entity do
-  - showing_image = (!entity.images.blank? && !(local_assigns[:show_pictures] == false)) || data_mode?
-  - if showing_image
-    .listing_image
-      = image_tag entity.images.first.image_url(:thumb).to_s unless entity.images.blank?
-      - if data_mode?
-        .add_image
-          = toggle_visibility handle: "Add an image.." do
-            = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
-              %p= f.file_field :image
-              %p
-                = f.label :remote_image_url, "or image URL"
-                = f.text_field :remote_image_url
-              %p= f.submit "Add image"
+  - showing_image = false
+  - unless local_assigns[:show_pictures] == false
+    - image = entity.images.first# || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
+    - unless image.blank?
+      .listing_image
+        - showing_image = true
+        = image_tag image.image_url(:thumb).to_s
+        - if data_mode?
+          .add_image
+            = toggle_visibility handle: "Add an image.." do
+              = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
+                %p= f.file_field :image
+                %p
+                  = f.label :remote_image_url, "or image URL"
+                  = f.text_field :remote_image_url
+                %p= f.submit "Add image"
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
     = hover_block :rating do
+      - if local_assigns.has_key?(:show_parent) && show_parent && entity.parent
+        = "(#{link_to_entity(entity.parent)})".html_safe
       %span.entity_name= render partial: "entities/name", locals: {entity: entity, link_entity: true}
       = render partial: "ratings/rankable", locals: {rankable: entity}
       = hover_hidden do
@@ -26,3 +31,5 @@
           = f.text_field :source
           = hidden_field_tag :entity_id, entity.id
           = f.submit "Add document"
+- unless local_assigns.has_key?(:nested) && !nested
+  = render partial: DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1), locals: {nested: true}

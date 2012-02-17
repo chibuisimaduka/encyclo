@@ -36,6 +36,9 @@
             = link_to "Proposed entity", random_entities_path
           #random_document
             Proposed document
+          #index_entities
+            #search_entity_sidebar_text What are you looking for?
+            = render :partial => "entities/search"
         = yield :left_sidebar
       #content
         - flash.each do |name, msg|

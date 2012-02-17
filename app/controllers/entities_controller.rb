@@ -5,9 +5,13 @@ class EntitiesController < ApplicationController
 
   def search
     goto_doc = params[:search_entity_name][0] == "=" || params["commit"] != "Search"
-    name = params[:search_entity_name][0] == "=" ? params[:search_entity_name][1..-1].strip : params[:search_entity_name]
-    @entity = Entity.find_by_id_or_by_name(params[:entity_id], name, current_language)
-    redirect_to (goto_doc && !@entity.documents.blank?) ? @entity.documents.first.link : @entity
+    @name = params[:search_entity_name][0] == "=" ? params[:search_entity_name][1..-1].strip : params[:search_entity_name]
+    @entities = Entity.find_all_by_id_or_by_name(params[:entity_id], @name, current_language)
+    if @entities.size == 1
+      redirect_to (goto_doc && !@entities.first.documents.blank?) ? @entities.first.documents.first.link : @entities.first
+    else
+      render template: "entities/disambiguate"
+    end
   end
 
   require "pretty_printer"
@@ -20,7 +24,6 @@ class EntitiesController < ApplicationController
     @entities = DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user).limit(50)
     @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user).limit(50)
     @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user).limit(50)
-    @entities |= DeleteRequest.alive_scope(Entity.subentity_scope(@entity.little_descendants), current_user).limit(50)  # TODO: order
     params[:filter].each do |definition_id, vals|
       unless params["refine_#{definition_id}"].blank?
         @entities.delete_if {|e| !e.associations.find_by_association_definition_id_and_associated_entity_id(definition_id, vals[:associated_entity_id]) &&
@@ -40,7 +43,7 @@ class EntitiesController < ApplicationController
 
   def create
     if params["commit"] == "Change parent"
-      Entity.find_by_id_or_by_name(params[:entity_id], params[:name], current_language).update_attributes(parent_id: params[:entity][:parent_id])
+      Entity.find_all_by_id_or_by_name(params[:entity_id], params[:name], current_language).first.update_attributes(parent_id: params[:entity][:parent_id])
       redirect_to :back, :notice => 'Entity parent was succesfully changed.'
     else
       @entity = Entity.new(params[:entity])
