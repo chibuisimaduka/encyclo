@@ -184,8 +184,12 @@ body {
   width: 388px;
 }
 
+.nested_entity .listing_entity {
+  width: 376px;
+}
+
 .nested_entity {
-  margin-left: 60px;
+  margin-left: 12px;
 }
 
 .toggle_block_handle {

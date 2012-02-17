@@ -14,6 +14,9 @@
 - A watchlist. A list of entities that the user wants to watch or is watching.
 - Remove duplication for select menus with javascript. Add the content instead of hidding it.
 - A better document show view.
+- Add more rules to delete like association definition and components should be considered less easilly.
+  Also, an entity that has less content should be deletable easily. One that has much should be less.
+  If a user create an entity than delete it, it should be purged.
 
 == FIXMEs
 

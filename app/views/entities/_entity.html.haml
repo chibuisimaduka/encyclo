@@ -1,21 +1,19 @@
 - options = (local_assigns.has_key?(:nested) && nested) ? {:class => "nested_entity"} : {}
 = content_tag_for :div, entity, options do
-  - showing_image = false
-  - unless local_assigns[:show_pictures] == false
-    - image = entity.images.first# || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
-    - unless image.blank?
-      .listing_image
-        - showing_image = true
-        = image_tag image.image_url(:thumb).to_s
-        - if data_mode?
-          .add_image
-            = toggle_visibility handle: "Add an image.." do
-              = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
-                %p= f.file_field :image
-                %p
-                  = f.label :remote_image_url, "or image URL"
-                  = f.text_field :remote_image_url
-                %p= f.submit "Add image"
+  - showing_image = (local_assigns[:show_pictures] != false && !(image = entity.images.first).blank?) || data_mode?
+  - if showing_image
+    -# image = entity.images.first || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
+    .listing_image
+      = image_tag image.image_url(:thumb).to_s unless image.blank?
+      - if data_mode?
+        .add_image
+          = toggle_visibility handle: "Add an image.." do
+            = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
+              %p= f.file_field :image
+              %p
+                = f.label :remote_image_url, "or image URL"
+                = f.text_field :remote_image_url
+              %p= f.submit "Add image"
   %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
     = hover_block :rating do
       - if local_assigns.has_key?(:show_parent) && show_parent && entity.parent
