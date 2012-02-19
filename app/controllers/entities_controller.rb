@@ -43,11 +43,19 @@ class EntitiesController < ApplicationController
 
   def create
     if params["commit"] == "Change parent"
-      Entity.find_all_by_id_or_by_name(params[:entity_id], params[:name], current_language).first.update_attributes(parent_id: params[:entity][:parent_id])
-      redirect_to :back, :notice => 'Entity parent was succesfully changed.'
+      @entities = Entity.find_all_by_id_or_by_name(params[:entity_id], params[:name], current_language)
+      if @entities.size != 1
+        redirect_to :back, :notice => 'There must not be ambiguosity to change an entity parent.'
+      else
+        @entity = @entities.first
+        @entity.parent_id = params[:entity][:parent_id]
+        @entity.recalculate_ancestors(true)
+        redirect_to :back, :notice => 'Entity parent was succesfully changed.'
+      end
     else
       @entity = Entity.new(params[:entity])
       @entity.user_id = current_user.id
+      @entity.recalculate_ancestors(false)
       @name = @entity.names.build(language_id: current_language.id)
       @name.set_value(params[:name], current_user)
       if @entity.save

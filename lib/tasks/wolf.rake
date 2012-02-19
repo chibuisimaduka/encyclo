@@ -71,12 +71,13 @@ namespace :wolf do
   namespace :entities do
 
     task :ancestors => :environment do
-      Entity.transaction do
-        Entity.all.each do |e|
-          e.ancestors = e.calculate_ancestors
-          e.save
-        end
-      end
+      all_entities_map = Hash[Entity.includes(:entities, :ancestors).all.map {|e| [e.id, e] }]
+      Entity.where("parent_id IS NULL").each {|e| set_entity_ancestors(e, [], all_entities_map) }
+    end
+
+    def set_entity_ancestors(entity, child_ancestors, all_entities_map)
+      entity.update_attribute :ancestors, child_ancestors unless entity.ancestors == child_ancestors
+      (entity.entity_ids || []).each {|s| set_entity_ancestors(all_entities_map[s], (child_ancestors || []) + [entity], all_entities_map) }
     end
 
     task :calculate_names_value => :environment do

@@ -3,8 +3,8 @@
 - Data consistency rules at the database level. (avoid duplicates at least)
 - Figure out the document types.
 - Create a static form field to enter commands that are most likely just javascript code. (ex: login, logout, [create entity])
-- A select function to see the associations/attributes/components/documents/... that you want. ( similar to SQL select )
-- A order function to order by associations/attributes/components/documents/... Pretty self explanatory.
+- A select function for entities to see the associations/attributes/components/documents/... that you want. ( similar to SQL select )
+- A order function for entities to order by associations/attributes/components/documents/... Pretty self explanatory.
 - When adding coordinates to entities, add a nearby entities feature. You can see entities who are close.
 - Image and document pagination.
 - Be able to change the language of a document.

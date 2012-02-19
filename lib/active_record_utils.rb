@@ -21,6 +21,28 @@ module ActiveRecordUtils
 
   alias map_all collect_all
 
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+
+    # The purpose of this method is the create the associated model at the same time.
+    # Exemple: Entity.create_all names: [{value: "some name", possible_name_spellings: [spelling: "some name"]}]
+    def create_all(attributes={})
+      self.new Hash[attributes.map do |k,v|
+        if v.is_a? Hash
+          [k,self.name.constantize.reflect_on_association(k.to_sym).klass.create_all(v)]
+        elsif v.is_a? Array
+          [k,v.map { |vi| vi.is_a?(Hash) ? self.name.constantize.reflect_on_association(k.to_sym).klass.create_all(vi) : vi }]
+        else
+          [k,v]
+        end
+      end]
+    end
+
+  end
+
 end
 
 ActiveRecord::Base.send(:include, ActiveRecordUtils)

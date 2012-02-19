@@ -1,4 +1,22 @@
 FactoryGirl.define do
+
+  factory :entity do
+    sequence :rank, 50 do |n|
+      n.to_f/10.0
+    end
+    user
+    names {|name| names.association(:name)}
+  end
+
+  factory :child_and_parent_entity do
+    association :parent, :factory => :childless_orphan_entity
+    entities { |entities| entities.association(:childless_orphan_entity) }
+  end
+  
+  factory :childless_orphan_entity, :parent => :entity do
+    parent nil
+  end
+
   factory :user do
     sequence(:email) {|n|  "john_doe_#{n}@encyclo.com" }
     password "foobar"
@@ -8,6 +26,22 @@ FactoryGirl.define do
     factory :ip_address do
       is_ip_address true
     end
+  end
+
+  factory :name do
+    sequence :value do |n|
+      "Some name #{n}"
+    end
+    language
+    possible_name_spellings {|possible_name_spellings| possible_name_spellings.association(:possible_name_spelling, :spelling => value)}
+  end
+  
+  factory :language do
+    name "english"
+  end
+
+  factory :french_language do
+    name "french"
   end
 
   factory :association_definition do
@@ -86,30 +120,8 @@ FactoryGirl.define do
   #factory :editable_edit_request do
   #end
 
-  factory :entity do
-    rank 8.0
-    association :parent, :factory => :entity
-    component
-    user
-  end
-  
-  factory :language do
-    name "english"
-  end
-
-  factory :french_language do
-    name "french"
-  end
-
-  factory :name do
-    value "Some name"
-    #entity
-    language
-  end
-  
   factory :possible_name_spelling do
     spelling "Some name"
-    name
   end
 
 end

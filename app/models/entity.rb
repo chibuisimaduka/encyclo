@@ -1,8 +1,8 @@
 class Entity < ActiveRecord::Base
- 
-  default_scope includes([:ratings, :delete_request, :documents, :images, :names => {:possible_name_spellings => {:edit_request => :agreeing_users}}])
 
-  attr_protected :user_id, :user
+  default_scope includes([:parent, :ratings, :delete_request, :documents, :images, :names => {:possible_name_spellings => {:edit_request => :agreeing_users}}])
+
+  attr_protected :user_id, :user, :ancestors, :ancestor_ids, :little_descendants, :little_desendant_ids
 
   # ======== RELATIONS ========
   has_and_belongs_to_many :documents, :order => "rank DESC"
@@ -118,12 +118,25 @@ class Entity < ActiveRecord::Base
     raw_name ||= names.first
   end
 
-  def calculate_ancestors(include_parents=false)
+  def calculate_ancestors
     parents = self.parents_by_definition | self.associated_parents_by_definition
     parents |= [self.parent] if self.parent
-    ancestors = parents.flat_map {|e| e.calculate_ancestors(true) }
-    ancestors += parents if include_parents
-    ancestors
+    parents + parents.flat_map {|e| e.calculate_ancestors }
+  end
+
+  def recalculate_ancestors(do_save)
+    self.ancestors = calculate_ancestors
+    Entity.transaction do
+      set_child_ancestors((self.ancestors || []) + [self])
+      save if do_save
+    end
+  end
+
+  def set_child_ancestors(child_ancestors)
+    self.entities.includes(:entities, :ancestors).each do |e|
+      e.update_attribute :ancestors, child_ancestors unless e.ancestors == child_ancestors
+      e.set_child_ancestors(child_ancestors + [e]) # OPTIMIZE: Can I skip this if e.ancestors == ancestors.
+    end
   end
 
   def self.find_all_by_id_or_by_name(id, name, language)
