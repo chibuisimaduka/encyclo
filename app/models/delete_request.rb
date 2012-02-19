@@ -15,7 +15,7 @@ class DeleteRequest < ActiveRecord::Base
   validates_inclusion_of :considered_destroyed, :in => [true, false]
 
   def considered_deleted?
-    concurring_users.length - opposing_users.length > 3
+    concurring_users.length - opposing_users.length > 3 || (concurring_users.length == 1 && concurring_users.first.id == destroyable.user_id)
   end
 
   def self.alive_scope(destroyables, user=nil)

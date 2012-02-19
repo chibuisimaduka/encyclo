@@ -1,11 +1,11 @@
 # The Wolf fixes stuff.
 namespace :wolf do
 
-  desc "Save the mysql dump to the backups directory. Load using mysql env < file."
-  task :backup do
-    filename = "backups/sorted_development_backup_#{(ENV["MSG"] || "").gsub(" ", "_")}_#{Time.now.to_i}.sql"
-    `mysqldump -u root sorted_development > #{filename}`
-    puts "Succesfully saved to #{filename}"
+  task :recalculate_alives => :environment do
+    DeleteRequest.all.each do |d|
+      new_value = d.considered_deleted?
+      d.update_attribute :considered_destroyed, new_value unless d.considered_destroyed == new_value
+    end
   end
 
   desc "Destroy any invalid record. You must update the list of models though."
