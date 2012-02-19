@@ -30,5 +30,5 @@
           = f.text_field :source
           = hidden_field_tag :entity_id, entity.id
           = f.submit "Add document"
-- unless local_assigns.has_key?(:nested) && !nested
+- if !local_assigns.has_key?(:nested) || !nested
   = render partial: DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1), locals: {nested: true}
