@@ -55,10 +55,9 @@ class EntitiesController < ApplicationController
     else
       @entity = Entity.new(params[:entity])
       @entity.user_id = current_user.id
-      @entity.recalculate_ancestors(false)
       @name = @entity.names.build(language_id: current_language.id)
       @name.set_value(params[:name], current_user)
-      if @entity.save
+      if @entity.recalculate_ancestors(true)
         flash[:notice] = 'Entity was successfully created.'
       else
         flash[:notice] = 'An error has occured while creating the entity.'

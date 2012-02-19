@@ -20,7 +20,7 @@
   #components
     Components:
     - unless @entity.is_component?
-      - for component in @entity.map_all(:parent, false, &:components)
+      - for component in @entity.map_all(:parent, &:components)
         .component_value
           - if (entity = component.entities.find_by_parent_id(@entity.id))
             = link_to_entity entity
