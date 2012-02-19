@@ -4,7 +4,7 @@ task :deploy do
   `git push`
   `cd "/var/www/encyclo"`
   `git pull`
-  Rake::Task["assets:precompile"].run
+  Rake::Task["assets:precompile"].invoke
   `sudo /opt/nginx/sbin/nginx -s stop`
   `sudo /opt/nginx/sbin/nginx`
   `git checkout master`
