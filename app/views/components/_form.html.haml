@@ -4,6 +4,7 @@
       = f.hidden_field :entity_id, :value => entity.id, id: "component_entity_id"
   
       = f.hidden_field :associated_entity_id, id: "component_associated_entity_id"
-      = autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_component_associated_entity_field", id_element: "#component_associated_entity_id"
+      = autocomplete_field_tag :name, '', autocomplete_name_value_entities_path, id: "add_component_associated_entity_field", id_element: "#component_associated_entity_id"
     .actions
-      = f.submit "Add component"
+      = f.submit "Change parent"
+      = f.submit "Create component"

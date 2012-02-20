@@ -119,21 +119,25 @@ class Entity < ActiveRecord::Base
   end
 
   def calculate_ancestors
-    parents = self.parents_by_definition | self.associated_parents_by_definition
-    parents |= [self.parent] if self.parent
-    parents + parents.flat_map {|e| e.calculate_ancestors }
+    if self.parent && self.component_id.blank?
+      parents = self.parents_by_definition | self.associated_parents_by_definition
+      parents |= [self.parent] if self.parent
+      parents + parents.flat_map {|e| e.calculate_ancestors }
+    else
+      []
+    end
   end
 
   def recalculate_ancestors(do_save)
     self.ancestors = calculate_ancestors
     Entity.transaction do
       set_child_ancestors((self.ancestors || []) + [self])
-      save if do_save
+      save! if do_save
     end
   end
 
   def set_child_ancestors(child_ancestors)
-    self.entities.includes(:entities, :ancestors).each do |e|
+    Entity.subentity_scope(self.entities.includes(:entities, :ancestors)).each do |e|
       e.update_attribute :ancestors, child_ancestors unless e.ancestors == child_ancestors
       e.set_child_ancestors(child_ancestors + [e]) # OPTIMIZE: Can I skip this if e.ancestors == ancestors.
     end
@@ -142,6 +146,11 @@ class Entity < ActiveRecord::Base
   def self.find_all_by_id_or_by_name(id, name, language)
     # FIXME: Doesn't work if current_user has change the name.
     id.blank? ? Name.find_all_by_language_id_and_value(language.id, name).map(&:entity) : [Entity.find(id)]
+  end
+  
+  # Stops when parent_id is nil or the entity is a component
+  def parents_untill_component
+    !self.parent_id.blank? && self.component_id.blank? ? self.parent.parents_untill_component + [self.parent] : []
   end
 
 private

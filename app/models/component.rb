@@ -10,11 +10,18 @@ class Component < ActiveRecord::Base
   belongs_to :entity, :inverse_of => :components
   validates_presence_of :entity
 
-  belongs_to :associated_entity, :class_name => "Entity"
-  validates_presence_of :associated_entity
-
   has_many :entities, :inverse_of => :component
 
   has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable, :dependent => :destroy
-  
+
+  def associated_entity
+    self.entities.find_by_parent_id(self.entity_id)
+  end
+
+  def self.components_for(entity, user)
+    (entity.parents_untill_component + [entity]).flat_map do |e|
+      DeleteRequest.alive_scope(e.components, user)
+    end
+  end
+
 end

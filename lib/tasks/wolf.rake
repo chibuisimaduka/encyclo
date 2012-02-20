@@ -1,6 +1,13 @@
 # The Wolf fixes stuff.
 namespace :wolf do
 
+  task :destroy_components => :environment do
+    Component.all.each do |c|
+      c.entities.destroy_all
+      c.destroy
+    end
+  end
+
   task :recalculate_alives => :environment do
     DeleteRequest.all.each do |d|
       new_value = d.considered_deleted?
