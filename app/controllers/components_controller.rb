@@ -5,7 +5,7 @@ class ComponentsController < ApplicationController
     if params["commit"] == "Change parent"
       @entities = Entity.find_all_by_id_or_by_name(params[:component][:associated_entity_id], params[:name], current_language)
       if @entities.size != 1
-        redirect_to :back, :notice => 'There must not be ambiguosity to change an entity to a component.'
+        redirect_to :back, :alert => 'There must not be ambiguosity to change an entity to a component.'
         return
       else
         @entity = @entities.first
@@ -30,7 +30,7 @@ class ComponentsController < ApplicationController
         flash[:notice] = 'Entity was succesfully transform into an entity.'
       end
     rescue
-      flash[:notice] = "An error has occured while creating component"
+      flash[:alert] = "An error has occured while creating component"
     end
     redirect_to params[:show] ? @entity : :back
   end

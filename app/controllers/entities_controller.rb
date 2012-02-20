@@ -45,7 +45,7 @@ class EntitiesController < ApplicationController
     if params["commit"] == "Change parent"
       @entities = Entity.find_all_by_id_or_by_name(params[:entity_id], params[:name], current_language)
       if @entities.size != 1
-        redirect_to :back, :notice => 'There must not be ambiguosity to change an entity parent.'
+        redirect_to :back, :alert => 'There must not be ambiguosity to change an entity parent.'
       else
         @entity = @entities.first
         @entity.parent_id = params[:entity][:parent_id]
@@ -60,7 +60,7 @@ class EntitiesController < ApplicationController
       if @entity.recalculate_ancestors(true)
         flash[:notice] = 'Entity was successfully created.'
       else
-        flash[:notice] = 'An error has occured while creating the entity.'
+        flash[:alert] = 'An error has occured while creating the entity.'
       end
       redirect_to params[:show] ? @entity : :back
     end

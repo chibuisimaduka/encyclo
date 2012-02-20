@@ -4,7 +4,7 @@ class AssociationsController < ApplicationController
     @association = Association.new(params[:association])
     @association.user_id = current_user.id
     if !@association.save
-      flash[:notice] = "Error while creating association"
+      flash[:alert] = "Error while creating association"
     end
     redirect_to :back
   end

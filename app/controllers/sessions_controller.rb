@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def change_language
     if params[:current_language].blank? || params[:current_language][:id].blank? || (lang = (Language.find(params[:current_language][:id]) rescue nil)).blank?
-      redirect_to :back, :notice => "Cannot change language: Invalid language given."
+      redirect_to :back, :alert => "Cannot change language: Invalid language given."
     else
       session[:current_language] = lang
       redirect_to :back
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       session[:document_type_filter] = nil
       redirect_to :back
     elsif (doc_type = (DocumentType.find(params[:document_type_filter][:id]) rescue nil)).blank?
-      redirect_to :back, :notice => "Cannot change document type: Invalid document type given."
+      redirect_to :back, :alert => "Cannot change document type: Invalid document type given."
     else
       session[:document_type_filter] = doc_type
       redirect_to :back
@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to :back, :notice => "Logged in!"
     else
-      redirect_to :back, :notice => "Invalid email or password."
+      redirect_to :back, :alert => "Invalid email or password."
     end
   end
 

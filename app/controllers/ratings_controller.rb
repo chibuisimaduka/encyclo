@@ -16,7 +16,7 @@ class RatingsController < ApplicationController
       @rating.destroy
       redirect_to :back
     else
-      redirect_to :back, :notice => "This is not your rating that you are trying to delete! We're watching you.."
+      redirect_to :back, :alert => "This is not your rating that you are trying to delete! We're watching you.."
     end
   end
 

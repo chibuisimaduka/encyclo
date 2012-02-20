@@ -6,7 +6,7 @@ class DeleteRequestsController < ApplicationController
     @delete_request.concurring_users << current_user
     @delete_request.considered_destroyed = @delete_request.considered_deleted?
     if !@delete_request.save
-      flash[:notice] = "An error has occured while creating delete request. #{@delete_request.errors.full_messages.join("\n")}"
+      flash[:alert] = "An error has occured while creating delete request. #{@delete_request.errors.full_messages.join("\n")}"
     end
 	 redirect_to :back
   end
