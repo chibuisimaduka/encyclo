@@ -22,7 +22,7 @@ class DeleteRequestsController < ApplicationController
   def remove_opposing_user
     @delete_request = DeleteRequest.find(params[:id])
     if @delete_request.opposing_users.delete(current_user)
-      @delete_request.deleted = true if @delete_request.considered_deleted?
+      @delete_request.considered_destroyed = true if @delete_request.considered_deleted?
       @delete_request.save
     end
 	 redirect_to :back
@@ -32,7 +32,7 @@ class DeleteRequestsController < ApplicationController
     @delete_request = DeleteRequest.find(params[:id])
     unless @delete_request.concurring_users.include?(current_user)
       @delete_request.concurring_users << current_user
-      @delete_request.deleted = true if @delete_request.considered_deleted?
+      @delete_request.considered_destroyed = true if @delete_request.considered_deleted?
       @delete_request.save
     end
 	 redirect_to :back
