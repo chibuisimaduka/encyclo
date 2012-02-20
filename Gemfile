@@ -12,7 +12,7 @@ gem 'best_in_place'
 gem 'carrierwave'
 gem 'rmagick'
 gem 'nokogiri'
-gem 'rails3-jquery-autocomplete'
+gem 'rails3-jquery-autocomplete', :git => 'git://github.com/pascalr/rails3-jquery-autocomplete.git'
 gem 'whatlanguage'
 gem "will_paginate"
 
