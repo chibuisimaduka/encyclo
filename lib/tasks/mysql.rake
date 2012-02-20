@@ -2,8 +2,8 @@ namespace :mysql do
 
   desc "Save the mysql dump to the backups directory. Load using mysql env < file."
   task :backup do
-    filename = "backups/sorted_development_backup_#{(ENV["MSG"] || "").gsub(" ", "_")}_#{Time.now.to_i}.sql"
-    `mysqldump -u root sorted_development > #{filename}`
+    filename = "backups/encyclo_production_backup_#{(ENV["MSG"] || "").gsub(" ", "_")}_#{Time.now.to_i}.sql"
+    `mysqldump -u root encyclo_production > #{filename}`
     puts "Succesfully saved to #{filename}"
   end
 
