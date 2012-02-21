@@ -98,7 +98,7 @@ class Entity < ActiveRecord::Base
   end
 
   def all_association_definitions
-    self.map_all :parent do |a|
+    self.ancestors.map do |a|
       (a.association_definitions || []) + (a.associated_association_definitions || [])
     end
   end

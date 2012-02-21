@@ -44,11 +44,10 @@
   |
   = link_to "Previous", @entity
   \----------
-  = join(@entity.map_all(:parent, false).reverse, " > ") do |e|
-    = link_to_entity e
+  = (@entity.ancestors.map {|e| link_to_entity(e)}).join(" > ").html_safe
 #entity
   #entity_parents_by_definition
-    = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false}
+    = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false, show_nested: false}
   #entity_title
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
