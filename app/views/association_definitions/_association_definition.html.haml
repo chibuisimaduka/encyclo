@@ -1,10 +1,12 @@
 .association_definition
-  = link_to_entity(inversed ? association_definition.entity : association_definition.associated_entity)
-  -# FIXME: The following does not work in both ways.
-  = best_in_place association_definition, (inversed ? :associated_entity_has_many : :entity_has_many), type: :checkbox, collection: ["One", "Many"]
-  \/
-  = best_in_place association_definition, (inversed ? :entity_has_many : :associated_entity_has_many), type: :checkbox, collection: ["One", "Many"]
-  - if association_definition.nested_entity
-    Through
-    = link_to_entity(association_definition.nested_entity) 
-  = render partial: "delete_requests/link", locals: {destroyable: association_definition}
+  = hover_block do
+    = link_to_entity(inversed ? association_definition.entity : association_definition.associated_entity)
+    -# FIXME: The following does not work in both ways.
+    = best_in_place association_definition, (inversed ? :associated_entity_has_many : :entity_has_many), type: :checkbox, collection: ["One", "Many"]
+    \/
+    = best_in_place association_definition, (inversed ? :entity_has_many : :associated_entity_has_many), type: :checkbox, collection: ["One", "Many"]
+    - if association_definition.nested_entity
+      Through
+      = link_to_entity(association_definition.nested_entity) 
+    = hover_hidden do
+      = render partial: "delete_requests/link", locals: {destroyable: association_definition, link: image_tag("delete_button_14_px.png")}
