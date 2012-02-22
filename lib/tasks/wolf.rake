@@ -15,14 +15,17 @@ namespace :wolf do
     end
   end
 
-  desc "Destroy any invalid record. You must update the list of models though."
+  desc "Destroy any invalid record for the given model names comma separated."
   task :clean => :environment do
-    [EditRequest].each do |model|
+    raise "Missing CLASSES argument." unless ENV['CLASSES']
+    (ENV['CLASSES'].split(',').map {|c| Kernel.const_get(c)}).each do |model|
+      puts "There is #{model.count} #{model.name} before cleanup."
       model.transaction do
         model.all.each do |record|
           record.destroy unless record.valid?
         end
       end
+      puts "There is #{model.count} #{model.name} after cleanup."
     end
   end
 

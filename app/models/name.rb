@@ -10,6 +10,8 @@ class Name < ActiveRecord::Base
   validates_uniqueness_of :language_id, :scope => :entity_id
   validate :validate_name_uniqueness, :validate_universal_uniqueness, :validate_has_possible_name_spellings
 
+  validates_presence_of :value
+
   def pretty_value
     self.value.split.map(&:capitalize).join(" ")
   end
