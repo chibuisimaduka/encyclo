@@ -19,9 +19,11 @@
       - for component in Component.components_for(@entity, current_user)
         .component_value
           - if (entity = component.entities.find_by_parent_id(@entity.id))
-            = link_to_entity entity
-            - if component.entity_id == @entity.id
-              = render partial: "delete_requests/link", locals: {destroyable: component}
+            = hover_block do
+              = link_to_entity entity
+              - if component.entity_id == @entity.id
+                = hover_hidden do
+                  = render partial: "delete_requests/link", locals: {destroyable: component, link: image_tag("delete_button_14_px.png")}
           - else
             - missing_name = component.associated_entity.name(current_user, current_language)
             %span.missing= link_to missing_name, entities_path(entity: {:parent_id => @entity.id, :component_id => component.id}, name: missing_name, show: true), method: :post
@@ -67,9 +69,14 @@
 #content_sidebar
   - DeleteRequest.alive_scope(@entity.images, current_user)[0..4].each do |image|
     .image
-      = hover_block :rating do
-        = render partial: "ratings/rankable", locals: {rankable: image}
-      = render partial: "delete_requests/link", locals: {destroyable: image, link: image_tag("delete_button_15_px.png")}
-      .the_image= image_tag image.image_url(:big_thumb).to_s
+      = hover_block do
+        = hover_block :rating do
+          = render partial: "ratings/rankable", locals: {rankable: image}
+        = hover_hidden do
+          = render partial: "delete_requests/link", locals: {destroyable: image, link: image_tag("delete_button_15_px.png")}
+        - if image.source
+          .the_image= link_to image_tag(image.image_url(:big_thumb).to_s), h(image.source)
+        - else
+          .the_image= image_tag(image.image_url(:big_thumb).to_s)
   = render partial: "entities/add_image_form", locals: {entity: @entity}
   -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
