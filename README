@@ -1,33 +1,31 @@
-== TODOs
+== TODOs (ordered by importance*time)
 
-- Data consistency rules at the database level. (avoid duplicates at least)
-- Figure out the document types.
-- Create a static form field to enter commands that are most likely just javascript code. (ex: login, logout, [create entity])
-- A select function for entities to see the associations/attributes/components/documents/... that you want. ( similar to SQL select )
-- A order function for entities to order by associations/attributes/components/documents/... Pretty self explanatory.
-- When adding coordinates to entities, add a nearby entities feature. You can see entities who are close.
 - Image and document pagination.
 - Be able to change the language of a document.
-- Add user favorites. (movie, song...)
-- Make many games in this site to encourage users to do stuff. Collect coins..
-- Cancel toggle_visibility by pressing the escape key.
-- A watchlist. A list of entities that the user wants to watch or is watching.
-- Remove duplication for select menus with javascript. Add the content instead of hidding it.
-- A better document show view.
 - Add more rules to delete like association definition and components should be considered less easilly.
   Also, an entity that has less content should be deletable easily. One that has much should be less.
   If a user create an entity than delete it, it should be purged.
+- Cancel toggle_visibility by pressing the escape key.
 - Add document medias (videos, sounds, wikis, websites, entities..)
+- A watchlist. A list of entities that the user wants to watch or is watching.
+- Add user favorites. (movie, song...)
+- A better document show view.
+- Create a static form field to enter commands that are most likely just javascript code. (ex: login, logout, [create entity])
+- A order function for entities to order by associations/attributes/components/documents/... Pretty self explanatory.
+- A select function for entities to see the associations/attributes/components/documents/... that you want. ( similar to SQL select )
+- When adding coordinates to entities, add a nearby entities feature. You can see entities who are close.
+- Make many games in this site to encourage users to do stuff. Collect coins..
+- Remove duplication for select menus with javascript. Add the content instead of hidding it.
 
 == FIXMEs
 
+- Be able to set the language universal for an entity and it's sub-descendants.
 - When deleting entities, you should not be able to see it in the search.
 - The entity validations should all be based on the current user. Based on what he has deleted.
 - Not definitive changing parents of entity.
 - Make the names accent sensitives. You curently can't just add an accent to a name.
 - The editing of association definitions many/one.
 - If you look at Entity, you should see the best ranked entities overall. How do you do that? Same for other big categories..
-- Be able to set the language universal for an entity and it's sub-descendants.
 
 == Content TODOs
 
@@ -60,7 +58,3 @@ movie for seing a movie
 dollar genre equals action and comedy for mathcing predicate genre = action AND movie
 # The dollar is there for better autocomplete purposes.
 # You can also specify that you thrust Isaac.
-
-== REMINDER
-Console options:
-* Passing the <tt>-s, --sandbox</tt> argument will rollback any modifications made to the database.
