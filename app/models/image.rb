@@ -19,4 +19,6 @@ class Image < ActiveRecord::Base
   #validates image format
 
   before_destroy :remove_image!
+
+  self.per_page = 5
 end

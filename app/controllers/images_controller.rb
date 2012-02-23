@@ -1,5 +1,9 @@
 class ImagesController < ApplicationController
 
+  def index
+    @entity = Entity.find(params[:entity_id])
+  end
+
   def create
     @entity = Entity.find(params[:entity_id])
     @image = @entity.images.build(params[:image])

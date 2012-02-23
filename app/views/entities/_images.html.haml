@@ -1,0 +1,15 @@
+- @images = DeleteRequest.alive_scope(@entity.images, current_user).paginate(page: params[:page])
+- @images.each do |image|
+  .image
+    = hover_block do
+      = hover_block :rating do
+        = render partial: "ratings/rankable", locals: {rankable: image}
+      = hover_hidden do
+        = render partial: "delete_requests/link", locals: {destroyable: image, link: image_tag("delete_button_15_px.png")}
+      - if image.source
+        .the_image= link_to image_tag(image.image_url(:big_thumb).to_s), h(image.source)
+      - else
+        .the_image= image_tag(image.image_url(:big_thumb).to_s)
+= render partial: "entities/add_image_form", locals: {entity: @entity}
+= will_paginate @images, :params => {:controller => :images, :action => :index, :entity_id => @entity.id}
+-#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf
