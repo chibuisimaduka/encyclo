@@ -13,7 +13,7 @@ class Entity < ActiveRecord::Base
   has_many :entity_similarities
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
   has_many :sources
-  has_many :images, :inverse_of => :entity, :order => "rank DESC"
+  has_many :images, :inverse_of => :entity, :order => "rank DESC", :dependent => :destroy
 
   has_many :association_definitions, :inverse_of => :entity, :dependent => :destroy
   has_many :associated_association_definitions, :class_name => "AssociationDefinition", :foreign_key => "associated_entity_id", :inverse_of => :associated_entity, :dependent => :destroy
