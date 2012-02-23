@@ -2,6 +2,11 @@ class DocumentsController < ApplicationController
 
   respond_to :html, :json
 
+  def index
+    @entity = Entity.find(params[:entity_id])
+    @printer = PrettyPrinter.new(@entity)
+  end
+
   def new
     redirect_to :back, :alert => "You must be logged in to create a document.." if current_user.is_ip_address?
     @document = Document.new

@@ -1,4 +1,4 @@
-- @images = DeleteRequest.alive_scope(@entity.images, current_user).paginate(page: params[:page])
+- @images = DeleteRequest.alive_scope(@entity.images, current_user).paginate(page: params[:image_page])
 - @images.each do |image|
   .image
     = hover_block do
@@ -11,5 +11,5 @@
       - else
         .the_image= image_tag(image.image_url(:big_thumb).to_s)
 = render partial: "entities/add_image_form", locals: {entity: @entity}
-= will_paginate @images, :params => {:controller => :images, :action => :index, :entity_id => @entity.id}
+= will_paginate @images, :params => {:controller => :images, :action => :index, :entity_id => @entity.id}, :param_name => :image_page
 -#components_values= render partial: @entity.map_all(:parent, :components) if @entity.is_leaf

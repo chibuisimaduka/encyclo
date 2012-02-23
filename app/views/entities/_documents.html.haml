@@ -1,0 +1,3 @@
+- @documents = DeleteRequest.alive_scope(@entity.documents.where(:language_id => current_language.id).where(document_type_filter.blank? ? {} : {:document_type_id => document_type_filter.id}), current_user).paginate(page: params[:document_page], per_page: @printer.num_documents)
+= render partial: @documents
+= will_paginate @documents, :params => {:controller => :documents, :action => :index, :entity_id => @entity.id}, param_name: :document_page

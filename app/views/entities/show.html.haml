@@ -53,7 +53,7 @@
   #entity_title
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  #documents= render partial: DeleteRequest.alive_scope(@entity.documents.where(:language_id => current_language.id).where(document_type_filter.blank? ? {} : {:document_type_id => document_type_filter.id}), current_user)[0..(@printer.num_documents - 1)]
+  #documents= render partial: "entities/documents"
   = render :partial => "documents/form"
   or
   = link_to "Create a document", new_document_path(entity_id: @entity.id)

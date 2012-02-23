@@ -1,6 +1,6 @@
 $(function() {
   $(".pagination a").live("click", function() {
-    $(".pagination").html("Page is loading...");
+    $(this).parent().html("Page is loading...");
     $.getScript(this.href);
     return false;
   });
