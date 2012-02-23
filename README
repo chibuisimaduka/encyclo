@@ -1,12 +1,11 @@
 == TODOs (ordered by importance*time)
 
-- Image and document pagination.
-- Be able to change the language of a document.
 - Add more rules to delete like association definition and components should be considered less easilly.
   Also, an entity that has less content should be deletable easily. One that has much should be less.
   If a user create an entity than delete it, it should be purged.
-- Cancel toggle_visibility by pressing the escape key.
+- Be able to change the language of a document.
 - Add document medias (videos, sounds, wikis, websites, entities..)
+- Cancel toggle_visibility by pressing the escape key.
 - A watchlist. A list of entities that the user wants to watch or is watching.
 - Add user favorites. (movie, song...)
 - A better document show view.
