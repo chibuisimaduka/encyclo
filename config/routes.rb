@@ -1,4 +1,6 @@
 Encyclo::Application.routes.draw do
+  get "terminal_command/create"
+
   get "sources/update"
 
   resources :images do
