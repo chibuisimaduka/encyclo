@@ -11,14 +11,15 @@ function term_out(msg) {
 function longest_common_chars(partial_command, commands) {
   for (var i=partial_command.length;;i++) {
     var common_char;
-    for (var command in commands) {
+    for (var command_i in commands) {
+      var command = commands[command_i];
       if (command.length == i) {
-        return command.slice(0,i)
+        return command.slice(0,i);
       } else {
         if (!common_char) {
-          common_char = possible_command[i]
+          common_char = command[i]
         } else if (command[i] != common_char) {
-          return command.slice(0,i)
+          return command.slice(0,i);
         }
       }
     }
