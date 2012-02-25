@@ -49,12 +49,12 @@ class EntitiesController < ApplicationController
       else
         @entity = @entities.first
         @entity.parent_id = params[:entity][:parent_id]
-        @entity.recalculate_ancestors(true)
+        @entity.save
         redirect_to :back, :notice => 'Entity parent was succesfully changed.'
       end
     else
       @entity = Entity.create(params[:entity], current_user, current_language, params[:name])
-      if @entity.recalculate_ancestors(true)
+      if @entity.save
         flash[:notice] = 'Entity was successfully created.'
       else
         flash[:alert] = 'An error has occured while creating the entity.'

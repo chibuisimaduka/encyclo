@@ -51,6 +51,8 @@ class Entity < ActiveRecord::Base
 
   validate :validate_has_one_name, :validate_not_parent_of_itself
 
+  before_save :calculate_ancestors
+
   self.per_page = 20
 
   def self.create(attributes, user, language, raw_name)
@@ -129,21 +131,9 @@ class Entity < ActiveRecord::Base
   end
 
   def calculate_ancestors
-    if self.parent && self.component_id.blank?
-      parents = self.parents_by_definition | self.associated_parents_by_definition
-      parents |= [self.parent] if self.parent
-      parents + parents.flat_map {|e| e.calculate_ancestors }
-    else
-      []
-    end
-  end
-
-  def recalculate_ancestors(do_save)
-    self.ancestors = calculate_ancestors
-    Entity.transaction do
-      set_child_ancestors((self.ancestors || []) + [self])
-      save! if do_save
-    end
+    old_ancestors = self.ancestors
+    self.ancestors = self.parent.ancestors + [self.parent] if self.parent
+    set_child_ancestors((self.ancestors || []) + [self]) unless self.ancestors == old_ancestors
   end
 
   def set_child_ancestors(child_ancestors)

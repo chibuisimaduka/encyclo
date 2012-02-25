@@ -11,9 +11,10 @@ class UsersController < ApplicationController
     begin
       User.transaction do
         @user.save!
-        if (begin @user.home_entity.recalculate_ancestors(true); true rescue false end)
+        if @user.home_entity.save
           session[:user_id] = @user.id
-          redirect_to root_path, :notice => "Signed up!"
+          redirect_to @user.home_entity, :notice => "Signed up! This is your home folder. Do whatever you want with it.\
+            But remember it is public.."
         else
           flash[:alert] = "An error has occured while creating the user home folder."
           raise "Home entity not save!"

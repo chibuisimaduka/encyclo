@@ -22,7 +22,7 @@ class ComponentsController < ApplicationController
     @entity.component = @component
     begin
       Component.transaction do
-        @entity.recalculate_ancestors(true)
+        @entity.save!
         @component.save!
         flash[:notice] = 'Entity was succesfully transform into an entity.'
       end
