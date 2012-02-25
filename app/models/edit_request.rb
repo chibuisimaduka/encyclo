@@ -29,7 +29,7 @@ class EditRequest < ActiveRecord::Base
     if editable.edit_request
       editable.edit_request.agreeing_users << user unless editable.edit_request.agreeing_users.include?(user)
     else
-      editable.create_edit_request(:agreeing_users => [user])
+      editable.build_edit_request(:agreeing_users => [user])
     end
   end
 

@@ -47,9 +47,19 @@ class Entity < ActiveRecord::Base
   belongs_to :user, :inverse_of => :entities
   validates_presence_of :user
 
+  has_one :home_user, :class_name => "User", :inverse_of => :home_entity
+
   validate :validate_has_one_name, :validate_not_parent_of_itself
 
   self.per_page = 20
+
+  def self.create(attributes, user, language, raw_name)
+    entity = Entity.new(attributes)
+    entity.user = user
+    name = entity.names.build(language_id: language.id)
+    name.set_value(raw_name, user, false)
+    entity
+  end
 
   def descendants
     self.little_descendants | self.entities | self.entities_by_definition

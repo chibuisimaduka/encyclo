@@ -16,14 +16,14 @@ class Name < ActiveRecord::Base
     self.value.split.map(&:capitalize).join(" ")
   end
 
-  def set_value(spelling, user)
-    @possible_name_spelling = self.possible_name_spellings.find_or_create_by_spelling(spelling)
+  def set_value(spelling, user, should_save=true)
+    @possible_name_spelling = self.possible_name_spellings.find_or_initialize_by_spelling(spelling)
     EditRequest.update(@possible_name_spelling, self.possible_name_spellings, user)
     if self.persisted?
        recalculate_value
     else
       self.value = spelling
-      self.save
+      self.save if should_save
     end
   end
 

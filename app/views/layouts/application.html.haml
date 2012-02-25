@@ -31,7 +31,10 @@
       #left-sidebar
         = cache('left-sidebar_navigation') do
           #home_link_which_should_be_an_image
-            = link_to "Home", root_path
+            = link_to "Homepage", root_path
+          - unless current_user.is_ip_address?
+            #home_link
+              = link_to "Home", current_user.home_entity
           #random_entity
             = link_to "Proposed entity", random_entities_path
           #random_document
