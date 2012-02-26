@@ -19,30 +19,24 @@ longest_common_chars = (partial_command, commands) ->
 commands =
   help : (args) -> term_out(Object.keys(commands).join(' '))
   ls : (args) ->
-    if args.length == 1
-      $.getJSON('/paths',
-        path: args[0]
-        current_entity: $('#entity').attr('entity_id'),
-        (data) ->
-          if data["names"]
-            if data["names"].length > 0
-              term_out data["names"].join(' ') 
-            else
-              term_out "Entity has no subentities."
-          term_err data["error"]  if data["error"])
-    else
-      term_err('ls is expecting one argument, the path.')
+    $.getJSON('/paths',
+      path: args[0]
+      current_entity: $('#entity').attr('entity_id'),
+      (data) ->
+        if data["names"]
+          if data["names"].length > 0
+            term_out data["names"].join(' ')
+          else
+            term_out "Entity has no subentities."
+        term_err data["error"]  if data["error"])
   cd : (args) ->
-    if args.length == 1
-      $.getJSON('/paths/get_entity',
-        path: args[0]
-        current_entity: $('#entity').attr('entity_id'),
-        (data) ->
-          if data["entity"]
-            window.location.replace('/entities/' + data["entity"]["id"])
-          term_err data["error"]  if data["error"])
-    else
-      term_err('cd is expecting one argument, the path.')
+    $.getJSON('/paths/get_entity',
+      path: args[0]
+      current_entity: $('#entity').attr('entity_id'),
+      (data) ->
+        if data["entity"]
+          window.location.replace('/entities/' + data["entity"]["id"])
+        term_err data["error"]  if data["error"])
   login : (args) ->
     alert 'login'
   logout : (args) ->

@@ -1,19 +1,19 @@
 class PathsController < ApplicationController
 
   def index
-    entity = process_path_or_render_error(params[:path])
+    entity = process_path_or_render_error(params[:path], default: ".")
     render :json => {names: entity.entities.map {|e| e.name(current_user, current_language) }} if entity
   end
 
   def get_entity
-    entity = process_path_or_render_error(params[:path])
+    entity = process_path_or_render_error(params[:path], default: "~")
     render :json => {entity: entity} if entity
   end
 
 private
 
-  def process_path_or_render_error(path)
-    entity_or_error_msg = process_path(params[:path])
+  def process_path_or_render_error(path, options={})
+    entity_or_error_msg = process_path(params[:path], options)
     if entity_or_error_msg.is_a?(String)
       render :json => {error: entity_or_error_msg}
       nil
@@ -23,8 +23,11 @@ private
   end
 
   # Returns the entity for the path, or a string with an error.
-  def process_path(path)
-    return "Path can't be blank!" if path.blank?
+  def process_path(path, options={})
+    if path.blank?
+      return "Path can't be blank!" unless options[:default]
+      path = options[:default]
+    end
 
     entity_names = path.split('/')
     entities = []
