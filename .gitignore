@@ -22,3 +22,7 @@
 /public/uploads
 
 /wip/**
+
+.rvmrc
+
+config/database.yml
