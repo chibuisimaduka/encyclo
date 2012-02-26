@@ -1,5 +1,5 @@
 term_err = (msg) -> $('#terminal_output').html(msg).css('color', 'red')
-term_out = (msg) -> $('#terminal_output').html(msg)
+term_out = (msg) -> $('#terminal_output').html(msg).css('color', 'black')
 
 # Assumes that commands is a set with more that one element,
 # all starting with partial_command.
@@ -20,17 +20,28 @@ commands =
   help : (args) -> term_out(Object.keys(commands).join(' '))
   ls : (args) ->
     if args.length == 1
-      # TODO
+      $.getJSON('/paths',
+        path: args[0]
+        current_entity: $('#entity').attr('entity_id'),
+        (data) ->
+          if data["names"]
+            if data["names"].length > 0
+              term_out data["names"].join(' ') 
+            else
+              term_out "Entity has no subentities."
+          term_err data["error"]  if data["error"])
     else
       term_err('ls is expecting one argument, the path.')
+  cd : (args) ->
+    alert 'cd'
   login : (args) ->
     alert 'login'
   logout : (args) ->
     alert 'logout'
   mv : (args) ->
     alert 'mv'
-  cd : (args) ->
-    alert 'cd'
+  cp : (args) ->
+    alert 'cp'
   clear : (args) ->
     $('#terminal_output').html('')
 

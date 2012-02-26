@@ -55,6 +55,8 @@ class Entity < ActiveRecord::Base
 
   self.per_page = 20
 
+  ROOT_ENTITY = Entity.find(724)
+
   def self.create(attributes, user, language, raw_name)
     entity = Entity.new(attributes)
     entity.user = user

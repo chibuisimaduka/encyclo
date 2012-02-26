@@ -8,6 +8,12 @@ Encyclo::Application.routes.draw do
     resources :ratings#, :only => :update
   end
 
+  resources :paths, :only => [:index] do
+    collection do
+      get 'get_entity'
+    end
+  end
+
   root :to => "home#index"
 
   resources :entities do
