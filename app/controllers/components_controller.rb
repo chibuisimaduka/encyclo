@@ -16,16 +16,13 @@ class ComponentsController < ApplicationController
         end
       end
     else
-      @entity = Entity.new(parent_id: params[:component][:entity_id])
-      @entity.user_id = current_user.id
-      @name = @entity.names.build(language_id: current_language.id)
-      @name.set_value(params[:name], current_user)
+      @entity = Entity.create({parent_id: params[:component][:entity_id]}, current_user, current_language, params[:name])
     end
     @component.user_id = current_user.id
     @entity.component = @component
     begin
       Component.transaction do
-        @entity.recalculate_ancestors(true)
+        @entity.save!
         @component.save!
         flash[:notice] = 'Entity was succesfully transform into an entity.'
       end

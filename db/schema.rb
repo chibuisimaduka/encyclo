@@ -11,78 +11,99 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120215005454) do
+ActiveRecord::Schema.define(:version => 20120225023450) do
 
   create_table "association_definitions", :force => true do |t|
-    t.integer  "entity_id"
-    t.integer  "associated_entity_id"
-    t.boolean  "entity_has_many"
-    t.boolean  "associated_entity_has_many"
+    t.integer  "entity_id",                  :null => false
+    t.integer  "associated_entity_id",       :null => false
+    t.boolean  "entity_has_many",            :null => false
+    t.boolean  "associated_entity_has_many", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "nested_entity_id"
-    t.integer  "user_id"
+    t.integer  "user_id",                    :null => false
   end
 
+  add_index "association_definitions", ["associated_entity_id"], :name => "fk_associated_entity"
+  add_index "association_definitions", ["entity_id"], :name => "fk_entity"
+  add_index "association_definitions", ["nested_entity_id"], :name => "fk_nested_entity"
+  add_index "association_definitions", ["user_id"], :name => "user_id"
+
   create_table "associations", :force => true do |t|
-    t.integer  "association_definition_id"
-    t.integer  "entity_id"
-    t.integer  "associated_entity_id"
+    t.integer  "association_definition_id", :null => false
+    t.integer  "entity_id",                 :null => false
+    t.integer  "associated_entity_id",      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_implicit"
-    t.integer  "user_id"
+    t.integer  "user_id",                   :null => false
   end
 
+  add_index "associations", ["associated_entity_id"], :name => "associated_entity_id"
+  add_index "associations", ["association_definition_id"], :name => "association_definition_id"
+  add_index "associations", ["entity_id"], :name => "entity_id"
+  add_index "associations", ["user_id"], :name => "user_id"
+
   create_table "components", :force => true do |t|
-    t.integer  "entity_id"
+    t.integer  "entity_id",            :null => false
     t.integer  "associated_entity_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
+    t.integer  "user_id",              :null => false
   end
+
+  add_index "components", ["entity_id"], :name => "entity_id"
+  add_index "components", ["user_id"], :name => "user_id"
 
   create_table "concurring_users_delete_requests", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "delete_request_id"
+    t.integer "user_id",           :null => false
+    t.integer "delete_request_id", :null => false
   end
 
+  add_index "concurring_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
+  add_index "concurring_users_delete_requests", ["user_id"], :name => "user_id"
+
   create_table "delete_requests", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",              :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "destroyable_id"
-    t.string   "destroyable_type"
-    t.boolean  "considered_destroyed"
+    t.integer  "destroyable_id",       :null => false
+    t.string   "destroyable_type",     :null => false
+    t.boolean  "considered_destroyed", :null => false
   end
 
   create_table "document_types", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
+    t.string   "name",       :null => false
   end
 
   create_table "documents", :force => true do |t|
-    t.string   "name"
-    t.string   "source"
+    t.string   "name",             :null => false
+    t.string   "source",           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.binary   "content"
+    t.binary   "content",          :null => false
     t.float    "rank"
-    t.text     "description"
+    t.text     "description",      :null => false
     t.integer  "document_type_id"
-    t.integer  "language_id"
-    t.integer  "user_id"
+    t.integer  "language_id",      :null => false
+    t.integer  "user_id",          :null => false
   end
+
+  add_index "documents", ["user_id"], :name => "user_id"
 
   create_table "documents_entities", :id => false, :force => true do |t|
-    t.integer "document_id"
-    t.integer "entity_id"
+    t.integer "document_id", :null => false
+    t.integer "entity_id",   :null => false
   end
 
+  add_index "documents_entities", ["document_id"], :name => "document_id"
+  add_index "documents_entities", ["entity_id"], :name => "entity_id"
+
   create_table "edit_requests", :force => true do |t|
-    t.integer  "editable_id"
-    t.string   "editable_type"
+    t.integer  "editable_id",   :null => false
+    t.string   "editable_type", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,13 +116,19 @@ ActiveRecord::Schema.define(:version => 20120215005454) do
     t.integer  "parent_id"
     t.boolean  "is_leaf"
     t.integer  "component_id"
-    t.integer  "user_id"
+    t.integer  "user_id",      :null => false
   end
 
+  add_index "entities", ["component_id"], :name => "fk_component"
+  add_index "entities", ["parent_id"], :name => "fk_parent"
+  add_index "entities", ["user_id"], :name => "fk_user"
+
   create_table "entities_ancestors", :id => false, :force => true do |t|
-    t.integer "entity_id"
-    t.integer "ancestor_id"
+    t.integer "entity_id",   :null => false
+    t.integer "ancestor_id", :null => false
   end
+
+  add_index "entities_ancestors", ["ancestor_id"], :name => "ancestor_id"
 
   create_table "entity_refs", :force => true do |t|
     t.string   "name"
@@ -122,45 +149,59 @@ ActiveRecord::Schema.define(:version => 20120215005454) do
   create_table "images", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "entity_id"
-    t.string   "image"
+    t.integer  "entity_id",  :null => false
+    t.string   "image",      :null => false
     t.float    "rank"
     t.string   "source"
-    t.integer  "user_id"
+    t.integer  "user_id",    :null => false
   end
 
+  add_index "images", ["entity_id"], :name => "entity_id"
+  add_index "images", ["user_id"], :name => "user_id"
+
   create_table "languages", :force => true do |t|
-    t.string   "name"
+    t.string   "name",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "names", :force => true do |t|
-    t.string   "value"
-    t.integer  "language_id"
-    t.integer  "entity_id"
+    t.string   "value",       :null => false
+    t.integer  "language_id", :null => false
+    t.integer  "entity_id",   :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "names", ["entity_id"], :name => "entity_id"
+  add_index "names", ["language_id"], :name => "language_id"
 
   create_table "opposing_users_delete_requests", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "delete_request_id"
+    t.integer "user_id",           :null => false
+    t.integer "delete_request_id", :null => false
   end
+
+  add_index "opposing_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
+  add_index "opposing_users_delete_requests", ["user_id"], :name => "user_id"
 
   create_table "possible_document_types", :force => true do |t|
-    t.integer  "document_id"
-    t.integer  "document_type_id"
+    t.integer  "document_id",      :null => false
+    t.integer  "document_type_id", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "possible_document_types", ["document_id"], :name => "document_id"
+  add_index "possible_document_types", ["document_type_id"], :name => "document_type_id"
+
   create_table "possible_name_spellings", :force => true do |t|
-    t.string   "spelling"
-    t.integer  "name_id"
+    t.string   "spelling",   :null => false
+    t.integer  "name_id",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "possible_name_spellings", ["name_id"], :name => "name_id"
 
   create_table "predicate_items", :force => true do |t|
     t.integer  "predicate_id"
@@ -172,12 +213,14 @@ ActiveRecord::Schema.define(:version => 20120215005454) do
   create_table "ratings", :force => true do |t|
     t.integer  "entity_id"
     t.integer  "user_id"
-    t.float    "value"
+    t.float    "value",         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "rankable_id"
-    t.string   "rankable_type"
+    t.integer  "rankable_id",   :null => false
+    t.string   "rankable_type", :null => false
   end
+
+  add_index "ratings", ["user_id"], :name => "user_id"
 
   create_table "sources", :force => true do |t|
     t.string   "url"
@@ -195,17 +238,21 @@ ActiveRecord::Schema.define(:version => 20120215005454) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email"
+    t.string   "email",          :null => false
     t.string   "password_hash"
     t.string   "password_salt"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_ip_address"
+    t.integer  "home_entity_id"
   end
 
   create_table "users_edit_requests", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "edit_request_id"
+    t.integer "user_id",         :null => false
+    t.integer "edit_request_id", :null => false
   end
+
+  add_index "users_edit_requests", ["edit_request_id"], :name => "edit_request_id"
+  add_index "users_edit_requests", ["user_id"], :name => "user_id"
 
 end

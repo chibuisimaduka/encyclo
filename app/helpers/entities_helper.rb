@@ -2,7 +2,7 @@ module EntitiesHelper
   
   def associations_by_definition(entity)
     associations_by_def = {}
-    entity.ancestors.flat_map(&:association_definitions).each do |association_definition|
+    (entity.entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map(&:association_definitions).each do |association_definition|
       associations_by_def[association_definition] = []
     end
     # Using the parent also because if the Asterix and Obelix serie is written by Uderzo and Gosciny, so is every of it's child.
@@ -14,7 +14,7 @@ module EntitiesHelper
 
   def associated_associations_by_definition(entity)
     associations_by_def = {}
-    entity.ancestors.flat_map(&:associated_association_definitions).each do |association_definition|
+    (entity.entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map(&:associated_association_definitions).each do |association_definition|
       associations_by_def[association_definition] = []
     end
     # Using the parent also because if the Asterix and Obelix serie is written by Uderzo and Gosciny, so is every of it's child.

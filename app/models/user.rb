@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
   has_many :images, :inverse_of => :user, :dependent => :destroy
   # ==== END USER CREATIONS ====
 
+  belongs_to :home_entity, :class_name => "Entity", :inverse_of => :home_user, :dependent => :destroy
+  # AFAIK, we cannot validate that this since the entity validates that it has a user. It is circular..
+  # validates_presence_of :home_entity
+
   attr_accessor :password
   before_save :encrypt_password
 

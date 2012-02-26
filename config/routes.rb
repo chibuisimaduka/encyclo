@@ -1,9 +1,17 @@
 Encyclo::Application.routes.draw do
+  get "terminal_command/create"
+
   get "sources/update"
 
   resources :images do
     resources :delete_requests, :only => :create
     resources :ratings#, :only => :update
+  end
+
+  resources :paths, :only => [:index] do
+    collection do
+      get 'get_entity'
+    end
   end
 
   root :to => "home#index"
