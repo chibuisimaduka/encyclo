@@ -8,9 +8,9 @@ set :deploy_to, "/var/www/encyclo"
 
 set :use_sudo, false
 
-role :web, "216.221.55.87"                          # Your HTTP server, Apache/etc
-role :app, "216.221.55.87"                          # This may be the same as your `Web` server
-role :db,  "216.221.55.87", :primary => true # This is where Rails migrations will run
+role :web, "216.221.61.38"                          # Your HTTP server, Apache/etc
+role :app, "216.221.61.38"                          # This may be the same as your `Web` server
+role :db,  "216.221.61.38", :primary => true # This is where Rails migrations will run
 #role :db,  "your slave db-server here"
 
 # if you're still using the script/reaper helper you will need
