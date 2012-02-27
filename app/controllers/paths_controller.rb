@@ -2,7 +2,9 @@ class PathsController < ApplicationController
 
   def index
     entity = process_path_or_render_error(params[:path], default: ".")
-    render :json => {names: entity.entities.map {|e| e.name(current_user, current_language) }} if entity
+    entities = params[:partial_name] ? entity.entities.joins(:names)
+      .where("names.value like ?", "#{params[:partial_name]}%") : entity.entities
+    render :json => {names: entities.map {|e| e.name(current_user, current_language) }} if entity
   end
 
   def get_entity
@@ -39,16 +41,16 @@ private
     elsif entity_names.first == '..'
       return "There is no current entity." if params[:current_entity].blank?
       entities << Entity.find(params[:current_entity]).parent
-    else
+    elsif entity_names.first == '.'
       return "There is no current entity." if params[:current_entity].blank?
-      entities << Entity.find(params[:current_entity]) #FIXME: First entity will be ignored, when not using dot.
+      entities << Entity.find(params[:current_entity])
     end
     
     (entities.blank? ? entity_names : (entity_names[1..-1] || [])).each do |name|
       entity = if name == ".."
         entities.last.parent
       else
-        entities.last.entities.joins(:names).where("names.language_id = ? and names.value = ?", current_language.id, name).first
+        (entities.last || Entity.find(params[:current_entity])).entities.joins(:names).where("(names.language_id = ? or names.language_id = ?) and names.value = ?", Language::MAP[:universal], current_language.id, name).first
       end
       return "Entity with name = #{name} does not exists." if entity.blank?
       entities << entity

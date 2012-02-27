@@ -1,9 +1,10 @@
 term_err = (msg) -> $('#terminal_output').html(msg).css('color', 'red')
 term_out = (msg) -> $('#terminal_output').html(msg).css('color', 'black')
 
-# Assumes that commands is a set with more that one element,
+# Assumes that commands is a set with elements,
 # all starting with partial_command.
 longest_common_chars = (partial_command, commands) ->
+  return commands[0] if commands.length == 1
   i = partial_command.length-1
   while (i += 1) > 0
     common_char = null
@@ -77,13 +78,18 @@ $.fn.terminal = (options) ->
           term_out(possible_commands.join(' '))
       else # Autocomplete path
         path = command_parts[command_parts.length-1]
+        input_field = $(this)
         $.getJSON('/paths',
-          path: if path.lastIndexOf('/') == -1 then path else path.substring(0, path.lastIndexOf('/')+1)
+          path: if path.lastIndexOf('/') == -1 then '.' else path.substring(0, path.lastIndexOf('/')+1)
+          partial_name: if path.lastIndexOf('/') == -1 then path else path.substring(path.lastIndexOf('/')+1)
           current_entity: $('#entity').attr('entity_id'),
           (data) ->
             if data["names"] && data["names"].length > 0
-              $(this).attr('value', longest_common_chars(command_parts[command_parts.length-1], data["names"]))
-              term_out data["names"].join(' ')
+              if data["names"].length == 1
+                input_field.attr('value', command_parts[0..-2].join(' ') + ' ' + data["names"] + '/')
+              else
+                input_field.attr('value', command_parts[0..-2].join(' ') + ' ' + longest_common_chars(command_parts[command_parts.length-1], data["names"]))
+                term_out data["names"].join(' ')
             term_err data["error"] if data["error"])
       event.preventDefault()
       return false

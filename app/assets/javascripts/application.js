@@ -13,5 +13,5 @@
 //= require_tree .
 
 $(document).ready(function() {
-  $('#search_entity_name_field').focus();
+  $('.terminal').focus();
 })
