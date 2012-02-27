@@ -24,7 +24,9 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.integer  "user_id",                    :null => false
   end
 
+  add_index "association_definitions", ["associated_entity_id"], :name => "association_definition_associated_entity_id"
   add_index "association_definitions", ["associated_entity_id"], :name => "fk_associated_entity"
+  add_index "association_definitions", ["entity_id"], :name => "association_definition_entity_id"
   add_index "association_definitions", ["entity_id"], :name => "fk_entity"
   add_index "association_definitions", ["nested_entity_id"], :name => "fk_nested_entity"
   add_index "association_definitions", ["user_id"], :name => "user_id"
@@ -40,7 +42,9 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "associations", ["associated_entity_id"], :name => "associated_entity_id"
+  add_index "associations", ["associated_entity_id"], :name => "associations_associated_entity_id"
   add_index "associations", ["association_definition_id"], :name => "association_definition_id"
+  add_index "associations", ["entity_id"], :name => "associations_entity_id"
   add_index "associations", ["entity_id"], :name => "entity_id"
   add_index "associations", ["user_id"], :name => "user_id"
 
