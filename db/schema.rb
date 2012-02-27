@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "concurring_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
+  add_index "concurring_users_delete_requests", ["user_id", "delete_request_id"], :name => "concurring_users_delete_requests_i"
   add_index "concurring_users_delete_requests", ["user_id"], :name => "user_id"
 
   create_table "delete_requests", :force => true do |t|
@@ -98,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.integer "entity_id",   :null => false
   end
 
+  add_index "documents_entities", ["document_id", "entity_id"], :name => "documents_entities_i"
   add_index "documents_entities", ["document_id"], :name => "document_id"
   add_index "documents_entities", ["entity_id"], :name => "entity_id"
 
@@ -129,6 +131,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "entities_ancestors", ["ancestor_id"], :name => "ancestor_id"
+  add_index "entities_ancestors", ["entity_id", "ancestor_id"], :name => "entities_ancestors_i"
 
   create_table "entity_refs", :force => true do |t|
     t.string   "name"
@@ -174,6 +177,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "names", ["entity_id"], :name => "entity_id"
+  add_index "names", ["language_id", "value", "entity_id"], :name => "name_autocomplete"
   add_index "names", ["language_id"], :name => "language_id"
 
   create_table "opposing_users_delete_requests", :id => false, :force => true do |t|
@@ -182,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "opposing_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
+  add_index "opposing_users_delete_requests", ["user_id", "delete_request_id"], :name => "opposing_users_delete_requests_i"
   add_index "opposing_users_delete_requests", ["user_id"], :name => "user_id"
 
   create_table "possible_document_types", :force => true do |t|
@@ -253,6 +258,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "users_edit_requests", ["edit_request_id"], :name => "edit_request_id"
+  add_index "users_edit_requests", ["user_id", "edit_request_id"], :name => "users_edit_requests_i"
   add_index "users_edit_requests", ["user_id"], :name => "user_id"
 
 end
