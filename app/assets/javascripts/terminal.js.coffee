@@ -28,7 +28,7 @@ commands =
             term_out data["names"].join(' ')
           else
             term_out "Entity has no subentities."
-        term_err data["error"]  if data["error"])
+        term_err data["error"] if data["error"])
   cd : (args) ->
     $.getJSON('/paths/get_entity',
       path: args[0]
@@ -36,7 +36,7 @@ commands =
       (data) ->
         if data["entity"]
           window.location.replace('/entities/' + data["entity"]["id"])
-        term_err data["error"]  if data["error"])
+        term_err data["error"] if data["error"])
   login : (args) ->
     alert 'login'
   logout : (args) ->
@@ -75,8 +75,16 @@ $.fn.terminal = (options) ->
         else if possible_commands.length > 1
           $(this).attr('value', longest_common_chars(command, possible_commands))
           term_out(possible_commands.join(' '))
-      else
-        # command_parts.last.
+      else # Autocomplete path
+        path = command_parts[command_parts.length-1]
+        $.getJSON('/paths',
+          path: if path.lastIndexOf('/') == -1 then path else path.substring(0, path.lastIndexOf('/')+1)
+          current_entity: $('#entity').attr('entity_id'),
+          (data) ->
+            if data["names"] && data["names"].length > 0
+              $(this).attr('value', longest_common_chars(command_parts[command_parts.length-1], data["names"]))
+              term_out data["names"].join(' ')
+            term_err data["error"] if data["error"])
       event.preventDefault()
       return false
     else if event.which == 27 # Clear output on ESC.
