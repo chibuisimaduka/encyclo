@@ -5,7 +5,11 @@ set :rvm_type, :user
 
 require "bundler/capistrano"
 
+$:.unshift File.join(File.dirname(__FILE__), '../lib/')
 require "capistrano_database"
+require "capistrano_uploads"
+
+load "deploy/assets"
 
 set :application, "enyclo"
 set :repository,  "git://github.com/pascalr/encyclo.git"
