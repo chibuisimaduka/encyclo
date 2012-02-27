@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.datetime "updated_at"
   end
 
+  add_index "edit_requests", ["editable_type", "editable_id"], :name => "edit_request_editable_type_and_id"
+
   create_table "entities", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -127,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   add_index "entities", ["component_id"], :name => "fk_component"
+  add_index "entities", ["parent_id", "component_id"], :name => "entity_parent_component"
   add_index "entities", ["parent_id"], :name => "fk_parent"
   add_index "entities", ["user_id"], :name => "fk_user"
 
@@ -212,6 +215,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.datetime "updated_at"
   end
 
+  add_index "possible_name_spellings", ["name_id", "spelling"], :name => "possible_name_spellings_i"
   add_index "possible_name_spellings", ["name_id"], :name => "name_id"
 
   create_table "predicate_items", :force => true do |t|
