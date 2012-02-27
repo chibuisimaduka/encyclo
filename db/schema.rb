@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.integer  "user_id",          :null => false
   end
 
+  add_index "documents", ["language_id"], :name => "documents_language"
   add_index "documents", ["user_id"], :name => "user_id"
 
   create_table "documents_entities", :id => false, :force => true do |t|
@@ -196,6 +197,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.datetime "updated_at"
   end
 
+  add_index "possible_document_types", ["document_id", "document_type_id"], :name => "possible_documents_i"
   add_index "possible_document_types", ["document_id"], :name => "document_id"
   add_index "possible_document_types", ["document_type_id"], :name => "document_type_id"
 
