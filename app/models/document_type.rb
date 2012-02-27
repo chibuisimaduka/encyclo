@@ -4,4 +4,5 @@ class DocumentType < ActiveRecord::Base
   validates_presence_of :name
 
   ALL = DocumentType.all.sort_by(&:name)
+  MAP = Hash[ALL.map{|d| [d.name.to_sym, d.id]}]
 end

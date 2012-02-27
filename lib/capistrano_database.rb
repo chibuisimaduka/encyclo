@@ -10,8 +10,8 @@ Capistrano::Configuration.instance.load do
       
       desc "Make a backup remotely."
       task :backup, :roles => :db, :only => {:primary => true}, :no_release => true do
-        @filename = "encyclo_prod_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}.tar.bz2"
-        @file = "#{shared_path}/backups/#{@filename}"
+        @filename = "encyclo_prod_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}"
+        @file = "#{shared_path}/backups/#{@filename}.bz2"
         # TODO: get remote database password on webserver
         #db = YAML::load(ERB.new(IO.read("#{shared_path}/config/database.yml")).result)['production']
         #run "mysqldump -u #{db['username']} --password=#{db['password']} #{db['database']} | tar cvj > #{file}"
@@ -21,14 +21,16 @@ Capistrano::Configuration.instance.load do
 
       desc "Make a backup remotely and fetch it."
       task :local_backup, :roles => :db, :only => {:primary => true}, :no_release => true do
-        get @file, "./#{@filename}"
+        get @file, "./#{@filename}.bz2"
       end
 
       desc "Transfer data from production environment to local development environment."
       task :transfer, :roles => :db, :only => {:primary => true}, :no_release => true do
         db = YAML::load(ERB.new(IO.read(File.join(File.dirname(__FILE__),"../config/database.yml"))).result)['development']
-        `mysql -u #{db['username']} --password='#{db['password']}' #{db['database']} < #{@filename}`
-        `rm #{@filename}`
+        `bunzip2 -c #{@filename}.bz2 > #{@filename}.sql`
+        `mysql -u #{db['username']} --password='#{db['password']}' #{db['database']} < #{@filename}.sql`
+        `rm #{@filename}.sql`
+        `rm #{@filename}.bz2`
       end
 
       before "deploy:db:local_backup", "deploy:db:backup"

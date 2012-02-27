@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.is_ip_address = false
-    @user.home_entity = Entity.create({parent_id: entity_user.id}, @user, current_language, @user.email)
+    @user.home_entity = Entity.create({parent_id: entity_user.id}, @user, Language::MAP[:universal], @user.email)
     begin
       User.transaction do
         @user.save!
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
 private
   def entity_user
-    @entity ||= Entity.find(51506)
+    @entity ||= Entity.find(47281)
   end
 
 end

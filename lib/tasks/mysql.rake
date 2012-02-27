@@ -1,22 +1,12 @@
 namespace :mysql do
 
-  desc "Save the mysql dump to the backups directory. Load using mysql env < file."
+  desc "Save the development mysql dump to the backups directory. Load using mysql env < file."
   task :backup do
-    filename = "backups/encyclo_production_backup_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}"
-    `mysqldump -u root encyclo_production > #{filename}.sql`
-    `tar cvjf #{filename}.tar.bz2 #{filename}.sql`
+    filename = "backups/sorted_development_backup_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}"
+    `mysqldump -u root sorted_development > #{filename}.sql`
+    `tar -cvjf #{filename}.tar.bz2 #{filename}.sql`
     `rm #{filename}.sql`
     puts "Succesfully saved to #{filename}.tar.bz2"
-  end
-
-  desc "Transfer the data from production to development."
-  task :transfer do
-    filename = "/tmp/transfer_encyclo_db_dev"
-    `ssh root@216.221.55.87 'mysqldump -h 216.221.55.87 -u root encyclo_production -p > #{filename}'`
-    `scp root@216.221.55.87:#{filename} #{filename}`
-    `mysql -u root sorted_development < #{filename}`
-    `rm #{filename}`
-    `ssh root@216.221.55.87 'rm #{filename}'`
   end
 
 end
