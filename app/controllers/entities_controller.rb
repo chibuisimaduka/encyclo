@@ -34,7 +34,7 @@ class EntitiesController < ApplicationController
     @entities = @entities.paginate(:page => params[:page])
     #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
 
-    @printer = PrettyPrinter.new(@entity)
+    @printer = PrettyPrinter.new(@entity, @entities)
   end
 
   def edit

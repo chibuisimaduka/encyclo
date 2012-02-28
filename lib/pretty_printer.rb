@@ -5,8 +5,8 @@ class PrettyPrinter
 
   attr_reader :num_documents
 
-  def initialize(entity)
-    @num_documents = entity.entities.blank? ? 3 : 1 
+  def initialize(entity, entities)
+    @num_documents = entities.blank? ? 3 : 1 
   end
 
 end
