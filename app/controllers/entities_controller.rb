@@ -54,7 +54,7 @@ class EntitiesController < ApplicationController
       end
     else
       @entity = Entity.create(params[:entity], current_user, current_language, params[:name])
-      if @entity.save
+      if @entity.names.first.save!
         flash[:notice] = 'Entity was successfully created.'
       else
         flash[:alert] = 'An error has occured while creating the entity.'
@@ -71,7 +71,7 @@ private
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
-    items = super(parameters).where("language_id = ? OR language_id = ?", current_language.id, Language::MAP[:universal].id)
+    items = Name.user_chosen_name(super(parameters), current_language, current_user)
     params[:parent_id].blank? ? items : (items.joins(:entity).select("entities.parent_id").where("entities.parent_id" => params[:parent_id]) |
       items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
       items.joins(:entity => {:associated_associations => :definition}).where("association_definitions.associated_entity_id" => params[:parent_id]))

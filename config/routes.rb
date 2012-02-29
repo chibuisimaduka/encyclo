@@ -58,16 +58,14 @@ Encyclo::Application.routes.draw do
   resources :association_definitions do
     resources :delete_requests, :only => :create
   end
-  
-  resources :names do
-    resources :possible_name_spellings, :only => :create
-  end
 
   resources :tags do
     collection do
       get :autocomplete_tag_name
     end
   end
+
+  resources :names
   
   resources :ratings, :only => :destroy
 

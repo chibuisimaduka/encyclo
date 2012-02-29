@@ -1,6 +1,6 @@
 class Entity < ActiveRecord::Base
 
-  default_scope includes([:parent, :ratings, :delete_request, :documents, :images, :names => {:possible_name_spellings => {:edit_request => :agreeing_users}}])
+  default_scope includes([:parent, :ratings, :delete_request, :documents, :images, :names => {:edit_request => :agreeing_users}])
 
   attr_protected :user_id, :user, :ancestors, :ancestor_ids, :little_descendants, :little_desendant_ids
 
@@ -60,8 +60,7 @@ class Entity < ActiveRecord::Base
   def self.create(attributes, user, language, raw_name)
     entity = Entity.new(attributes)
     entity.user = user
-    name = entity.names.build(language_id: language.id)
-    name.set_value(raw_name, user, false)
+    entity.set_name(raw_name, user, language)
     entity
   end
 
@@ -122,14 +121,16 @@ class Entity < ActiveRecord::Base
   end
 
   def name(user, language)
-    user_name = EditRequest.user_editable(raw_name(language).possible_name_spellings, user) 
-    user_name ? user_name.pretty_value : raw_name(language).pretty_value
+    Name.user_chosen_name(self.names, language, user)
   end
 
-  def raw_name(language)
-    raw_name = names.find_by_language_id(language.id)
-    raw_name ||= names.find_by_language_id(Language::MAP[:english].id) unless language.id == Language::MAP[:english].id
-    raw_name ||= names.first
+  def set_name(value, user, language)
+    # Active record does not do that association like expected.
+    #name = names.find_or_initialize_by_value(value)
+    name = names.find_by_value(value) || names.build(value: value)
+    EditRequest.update(name, names, user)
+    name.language = language
+    name
   end
 
   def calculate_ancestors

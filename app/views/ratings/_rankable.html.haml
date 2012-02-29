@@ -1,5 +1,5 @@
 - unless current_user.is_ip_address?
-  - rating = (Rating.for(rankable, current_user) || Rating.new(rankable_id: rankable.id, user_id: current_user.id))
+  - rating = (Rating.for(rankable, current_user) || Rating.new(rankable_id: rankable.id))
   = content_tag_for :span, rating, :rankable_id => rankable.id, :rankable_type => rankable.class.name do
     .editable
       - onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"

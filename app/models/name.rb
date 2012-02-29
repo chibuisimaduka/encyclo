@@ -1,43 +1,39 @@
 class Name < ActiveRecord::Base
+
+  attr_accessible :language, :language_id, :value
+
   belongs_to :entity, :inverse_of => :names
   validates_presence_of :entity
 
   belongs_to :language, :inverse_of => :names
   validates_presence_of :language
 
-  has_many :possible_name_spellings, :inverse_of => :name
-
-  validates_uniqueness_of :language_id, :scope => :entity_id
-  validate :validate_name_uniqueness, :validate_universal_uniqueness, :validate_has_possible_name_spellings
+  has_one :edit_request, :as => :editable, :dependent => :destroy
+  validates_presence_of :edit_request
 
   validates_presence_of :value
+
+  validates_uniqueness_of :value, :scope => [:language_id, :entity_id]
+  validate :validate_universal_uniqueness
+ 
+  def self.language_scope(names, language)
+    names.where("names.language_id = ? || names.language_id = ?", language.id, Language::MAP[:universal].id)
+  end
+
+  def self.user_chosen_name(names, language, user)
+    name = EditRequest.user_editable(Name.language_scope(names, language), user)
+    name ||= Name.language_scope(names, language).first
+    name ||= names.find_by_language_id(Language::MAP[:english].id) unless language.id == Language::MAP[:english].id
+    name ||= names.first
+  end
 
   def pretty_value
     self.value.split.map(&:capitalize).join(" ")
   end
 
-  def set_value(spelling, user, should_save=true)
-    @possible_name_spelling = self.possible_name_spellings.find_or_initialize_by_spelling(spelling)
-    EditRequest.update(@possible_name_spelling, self.possible_name_spellings, user)
-    if self.persisted?
-       recalculate_value
-    else
-      self.value = spelling
-      self.save if should_save
-    end
-  end
+  alias :to_s :pretty_value
 
-  def recalculate_value
-    update_attributes(value: EditRequest.most_agreed_editable(self.possible_name_spellings).spelling)
-  end
-  
 private
-
-  def validate_has_possible_name_spellings
-    unless possible_name_spellings.length > 0
-      raise "Need at least one possible name spelling."
-    end
-  end
 
   def validate_universal_uniqueness
     other_names = (self.entity.names - [self])
@@ -46,10 +42,4 @@ private
     end
   end
   
-  def validate_name_uniqueness
-    unless (Name.joins(:entity).where(["names.value = ? AND entities.parent_id = ? AND names.language_id = ?", self.value, self.entity.parent_id, self.language_id]) - [self]).blank?
-      errors.add(:value, "Duplicate name #{self.value} for language #{self.language.name} and entity parent #{self.entity.parent_id}.")
-    end
-  end
-
 end
