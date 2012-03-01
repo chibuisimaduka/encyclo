@@ -20,13 +20,6 @@ class Name < ActiveRecord::Base
     names.where("names.language_id = ? || names.language_id = ?", language.id, Language::MAP[:universal].id)
   end
 
-  def self.user_chosen_name(names, language, user)
-    name = EditRequest.user_editable(Name.language_scope(names, language), user)
-    name ||= Name.language_scope(names, language).first
-    name ||= names.find_by_language_id(Language::MAP[:english].id) unless language.id == Language::MAP[:english].id
-    name ||= names.first
-  end
-
   def pretty_value
     self.value.split.map(&:capitalize).join(" ")
   end

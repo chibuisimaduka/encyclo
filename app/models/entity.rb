@@ -121,7 +121,10 @@ class Entity < ActiveRecord::Base
   end
 
   def name(user, language)
-    Name.user_chosen_name(self.names, language, user)
+    name = EditRequest.user_editable(Name.language_scope(names, language), user)
+    name ||= Name.language_scope(names, language).first
+    name ||= names.find_by_language_id(Language::MAP[:english].id) unless language.id == Language::MAP[:english].id
+    name ||= names.first
   end
 
   def set_name(value, user, language)

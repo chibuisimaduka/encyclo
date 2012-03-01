@@ -71,7 +71,8 @@ private
 
   def get_autocomplete_items(parameters)
     parameters[:term] = parameters[:term][1..-1].strip if parameters[:term][0] == "="
-    items = Name.user_chosen_name(super(parameters), current_language, current_user)
+    items = Name.language_scope(super(parameters), current_language)
+    # FIXME: Don't show names that the user has edited and don't show names about an entity that the user has deleted.
     params[:parent_id].blank? ? items : (items.joins(:entity).select("entities.parent_id").where("entities.parent_id" => params[:parent_id]) |
       items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
       items.joins(:entity => {:associated_associations => :definition}).where("association_definitions.associated_entity_id" => params[:parent_id]))
