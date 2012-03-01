@@ -31,7 +31,7 @@
       #left-sidebar
         = cache('left-sidebar_navigation') do
           #home_link_which_should_be_an_image
-            = link_to "Homepage", root_path
+            = link_to "Main page", root_path
           - unless current_user.is_ip_address?
             #home_link
               = link_to "Home", current_user.home_entity
@@ -49,5 +49,5 @@
         = yield
       #terminal
         #terminal_input
-          <input class="terminal" type="text" name="terminal_input" size="120" />
+          <input class="terminal" type="text" name="terminal_input" size="120" placeholder='Type "= NameOfEntity" to search or type help for more commands..' />
         #terminal_output

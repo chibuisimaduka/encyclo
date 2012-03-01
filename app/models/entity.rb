@@ -40,7 +40,7 @@ class Entity < ActiveRecord::Base
   has_many :names, :inverse_of => :entity, :dependent => :destroy
 
   has_many :components, :inverse_of => :entity, :dependent => :destroy
-  belongs_to :component, :inverse_of => :entities, :dependent => :destroy
+  belongs_to :component, :inverse_of => :entities
 
   has_one :delete_request, :inverse_of => :destroyable, :dependent => :destroy, :as => :destroyable
 

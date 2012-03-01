@@ -31,8 +31,10 @@ commands =
           else
             term_out "Entity has no subentities."
         term_err data["error"] if data["error"])
+  "~" : (args) ->
+    alert 'TODO: Search in documents.'
   "-" : (args) ->
-    alert 'TODO: Show first document'
+    alert 'TODO: Show first document.'
   "=" : (args) ->
     $.getJSON('/entities/autocomplete_name_value',
       path: args[0]
