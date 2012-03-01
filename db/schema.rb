@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.integer  "associated_entity_id",      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_implicit"
     t.integer  "user_id",                   :null => false
   end
 
@@ -69,7 +68,6 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   add_index "concurring_users_delete_requests", ["user_id"], :name => "user_id"
 
   create_table "delete_requests", :force => true do |t|
-    t.integer  "user_id",              :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "destroyable_id",       :null => false
@@ -84,16 +82,15 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   create_table "documents", :force => true do |t|
-    t.string   "name",             :null => false
-    t.string   "source",           :null => false
+    t.string   "name",        :null => false
+    t.string   "source",      :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.binary   "content",          :null => false
+    t.binary   "content",     :null => false
     t.float    "rank"
-    t.text     "description",      :null => false
-    t.integer  "document_type_id"
-    t.integer  "language_id",      :null => false
-    t.integer  "user_id",          :null => false
+    t.text     "description", :null => false
+    t.integer  "language_id", :null => false
+    t.integer  "user_id",     :null => false
   end
 
   add_index "documents", ["language_id"], :name => "documents_language"
@@ -121,9 +118,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "rank"
-    t.integer  "tag_id"
     t.integer  "parent_id"
-    t.boolean  "is_leaf"
     t.integer  "component_id"
     t.integer  "user_id",      :null => false
   end
@@ -226,8 +221,7 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   create_table "ratings", :force => true do |t|
-    t.integer  "entity_id"
-    t.integer  "user_id"
+    t.integer  "user_id",       :null => false
     t.float    "value",         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
