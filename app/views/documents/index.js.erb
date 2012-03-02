@@ -1,1 +1,1 @@
-$("#documents").html('<%= escape_javascript(render partial: "entities/documents") %>');
+$("#documents").html('<%= escape_javascript(render partial: "entities/documents", locals: {per_page: params[:per_page]}) %>');

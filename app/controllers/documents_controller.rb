@@ -2,8 +2,6 @@ class DocumentsController < ApplicationController
 
   def index
     @entity = Entity.find(params[:entity_id])
-    raise "FIXME: PrettyPrinter entities"
-    @printer = PrettyPrinter.new(@entity)
   end
 
   def show

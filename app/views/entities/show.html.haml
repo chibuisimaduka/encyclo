@@ -53,7 +53,7 @@
   #entity_title
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  #documents= render partial: "entities/documents"
+  #documents= render partial: "entities/documents", locals: {per_page: @printer.num_documents}
   = render :partial => "remote_documents/form", locals: {remote: false}
   or
   = link_to "Create a document", new_user_document_path(entity_id: @entity.id)
