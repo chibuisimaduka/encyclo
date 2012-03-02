@@ -6,7 +6,7 @@ class Document < ActiveRecord::Base
 
   attr_protected :user_id, :user
 
-  belongs_to :documentable, :polymorphic => true
+  belongs_to :documentable, :polymorphic => true, :dependent => :destroy, :autosave => true
   validates_presence_of :documentable
 
   has_and_belongs_to_many :entities
@@ -24,7 +24,6 @@ class Document < ActiveRecord::Base
   has_many :possible_document_types, :inverse_of => :document, :dependent => :destroy
   
   validates_presence_of :name
-  validates_presence_of :description
-  validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
-
+  #validates_presence_of :description
+  #validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
 end

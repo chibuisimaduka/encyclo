@@ -65,7 +65,16 @@ namespace :documents do
   end
 
   task :refetch => :init do
-    Document.all.each {|d| d.fetch.process.save! }
+  end
+
+  task :migrate => :init do
+    Document.all.each do |d|
+      if d.source == "http://www.encyclo.com"
+        UserDocument.new(:content => d.content, :document => d).save!
+      else
+        RemoteDocument.new(:content => d.content, :url => d.source, :document => d).save!
+      end
+    end
   end
 
   task :reprocess_remote => :init do

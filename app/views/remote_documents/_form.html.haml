@@ -1,4 +1,4 @@
-= form_for(Document.new, remote ? {remote: true, format: :js} : {}) do |f|
+= form_for(RemoteDocument.new, remote ? {remote: true, format: :js} : {}) do |f|
   = text_field_tag :url
   = hidden_field_tag :entity_id, @entity.id
   = f.submit "Add document"
