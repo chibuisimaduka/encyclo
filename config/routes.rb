@@ -45,6 +45,9 @@ Encyclo::Application.routes.draw do
     resources :possible_document_types, :only => :create
     resources :delete_requests, :only => :create
     resources :ratings#, :only => :update
+    collection do
+      post 'upload'
+    end
   end 
   resources :remote_documents, :only => :create
   resources :user_documents, :only => [:new, :create]

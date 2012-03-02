@@ -6,6 +6,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
 
+  def extension_white_list
+    %w(jpg jpeg gif png)
+  end
+
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog
