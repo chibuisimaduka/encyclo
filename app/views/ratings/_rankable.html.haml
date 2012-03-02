@@ -1,8 +1,10 @@
 - unless current_user.is_ip_address?
-  - rating = (Rating.for(rankable, current_user) || Rating.new(rankable_id: rankable.id))
+  - rating = rankable.ratings.find_or_initialize_by_user_id(current_user.id)
   = content_tag_for :span, rating, :rankable_id => rankable.id, :rankable_type => rankable.class.name do
     .editable
-      - onchange = "$.post('#{polymorphic_path([rankable])}', {'_method':'put', 'rating[value]':this.value} );"
+      -# onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"
+      - path = "#{polymorphic_path(rankable)}/ratings/#{rating.id || 0}"
+      - onchange = "$.post('#{path}', {'_method':'put', 'rating[value]':this.value} );"
       = toggle_visibility_if rating.value.blank?, toggle_handle: "Rate", toggled_handle: "cancel" do
         = toggle_block_if rating.persisted?, toggled_handle: "cancel", :show_not_visible => true do |visible|
           - if visible

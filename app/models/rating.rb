@@ -12,14 +12,4 @@ class Rating < ActiveRecord::Base
 
   validates_numericality_of :value, :greater_than => 0.0, :less_than_or_equal_to => 10.0
 
-  def self.for(rankable, current_user)
-    rankable.ratings.find_by_user_id(current_user.id)
-  end
-
-  # FIXME: WHY OH WHY DO I NEED THIS TO FIX THE RATING FORM!!!!!
-  # Why the fuck does it calls to_s????
-  def to_s
-    "rating"
-  end
-
 end
