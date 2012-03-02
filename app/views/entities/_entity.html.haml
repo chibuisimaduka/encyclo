@@ -25,10 +25,6 @@
     - documents = entity.documents.where(:language_id => current_language.id).where(document_type_filter.blank? ? {} : {:document_type_id => document_type_filter.id})
     = render :partial => documents.first unless documents.blank?
     - if data_mode?
-      .document_form
-        = form_for(Document.new, :remote => true, :format => :js) do |f|
-          = f.text_field :source
-          = hidden_field_tag :entity_id, entity.id
-          = f.submit "Add document"
+      .document_form= render partial: "remote_documents/form", locals: {remote: true}
 - if (!local_assigns.has_key?(:nested) || !nested) && (!local_assigns.has_key?(:show_nested) || show_nested == true)
   = render partial: DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1), locals: {nested: true}

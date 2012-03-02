@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225023450) do
+ActiveRecord::Schema.define(:version => 20120301211953) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -82,15 +82,17 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
   end
 
   create_table "documents", :force => true do |t|
-    t.string   "name",        :null => false
-    t.string   "source",      :null => false
+    t.string   "name",              :null => false
+    t.string   "source",            :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.binary   "content",     :null => false
+    t.binary   "content",           :null => false
     t.float    "rank"
-    t.text     "description", :null => false
-    t.integer  "language_id", :null => false
-    t.integer  "user_id",     :null => false
+    t.text     "description",       :null => false
+    t.integer  "language_id",       :null => false
+    t.integer  "user_id",           :null => false
+    t.integer  "documentable_id"
+    t.string   "documentable_type"
   end
 
   add_index "documents", ["language_id"], :name => "documents_language"
@@ -231,6 +233,13 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
 
   add_index "ratings", ["user_id"], :name => "user_id"
 
+  create_table "remote_documents", :force => true do |t|
+    t.string   "url"
+    t.binary   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sources", :force => true do |t|
     t.string   "url"
     t.integer  "tag_id"
@@ -244,6 +253,12 @@ ActiveRecord::Schema.define(:version => 20120225023450) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_many"
+  end
+
+  create_table "user_documents", :force => true do |t|
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|

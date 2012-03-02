@@ -1,35 +1,22 @@
-class RemoteDocumentProcessor
-  
-  require "downloader"
-  include Downloader
+module RemoteDocumentProcessor
 
   require 'uri'
   require 'nokogiri'
 
-  ENGLISH_LANGUAGES_MAP = Hash.new {|hash, key| Language::MAP[key]}
-  ENGLISH_LANGUAGES_MAP.merge({
-    :english => Language::MAP[:english],
-    :french => Language::MAP[:francais],
-    :spanish => Language::MAP[:spanish]
-  })
+  #ENGLISH_LANGUAGES_MAP = Hash.new {|hash, key| Language::MAP[key]}
+  #ENGLISH_LANGUAGES_MAP.merge({
+  #  :english => Language::MAP[:english],
+  #  :french => Language::MAP[:francais],
+  #  :spanish => Language::MAP[:spanish]
+  #})
 
-  def initialize(document)
-    raise "Can only process remote document" if document.local_document?
-    @document = document
-  end
-  
-  def fetch
-	 url, @document.content = download(@document.source)
-    @document.source = url
-    self
-  end
-
-  def process
-    @doc = Nokogiri::HTML(@document.content)
-    @document.name = title_from_meta_tag || title_from_title_tag
-    @document.description = (description_from_meta_tag || description_from_first_paragraph || "There is no description avaible..")[0..(Document::MAX_DESCRIPTION_LENGTH-1)]
+  def process(remote_document)
+    doc = Nokogiri::HTML(@document.content)
+    document = Document.new(documentable: @remote_document)
+    document.name = title_from_meta_tag(doc) || title_from_title_tag(doc)
+    document.description = (description_from_meta_tag(doc) || description_from_first_paragraph(doc) || "There is no description avaible..")[0..(Document::MAX_DESCRIPTION_LENGTH-1)]
     #@document.language_id = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym].id
-    self
+    document
   end
 
   def self.create(entity, source)
@@ -53,23 +40,23 @@ class RemoteDocumentProcessor
   end
 
 private
-  def title_from_title_tag
-    title = @doc.css("title")
+  def title_from_title_tag(doc)
+    title = doc.css("title")
     title.first.content unless title.blank?
   end
 
-  def title_from_meta_tag
-    title = @doc.css("meta[name=title]")
+  def title_from_meta_tag(doc)
+    title = doc.css("meta[name=title]")
     title.first["content"] unless title.blank?
   end
 
-  def description_from_meta_tag
-    desc = @doc.css("meta[name=description]")
+  def description_from_meta_tag(doc)
+    desc = doc.css("meta[name=description]")
     desc.first["content"] unless desc.blank?
   end
 
-  def description_from_first_paragraph
-    @doc.xpath("//p").each do |e|
+  def description_from_first_paragraph(doc)
+    doc.xpath("//p").each do |e|
       return e.content if e.content.size > 150
     end
     nil

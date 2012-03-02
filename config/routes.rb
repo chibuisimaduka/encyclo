@@ -46,6 +46,8 @@ Encyclo::Application.routes.draw do
     resources :delete_requests, :only => :create
     resources :ratings#, :only => :update
   end 
+  resources :remote_documents, :only => :create
+  resources :user_documents, :only => [:new, :create]
 
   resources :components do
     resources :delete_requests, :only => :create

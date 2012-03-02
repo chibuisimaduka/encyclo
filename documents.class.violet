@@ -52,7 +52,7 @@ description:string</string>
     </void>
     <void property="name">
      <void property="text">
-      <string>EntityReference</string>
+      <string>EntityDocument</string>
      </void>
     </void>
    </object>
@@ -93,7 +93,7 @@ source:string</string>
    <object id="ClassNode4" class="com.horstmann.violet.ClassNode">
     <void property="attributes">
      <void property="text">
-      <string>source:string</string>
+      <string>url:string</string>
      </void>
     </void>
     <void property="methods">
@@ -103,7 +103,7 @@ source:string</string>
     </void>
     <void property="name">
      <void property="text">
-      <string>WebsiteReference</string>
+      <string>RemoteDocument</string>
      </void>
     </void>
    </object>
