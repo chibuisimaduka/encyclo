@@ -30,7 +30,7 @@ class EntitiesController < ApplicationController
           !e.associated_associations.find_by_association_definition_id_and_entity_id(definition_id, vals[:associated_entity_id])} unless vals[:associated_entity_id].blank?
       end
     end if params[:filter]
-    @entities = (@entities.sort_by {|e| r = Rating.for(e, current_user); r ? r.value : e.rank || 0}).reverse
+    @entities = (@entities.sort_by {|e| r = e.ratings.find_by_user_id(current_user.id); r ? r.value : e.rank || 0}).reverse
     @entities = @entities.paginate(:page => params[:page])
     #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
 

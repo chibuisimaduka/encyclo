@@ -53,7 +53,7 @@
   #entity_title
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  #documents= render partial: "entities/documents", locals: {per_page: @printer.num_documents}
+  = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity}
   = render :partial => "remote_documents/form", locals: {remote: false}
   or
   = link_to "Create a document", new_user_document_path(entity_id: @entity.id)
@@ -62,6 +62,8 @@
     = form_tag upload_documents_path, :multipart => true do
       = hidden_field_tag :entity_id, @entity.id
       = file_field_tag :file
+      Is about?
+      = check_box_tag :is_about
       = submit_tag "Upload"
   #associations
     - associations_by_definition(@entity, @entities).each do |definition, associations|
