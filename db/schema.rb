@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120301211953) do
+ActiveRecord::Schema.define(:version => 20120302224547) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(:version => 20120301211953) do
 
   create_table "documents", :force => true do |t|
     t.string   "name",              :null => false
-    t.string   "source",            :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.binary   "content",           :null => false
@@ -91,8 +90,9 @@ ActiveRecord::Schema.define(:version => 20120301211953) do
     t.text     "description",       :null => false
     t.integer  "language_id",       :null => false
     t.integer  "user_id",           :null => false
-    t.integer  "documentable_id"
-    t.string   "documentable_type"
+    t.integer  "documentable_id",   :null => false
+    t.string   "documentable_type", :null => false
+    t.boolean  "is_about",          :null => false
   end
 
   add_index "documents", ["language_id"], :name => "documents_language"
@@ -234,8 +234,8 @@ ActiveRecord::Schema.define(:version => 20120301211953) do
   add_index "ratings", ["user_id"], :name => "user_id"
 
   create_table "remote_documents", :force => true do |t|
-    t.string   "url"
-    t.binary   "content"
+    t.string   "url",        :null => false
+    t.binary   "content",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -256,7 +256,7 @@ ActiveRecord::Schema.define(:version => 20120301211953) do
   end
 
   create_table "user_documents", :force => true do |t|
-    t.text     "content"
+    t.text     "content",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
