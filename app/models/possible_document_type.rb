@@ -6,6 +6,7 @@ class PossibleDocumentType < ActiveRecord::Base
   validates_presence_of :document_type
 
   has_one :edit_request, :as => :editable
+  validates_presence_of :edit_request
 
   validates_uniqueness_of :document_type_id, :scope => :document_id
 end
