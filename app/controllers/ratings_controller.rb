@@ -4,8 +4,9 @@ class RatingsController < ApplicationController
     @rankable = find_polymorphic_association
     @rating = @rankable.ratings.find_or_initialize_by_user_id(current_user.id)
     value = params[:rating][:value].to_f
-    if @rating.persisted? ? @rating.update_attributes(value: value) : @rating.value = value; @rating.save
-      updated_rank = ((@rankable.rank || 0) * @rankable.ratings.size) - (@rating.value || 0) + value
+    before_value = @rating.value || 0
+    if @rating.update_attributes(value: value)
+      updated_rank = ((@rankable.rank || 0) * @rankable.ratings.size) - before_value + value
       @rankable.update_attributes(rank: updated_rank / @rankable.ratings.size)
     end
   end
