@@ -15,7 +15,6 @@ class RemoteDocumentsController < ApplicationController
       @document = process_remote_document(@remote_document)
       @document.user_id = current_user.id
       @document.language_id = current_language.id
-      @document.is_about = true
       unless @entity.documents << @document
         flash[:alert] = "An error has occured while creating the document."
       end

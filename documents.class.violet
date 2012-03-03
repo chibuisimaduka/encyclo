@@ -123,14 +123,14 @@ source:string</string>
     </void>
     <void property="name">
      <void property="text">
-      <string>EncycloDocument</string>
+      <string>UserDocument</string>
      </void>
     </void>
    </object>
    <object class="java.awt.geom.Point2D$Double">
     <void method="setLocation">
-     <double>338.0</double>
-     <double>348.0</double>
+     <double>459.0</double>
+     <double>423.0</double>
     </void>
    </object>
   </void>
@@ -144,8 +144,8 @@ source:string</string>
    </object>
    <object class="java.awt.geom.Point2D$Double">
     <void method="setLocation">
-     <double>185.0</double>
-     <double>476.0</double>
+     <double>310.0</double>
+     <double>543.0</double>
     </void>
    </object>
   </void>
@@ -159,8 +159,8 @@ source:string</string>
    </object>
    <object class="java.awt.geom.Point2D$Double">
     <void method="setLocation">
-     <double>335.0</double>
-     <double>482.0</double>
+     <double>460.0</double>
+     <double>549.0</double>
     </void>
    </object>
   </void>
@@ -174,8 +174,8 @@ source:string</string>
    </object>
    <object class="java.awt.geom.Point2D$Double">
     <void method="setLocation">
-     <double>486.0</double>
-     <double>480.0</double>
+     <double>611.0</double>
+     <double>547.0</double>
     </void>
    </object>
   </void>
@@ -189,8 +189,8 @@ source:string</string>
    </object>
    <object class="java.awt.geom.Point2D$Double">
     <void method="setLocation">
-     <double>636.0</double>
-     <double>478.0</double>
+     <double>761.0</double>
+     <double>545.0</double>
     </void>
    </object>
   </void>
@@ -324,8 +324,23 @@ source:string</string>
    </object>
    <object class="java.awt.geom.Point2D$Double">
     <void method="setLocation">
-     <double>39.0</double>
-     <double>484.0</double>
+     <double>164.0</double>
+     <double>551.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object id="ClassNode19" class="com.horstmann.violet.ClassNode">
+    <void property="name">
+     <void property="text">
+      <string>FolderDocument</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double">
+    <void method="setLocation">
+     <double>237.0</double>
+     <double>419.0</double>
     </void>
    </object>
   </void>
@@ -544,6 +559,18 @@ source:string</string>
    </object>
    <object idref="ClassNode18"/>
    <object idref="ClassNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="VHV"/>
+    </void>
+    <void property="endArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="TRIANGLE"/>
+    </void>
+   </object>
+   <object idref="ClassNode19"/>
+   <object idref="ClassNode0"/>
   </void>
  </object>
 </java>

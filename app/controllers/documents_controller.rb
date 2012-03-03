@@ -28,7 +28,6 @@ class DocumentsController < ApplicationController
       @document.language_id = current_language.id
       @document.user_id = current_user.id
       @document.description = content[0..(Document::MAX_DESCRIPTION_LENGTH-1)]
-      @document.is_about = !!params[:is_about]
       if @entity.documents << @document
         redirect_to @document
       else

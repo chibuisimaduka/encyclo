@@ -17,6 +17,8 @@ class Document < ActiveRecord::Base
   belongs_to :language
   validates_presence_of :language
 
+  belongs_to :component
+
   has_one :delete_request, :inverse_of => :destroyable, :dependent => :destroy, :as => :destroyable
 
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
@@ -30,15 +32,16 @@ class Document < ActiveRecord::Base
   has_many :documents, :through => :child_documents
   
   validates_presence_of :name
-  validates_inclusion_of :is_about, :in => [true, false]
   #validates_presence_of :description
   #validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
 
   def set_document_type_id(document_type_id, user)
-    possible_document_type = possible_document_types.find_by_document_type_id(document_type_id) ||
-      possible_document_types.build(document_type_id: document_type_id)
-    EditRequest.update(possible_document_type, possible_document_types, user)
-    possible_document_type
+    unless document_type_id.blank?
+      possible_document_type = possible_document_types.find_by_document_type_id(document_type_id) ||
+        possible_document_types.build(document_type_id: document_type_id)
+      EditRequest.update(possible_document_type, possible_document_types, user)
+      possible_document_type
+    end
   end
 
 end

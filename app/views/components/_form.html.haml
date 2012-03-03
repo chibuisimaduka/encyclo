@@ -1,10 +1,20 @@
-= toggle_visibility handle: "Add" do
+= toggle_visibility handle: "Add entity" do
   = form_for(Component.new) do |f|
     .fields
       = f.hidden_field :entity_id, :value => entity.id, id: "component_entity_id"
-  
-      = f.hidden_field :associated_entity_id, id: "component_associated_entity_id"
+      = f.hidden_field :is_entity, value: "1"
+
+      = hidden_field_tag :associated_entity_id, nil, id: "component_associated_entity_id"
       = autocomplete_field_tag :name, '', autocomplete_name_value_entities_path, id: "add_component_associated_entity_field", id_element: "#component_associated_entity_id"
     .actions
       = f.submit "Change parent"
+      = f.submit "Create component"
+or
+= toggle_visibility handle: "Add document" do
+  = form_for(Component.new) do |f|
+    .fields
+      = f.hidden_field :entity_id, :value => entity.id, id: "component_entity_id"
+      = f.hidden_field :is_entity, value: "0"
+      = text_field_tag :name
+    .actions
       = f.submit "Create component"
