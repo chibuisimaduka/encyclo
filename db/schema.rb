@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120302224547) do
+ActiveRecord::Schema.define(:version => 20120303182413) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(:version => 20120302224547) do
   add_index "associations", ["entity_id"], :name => "associations_entity_id"
   add_index "associations", ["entity_id"], :name => "entity_id"
   add_index "associations", ["user_id"], :name => "user_id"
+
+  create_table "child_documents", :force => true do |t|
+    t.integer  "parent_id"
+    t.integer  "document_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "components", :force => true do |t|
     t.integer  "entity_id",            :null => false
@@ -92,7 +99,6 @@ ActiveRecord::Schema.define(:version => 20120302224547) do
     t.integer  "user_id",           :null => false
     t.integer  "documentable_id",   :null => false
     t.string   "documentable_type", :null => false
-    t.boolean  "is_about",          :null => false
   end
 
   add_index "documents", ["language_id"], :name => "documents_language"
