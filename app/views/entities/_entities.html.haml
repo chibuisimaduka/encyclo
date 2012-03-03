@@ -1,3 +1,4 @@
 = will_paginate @entities
-= render partial: @entities
+- for file in @entities + documents_for_entity(@entity, false, params[:document_page], @printer.num_documents)
+  = render partial: file
 = will_paginate @entities

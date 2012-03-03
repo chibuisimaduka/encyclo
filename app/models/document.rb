@@ -24,7 +24,7 @@ class Document < ActiveRecord::Base
   has_many :possible_document_types, :inverse_of => :document, :dependent => :destroy
   
   validates_presence_of :name
-  validates_presence_of :is_about
+  validates_inclusion_of :is_about, :in => [true, false]
   #validates_presence_of :description
   #validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
 

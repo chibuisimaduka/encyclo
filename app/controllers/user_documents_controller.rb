@@ -13,6 +13,7 @@ class UserDocumentsController < ApplicationController
     @document.set_document_type_id(params[:document_type_id], current_user)
     @document.user_id = current_user.id
     @document.language_id = current_language.id
+    @document.is_about = !!params[:is_about]
     unless @entity.documents << @document
       flash[:alert] = "Error while creating the document. #{@document.errors.full_messages.join("\n")}"
       render action: "new"

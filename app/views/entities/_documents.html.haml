@@ -1,7 +1,4 @@
 %div{:class => "documents_#{entity.id}"}
-  - filters = {language_id: current_language.id, is_about: true}
-  - filters[:document_type_id] = document_type_filter.id unless document_type_filter.blank? 
-  - @documents = DeleteRequest.alive_scope(entity.documents.where(filters), current_user)
-  - @documents = @documents.paginate(page: params[:document_page], per_page: per_page)
+  - @documents = documents_for_entity(entity, true, params[:document_page], per_page)
   = render partial: @documents
   = will_paginate @documents, :params => {controller: :documents, action: :index, entity_id: entity.id, per_page: per_page}, param_name: :document_page
