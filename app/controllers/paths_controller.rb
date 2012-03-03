@@ -4,7 +4,7 @@ class PathsController < ApplicationController
     if (entity = process_path_or_render_error(params[:path], default: "."))
       entities = params[:partial_name] ? entity.entities.limit(30).joins(:names)
         .where("names.value like ?", "#{params[:partial_name]}%") : entity.entities.limit(30)
-      render :json => {names: entities.map {|e| e.name(current_user, current_language) }}
+      render :json => {names: entities.map {|e| e.name(current_user, current_language).value }}
     end
   end
 
