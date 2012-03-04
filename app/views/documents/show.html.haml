@@ -1,5 +1,5 @@
 #link_to_back= link_to "Back to parent", @document.entities.blank? ? @document.parent : @document.entities.first
-#document_title= @document.name
+#document_title= best_in_place @document, :name
 - if @document.description.blank?
   = toggle_visibility :toggle_handle => "Add a description.", :toggled_handle => "cancel" do
     = form_for @document do |f|
