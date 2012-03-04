@@ -15,6 +15,8 @@ or
     .fields
       = f.hidden_field :entity_id, :value => entity.id, id: "component_entity_id"
       = f.hidden_field :is_entity, value: "0"
+      Is listing?
+      = check_box_tag :is_listing
       = text_field_tag :name
     .actions
       = f.submit "Create component"

@@ -35,4 +35,9 @@ class Document < ActiveRecord::Base
   #validates_presence_of :description
   #validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
 
+  alias_method :original_documentable, :documentable
+  def documentable
+    documentable_type == "ListingDocument" ? ListingDocument.new : original_documentable
+  end
+
 end

@@ -7,7 +7,7 @@
       = f.submit "Add description"
 - else
   #document_description= best_in_place @document, :description, type: :textarea
-= render partial: @document.documents
+= render partial: @document.documentable_type == 'ListingDocument' ? @document.documents : @document.documents.order('rank DESC')
 = toggle_visibility toggle_handle: "Add a sub-document.", toggled_handle: "cancel" do
   = form_for UserDocument.new do |f|
     #add_sub_document
@@ -17,4 +17,5 @@
       #submit= f.submit "Create document"
   or
   = render partial: "documents/upload", locals: {document: @document}
-#document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format
+- unless @document.documentable_type == "ListingDocument"
+  #document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format

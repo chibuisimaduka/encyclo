@@ -20,7 +20,12 @@ class ComponentsController < ApplicationController
         @value = Entity.create({parent_id: params[:component][:entity_id]}, current_user, current_language, params[:name])
       else
         @value = Document.new(entity_ids: [params[:component][:entity_id]], user: current_user, name: params[:name],
-          language: current_language, documentable: UserDocument.new)
+          language: current_language)
+        if params[:is_listing]
+          @value.documentable_type = "ListingDocument"
+        else
+          @value.documentable = UserDocument.new unless params[:is_listing]
+        end
         @value.user = current_user
       end
     end

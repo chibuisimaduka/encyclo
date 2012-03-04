@@ -10,8 +10,8 @@ class Component < ActiveRecord::Base
   belongs_to :entity, :inverse_of => :components
   validates_presence_of :entity
 
-  has_many :entities, :inverse_of => :component
-  has_many :documents, :inverse_of => :component
+  has_many :entities, :inverse_of => :component, :dependent => :destroy
+  has_many :documents, :inverse_of => :component, :dependent => :destroy
 
   has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable, :dependent => :destroy
 
