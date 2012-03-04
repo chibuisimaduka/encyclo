@@ -1,5 +1,7 @@
 class DocumentsController < ApplicationController
 
+  respond_to :html, :json
+
   def index
     @entity = Entity.find(params[:entity_id])
   end
@@ -11,6 +13,12 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def update
+    @document = Document.find(params[:id])
+    @document.update_attributes(params[:document])
+    respond_with @document
+  end
+    
   def upload
     @entity = Entity.find(params[:entity_id])
     @document = Document.new

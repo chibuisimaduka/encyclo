@@ -50,7 +50,7 @@ Encyclo::Application.routes.draw do
     end
   end 
   resources :remote_documents, :only => :create
-  resources :user_documents, :only => [:new, :create]
+  resources :user_documents, :only => [:new, :create, :update]
 
   resources :components do
     resources :delete_requests, :only => :create
