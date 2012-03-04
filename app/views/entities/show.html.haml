@@ -1,12 +1,4 @@
 = content_for :left_sidebar do
-  #refine_document_filter
-    Filter doc type:
-    .editable
-      = cache('document_type_filter') do
-        = toggle_visibility toggle_handle: document_type_filter ? document_type_filter.name : "none", toggled_handle: "cancel" do
-          = form_tag change_document_type_filter_sessions_path, method: :get do
-            = select :document_type_filter, :id, (DocumentType::ALL.map{|d| [d.name, d.id] }).insert(0, ["No filter", ''])
-            = submit_tag "Set"
   - if data_mode?
     #association_definitions
       Association definitions:

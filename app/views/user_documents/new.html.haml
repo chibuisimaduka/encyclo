@@ -9,9 +9,6 @@
     = hidden_field_tag :entity_id, @entity ? @entity.id : '', id: "document_entity_id"
     = autocomplete_field_tag :document_entity_name, @entity ? @entity.name(current_user, current_language) : '', autocomplete_name_value_entities_path, size: 40, id: "new_document_entity_name_field", id_element: "#document_entity_id"
 
-  Document type:
-  = select_tag "document_type_id", options_for_select(DocumentType::MAP)
-
   #new_doc_description_text Description:
   #new_doc_description_field= text_area_tag "document[description]", nil, :size => "60x6"
 

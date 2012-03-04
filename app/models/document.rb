@@ -23,8 +23,6 @@ class Document < ActiveRecord::Base
 
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
 
-  has_many :possible_document_types, :inverse_of => :document, :dependent => :destroy
-
   has_one :parent_document, :class_name => "ChildDocument", :foreign_key => "document_id", :inverse_of => :document
   has_one :parent, :through => :parent_document
 
@@ -36,14 +34,5 @@ class Document < ActiveRecord::Base
   validates_presence_of :name
   #validates_presence_of :description
   #validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
-
-  def set_document_type_id(document_type_id, user)
-    unless document_type_id.blank?
-      possible_document_type = possible_document_types.find_by_document_type_id(document_type_id) ||
-        possible_document_types.build(document_type_id: document_type_id)
-      EditRequest.update(possible_document_type, possible_document_types, user)
-      possible_document_type
-    end
-  end
 
 end

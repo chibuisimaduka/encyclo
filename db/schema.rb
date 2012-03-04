@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120303202521) do
+ActiveRecord::Schema.define(:version => 20120304023625) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -80,12 +80,6 @@ ActiveRecord::Schema.define(:version => 20120303202521) do
     t.integer  "destroyable_id",       :null => false
     t.string   "destroyable_type",     :null => false
     t.boolean  "considered_destroyed", :null => false
-  end
-
-  create_table "document_types", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name",       :null => false
   end
 
   create_table "documents", :force => true do |t|
@@ -200,17 +194,6 @@ ActiveRecord::Schema.define(:version => 20120303202521) do
   add_index "opposing_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
   add_index "opposing_users_delete_requests", ["user_id", "delete_request_id"], :name => "opposing_users_delete_requests_i"
   add_index "opposing_users_delete_requests", ["user_id"], :name => "user_id"
-
-  create_table "possible_document_types", :force => true do |t|
-    t.integer  "document_id",      :null => false
-    t.integer  "document_type_id", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "possible_document_types", ["document_id", "document_type_id"], :name => "possible_documents_i"
-  add_index "possible_document_types", ["document_id"], :name => "document_id"
-  add_index "possible_document_types", ["document_type_id"], :name => "document_type_id"
 
   create_table "possible_name_spellings", :force => true do |t|
     t.string   "spelling",   :null => false

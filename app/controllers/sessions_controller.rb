@@ -11,18 +11,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def change_document_type_filter
-    if params[:document_type_filter].blank? || params[:document_type_filter][:id].blank?
-      session[:document_type_filter] = nil
-      redirect_to :back
-    elsif (doc_type = (DocumentType.find(params[:document_type_filter][:id]) rescue nil)).blank?
-      redirect_to :back, :alert => "Cannot change document type: Invalid document type given."
-    else
-      session[:document_type_filter] = doc_type
-      redirect_to :back
-    end
-  end
-
   def change_data_mode
     session[:data_mode] = !!params[:data_mode]
     redirect_to :back
