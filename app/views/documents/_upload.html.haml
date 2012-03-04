@@ -1,0 +1,7 @@
+= toggle_visibility toggle_handle: "Upload a file", toggled_handle: "cancel" do
+  = form_tag upload_documents_path, :multipart => true do
+    = hidden_field_tag "document[parent_document_attributes][parent_id]", document.id if local_assigns.has_key?(:document)
+    = hidden_field_tag :entity_id, entity.id if local_assigns.has_key?(:entity)
+    = file_field_tag :file
+    Is about?
+    = submit_tag "Upload"

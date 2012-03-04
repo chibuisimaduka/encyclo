@@ -15,4 +15,6 @@
       Name:
       = text_field_tag "document[name]"
       #submit= f.submit "Create document"
+  or
+  = render partial: "documents/upload", locals: {document: @document}
 #document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format
