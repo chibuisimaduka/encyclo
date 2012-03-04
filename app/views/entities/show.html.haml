@@ -10,15 +10,16 @@
     - unless @entity.is_component?
       - for component in Component.components_for(@entity, current_user)
         .component_value
-          - if (component_value = component.associated_value(@entity.id))
+          - if (component_value = component.associated_entity(@entity.id))
             = hover_block do
-              = link_to associated_value_name(component, component_value, current_user, current_language), component_value
+              = link_to component_value.name(current_user, current_language), component_value
               - if component.entity_id == @entity.id
                 = hover_hidden do
                   = render partial: "delete_requests/link", locals: {destroyable: component, link: image_tag("delete_button_14_px.png")}
           - else
-            - missing_name = associated_value_name(component, component.associated_value(component.entity.id), current_user, current_language)
-            %span.missing= create_component_value_link(@entity, component, missing_name)
+            - missing_name = component.associated_entity(component.entity.id).name(current_user, current_language)
+            %span.missing= link_to missing_name, entities_path(entity: {:parent_id => @entity.id, :component_id => component.id}, name: missing_name.value, show: true), method: :post
+    
     = render partial: "components/form", locals: {entity: @entity}
   #refine_entity_search
     - if !@entity.association_definitions.blank? || !@entity.associated_association_definitions.blank?

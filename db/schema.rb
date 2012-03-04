@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120304023625) do
+ActiveRecord::Schema.define(:version => 20120304202925) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -59,7 +59,6 @@ ActiveRecord::Schema.define(:version => 20120304023625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id",    :null => false
-    t.boolean  "is_entity",  :null => false
   end
 
   add_index "components", ["entity_id"], :name => "entity_id"

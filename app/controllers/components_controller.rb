@@ -8,39 +8,28 @@ class ComponentsController < ApplicationController
         redirect_to :back, :alert => 'There must not be ambiguosity to change an entity to a component.'
         return
       else
-        @value = @entities.first
-        @value.parent_id = params[:component][:entity_id]
-        if @value.component_id
-          @component = @value.component
-          @component.entity_id = @value.parent_id
+        @entity = @entities.first
+        @entity.parent_id = params[:component][:entity_id]
+        if @entity.component_id
+          @component = @entity.component
+          @component.entity_id = @entity.parent_id
         end
       end
     else
-      if @component.is_entity
-        @value = Entity.create({parent_id: params[:component][:entity_id]}, current_user, current_language, params[:name])
-      else
-        @value = Document.new(entity_ids: [params[:component][:entity_id]], user: current_user, name: params[:name],
-          language: current_language)
-        if params[:is_listing]
-          @value.documentable_type = "ListingDocument"
-        else
-          @value.documentable = UserDocument.new unless params[:is_listing]
-        end
-        @value.user = current_user
-      end
+      @entity = Entity.create({parent_id: params[:component][:entity_id]}, current_user, current_language, params[:name])
     end
     @component.user_id = current_user.id
-    @value.component = @component
+    @entity.component = @component
     #begin
       Component.transaction do
-        @value.save!
+        @entity.save!
         @component.save!
         flash[:notice] = 'Component value created succesfully!'
       end
     #rescue
     #  flash[:alert] = "An error has occured while creating component"
     #end
-    redirect_to params[:show] ? @value : :back
+    redirect_to params[:show] ? @entity : :back
   end
 
 end

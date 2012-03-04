@@ -15,14 +15,8 @@ class Component < ActiveRecord::Base
 
   has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable, :dependent => :destroy
 
-  validates_inclusion_of :is_entity, :in => [false, true]
-
-  def associated_value(entity_id)
-    if is_entity?
-      self.entities.find_by_parent_id(entity_id)
-    else
-      self.documents.joins(:entities).where("entities.id = ?", self.entity_id).first
-    end
+  def associated_entity(entity_id)
+    self.entities.find_by_parent_id(entity_id)
   end
 
   def self.components_for(entity, user)
