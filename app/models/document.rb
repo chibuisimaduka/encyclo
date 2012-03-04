@@ -29,7 +29,7 @@ class Document < ActiveRecord::Base
   has_one :parent, :through => :parent_document
 
   has_many :child_documents, :foreign_key => "parent_id", :inverse_of => :parent
-  has_many :documents, :through => :child_documents
+  has_many :documents, :through => :child_documents, :order => "name"
 
   accepts_nested_attributes_for :parent_document
   

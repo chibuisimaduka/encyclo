@@ -1,15 +1,17 @@
 = content_tag_for :div, document do
   = hover_block do
-    .document_type
-      - document_type = EditRequest.probable_editable(document.possible_document_types, current_user)
-      = toggle_visibility toggle_handle: document_type ? document_type.document_type.name : "Unkown", toggled_handle: "cancel" do
-        = form_for [document, PossibleDocumentType.new], format: :js, remote: true do |f|
-          = cache 'document_type_select' do
-            = select :possible_document_type, :document_type_id, DocumentType::MAP, nil: "Unkown"
-            = f.submit "Set"
+    - if document.parent.blank?
+      .document_type
+        - document_type = EditRequest.probable_editable(document.possible_document_types, current_user)
+        = toggle_visibility toggle_handle: document_type ? document_type.document_type.name : "Unkown", toggled_handle: "cancel" do
+          = form_for [document, PossibleDocumentType.new], format: :js, remote: true do |f|
+            = cache 'document_type_select' do
+              = select :possible_document_type, :document_type_id, DocumentType::MAP, nil: "Unkown"
+              = f.submit "Set"
     .document_name= link_to document.name, document, class: "document_name"
-    = hover_block :rating do
-      = render partial: "ratings/rankable", locals: {rankable: document}
+    - if document.parent.blank?
+      = hover_block :rating do
+        = render partial: "ratings/rankable", locals: {rankable: document}
     = hover_hidden do
       = render partial: "delete_requests/link", locals: {destroyable: document, link: image_tag("delete_button_14_px.png")}
-  .description= document.description + "..."
+  .description= document.description + "..." unless document.description.blank?

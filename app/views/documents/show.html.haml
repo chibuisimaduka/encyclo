@@ -1,14 +1,18 @@
-= link_to "Back", :back
-%h1= @document.name
-%h2 Description
-#document_description= best_in_place @document, :description, type: :textarea
-%h2 Subdocuments
-#document_subdocuments= render partial: @document.documents
-= toggle_visibility toggle_handle: "Add a sub-document", toggled_handle: "cancel" do
+#link_to_back= link_to "Back to parent", @document.entities.blank? ? @document.parent : @document.entities.first
+#document_title= @document.name
+- if @document.description.blank?
+  = toggle_visibility :toggle_handle => "Add a description.", :toggled_handle => "cancel" do
+    = form_for @document do |f|
+      #document_description= f.text_area :description
+      = f.submit "Add description"
+- else
+  #document_description= best_in_place @document, :description, type: :textarea
+= render partial: @document.documents
+= toggle_visibility toggle_handle: "Add a sub-document.", toggled_handle: "cancel" do
   = form_for UserDocument.new do |f|
-    = hidden_field_tag "document[parent_document_attributes][parent_id]", @document.id
-    Name:
-    = text_field_tag "document[name]"
-    #submit= f.submit "Create document"
-%h2 Content
+    #add_sub_document
+      = hidden_field_tag "document[parent_document_attributes][parent_id]", @document.id
+      Name:
+      = text_field_tag "document[name]"
+      #submit= f.submit "Create document"
 #document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format

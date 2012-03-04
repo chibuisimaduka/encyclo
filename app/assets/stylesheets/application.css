@@ -118,9 +118,17 @@ body {
   display: inline-block;
 }
 
-.document_name {
-  display: inline;
+#document_title {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.document_name, #document_title {
   color: green;
+  display: inline;
+}
+
+.document_name {
   font-size: 16px;
 }
 
