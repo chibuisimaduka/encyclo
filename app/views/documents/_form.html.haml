@@ -1,0 +1,12 @@
+Documents:
+- for listing_document in entity.ancestors.flat_map(&:listing_documents)
+  - unless entity.documents.find_by_name(listing_document.name)
+    .missing= link_to listing_document.name.pluralize, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument", entity_ids: entity.id}), method: :post
+- for document in entity.documents
+  .document_name= link_to document.name.pluralize, document
+= toggle_visibility toggle_handle: "Add document", toggled_handle: "cancel" do
+  = form_for Document.new do |f|
+    = f.hidden_field :documentable_type, value: "ListingDocument"
+    = f.hidden_field :entity_ids, value: entity.id
+    .field_name= f.text_field :name
+    .submit= f.submit "Create document listing"
