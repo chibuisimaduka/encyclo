@@ -16,10 +16,7 @@ class UserDocumentsController < ApplicationController
 
   def create
     @entity = Entity.find(params[:entity_id]) if params[:entity_id]
-    @document = Document.create(params[:document])
-    @document.documentable = UserDocument.new(params[:user_document])
-    @document.user_id = current_user.id
-    @document.language_id = current_language.id
+    @document = Document.init(params[:document], nil, UserDocument.new(params[:user_document]), current_user, current_language)
     unless @entity ? @entity.documents << @document : @document.save
       flash[:alert] = "Error while creating the document. #{@document.errors.full_messages.join("\n")}"
       render action: "new"

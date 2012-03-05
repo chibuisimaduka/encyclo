@@ -19,8 +19,16 @@
           - else
             - missing_name = component.associated_entity(component.entity.id).name(current_user, current_language)
             %span.missing= link_to missing_name, entities_path(entity: {:parent_id => @entity.id, :component_id => component.id}, name: missing_name.value, show: true), method: :post
-    
     = render partial: "components/form", locals: {entity: @entity}
+  #documents_listing
+    Documents:
+    - for listing_document in @entity.ancestors.flat_map(&:listing_documents)
+      - if (document = @entity.documents.find_by_name(listing_document.name))
+        = link_to document.name, document
+      - else
+        = link_to listing_document.name, listing_document
+    - for document in @entity.documents
+      .document_name= link_to document.name, document
   #refine_entity_search
     - if !@entity.association_definitions.blank? || !@entity.associated_association_definitions.blank?
       Refine further :

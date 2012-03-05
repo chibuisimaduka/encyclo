@@ -21,7 +21,6 @@ class DocumentsController < ApplicationController
     
   def upload
     @entity = Entity.find(params[:entity_id]) if params[:entity_id]
-    @document = Document.new(params[:document])
     # TODO: Add as image if it is an image.
     extension = File.extname(params[:file].original_filename)
     content = params[:file].read
@@ -31,10 +30,8 @@ class DocumentsController < ApplicationController
         but contains non-printable characters.
         EOM
     else
-      @document.documentable = UserDocument.new(content: content)
-      @document.name = params[:file].original_filename
-      @document.language_id = current_language.id
-      @document.user_id = current_user.id
+      @document = Document.init(params[:document], params[:file].original_filename,
+        UserDocument.new(content: content), current_user, current_language)
       @document.description = content[0..(Document::MAX_DESCRIPTION_LENGTH-1)] if @entity
       if @entity ? @entity.documents << @document : @document.save
         redirect_to @document

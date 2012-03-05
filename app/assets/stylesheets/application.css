@@ -211,6 +211,10 @@ a:hover {
   text-decoration: underline;
 }
 
+#documents_listing .document_name {
+  display: block;
+}
+
 .missing a {
   color: red;
 }

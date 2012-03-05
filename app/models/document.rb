@@ -17,8 +17,6 @@ class Document < ActiveRecord::Base
   belongs_to :language
   validates_presence_of :language
 
-  belongs_to :component
-
   has_one :delete_request, :inverse_of => :destroyable, :dependent => :destroy, :as => :destroyable
 
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
@@ -34,6 +32,15 @@ class Document < ActiveRecord::Base
   validates_presence_of :name
   #validates_presence_of :description
   #validates_length_of :description, :minimum => 25, :maximum => MAX_DESCRIPTION_LENGTH
+
+  def self.init(attributes, name, documentable, user, language)
+    document = Document.new(attributes || {})
+    document.name = name if name
+    document.documentable = documentable if documentable
+    document.user = user
+    document.language = language
+    document
+  end
 
   alias_method :original_documentable, :documentable
   def documentable

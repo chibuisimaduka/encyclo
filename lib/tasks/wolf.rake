@@ -1,5 +1,6 @@
 task :init => :environment do
   WEBMASTER = User.find(9)
+  ENGLISH = Language.find(2)
 end
 
 # The Wolf fixes stuff.
@@ -69,11 +70,10 @@ namespace :documents do
 
   task :migrate => :init do
     Document.all.each do |d|
-      if d.source == "http://www.encyclo.com"
-        UserDocument.new(:content => d.content, :document => d).save!
-      else
-        RemoteDocument.new(:content => d.content, :url => d.source, :document => d).save!
-      end
+      definition_document = d.entities.first.documents.find_by_name("definition")
+      definition_document ||= Document.init({documentable_type: "ListingDocument"}, "definition", nil, WEBMASTER, ENGLISH)
+      d.entities.documents << definition_document unless definition_document.persited?
+      d.parent = definition_document unless definition_document == d
     end
   end
 

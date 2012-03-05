@@ -136,6 +136,10 @@ class Entity < ActiveRecord::Base
     name
   end
 
+  def listing_documents
+    documents.where('documents.documentable_type = "ListingDocument"')
+  end
+
   def calculate_ancestors
     old_ancestors = self.ancestors
     self.ancestors = self.parent.ancestors + [self.parent] if self.parent
