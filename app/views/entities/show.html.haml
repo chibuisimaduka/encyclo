@@ -23,9 +23,7 @@
   #documents_listing
     Documents:
     - for listing_document in @entity.ancestors.flat_map(&:listing_documents)
-      - if (document = @entity.documents.find_by_name(listing_document.name))
-        = link_to document.name, document
-      - else
+      - unless @entity.documents.find_by_name(listing_document.name)
         .missing= link_to listing_document.name, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument"}), method: :post
     - for document in @entity.documents
       .document_name= link_to document.name, document

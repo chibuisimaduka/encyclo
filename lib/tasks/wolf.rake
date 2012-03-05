@@ -70,10 +70,16 @@ namespace :documents do
 
   task :migrate => :init do
     Document.all.each do |d|
-      definition_document = d.entities.first.documents.find_by_name("definition")
-      definition_document ||= Document.init({documentable_type: "ListingDocument"}, "definition", nil, WEBMASTER, ENGLISH)
-      d.entities.documents << definition_document unless definition_document.persited?
-      d.parent = definition_document unless definition_document == d
+      unless d.entities.blank?
+        definition_document = d.entities.first.documents.find_by_name("definition")
+        definition_document ||= Document.init({documentable_type: "ListingDocument"}, "definition", nil, WEBMASTER, ENGLISH)
+        d.entities.first.documents << definition_document unless definition_document.persisted?
+        unless definition_document == d
+          d.parent = definition_document
+          d.entities = []
+          d.save!
+        end
+      end
     end
   end
 
