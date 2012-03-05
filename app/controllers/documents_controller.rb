@@ -18,6 +18,15 @@ class DocumentsController < ApplicationController
     @document.update_attributes(params[:document])
     respond_with @document
   end
+
+  def create
+    @document = Document.init(params[:document], nil, nil, current_user, current_language)
+    if @document.save
+      respond_with @document
+    else
+      redirect_to :back, :alert => "An error has occured while creating the document."
+    end
+  end
     
   def upload
     @entity = Entity.find(params[:entity_id]) if params[:entity_id]

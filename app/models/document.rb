@@ -7,7 +7,7 @@ class Document < ActiveRecord::Base
   attr_protected :user_id, :user
 
   belongs_to :documentable, :polymorphic => true, :dependent => :destroy, :autosave => true
-  validates_presence_of :documentable
+  validates_presence_of :documentable_type
 
   has_and_belongs_to_many :entities
  
@@ -40,11 +40,6 @@ class Document < ActiveRecord::Base
     document.user = user
     document.language = language
     document
-  end
-
-  alias_method :original_documentable, :documentable
-  def documentable
-    documentable_type == "ListingDocument" ? ListingDocument.new : original_documentable
   end
 
 end

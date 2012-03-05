@@ -26,9 +26,15 @@
       - if (document = @entity.documents.find_by_name(listing_document.name))
         = link_to document.name, document
       - else
-        = link_to listing_document.name, listing_document
+        .missing= link_to listing_document.name, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument"}), method: :post
     - for document in @entity.documents
       .document_name= link_to document.name, document
+    = toggle_visibility toggle_handle: "Add document listing", toggled_handle: "cancel" do
+      = form_for Document.new do |f|
+        = f.hidden_field :documentable_type, value: "ListingDocument"
+        = f.hidden_field :entity_ids, value: @entity.id
+        = f.text_field :name
+        = f.submit "Create document listing"
   #refine_entity_search
     - if !@entity.association_definitions.blank? || !@entity.associated_association_definitions.blank?
       Refine further :

@@ -33,6 +33,7 @@ namespace :deploy do
 
     desc "Push the development database to production."
     task :push, :roles => :db, :only => {:primary => true}, :no_release => true do 
+      @password ||= Capistrano::CLI.ui.ask "Enter database password: "
       db = YAML::load(ERB.new(IO.read(File.join(File.dirname(__FILE__),"../config/database.yml"))).result)['development']
       file = "/tmp/database_dump.sql" # Compress when the database will be bigger.
       `mysqldump -u #{db['username']} --password='#{db['password']}' #{db['database']} > #{file}`
@@ -40,7 +41,7 @@ namespace :deploy do
       run "mysql -u root --password='#{@password}' encyclo_production < #{file}"
     end
 
-    before "deploy:db:push", "deploy:db:backup"
+    #before "deploy:db:push", "deploy:db:backup"
 
     # Author::      Simone Carletti <weppos@weppos.net>
     # Link::        http://www.simonecarletti.com/
