@@ -1,4 +1,5 @@
 %div{:class => "documents_#{entity.id}"}
   - @documents = documents_for_entity(entity, params[:document_page], per_page)
-  = render partial: @documents
-  = will_paginate @documents, :params => {controller: :documents, action: :index, entity_id: entity.id, per_page: per_page}, param_name: :document_page
+  - if @documents
+    = render partial: @documents
+    = will_paginate @documents, :params => {controller: :documents, action: :index, entity_id: entity.id, per_page: per_page}, param_name: :document_page
