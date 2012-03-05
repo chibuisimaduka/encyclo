@@ -48,13 +48,23 @@ module ApplicationHelper
   end
 
   def hover_block(*keys, &block)
-    content_tag :span, keys.blank? ? {:class => "hover_block", :id => rand(1000)} : {:id => rand(1000), :class => "hover_block " + keys.join(' ')}, &block
+    content_tag :span, keys.blank? ? {:class => "hover_block"} : {:class => "hover_block " + keys.join(' ')}, &block
   end
 
   def hover_hidden(key=nil, &block)
     options = {:style => "display: none;", :class => "hover_block_hidden"}
     options[:block_key] = key if key
     content_tag :span, options, &block
+  end
+
+  def observer_block(name, select_options, &block)
+    select_options = [select_options] if select_options.is_a?(String)
+    select_options_str = options_for_select(select_options.each_with_index.map {|o, i| [o, i]})
+    "<span class='observer_block'>#{select_tag(name, select_options_str)}#{capture(&block)}</span>".html_safe
+  end
+
+  def observer_value(&block)
+    content_tag :span, :class => "observer_value", &block
   end
 
   def toggle_visibility(options={}, &block)
