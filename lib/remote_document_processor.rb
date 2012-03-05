@@ -10,9 +10,9 @@ module RemoteDocumentProcessor
   #  :spanish => Language::MAP[:spanish]
   #})
 
-  def process_remote_document(remote_document)
+  def process_remote_document(remote_document, attributes={})
     doc = Nokogiri::HTML(remote_document.content)
-    document = Document.new(documentable: remote_document)
+    document = Document.new(attributes.merge(documentable: remote_document))
     document.name = title_from_meta_tag(doc) || title_from_title_tag(doc)
     document.description = (description_from_meta_tag(doc) || description_from_first_paragraph(doc) || "There is no description avaible..")[0..(Document::MAX_DESCRIPTION_LENGTH-1)]
     #@document.language_id = ENGLISH_LANGUAGES_MAP[@document.description.language.to_sym].id

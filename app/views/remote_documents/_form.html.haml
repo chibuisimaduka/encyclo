@@ -1,4 +1,5 @@
 = form_for(RemoteDocument.new, remote ? {remote: true, format: :js} : {}) do |f|
   = text_field_tag :url
-  = hidden_field_tag :entity_id, @entity.id
+  = hidden_field_tag "document[parent_document_attributes][parent_id]", document.id if local_assigns.has_key?(:document)
+  = hidden_field_tag :entity_id, entity.id if local_assigns.has_key?(:entity)
   = f.submit "Add document"

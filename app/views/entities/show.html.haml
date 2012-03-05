@@ -24,7 +24,7 @@
     Documents:
     - for listing_document in @entity.ancestors.flat_map(&:listing_documents)
       - unless @entity.documents.find_by_name(listing_document.name)
-        .missing= link_to listing_document.name, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument"}), method: :post
+        .missing= link_to listing_document.name, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument", entity_ids: @entity.id}), method: :post
     - for document in @entity.documents
       .document_name= link_to document.name, document
     = toggle_visibility toggle_handle: "Add document listing", toggled_handle: "cancel" do
@@ -59,7 +59,7 @@
     #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
     = render partial: "delete_requests/link", locals: {destroyable: @entity}
   = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity}
-  = render :partial => "remote_documents/form", locals: {remote: false}
+  = render :partial => "remote_documents/form", locals: {remote: false, entity: @entity}
   or
   = link_to "Create a document", new_user_document_path(entity_id: @entity.id)
   or

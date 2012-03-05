@@ -9,13 +9,18 @@
   #document_description= best_in_place @document, :description, type: :textarea
 = render partial: @document.documentable_type == 'ListingDocument' ? @document.documents : @document.documents.order('rank DESC')
 = toggle_visibility toggle_handle: "Add a sub-document.", toggled_handle: "cancel" do
-  = form_for UserDocument.new do |f|
-    #add_sub_document
-      = hidden_field_tag "document[parent_document_attributes][parent_id]", @document.id
-      Name:
-      = text_field_tag "document[name]"
-      #submit= f.submit "Create document"
-  or
-  = render partial: "documents/upload", locals: {document: @document}
+  #add_sub_document
+    Remote document
+    = render partial: "remote_documents/form", locals: {document: @document, remote: false}
+    #add_new_sub_document
+      or create new document
+      = form_for UserDocument.new do |f|
+        = hidden_field_tag "document[parent_document_attributes][parent_id]", @document.id
+        #new_document_name
+          Name:
+          = text_field_tag "document[name]"
+        #submit= f.submit "Create document"
+    or
+    = render partial: "documents/upload", locals: {document: @document}
 - unless @document.documentable_type == "ListingDocument"
   #document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format
