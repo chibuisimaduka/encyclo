@@ -7,7 +7,7 @@ namespace :deploy do
     task :backup, :roles => :db, :only => {:primary => true}, :no_release => true do
       @filename = "encyclo_prod_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}"
       @file = (ENV["OUTPUT_FILE"] = "#{shared_path}/backups/#{@filename}.bz2")
-      rake "mysql:dump"
+      run_rake "mysql:dump OUTPUT_FILE=#{@file}"
     end
 
     desc "Make a backup remotely and fetch it."
@@ -29,7 +29,7 @@ namespace :deploy do
       file = "/tmp/database_dump.bz2"
       `rake mysql:dump OUTPUT_FILE=#{file}`
       transfer(:up, file, file)
-      rake "mysql:load"
+      run_rake "mysql:load"
     end
 
     #before "deploy:db:push", "deploy:db:backup"

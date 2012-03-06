@@ -34,6 +34,11 @@ ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh", "id_rsa_admin")]
 
 default_run_options[:env] = {'RAILS_ENV' => 'production'}
 
+def run_rake(task, options={}, &block)
+  command = "cd #{latest_release} && /usr/bin/env bundle exec rake #{task}"
+  run(command, options, &block)
+end
+
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
