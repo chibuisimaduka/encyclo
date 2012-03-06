@@ -6,12 +6,8 @@ namespace :deploy do
     desc "Make a backup remotely."
     task :backup, :roles => :db, :only => {:primary => true}, :no_release => true do
       @filename = "encyclo_prod_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}"
-      @file = "#{shared_path}/backups/#{@filename}.bz2"
-      # TODO: get remote database password on webserver
-      #db = YAML::load(ERB.new(IO.read("#{shared_path}/config/database.yml")).result)['production']
-      #run "mysqldump -u #{db['username']} --password=#{db['password']} #{db['database']} | tar cvj > #{file}"
-      @password = Capistrano::CLI.ui.ask "Enter database password: "
-      run "mysqldump -u root --password='#{@password}' encyclo_production | bzip2 -c > #{@file}"
+      @file = (ENV["OUTPUT_FILE"] = "#{shared_path}/backups/#{@filename}.bz2")
+      rake "mysql:dump"
     end
 
     desc "Make a backup remotely and fetch it."
@@ -21,10 +17,7 @@ namespace :deploy do
 
     desc "Transfer data from production environment to local development environment."
     task :pull, :roles => :db, :only => {:primary => true}, :no_release => true do
-      db = YAML::load(ERB.new(IO.read(File.join(File.dirname(__FILE__),"../config/database.yml"))).result)['development']
-      `bunzip2 -c #{@filename}.bz2 > #{@filename}.sql`
-      `mysql -u #{db['username']} --password='#{db['password']}' #{db['database']} < #{@filename}.sql`
-      `rm #{@filename}.sql`
+      `bundle exec rake mysql:load INPUT_FILENAME=#{@filename}`
       `rm #{@filename}.bz2`
     end
 
@@ -33,12 +26,10 @@ namespace :deploy do
 
     desc "Push the development database to production."
     task :push, :roles => :db, :only => {:primary => true}, :no_release => true do 
-      @password ||= Capistrano::CLI.ui.ask "Enter database password: "
-      db = YAML::load(ERB.new(IO.read(File.join(File.dirname(__FILE__),"../config/database.yml"))).result)['development']
-      file = "/tmp/database_dump.sql" # Compress when the database will be bigger.
-      `mysqldump -u #{db['username']} --password='#{db['password']}' #{db['database']} > #{file}`
+      file = "/tmp/database_dump.bz2"
+      `rake mysql:dump OUTPUT_FILE=#{file}`
       transfer(:up, file, file)
-      run "mysql -u root --password='#{@password}' encyclo_production < #{file}"
+      rake "mysql:load"
     end
 
     #before "deploy:db:push", "deploy:db:backup"

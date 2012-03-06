@@ -15,6 +15,13 @@ gem 'nokogiri'
 gem 'rails3-jquery-autocomplete', :git => 'git://github.com/pascalr/rails3-jquery-autocomplete.git'
 gem 'whatlanguage'
 gem "will_paginate"
+gem 'passenger'
+gem 'capistrano'
+gem 'bcrypt-ruby', :require => 'bcrypt'
+gem 'jquery-rails'
+gem 'ruby-debug19'
+
+gem 'whenever'
 
 gem 'ruby-prof'
 
@@ -22,8 +29,6 @@ gem 'factory_girl'
 gem "factory_girl_rails", "~> 1.2"
 
 gem 'capybara'
-
-gem 'passenger'
 
 group :test, :development do
   gem 'rspec-rails', "~> 2.6"
@@ -37,14 +42,5 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-gem 'ruby-debug19'
-
-# To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', :require => 'bcrypt'
-
 # Use unicorn as the web server
 # gem 'unicorn'
-
-# Deploy with Capistrano
-gem 'capistrano'

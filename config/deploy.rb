@@ -11,6 +11,9 @@ require "capistrano_uploads"
 
 load "deploy/assets"
 
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
 set :application, "enyclo"
 set :repository,  "git://github.com/pascalr/encyclo.git"
 
@@ -28,6 +31,8 @@ role :db,  "216.221.52.195", :primary => true # This is where Rails migrations w
 #role :db,  "your slave db-server here"
 
 ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh", "id_rsa_admin")]
+
+default_run_options[:env] = {'RAILS_ENV' => 'production'}
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
