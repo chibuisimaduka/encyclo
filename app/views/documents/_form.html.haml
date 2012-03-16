@@ -3,7 +3,8 @@ Documents:
   - unless entity.documents.find_by_name(listing_document.name)
     .missing= link_to listing_document.name.pluralize, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument", entity_ids: entity.id}), method: :post
 - for document in entity.documents
-  .document_name= link_to document.name.pluralize, document
+  .document_component
+    .document_name= link_to document.name.pluralize, document
 = toggle_visibility toggle_handle: "Add document", toggled_handle: "cancel" do
   = observer_block :documentable_type, "Document listing" do
     = observer_value do
