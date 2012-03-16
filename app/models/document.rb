@@ -28,6 +28,7 @@ class Document < ActiveRecord::Base
   has_many :documents, :through => :child_documents, :order => "name"
 
   accepts_nested_attributes_for :parent_document
+  accepts_nested_attributes_for :documentable
   
   validates_presence_of :name
   #validates_presence_of :description

@@ -11,7 +11,11 @@ class UserDocumentsController < ApplicationController
   def update
     @user_document = UserDocument.find(params[:id])
     @user_document.update_attributes(params[:user_document])
-    respond_with @user_document
+    respond_with do |f|
+      f.html {redirect_to @user_document.document}
+      f.json
+      f.js
+    end
   end
 
   def create

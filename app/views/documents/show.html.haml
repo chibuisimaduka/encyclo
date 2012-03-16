@@ -23,4 +23,12 @@
     or
     = render partial: "documents/upload", locals: {document: @document}
 - unless @document.documentable_type == "ListingDocument"
-  #document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format
+  -#document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format, nil: No desc
+  - if @document.documentable.content.blank?
+    #document_content_form
+      = toggle_visibility :toggle_handle => "Add content.", :toggled_handle => "cancel" do
+        = form_for @document.documentable do |f|
+          #document_content= f.text_area :content
+          = f.submit "Add content"
+  - else
+    #document_content= best_in_place @document.documentable, :content, type: :textarea, display_with: :simple_format
