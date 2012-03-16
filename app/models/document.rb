@@ -42,4 +42,8 @@ class Document < ActiveRecord::Base
     document
   end
 
+  def death_treshold
+    Math.log((self.documents.sum(&:death_treshold) + self.ratings.count) * 2)
+  end
+
 end

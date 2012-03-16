@@ -21,4 +21,8 @@ class AssociationDefinition < ActiveRecord::Base
 
   validates_inclusion_of :entity_has_many, :in => [true, false]
   validates_inclusion_of :associated_entity_has_many, :in => [true, false]
+
+  def death_treshold
+    Math.log((self.associations.count) * 2)
+  end
 end

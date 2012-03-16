@@ -76,6 +76,10 @@ class Entity < ActiveRecord::Base
     entities.where("component_id IS NULL")
   end
 
+  def death_treshold
+    Math.log(self.entities.sum(&:death_treshold) + self.associations.count + self.documents.sum(&:death_treshold) + self.ratings.count + self.association_definitions.sum(&:death_treshold) + self.names.count)
+  end
+
   def subentities_leaves(checked_entities=nil)
     return [] if checked_entities && checked_entities.include?(self.id)
     (self.subentities.limit(10).map do |e|
