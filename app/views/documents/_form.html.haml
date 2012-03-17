@@ -6,10 +6,14 @@ Documents:
   .document_component
     .document_name= link_to document.name.pluralize, document
 = toggle_visibility toggle_handle: "Add document", toggled_handle: "cancel" do
-  = observer_block :documentable_type, "Document listing" do
+  = observer_block :documentable_type, ["Document listing", "User document"] do
     = observer_value do
       = form_for Document.new do |f|
         = f.hidden_field :documentable_type, value: "ListingDocument"
         = f.hidden_field :entity_ids, value: entity.id
         .field_name= f.text_field :name
         .submit= f.submit "Create document listing"
+    = observer_value do
+      = form_for UserDocument.new do |f|
+        = text_field_tag "document[name]"
+        = f.submit "Create document"

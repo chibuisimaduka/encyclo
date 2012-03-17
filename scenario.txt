@@ -1,0 +1,40 @@
+Entity scenario:
+- Start at home page.
+- Use autocomplete and go to the entity Movie.
+- Look at the best movies.
+- Go to the Matrix.
+- See more documents.
+- Look at the the associations.
+- Go the Keanu Reeves.
+- Go back to The Matrix.
+- Go to the definitions document list.
+- Go and then go to the reviews document list.
+- Go back to movies.
+- Look at the document definitions.
+- Change the language. Point out the name changed and the documents.
+- Search for actor Keanu Reeves, Genre action.
+- Login.
+- Change the rating of a movie.
+- Set a new rating for a movie.
+- See more movies.
+- Create a new entity.
+- Set year, actors, ...
+- Remove one of the wrong associatinons set.
+- Add a definition
+- Add a picture
+- Go to the entity Asterix and Obelix.
+- Show that partial associations are entered.
+- Go to the entity Canada.
+- Show the associations.
+- Go to the entity Country.
+- Enable datamode.
+- Show the advantages.
+- Show the association definitions. Has one/many throught..
+
+Document scenario:
+
+- forums
+- document listings
+- directory structure
+
+Terminal scenario:
