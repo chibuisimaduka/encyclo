@@ -1,5 +1,6 @@
 == TODOs (ordered by importance*time)
 
+- Refactor document model structure. Document should be abstract model that maybe would include entity too.
 - Add more rules to delete like association definition and components should be considered less easilly.
   Also, an entity that has less content should be deletable easily. One that has much should be less.
   If a user create an entity than delete it, it should be purged.

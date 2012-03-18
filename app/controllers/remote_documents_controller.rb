@@ -20,7 +20,7 @@ class RemoteDocumentsController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html {redirect_to @entity ? @entity : @document.parent}
+      format.html {redirect_to :back}
       format.js
     end
   end

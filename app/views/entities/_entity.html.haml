@@ -1,6 +1,8 @@
+- show_subentity = (!local_assigns.has_key?(:nested) || !nested) && (!local_assigns.has_key?(:show_nested) || show_nested == true)
+- subentity = DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1).first if show_subentity
 - options = (local_assigns.has_key?(:nested) && nested) ? {:class => "nested_entity"} : {}
 = content_tag_for :div, entity, options do
-  - showing_image = (local_assigns[:show_pictures] != false && !(image = entity.images.first).blank?) || data_mode?
+  - showing_image = !subentity && ((local_assigns[:show_pictures] != false && !(image = entity.images.first).blank?) || data_mode?)
   - if showing_image
     -# image = entity.images.first || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
     .listing_image
@@ -22,8 +24,7 @@
       = render partial: "ratings/rankable", locals: {rankable: entity}
       = hover_hidden do
         = render partial: "delete_requests/link", locals: {destroyable: entity}
-    = render partial: "entities/documents", locals: {entity: entity, per_page: 1}
+    = render partial: "entities/documents", locals: {entity: entity, per_page: 1} if !subentity
     - if data_mode?
       .document_form= render partial: "remote_documents/form", locals: {remote: true, entity: entity}
-- if (!local_assigns.has_key?(:nested) || !nested) && (!local_assigns.has_key?(:show_nested) || show_nested == true)
-  = render partial: DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1), locals: {nested: true}
+= render partial: subentity, locals: {nested: true} if subentity

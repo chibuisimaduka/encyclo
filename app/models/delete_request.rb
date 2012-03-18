@@ -15,7 +15,7 @@ class DeleteRequest < ActiveRecord::Base
   validates_inclusion_of :considered_destroyed, :in => [true, false]
 
   def considered_deleted?
-    death_treshold = (destroyable.respond_to(:death_treshold) ? destroyable.death_treshold : 3)
+    death_treshold = (destroyable.respond_to?(:death_treshold) ? destroyable.death_treshold : 3)
     concurring_users.length - opposing_users.length > death_treshold || (concurring_users.length == 1 && concurring_users.first.id == destroyable.user_id)
   end
 
