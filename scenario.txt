@@ -38,3 +38,41 @@ Document scenario:
 - directory structure
 
 Terminal scenario:
+
+
+
+---------------------------------------------------------------------
+------------------------- In Depth: ---------------------------------
+---------------------------------------------------------------------
+
+Entity scenario:
+- Start at home page. Show the proposed entity feature and the popular entities, briefly!
+- Use autocomplete and go to the entity Movie.
+- Look at the best movies. Explain the user interface. Show the documents for each entity.
+- Go to the Matrix. Look at more documents, pictures and associations.
+- Go the Keanu Reeves and explain that when you set the actor Keanu Reeves for the Matrix, it is tri-dimensional.
+- Go back to The Matrix go to the definitions document list.
+- Then go to the reviews document list. Explain that a document could be a video, a forum, a Q&As.
+- Go back to movies and look at the document definitions, explain that it is henerited like other things.
+- Change the language. Point out the name changed and the documents. Point at the stars when the traduction is missing.
+- Filter for actor Keanu Reeves, Genre action.
+- Login.
+- Change the rating of a movie.
+- Go to "road trip" disambiguation page. Say that it is done automatically when that have the same name.
+- Set a new rating for it, for the picture and the document.
+- Go back to movie. See more movies.
+- Create a new entity "Happy Feet".
+- Set year, actors, ... (2006, Dir: George Miller, Warrent Coleman; Actor: Elijah Wood, Brittany Murphy, Hugh Jackman, Chuck Norris
+-,  Remove Chuck Norris and talk about how everything is now trully deleted but shown based on probability of being valid.
+- Add a definition (http://www.imdb.com/title/tt0366548/)
+- Add a picture (http://ia.media-imdb.com/images/M/MV5BMTQyNTkxMjUwMV5BMl5BanBnXkFtZTcwMDQ2NTU0MQ@@._V1._SY317_CR0,0,214,317_.jpg)
+- Go to the entity Asterix and Obelix.
+- Show that partial associations are entered, go to children to show.
+- Go to the entity Canada.
+- Show the associations. Show the expand feature and show more.
+- Go to the entity Country.
+- Enable datamode.
+- Show the advantages. Adding images, definitions faster.
+- Show the association definitions. Has one/many throught..
+
+Show the disambiguation page somehow.
