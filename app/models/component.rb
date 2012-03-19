@@ -11,12 +11,13 @@ class Component < ActiveRecord::Base
   validates_presence_of :entity
 
   has_many :entities, :inverse_of => :component, :dependent => :destroy
-  has_many :documents, :inverse_of => :component, :dependent => :destroy
 
   has_one :delete_request, :inverse_of => :destroyable, :as => :destroyable, :dependent => :destroy
 
-  def associated_entity(entity_id)
-    self.entities.find_by_parent_id(entity_id)
+  validates_presence_of :associated_entity
+
+  def associated_entity
+    self.entities.find_by_parent_id(self.entity_id)
   end
 
   def self.components_for(entity, user)

@@ -49,8 +49,21 @@ class EntitiesController < ApplicationController
       else
         @entity = @entities.first
         @entity.parent_id = params[:entity][:parent_id]
-        @entity.save
-        redirect_to :back, :notice => 'Entity parent was succesfully changed.'
+        begin
+          Entity.transaction do
+            if @entity.component
+              if @entity.component && @entity.component.associated_entity == @entity
+                @entity.component.destroy 
+              else
+                @entity.component_id = nil
+              end
+            end
+            @entity.save!
+          end
+          redirect_to :back, :notice => 'Entity parent was succesfully changed.'
+        rescue
+          redirect_to :back, :notice => 'An error has occured while changing the entity parent.'
+        end
       end
     else
       @entity = Entity.create(params[:entity], current_user, current_language, params[:name])
