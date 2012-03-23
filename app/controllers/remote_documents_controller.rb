@@ -10,7 +10,11 @@ class RemoteDocumentsController < ApplicationController
       @remote_document = RemoteDocument.find_by_url(@remote_document.url) || @remote_document
     end
     if @remote_document.persisted?
-      @entity.documents << doc unless @entity.documents.include?(@remote_document.document)
+      if @entity
+        @entity.documents << @remote_document.document unless @entity.documents.include?(@remote_document.document)
+      else
+        @remote_document.document.update_attributes(params[:document])
+      end
     else 
       @document = process_remote_document(@remote_document, params[:document] || {})
       @document.user_id = current_user.id

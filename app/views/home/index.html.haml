@@ -7,27 +7,25 @@
   = render :partial => "entities/search", :locals => {field_size: 64}
   %h1 Welcome to the encyclo!
 
-  %p The Encyclo is a structured database. It can and should hold information and content about <u>everything</u>. It is design to facilitate searching and entering data easily with no duplication.
-
-  %p Quick example of The Encyclo efficiency: A movie has a field actors. You type Keanu Reeves is an actor for The Matrix. Then, if you check Keanu Reeves, you will see that he is an actor and that he played in the matrix. If you check actor, you will see that Keenu Reaves is one and of course you will see that The Matrix has the actor Keanu Reeves.
-
+  %p The Encyclo is a structured database about <u>everything</u>. It can integrate any type of media: videos, songs, wikis, q&as, essays, images... It is design to facilitate searching and entering data easily with no duplication.
+  
+  %p The best way to put it is a better generic Wikipedia. Wikipedia limits itself to encyclopedic content (you cannot write content as a resume, an essay..) and limits itself to text documents.
+  
+  %p The goal is to make the content database and the only content database that everyone uses. In order to do this, we can't just relie on brand like most companies do, you have the make the perfect website. It has to be free. It is. It has to be upgradable. It is open source. It has to be efficient. That's our main priority. It has to be customizable. You can push new document media and templates in code and you can choose the styling that you want for the database.
+  
+  %p The database is design to be efficient. For example, it is tri-dimentional: If you enter an actor for a movie, the movie will have the actor, the actor will have the movie and the actor will be an actor.
+  
+  %p Think of all the websites that could be integrated into a single database : IMDB, github, ebay, amazon, craiglists, wikipedia, ehow, yahoo answers, stackoverflow, and so on.. At least 80% of the most visited websites could be replaced by one. And this excludes search engines that would become pretty useless.
+  
   %p It is better than a search engine because it permits better granularity. For example, if you want to buy a laptop, a search engine will bring you on retailer's website. The Encyclo will show you each product and the price for each retailer for each product instead.
-
+  
   %p You can easily change language with the dropdown select at the top. The name of entities will be in the selected language or in another language if not present. The documents will be filtered by the selected language.
-
+  
   %p One of the main ideas is that it is <u>yours</u>. You do everything you want and we take can of sharing it and using it to serve you better. In the same way, you get what others do which is filtered based on your preferences and people opinions.
   
   %p There is no such thing as an admin on The Encyclo. We judge users based on others. If you write nonsense, your credibility will fall quickly. Hence, if you write a lot of good stuff, your credibility will be really high.
   
-  %p We believe in freedom and the power of free knowledge. The source code is available (feel free to contribute) and you can download the whole database (as soon as I set it up..). Also, it is and will ALWAYS be advertisement-free (in the way that they are now at least).
-  
-  %p My goal is the build a website that does it all and includes all other websites. For including other websites, it rather easy. There is a LOT of websites about very specific things. Most of them you can replace by a couple of documents and components. For doing everything, all you need is to mimic an operating system. Entities are documents on the filesystem. Documents are files. To add different kind of files like videos, songs.. you simply have to add document medias.
-
-  %p There also seems to be a correlation between the Encyclo and a programming language.. Be that might be abusing..
-
-  %p Think about it: In theory, do you need something else than a webbrowser to do everything you're doing. 
-
-  %p Personally I only need 2 applications: a browser and a terminal. Going on the internet on the console just doesn't work plus you need graphics nowadays.. Hence, I am building a terminal in the browser.
+  %p We believe in freedom and the power of free knowledge. The source code is available (feel free to contribute) and you can download the whole database (as soon as I set it up..). Also, it is advertisement-free.
 
   The future of the Encyclo
   %p I imagine that it will be running on localy and simply query the database remotely. The frequently used data would be local. The distributed database would be on user's machines too..
