@@ -2,7 +2,7 @@ The Encyclo is a structured database about <u>everything</u>. It can integrate a
 
 The best way to put it is a better generic Wikipedia. Wikipedia limits itself to encyclopedic content (you cannot write content as a resume, an essay..) and limits itself to text documents.
 
-The goal is to make the content database and the only content database that everyone uses. In order to do this, we can't just relie on brand like most companies do, you have the make the perfect website. It has to be free. It is. It has to be upgradable. It is open source. It has to be efficient. That's our main priority. It has to be customizable. You can push new document media and templates in code and you can choose the styling that you want for the database.
+The goal is to make the content database and the only content database that everyone uses. In order to do this, we can't just relie on brand like most companies do, you have the make the perfect website. It has to be free. It is. It has to be upgradable. It is open source. It has to be efficient. That's our main priority. It has to be customizable. You can push new document media and templates in code and you can choose the styling that you want for the database UI (website).
 
 The database is design to be efficient. For example, it is tri-dimentional: If you enter an actor for a movie, the movie will have the actor, the actor will have the movie and the actor will be an actor.
 
