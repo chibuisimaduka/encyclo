@@ -1,0 +1,3 @@
+passenger-install-nginx # Something like that
+
+sudo setcap 'cap_net_bind_service=+ep' /opt/nginx/sbin/nginx

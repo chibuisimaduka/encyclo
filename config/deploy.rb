@@ -25,9 +25,7 @@ set :deploy_to, "/var/www/encyclo"
 set :user, "pascalr"
 set :use_sudo, false
 
-role :web, "216.221.52.195"                          # Your HTTP server, Apache/etc
-role :app, "216.221.52.195"                          # This may be the same as your `Web` server
-role :db,  "216.221.52.195", :primary => true # This is where Rails migrations will run
+server "localhost", :app, :web, :db, :primary => true
 #role :db,  "your slave db-server here"
 
 ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh", "id_rsa_admin")]
