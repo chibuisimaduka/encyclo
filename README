@@ -81,3 +81,9 @@ movie for seing a movie
 dollar genre equals action and comedy for mathcing predicate genre = action AND movie
 # The dollar is there for better autocomplete purposes.
 # You can also specify that you thrust Isaac.
+
+Differences between entity and document:
+
+A document has content.
+
+An entity is invicible. It should never be volatile. Ex: It should not be news, prices, ...
