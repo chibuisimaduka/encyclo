@@ -1,5 +1,5 @@
 Documents:
-- for listing_document in entity.ancestors.flat_map(&:listing_documents)
+- for listing_document in ancestors_documents(entity)
   - unless entity.documents.find_by_name(listing_document.name)
     .missing= link_to listing_document.name.pluralize, documents_path(document: {name: listing_document.name, documentable_type: "ListingDocument", entity_ids: entity.id}), method: :post
 - for document in entity.documents
