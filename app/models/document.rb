@@ -21,10 +21,10 @@ class Document < ActiveRecord::Base
 
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
 
-  has_one :parent_document, :class_name => "ChildDocument", :foreign_key => "document_id", :inverse_of => :document
+  has_one :parent_document, :class_name => "ChildDocument", :foreign_key => "document_id", :inverse_of => :document, :dependent => :destroy
   has_one :parent, :through => :parent_document
 
-  has_many :child_documents, :foreign_key => "parent_id", :inverse_of => :parent
+  has_many :child_documents, :foreign_key => "parent_id", :inverse_of => :parent, :dependent => :destroy
   has_many :documents, :through => :child_documents, :order => "name"
 
   accepts_nested_attributes_for :parent_document
