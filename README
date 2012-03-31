@@ -1,45 +1,17 @@
-What would the best website be? A website that does it all, exactly! This is what I am planning to do, I want to replace the World Wide Web! Crazy as it sounds, merging most of the web in a single application is certainly doable, and it gives a lot of benefits.
+The project is about building the largest structured database containing everything.
 
-Main concept :
- 
-The WWW is an inefficient structure. The proof? Crawlers and search engines. You have to design an overly sophisticated crawler which hits the server uselessly to get the data. Then search engines have to process and compute the chaotic data, discarding spam websites, in order to give results which should already be structured in the first place..
+The best way to see what this is about is probably through examples.
 
-The solution is simple yet daunting. I want the build the largest structured database that would hold the entire WWW.
+Examples :
 
-Many websites are about a small company. They could be replaced by a template. You fill out some information for the entity (location, contact info, products...), add documents like reviews, FAQs. Let the company choose the design they want, provide a lot of samples. Et Voila!
-
-There also is a lot of websites who is just about having content. To replace them, you simply incorporate their data. A short list of them: blogs, forums, news (TechCrunch, Forbes), articles (Wikipedia, ehow), q&as (StackOverflow), videos (Youtube, DailyMotion, Netflix), images (Flickr), files (MediaFire, 4shared, Dropbox) and many listing sites (IMDB, Craigslist).
-
-Then you got websites that and are just about a little idea and the only reason it works is because of the brand or having a lot of users. Examples: twitter, reddit, loopt, ebay, amazon, linkedin... With a little work they could be integrated..
-
-The only obvious websites that may be a problem to integrate is probably because they are a separate application and are really specialized like banking sites. They should use their own database anyway, for obvious reasons..
-
-The database should be universal and unique because you don't want to split the data and the users. Hence it has to be free (no cost and open source) and the data must be accessible.
-
-Advantages :
-
-The search results would be better than a regular search engine because you can easily scope by entity and you have a lot more control on the query. You also see the attributes of an entity and you can easily filter by them. Ex: Filter movies by genre.
-
-By having all the preferences of the user combined with machine learning, there would be a huge potential of suggesting the user interesting documents.
-
-The database is free to download so people could run complex queries to get information they want or to compute statistics.
-
-You remove the pain of having to setup servers and buy a domain.
-
-You only have to create one account and remember one password! You can still have many aliases though.
-
-Examples of use :
-
-A lot of examples showing the awesomeness of my idea.
-
-Products:
-If every product was on the database, you could find the cheaper product that meets your requirements and that others recommend. You could also see other people reviews for it.
+Diseases:
+The database would include every disease. You filter them by your symptoms and you get the likeliest ones based on your profile (age, gender, weight..) with documents that explains the effects, the treatments and if you should consult your doctor.
 
 Entertainment:
 The current examples that works well are like movies, books, games... One entity per movie. Based on others and your ratings, you get suggestions. You also have documents for resumes and reviews.
 
-Diseases:
-The database would include every disease. You filter them by your symptoms and you get the likeliest ones based on your profile (age, gender, weight..) with documents that explains the effects, the treatments and if you should consult your doctor.
+Products:
+If every product was on the database, you could find the cheaper product that meets your requirements and that others recommend. You could also see other people reviews for it.
 
 Learning:
 For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything.
@@ -111,6 +83,14 @@ One crazy idea would be that the database be shared across every users computers
 
 Stock options:
 An even more crazy idea I had is to use stock options as a currency. What I dislike about Bitcoin is that it is purely speculative. Content on a database thought is not. It is logic to give something in exchange of data entered by a user. Information is worth something. Bigger content like videos, games and books could worth a lot.
+
+Advantages :
+
+The search results would be better than a regular search engine because you can easily scope by entity and you have a lot more control on the query. You also see the attributes of an entity and you can easily filter by them. Ex: Filter movies by genre.
+
+By having all the preferences of the user combined with machine learning, there would be a huge potential of suggesting the user interesting documents.
+
+The database is free to download so people could run complex queries to get information they want or to compute statistics.
 
 Status :
 
