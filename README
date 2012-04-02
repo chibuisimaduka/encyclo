@@ -11,18 +11,18 @@ Entertainment:
 The current examples that works well and will probably the first one released are like movies, books, games... Based on others and your ratings, you get suggestions. You also have documents for resumes and reviews.
 
 Products:
-If every product was on the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen..). Then you will get a list of matching products at local retailers, other users or delivering companies. Other people would help you choose between similar products by their ratings and reviews.
+If every product was on the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen..). Then you will get a list of matching products at local retailers, other users or delivering companies. The community would help you choose between similar products by their ratings and reviews.
 
 Learning:
-For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything. For example, you want to learn Ruby. You would see the best documents to learn it and it's components. You would see the documents about ruby variables, methods, classes..
+For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything. For example, if you want to learn Ruby, you would see the best documents to learn it and it's components (documents about ruby variables, methods, classes..).
 
 *Recipes:
-You could enter the ingredients you have to receive a list of possible recipes. They would all be sorted by learning from your tastes as your are entering ratings for recipees. Of course, you would see reviews..
+You could enter the ingredients that you have to receive a list of possible recipes you can make. They would all be sorted based on your preferences by learning from your ratings of other meals. For each recipee, there would be reviews, tips or even see with what kind of wine it's good..
 
 Binary packages:
 Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
 
-Library dependencies:
+Project dependencies:
 Never touch an XML file again.. Simply add the jars (or similar) to the dependencies of your project. And every other jar will also handle it's own dependencies.
 
 Inventory:
@@ -36,13 +36,11 @@ Every destination is ranked by users. Every attraction, hotel, restaurant, airpo
 
 Structure overview :
 
-It can hold everything because of the design. It has a built-in typing. Associations between entities and inheritance.
+The structure I am proposing is composed of two main elements, an entity and a document.
 
-The structure I am proposing is composed of two main elements, an entity and a document. The secret ingredient is the entity. It represents a thing, a concept, but is also a type throught it's relations. For example, "movie" is an entity but also a type that defines every movie. The structure and associations are done through entities and the content lies into the documents. An entity has many documents.
+The secret ingredient is the entity. It represents a thing, a concept, but is also a type throught it's relations. For example, "movie" is an entity but is also a type that defines every movie. The relations are both inheritance and associations (has_one, has_many, ...) For example, "movie" is a "video" and has many "actor".
 
-An entity is a unique thing or concept. It has a parent, except for the root entity Entity. It has attributes which are either some constants like the average weight of an elephant or they are an association to another entity (has_one, has_many, ...). A movie has many actors.
-
-A document is a pretty vague term for holding content. It can be of any media type, like video, text document,  q&a, forum, wiki, website template or a link to another website for now.
+An entity has many documents. A document is a pretty vague term for holding content. It can be of any media type, like video, text document,  q&a, forum, wiki, website template or a link to another website.
 
 I'll write a separate technical document soon..
 
@@ -51,13 +49,16 @@ Goodies :
 Some cool features that are partly implemented or that I'd like to have.
 
 Multilingualism:
-Entities are meant to be unique, no matter the language. Hence when an entity does not have the translation for it's name, it is shown in another language followed by a star. Translating an entity is really fast and easy to do, so they should all be translated in every language fast enough. With just the translated names and the images, the result is neat..
+Entities are meant to be unique, no matter the language. Hence when an entity does not have the translation for it's name, it is shown in another language followed by a star. With a single click you can then translate it. It's a lot easier to contribute than to write a paragraph for wikipedia.
 
 Styling:
 One great advantage I want it to have is that the users would control the styling. Both the author of the document and the user that sees it could choose a different style. The user would then decide if he wants to always use his or to use the author's styling when present.
 
+Terminal:
+There is a terminal included in the website. In brief I want to be able to do everything with just the keyboard and to run advanced commands that can’t be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
+
 Scoring function:
-You would be able to create your own scoring function. You could set ratios like time, ecological consequences or user ratings versus the price.
+You would be able to create your own scoring function. For example, you can change the price versus duration ratio for flights.
 
 Advance search queries:
 You have a lot more control over the search. The interface tries to emulate a real database client. You can filter by attributes or associated entities attributes. You can also select which fields are to be displayed. For example, list movies with the year and the directors.
@@ -68,14 +69,11 @@ Every user has one or many entities just for himself. He can easily upload a lim
 Discovery:
 If you're feeling adventurous or bored, you can check out proposed entities and documents. They are random at first, but becomes smarter by learning from your preferences.
 
-Terminal:
-There is a terminal included in the website. In brief I want to be able to do everything with just the keyboard and to run advanced commands that can’t be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
-
 Sharing:
 You decide what you want to share and see from your friends. You can decide to share events like uploading a video, a picture, commenting, writing an article, a high rating, a low rating...
 
-Modifiable:
-It is design so that you can easilly add or change a little thing.
+Ownership:
+It is designed that it is your database. The goal is that you feel like it is your database. You have full control over everything, but your contribution will be distributed to others based on your reputation.
 
 Ownership:
 There is many way you can decide to let people edit your documents. You can be sole proprietary, no one can edit. It can be a wiki that anyone can edit or a more restricted wiki. It could also be like github. You could fork the document and do a pull request. Maybe you could do inline editing and let us compute the merge based on probabilities that it could be right. There could also be comments that are just for correcting or improving the document.
