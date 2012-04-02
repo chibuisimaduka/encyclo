@@ -1,4 +1,4 @@
-The project is about building the largest structured database containing everything. Yes, finally a frighteningly ambitious idea after my disapointement of the YC batch. And the project is great because it scales really well. We start by adding one category at a time and release it, than we can add categories one by one until it holds everything.
+The project is about building the largest structured database containing everything. Yes, finally a frighteningly ambitious idea! And the project is great because it scales really well. We can develop, release and iterate category by category.
 
 The best way to see what this is about is probably through examples.
 
@@ -11,18 +11,13 @@ Entertainment:
 The current examples that works well and will probably the first one released are like movies, books, games... Based on others and your ratings, you get suggestions. You also have documents for resumes and reviews.
 
 Products:
-If every product was on the database, you could find best product for your needs. Other people would help you choose for similar products by their ratings and reviews. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 17 inch screen..). Then you will get a list of matching products at local retailers or delivering companies.
+If every product was on the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen..). Then you will get a list of matching products at local retailers, other users or delivering companies. Other people would help you choose between similar products by their ratings and reviews.
 
 Learning:
-For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything. For example, you want to learn Ruby. You would see the best general documents to learn Ruby and you would also see the best documents to learn ruby variables, methods, classes..
+For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything. For example, you want to learn Ruby. You would see the best documents to learn it and it's components. You would see the documents about ruby variables, methods, classes..
 
-Recipes:
+*Recipes:
 You could enter the ingredients you have to receive a list of possible recipes. They would all be sorted by learning from your tastes as your are entering ratings for recipees. Of course, you would see reviews..
-
-Binary packages:
-Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
-Recipes:
-You could enter the ingredients you have to receive a list of possible recipes.
 
 Binary packages:
 Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
@@ -79,6 +74,9 @@ There is a terminal included in the website. In brief I want to be able to do ev
 Sharing:
 You decide what you want to share and see from your friends. You can decide to share events like uploading a video, a picture, commenting, writing an article, a high rating, a low rating...
 
+Modifiable:
+It is design so that you can easilly add or change a little thing.
+
 Ownership:
 There is many way you can decide to let people edit your documents. You can be sole proprietary, no one can edit. It can be a wiki that anyone can edit or a more restricted wiki. It could also be like github. You could fork the document and do a pull request. Maybe you could do inline editing and let us compute the merge based on probabilities that it could be right. There could also be comments that are just for correcting or improving the document.
 
@@ -104,24 +102,14 @@ The database is free to download so people could run complex queries to get info
 
 Status :
 
-I've started coding it for two months. The source code is available at https://github.com/pascalr/encyclo.
+I've started coding it for two months. The best way to see the current status is the check out the video I made. There is no sound unfortunately, but it still shows enough. http://www.youtube.com/watch?v=z0r0etph7Cg
 
-The best way to see the current status is the check out the video I made. There is no sound unfortunately, but it still shows enough. http://www.youtube.com/watch?v=z0r0etph7Cg
+I don't know much about financing and hiring. What I would like is people to start contributing (it's open source) or contact me if you are interested in working full time. Any kind of relatively important contribution will rewarded by money/options/shares.
 
-Hopefully people will already start contributing code. When it becomes a company though, rest assure your contribution won't be forgotten.
+Angels that would like to invest and help with their knowledge are more than welcome.
 
-A lot of the code I wrote is bad and should be refactored and I didn't write a single test (that works) because I was changing everything every week. Sorry about that..
-
-Any people is welcome if you are close (I am in Silicon Valley area for a little while) or advanced programmers remotely. If you are smart and don't even know how to program (but your good in math), your more than welcome to join me, rails isn't real programming anyway.. :p
-
-If you just do a little of css it would be welcomed as I never took time to really learn it. Lost hours on trying to put a link another color than the default.. :(
-
-Please send me feedback on any ideas or to improve this document.. You can send me an email at pascal.rainville@gmail.com
+Please send me feedback on any idea. You can send me an email at pascal.rainville@gmail.com
 
 I realize that it won't be as simple as it sounds as it never is in software.. Just scaling will probably be a challenge hard enough by itself.. The difficulty is high, but the reward would be incredible..
 
-And if you're a grumpy old programmer and thinks being generic and holding everything is just impossible, is it? How do you know? Have you tryied? Have others tried? To me it seems like a frighteningly ambitious idea. No one is going to come up with, I want to build a database to holds everything. I just wanted to build a database for movies.. Then, I added books and games because they are similar, then .... 
-
 So, who's in?
-
-Note : I could do the normal thing. Make the code rock solid for a specific thing and remove  the rest from the version. Waste time looking for investors ans convincing them. Hire some developpers. Go public with just books, games and videos. Then make deals with companies to link to sell them the product. I could do all that. But it seems boring and a waste of time. That's why I am posting this on HN. I wish people would see how great this can become and would start contributing. I wish..
