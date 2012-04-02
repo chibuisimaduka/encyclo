@@ -72,7 +72,7 @@ If you're feeling adventurous or bored, you can check out proposed entities and 
 Sharing:
 You decide what you want to share and see from your friends. You can decide to share events like uploading a video, a picture, commenting, writing an article, a high rating, a low rating...
 
-Ownership:
+Personal:
 It is designed that it is your database. The goal is that you feel like it is your database. You have full control over everything, but your contribution will be distributed to others based on your reputation.
 
 Ownership:
@@ -82,7 +82,7 @@ Data mode:
 There is a mode designed for entering data efficiently.
 
 File system:
-Text documents looks a lot like github files. They have sub-documents and the content is similar to a README. Hence, I would like to have a tool used to sync up with the filesystem, like git, but that would be a lot simpler.
+Text documents looks a lot like github files. They have sub-documents and the content is similar to a README. Hence, there should a tool used to sync up with the filesystem, like git, but that would be a lot simpler.
 
 Shared database:
 One crazy idea would be that the database be shared across every users computers. The big data space available would allow for good redundancy. It could also be faster because all the servers would be close to you. It would be great considering that most of the time computers are idle.
@@ -94,7 +94,7 @@ Advantages :
 
 The search results would be better than a regular search engine because you can easily scope by entity and you have a lot more control on the query. You also see the attributes of an entity and you can easily filter by them. Ex: Filter movies by genre.
 
-By having all the preferences of the user combined with machine learning, there would be a huge potential of suggesting the user interesting documents.
+By having all the preferences of the user for every category combined with machine learning, there would be a huge potential of suggesting the user interesting entities or documents.
 
 The database is free to download so people could run complex queries to get information they want or to compute statistics.
 
@@ -104,10 +104,6 @@ I've started coding it for two months. The best way to see the current status is
 
 I don't know much about financing and hiring. What I would like is people to start contributing (it's open source) or contact me if you are interested in working full time. Any kind of relatively important contribution will rewarded by money/options/shares.
 
-Angels that would like to invest and help with their knowledge are more than welcome.
+Angels that would like to invest and help with their knowledge are more than welcomed.
 
-Please send me feedback on any idea. You can send me an email at pascal.rainville@gmail.com
-
-I realize that it won't be as simple as it sounds as it never is in software.. Just scaling will probably be a challenge hard enough by itself.. The difficulty is high, but the reward would be incredible..
-
-So, who's in?
+Please send me feedback. You can send me an email at pascal.rainville@gmail.com
