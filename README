@@ -1,4 +1,4 @@
-The project is about building the largest structured database containing everything.
+The project is about building the largest structured database containing everything. Yes, finally a frighteningly ambitious idea after my disapointement of the YC batch. And the project is great because it scales really well. We start by adding one category at a time and release it, than we can add categories one by one until it holds everything.
 
 The best way to see what this is about is probably through examples.
 
@@ -8,19 +8,27 @@ Diseases:
 The database would include every disease. You filter them by your symptoms and you get the likeliest ones based on your profile (age, gender, weight..) with documents that explains the effects, the treatments and if you should consult your doctor.
 
 Entertainment:
-The current examples that works well are like movies, books, games... One entity per movie. Based on others and your ratings, you get suggestions. You also have documents for resumes and reviews.
+The current examples that works well and will probably the first one released are like movies, books, games... Based on others and your ratings, you get suggestions. You also have documents for resumes and reviews.
 
 Products:
-If every product was on the database, you could find the cheaper product that meets your requirements and that others recommend. You could also see other people reviews for it.
+If every product was on the database, you could find best product for your needs. Other people would help you choose for similar products by their ratings and reviews. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 17 inch screen..). Then you will get a list of matching products at local retailers or delivering companies.
 
 Learning:
-For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything.
+For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything. For example, you want to learn Ruby. You would see the best general documents to learn Ruby and you would also see the best documents to learn ruby variables, methods, classes..
 
+Recipes:
+You could enter the ingredients you have to receive a list of possible recipes. They would all be sorted by learning from your tastes as your are entering ratings for recipees. Of course, you would see reviews..
+
+Binary packages:
+Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
 Recipes:
 You could enter the ingredients you have to receive a list of possible recipes.
 
 Binary packages:
 Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
+
+Library dependencies:
+Never touch an XML file again.. Simply add the jars (or similar) to the dependencies of your project. And every other jar will also handle it's own dependencies.
 
 Inventory:
 A company can handle it’s inventory in the database. A library, for instance, would have an entity “books” and link to every book it has and it’s quantity. Also note that since it is bidirectional, you would also be able to see which library has the book in stock.
@@ -29,11 +37,13 @@ Nearby entities:
 Every commerce has a location so you can search for nearby restaurants, hotels, gas stations... that meet your requirements (number of stars, user ratings, price) and you can read the reviews.
 
 Travel:
-Every destination is ranked by users. Every attraction, hotel, restaurant, airport... And you would get suggestions if you don’t know where to go. They would be based on your preferences. If you like a certain place, you will be suggested similar ones. Transportation like flights would be in the database too.
+Every destination is ranked by users. Every attraction, hotel, restaurant, airport... And you would get suggestions if you don’t know where to go. They would be based on your preferences. If you like a certain place, you will be suggested similar ones.
 
 Structure overview :
 
-The structure I am proposing is composed of two main elements, an entity and a document. The structure and associations are done through entities and the content lies into the documents. An entity has many documents.
+It can hold everything because of the design. It has a built-in typing. Associations between entities and inheritance.
+
+The structure I am proposing is composed of two main elements, an entity and a document. The secret ingredient is the entity. It represents a thing, a concept, but is also a type throught it's relations. For example, "movie" is an entity but also a type that defines every movie. The structure and associations are done through entities and the content lies into the documents. An entity has many documents.
 
 An entity is a unique thing or concept. It has a parent, except for the root entity Entity. It has attributes which are either some constants like the average weight of an elephant or they are an association to another entity (has_one, has_many, ...). A movie has many actors.
 
@@ -102,10 +112,16 @@ Hopefully people will already start contributing code. When it becomes a company
 
 A lot of the code I wrote is bad and should be refactored and I didn't write a single test (that works) because I was changing everything every week. Sorry about that..
 
-I am looking for smart imaginative developers. If many responds, financing would be welcomed.
+Any people is welcome if you are close (I am in Silicon Valley area for a little while) or advanced programmers remotely. If you are smart and don't even know how to program (but your good in math), your more than welcome to join me, rails isn't real programming anyway.. :p
+
+If you just do a little of css it would be welcomed as I never took time to really learn it. Lost hours on trying to put a link another color than the default.. :(
 
 Please send me feedback on any ideas or to improve this document.. You can send me an email at pascal.rainville@gmail.com
 
 I realize that it won't be as simple as it sounds as it never is in software.. Just scaling will probably be a challenge hard enough by itself.. The difficulty is high, but the reward would be incredible..
 
+And if you're a grumpy old programmer and thinks being generic and holding everything is just impossible, is it? How do you know? Have you tryied? Have others tried? To me it seems like a frighteningly ambitious idea. No one is going to come up with, I want to build a database to holds everything. I just wanted to build a database for movies.. Then, I added books and games because they are similar, then .... 
+
 So, who's in?
+
+Note : I could do the normal thing. Make the code rock solid for a specific thing and remove  the rest from the version. Waste time looking for investors ans convincing them. Hire some developpers. Go public with just books, games and videos. Then make deals with companies to link to sell them the product. I could do all that. But it seems boring and a waste of time. That's why I am posting this on HN. I wish people would see how great this can become and would start contributing. I wish..
