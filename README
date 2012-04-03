@@ -9,10 +9,10 @@ Entertainment:
 The current examples that works well are like movies, books, games... Based on others and your ratings, you get suggestions. Also, they have documents for resumes and reviews.
 
 Products:
-If every product was on the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen..). Then you will get a list of matching products at local or delivering retailers or other users offers. The community would help you choose between similar products by their ratings and reviews.
+If every product was in the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen, etc.) Then you will get a list of local products, delivering retailers or other users offers. The community would help you choose between similar products by their ratings and reviews.
 
 Learning:
-For every field there would be ranked books, tutorials, wikis, articles... so you can learn anything by yourself. For example, if you want to learn Ruby, you would see the best documents to learn it and it's components (documents about ruby variables, methods, classes..).
+For every field there would be ranked books, tutorials, wikis, articles... so you can learn anything by yourself. For example, if you want to learn Ruby, you would see the best documents to learn it and its components (documents about ruby variables, methods, classes..).
 
 Recipes:
 You could enter the ingredients that you have to receive a list of possible recipes you can make. They would all be sorted based on your preferences by learning from your ratings of other meals. For each recipe, there would be reviews, tips or even documents about what kind of wine it's good with..
@@ -24,19 +24,16 @@ Project dependencies:
 Never touch an XML file again! Simply add the jars (or similar) to the dependencies of your project. And every other jar will also handle it's own dependencies.
 
 Inventory:
-A company can handle it's inventory in the database. A library, for instance, would have an entity "books"ù and link to every book it has and it's quantity. Also note that since it is bidirectional, you would also be able to see which library has the book in stock.
+A company can handle its inventory in the database. A library, for instance, would have an entity "books"ù and link to every book it has and their quantity. Also note that since it is bidirectional, you would also be able to see which library has the book in stock.
 
 Nearby entities:
 Every commerce has a location so you can search for nearby restaurants, hotels, gas stations... that meet your requirements (number of stars, user ratings, price) and you can read the reviews.
-
-Travel:
-Every destination is ranked by users. Every attraction, hotel, restaurant, airport... And you would get suggestions if you don't know where to go. They would be based on your preferences. If you like a certain place, you will be suggested similar ones.
 
 Structure overview :
 
 The structure I am proposing is composed of two main elements, an entity and a document.
 
-The secret ingredient is the entity. It represents a thing, a concept, but is also a type through it's relations. For example, "movie" is an entity but is also a type that defines every movie. The relations are both inheritance and associations (has_one, has_many, ...) For example, "movie" is a "video" and has many "actor".
+The secret ingredient is the entity. It represents a thing, a concept, but is also a type through its relations. For example, "movie" is an entity but is also a type that defines every movie. The relations are both inheritance and associations (has_one, has_many, ...) For example, "movie" is a "video" and has many "actor".
 
 An entity has many documents. A document is a pretty vague term for holding content. It can be of any media type, like video, text document,  q&a, forum, wiki, website template or a link to another website.
 
@@ -55,10 +52,7 @@ One great advantage I want it to have is that the users would control the stylin
 Terminal:
 There is a terminal included in the website. In brief I want to be able to do everything with just the keyboard and to run advanced commands that can't be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
 
-Scoring function:
-You would be able to create your own scoring function. For example, you can change the price versus duration ratio for flights.
-
-Advance search queries:
+Advanced search queries:
 You have a lot more control over the search. The interface tries to emulate a real database client. You can filter by attributes or associated entities attributes. You can also select which fields are to be displayed. For example, list movies with the year and the directors.
 
 Cloud storage:
@@ -74,16 +68,16 @@ Personal:
 One goal is that you feel like it is your database. You have full control over everything, but your contribution will be distributed to others based on your reputation. People must not be afraid to enter something wrong.
 
 Ownership:
-There is many way you can decide to let people edit your documents. You can be sole proprietary, no one can edit. It can be a wiki that anyone can edit or a more restricted wiki. It could also be like github. You could fork the document and do a pull request. Maybe you could do inline editing and let us compute the merge based on probabilities that it could be right. There could also be comments that are just for correcting or improving the document.
+There are many ways you can decide to let people edit your documents. You can be the sole proprietary, no one can edit. It can be a wiki that anyone can edit or a more restricted wiki. It could also be like github. You could fork the document and do a pull request. Maybe you could do inline editing and let us compute the merge based on probabilities that it could be right. There could also be comments that are just for correcting or improving the document.
 
 Data mode:
 There is a mode designed for entering data efficiently.
 
 File system:
-Text documents looks a lot like github files. They have sub-documents and the content is similar to a README. Hence, there should a tool used to sync up with the filesystem like git.
+Text documents looks a lot like github files. They have sub-documents and the content is similar to a README. Hence, there should be a tool used to sync up with the filesystem like git.
 
 Shared database:
-One crazy idea would be that the database be shared across every users computers. The big data space available would allow for good redundancy. It could also be faster because all the servers would be close to you. It would be great considering that most of the time computers are idle.
+One crazy idea would be that the database be shared across every users' computers. The big data space available would allow for good redundancy. It could also be faster because all the servers would be close to you. It would be great considering that most of the time computers are idle.
 
 Stock options:
 An even more crazy idea I had is to use stock options as a currency. What I dislike about Bitcoin is that it is purely speculative. Content on a database thought is not. It is logic to give something in exchange of data entered by a user. Information is worth something. Bigger content like videos, games and books could worth a lot.
@@ -92,15 +86,15 @@ Advantages :
 
 The search results would be better than a regular search engine because you can easily scope by entity and you have a lot more control on the query. You see the attributes of an entity and you can easily filter by them. Ex: Filter movies by genre.
 
-By having all the preferences of the user for every category combined with machine learning, there would be a huge potential of suggesting the user interesting entities or documents.
+By having all the preferences of the user for every category combined with machine learning, there would be a huge potential of suggesting interesting entities or documents.
 
 The database is free to download so people could run complex queries to get information they want or to compute statistics.
 
 Status :
 
-I've started coding it for two months. The best way to see the current status is the check out the video I made. There is no sound unfortunately, but it still shows enough. http://www.youtube.com/watch?v=z0r0etph7Cg
+I've started coding it for two months. The best way to see to current status is the check out the video I made. There is no sound unfortunately, but it still shows enough. http://www.youtube.com/watch?v=z0r0etph7Cg
 
-I don't know much about financing and hiring.. What I would like is people to start contributing (it's open source) or contact me if you are interested in working full time. Any kind of valuable contribution will rewarded.
+I don't know much about financing and hiring. What I would like is people to start contributing (it's open source) or contact me if you are interested in working full time. Any kind of valuable contribution will be rewarded.
 
 Angels that would like to invest and help with their knowledge are more than welcomed.
 
