@@ -1,38 +1,36 @@
 The project is about building the largest structured database containing everything. Yes, finally a frighteningly ambitious idea! And the project is great because it scales really well. We can develop, release and iterate category by category.
 
-The best way to see what this is about is probably through examples.
-
-Examples :
+The best way to see what this is about is probably through examples:
 
 Diseases:
 The database would include every disease. You filter them by your symptoms and you get the likeliest ones based on your profile (age, gender, weight..) with documents that explains the effects, the treatments and if you should consult your doctor.
 
 Entertainment:
-The current examples that works well and will probably the first one released are like movies, books, games... Based on others and your ratings, you get suggestions. You also have documents for resumes and reviews.
+The current examples that works well are like movies, books, games... Based on others and your ratings, you get suggestions. Also, they have documents for resumes and reviews.
 
 Products:
-If every product was on the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen..). Then you will get a list of matching products at local retailers, other users or delivering companies. The community would help you choose between similar products by their ratings and reviews.
+If every product was on the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen..). Then you will get a list of matching products at local or delivering retailers or other users offers. The community would help you choose between similar products by their ratings and reviews.
 
 Learning:
-For every field there would be ranked books, tutorials, wikis, articles... so you can learn by yourself anything. For example, if you want to learn Ruby, you would see the best documents to learn it and it's components (documents about ruby variables, methods, classes..).
+For every field there would be ranked books, tutorials, wikis, articles... so you can learn anything by yourself. For example, if you want to learn Ruby, you would see the best documents to learn it and it's components (documents about ruby variables, methods, classes..).
 
-*Recipes:
-You could enter the ingredients that you have to receive a list of possible recipes you can make. They would all be sorted based on your preferences by learning from your ratings of other meals. For each recipee, there would be reviews, tips or even see with what kind of wine it's good..
+Recipes:
+You could enter the ingredients that you have to receive a list of possible recipes you can make. They would all be sorted based on your preferences by learning from your ratings of other meals. For each recipee, there would be reviews, tips or even documents about what kind of wine it's good with..
 
 Binary packages:
 Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
 
 Project dependencies:
-Never touch an XML file again.. Simply add the jars (or similar) to the dependencies of your project. And every other jar will also handle it's own dependencies.
+Never touch an XML file again! Simply add the jars (or similar) to the dependencies of your project. And every other jar will also handle it's own dependencies.
 
 Inventory:
-A company can handle it’s inventory in the database. A library, for instance, would have an entity “books” and link to every book it has and it’s quantity. Also note that since it is bidirectional, you would also be able to see which library has the book in stock.
+A company can handle it's inventory in the database. A library, for instance, would have an entity "books"� and link to every book it has and it's quantity. Also note that since it is bidirectional, you would also be able to see which library has the book in stock.
 
 Nearby entities:
 Every commerce has a location so you can search for nearby restaurants, hotels, gas stations... that meet your requirements (number of stars, user ratings, price) and you can read the reviews.
 
 Travel:
-Every destination is ranked by users. Every attraction, hotel, restaurant, airport... And you would get suggestions if you don’t know where to go. They would be based on your preferences. If you like a certain place, you will be suggested similar ones.
+Every destination is ranked by users. Every attraction, hotel, restaurant, airport... And you would get suggestions if you don't know where to go. They would be based on your preferences. If you like a certain place, you will be suggested similar ones.
 
 Structure overview :
 
@@ -49,13 +47,13 @@ Goodies :
 Some cool features that are partly implemented or that I'd like to have.
 
 Multilingualism:
-Entities are meant to be unique, no matter the language. Hence when an entity does not have the translation for it's name, it is shown in another language followed by a star. With a single click you can then translate it. It's a lot easier to contribute than to write a paragraph for wikipedia.
+Entities are meant to be unique, no matter the language. Hence when an entity does not have the translation for it's name, it is shown in another language followed by a star. With a single click you can then translate it. Soon enough, every entity will be translated.
 
 Styling:
 One great advantage I want it to have is that the users would control the styling. Both the author of the document and the user that sees it could choose a different style. The user would then decide if he wants to always use his or to use the author's styling when present.
 
 Terminal:
-There is a terminal included in the website. In brief I want to be able to do everything with just the keyboard and to run advanced commands that can’t be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
+There is a terminal included in the website. In brief I want to be able to do everything with just the keyboard and to run advanced commands that can't be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
 
 Scoring function:
 You would be able to create your own scoring function. For example, you can change the price versus duration ratio for flights.
@@ -73,7 +71,7 @@ Sharing:
 You decide what you want to share and see from your friends. You can decide to share events like uploading a video, a picture, commenting, writing an article, a high rating, a low rating...
 
 Personal:
-It is designed that it is your database. The goal is that you feel like it is your database. You have full control over everything, but your contribution will be distributed to others based on your reputation.
+One goal is that you feel like it is your database. You have full control over everything, but your contribution will be distributed to others based on your reputation. People must not be afraid to enter something wrong.
 
 Ownership:
 There is many way you can decide to let people edit your documents. You can be sole proprietary, no one can edit. It can be a wiki that anyone can edit or a more restricted wiki. It could also be like github. You could fork the document and do a pull request. Maybe you could do inline editing and let us compute the merge based on probabilities that it could be right. There could also be comments that are just for correcting or improving the document.
@@ -82,7 +80,7 @@ Data mode:
 There is a mode designed for entering data efficiently.
 
 File system:
-Text documents looks a lot like github files. They have sub-documents and the content is similar to a README. Hence, there should a tool used to sync up with the filesystem, like git, but that would be a lot simpler.
+Text documents looks a lot like github files. They have sub-documents and the content is similar to a README. Hence, there should a tool used to sync up with the filesystem like git.
 
 Shared database:
 One crazy idea would be that the database be shared across every users computers. The big data space available would allow for good redundancy. It could also be faster because all the servers would be close to you. It would be great considering that most of the time computers are idle.
@@ -92,7 +90,7 @@ An even more crazy idea I had is to use stock options as a currency. What I disl
 
 Advantages :
 
-The search results would be better than a regular search engine because you can easily scope by entity and you have a lot more control on the query. You also see the attributes of an entity and you can easily filter by them. Ex: Filter movies by genre.
+The search results would be better than a regular search engine because you can easily scope by entity and you have a lot more control on the query. You see the attributes of an entity and you can easily filter by them. Ex: Filter movies by genre.
 
 By having all the preferences of the user for every category combined with machine learning, there would be a huge potential of suggesting the user interesting entities or documents.
 
@@ -102,7 +100,7 @@ Status :
 
 I've started coding it for two months. The best way to see the current status is the check out the video I made. There is no sound unfortunately, but it still shows enough. http://www.youtube.com/watch?v=z0r0etph7Cg
 
-I don't know much about financing and hiring. What I would like is people to start contributing (it's open source) or contact me if you are interested in working full time. Any kind of relatively important contribution will rewarded by money/options/shares.
+I don't know much about financing and hiring.. What I would like is people to start contributing (it's open source) or contact me if you are interested in working full time. Any kind of valuable contribution will rewarded.
 
 Angels that would like to invest and help with their knowledge are more than welcomed.
 
