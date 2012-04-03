@@ -15,7 +15,7 @@ Learning:
 For every field there would be ranked books, tutorials, wikis, articles... so you can learn anything by yourself. For example, if you want to learn Ruby, you would see the best documents to learn it and it's components (documents about ruby variables, methods, classes..).
 
 Recipes:
-You could enter the ingredients that you have to receive a list of possible recipes you can make. They would all be sorted based on your preferences by learning from your ratings of other meals. For each recipee, there would be reviews, tips or even documents about what kind of wine it's good with..
+You could enter the ingredients that you have to receive a list of possible recipes you can make. They would all be sorted based on your preferences by learning from your ratings of other meals. For each recipe, there would be reviews, tips or even documents about what kind of wine it's good with..
 
 Binary packages:
 Since every user has it's own entity, he can use it to link to the applications that he is using. Then in any OS he could fetch the applications if the binaries exists. The dependencies would also be handled by having them listed for every application.
@@ -36,7 +36,7 @@ Structure overview :
 
 The structure I am proposing is composed of two main elements, an entity and a document.
 
-The secret ingredient is the entity. It represents a thing, a concept, but is also a type throught it's relations. For example, "movie" is an entity but is also a type that defines every movie. The relations are both inheritance and associations (has_one, has_many, ...) For example, "movie" is a "video" and has many "actor".
+The secret ingredient is the entity. It represents a thing, a concept, but is also a type through it's relations. For example, "movie" is an entity but is also a type that defines every movie. The relations are both inheritance and associations (has_one, has_many, ...) For example, "movie" is a "video" and has many "actor".
 
 An entity has many documents. A document is a pretty vague term for holding content. It can be of any media type, like video, text document,  q&a, forum, wiki, website template or a link to another website.
 
