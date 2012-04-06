@@ -9,7 +9,7 @@ Entertainment:
 The current examples that works well are like movies, books, games... Based on others and your ratings, you get suggestions. Also, they have documents for resumes and reviews.
 
 Products:
-If every product was in the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen, etc.) Then you will get a list of local products, delivering retailers or other users offers. The community would help you choose between similar products by their ratings and reviews.
+If every product was in the database, you could find the best one for your needs. For example, if you want to buy a laptop, you enter the range of attributes you want : 4GB-8GB of RAM, 500GB-2TB of HDD, a NVIDIA video card, at least 15 inch screen, etc. Then you will get a list of local products, delivering retailers or other users' offers. The community would help you choose between similar products by their ratings and reviews.
 
 Learning:
 For every field there would be ranked books, tutorials, wikis, articles... so you can learn anything by yourself. For example, if you want to learn Ruby, you would see the best documents to learn it and its components (documents about ruby variables, methods, classes..).
@@ -50,7 +50,7 @@ Styling:
 One great advantage I want it to have is that the users would control the styling. Both the author of the document and the user that sees it could choose a different style. The user would then decide if he wants to always use his or to use the author's styling when present.
 
 Terminal:
-There is a terminal included in the website. In brief I want to be able to do everything with just the keyboard and to run advanced commands that can't be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
+There is a terminal included in the website. In brief, I want to be able to do everything with just the keyboard and to run advanced commands that can't be in the UI. I won't elaborate because I could write a whole document just on this, but you see the point.
 
 Advanced search queries:
 You have a lot more control over the search. The interface tries to emulate a real database client. You can filter by attributes or associated entities attributes. You can also select which fields are to be displayed. For example, list movies with the year and the directors.
