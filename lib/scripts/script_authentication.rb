@@ -14,7 +14,7 @@ def authenticate(options={})
     password = gets
 
     # FIXME: This is probably not encrypted.
-    Net::HTTP.start(EncycloServer::HOST, EncycloServer::PORT) {|http|
+    http_encyclo {|http|
       response = http.post('/sessions/create', "pseudo=#{pseudo}&password=#{pseudo}")
     }
 
@@ -28,4 +28,3 @@ def authenticate(options={})
   end
   raise "Too many failed attempts."
 end
-  
