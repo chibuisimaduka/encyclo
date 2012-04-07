@@ -1,5 +1,5 @@
 module EntitiesHelper
-  
+
   def associations_by_definition(entity, entities)
     associations_by_def = {}
     (entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map(&:association_definitions).each do |association_definition|

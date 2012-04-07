@@ -167,6 +167,21 @@ class Entity < ActiveRecord::Base
     !self.parent_id.blank? && self.component_id.blank? ? self.parent.parents_untill_component + [self.parent] : []
   end
 
+  def associations_values
+    associations_values = {}
+    (self.ancestors + [self]).flat_map(&:associations).each do |association|
+      unless DeleteRequest.alive?(association)
+        associations_values[association.association_definition_id] = (associations_values[association.association_definition_id] || []) + [association.associated_entity_id] 
+      end
+    end
+    (self.ancestors + [self]).flat_map(&:associated_associations).each do |association|
+      unless DeleteRequest.alive?(association)
+        associations_values[association.association_definition_id] = (associations_values[association.association_definition_id] || []) + [association.entity_id] 
+      end
+    end
+    associations_values
+  end
+
 private
 
   def validate_has_one_name

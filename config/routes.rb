@@ -11,6 +11,7 @@ Encyclo::Application.routes.draw do
   resources :paths, :only => [:index] do
     collection do
       get 'get_entity'
+      get 'get_entity_associations'
     end
   end
 
@@ -29,7 +30,7 @@ Encyclo::Application.routes.draw do
     end
     member do
       put 'toggle'
-	 end
+    end
   end
 
   resources :delete_requests do

@@ -13,6 +13,12 @@ class PathsController < ApplicationController
     render :json => {entity: entity} if entity
   end
 
+  # OPTIMIZE: Add option to return name instead of id, for association definitions at least.
+  def get_entity_associations
+    entity = Entity.find(params[:entity_id])
+    render :json => entity.associations_values
+  end
+
 private
 
   def process_path_or_render_error(path, options={})
