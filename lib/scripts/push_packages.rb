@@ -1,9 +1,13 @@
 #!/usr/bin/ruby
 
-require '../script_authentication'
+require 'script_authentication'
 
 # using grep -P because regular grep regex does not understand \t, but -P is only for GNU grep..
 installed_packages = `sudo dpkg --get-selections | grep "install" | grep -P -o "^[^\t]*"`.split('\n')
+
+for package in installed_packages
+  entities << entity_application.entities.where(package_name: package)
+end
 
 # TODO: Find the entity id for every package, knowing that it is an application.
 http_encyclo { |http|
