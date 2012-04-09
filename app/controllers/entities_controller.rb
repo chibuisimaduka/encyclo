@@ -42,30 +42,30 @@ class EntitiesController < ApplicationController
   end
 
   def create
-    if params["commit"] == "Change parent"
-      @entities = Entity.find_all_by_id_or_by_name(params[:entity_id], params[:name], current_language)
-      if @entities.size != 1
-        redirect_to :back, :alert => 'There must not be ambiguosity to change an entity parent.'
-      else
-        @entity = @entities.first
-        @entity.parent_id = params[:entity][:parent_id]
-        begin
-          Entity.transaction do
-            if @entity.component
-              if @entity.component && @entity.component.associated_entity == @entity
-                @entity.component.destroy 
-              else
-                @entity.component_id = nil
-              end
-            end
-            @entity.save!
-          end
-          redirect_to :back, :notice => 'Entity parent was succesfully changed.'
-        rescue
-          redirect_to :back, :notice => 'An error has occured while changing the entity parent.'
-        end
-      end
-    else
+    #if params["commit"] == "Change parent"
+    #  @entities = Entity.find_all_by_id_or_by_name(params[:entity_id], params[:name], current_language)
+    #  if @entities.size != 1
+    #    redirect_to :back, :alert => 'There must not be ambiguosity to change an entity parent.'
+    #  else
+    #    @entity = @entities.first
+    #    @entity.parent_id = params[:entity][:parent_id]
+    #    begin
+    #      Entity.transaction do
+    #        if @entity.component
+    #          if @entity.component && @entity.component.associated_entity == @entity
+    #            @entity.component.destroy 
+    #          else
+    #            @entity.component_id = nil
+    #          end
+    #        end
+    #        @entity.save!
+    #      end
+    #      redirect_to :back, :notice => 'Entity parent was succesfully changed.'
+    #    rescue
+    #      redirect_to :back, :notice => 'An error has occured while changing the entity parent.'
+    #    end
+    #  end
+    #else
       @entity = Entity.create(params[:entity], current_user, current_language, params[:name])
       if @entity.names.first.save!
         flash[:notice] = 'Entity was successfully created.'
@@ -73,7 +73,7 @@ class EntitiesController < ApplicationController
         flash[:alert] = 'An error has occured while creating the entity.'
       end
       redirect_to params[:show] ? @entity : :back
-    end
+    #end
   end
 
   def random
