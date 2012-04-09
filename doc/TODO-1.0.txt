@@ -1,5 +1,6 @@
 == TODOs
 
+- A filter so bots don't create tons of users
 - Clean all the stuff unecessary are remove access to some stuff maybe or just increase a lot the treshold for deleting.
 - Add more rules to delete like association definition and components should be considered less easilly.
   Also, an entity that has less content should be deletable easily. One that has much should be less.
