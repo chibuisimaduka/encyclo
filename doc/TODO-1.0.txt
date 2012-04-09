@@ -1,0 +1,15 @@
+== TODOs
+
+- Clean all the stuff unecessary are remove access to some stuff maybe or just increase a lot the treshold for deleting.
+- Add more rules to delete like association definition and components should be considered less easilly.
+  Also, an entity that has less content should be deletable easily. One that has much should be less.
+  If a user create an entity than delete it, it should be purged.
+- Be able to change the language of a document.
+
+== FIXMEs
+
+- Remove the damn limits in entities controller show views.
+- Be able to set the language universal for an entity and it's sub-descendants.
+- When deleting entities, you should not be able to see it in the search.
+- The entity validations should all be based on the current user. Based on what he has deleted.
+- Make the names accent sensitives. You curently can't just add an accent to a name.

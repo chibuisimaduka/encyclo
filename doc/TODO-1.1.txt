@@ -1,0 +1,7 @@
+== TODOs
+
+- Refactor document model structure. Document should be abstract model that maybe would include entity too.
+- Cancel toggle_visibility by pressing the escape key.
+- A watchlist. A list of entities that the user wants to watch or is watching.
+- A multilingual layout.
+- A select functionility. Next to associations, a check box to wheter to show it.
