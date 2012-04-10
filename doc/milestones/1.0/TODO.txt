@@ -7,6 +7,7 @@
   Also, an entity that has less content should be deletable easily. One that has much should be less.
   If a user create an entity than delete it, it should be purged.
 - Be able to set the language universal for an entity and it's sub-descendants.
+- Instead of showing disambiguation page when no entity match, propose to create it.
 
 == FIXMEs
 

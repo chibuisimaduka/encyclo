@@ -1,0 +1,16 @@
+The list of data to get back and it's child possibly :
+
+Product : 51564
+Programming Paradigm : 51356
+Technology : 1790
+Science : 1785
+Location : 31083
+
+Unknown : 1906
+  The following are actually included in unkown, but...
+  Restaurant : 2081
+  Hotel : 2082
+  Color : 1911
+
+Company : 1512
+Application : 13709
