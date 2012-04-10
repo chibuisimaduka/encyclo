@@ -5,4 +5,6 @@
       = render partial: "ratings/rankable", locals: {rankable: document}
     = hover_hidden do
       = render partial: "delete_requests/link", locals: {destroyable: document, link: image_tag("delete_button_14_px.png")}
+    = hover_hidden do
+      = link_to "[edit]", edit_document_path(document)
   .description= document.description + "..." unless document.description.blank?

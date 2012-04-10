@@ -1,0 +1,8 @@
+#link_to_back= link_to "Back to parent", @document.entities.blank? ? @document.parent : @document.entities.first
+= form_for @document do |f|
+  %p= f.text_field :name
+  %p= f.text_field :description
+  - unless @document.documentable_type == "ListingDocument"
+    %p= f.text_area :content
+  %p= select "document", :language_id, Language::ALL.map{|l| [l.name, l.id]}
+  %p= f.submit "Save changes"

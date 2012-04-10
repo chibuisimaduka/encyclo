@@ -13,9 +13,16 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def edit
+    @document = Document.find(params[:id])
+  end
+
   def update
     @document = Document.find(params[:id])
     @document.update_attributes(params[:document])
+    if @document.documentable_type == 'RemoteDocument'
+      render "edit"
+    end
     respond_with @document
   end
 
