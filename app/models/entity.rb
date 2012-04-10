@@ -134,7 +134,7 @@ class Entity < ActiveRecord::Base
   def set_name(value, user, language)
     # Active record does not do that association like expected.
     #name = names.find_or_initialize_by_value(value)
-    name = names.find_by_value(value) || names.build(value: value)
+    name = names.where("value = '#{value}' collate utf8_bin").first || names.build(value: value)
     EditRequest.update(name, names, user)
     name.language = language
     name

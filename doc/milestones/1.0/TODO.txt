@@ -2,7 +2,7 @@
 
 - Add probabilistic editing for documents.
 - A filter so bots don't create tons of users
-- Clean all the stuff unecessary are remove access to some stuff maybe or just increase a lot the treshold for deleting.
+- Remove access to some stuff maybe or just increase a lot the treshold for deleting.
 - Add more rules to delete like association definition and components should be considered less easilly.
   Also, an entity that has less content should be deletable easily. One that has much should be less.
   If a user create an entity than delete it, it should be purged.
@@ -14,4 +14,3 @@
 - Fix the ancestors.
 - Remove the damn limits in entities controller show views.
 - When deleting entities, you should not be able to see it in the search.
-- Make the names accent sensitives. You curently can't just add an accent to a name.
