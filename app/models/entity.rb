@@ -77,7 +77,9 @@ class Entity < ActiveRecord::Base
   end
 
   def death_treshold
-    Math.log(self.entities.sum(&:death_treshold) + self.associations.count + self.documents.sum(&:death_treshold) + self.ratings.count + self.association_definitions.sum(&:death_treshold) + self.names.count)
+    # If death_treshold was an attribute, the following could be done.
+    #Math.log(self.entities.sum(&:death_treshold) + self.associations.count + self.documents.sum(&:death_treshold) + self.ratings.count + self.association_definitions.sum(&:death_treshold) + self.names.count)
+    Math.log(self.entities.count + self.associations.count + self.documents.count + self.ratings.count + self.association_definitions.count + self.names.count)
   end
 
   def subentities_leaves(checked_entities=nil)
