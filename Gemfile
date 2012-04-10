@@ -25,6 +25,8 @@ gem 'whenever'
 
 gem 'ruby-prof'
 
+gem "recaptcha", :require => "recaptcha/rails"
+
 gem 'factory_girl'
 gem "factory_girl_rails", "~> 1.2"
 

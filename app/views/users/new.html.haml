@@ -2,8 +2,9 @@
 
 = form_for @user do |f|
   - if @user.errors.any?
-    - @user.errors.full_messages.each do |msg|
-      = msg
+    #flasherror
+      - @user.errors.full_messages.each do |msg|
+        = msg
   %p
     Pseudo : (is publicly available)
     %br
@@ -15,4 +16,6 @@
   %p
     = f.label :password_confirmation
     = f.password_field :password_confirmation
+  %p
+    = recaptcha_tags 
   %p.button= f.submit

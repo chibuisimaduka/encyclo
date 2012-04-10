@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @user.home_entity = Entity.create({parent_id: entity_user.id}, @user, Language::MAP[:universal], @user.email)
     begin
       User.transaction do
+        raise "invalid captcha" unless verify_recaptcha(:model => @user, :message => "Invalid capcha text input.")
         @user.save!
         if @user.home_entity.save
           session[:user_id] = @user.id

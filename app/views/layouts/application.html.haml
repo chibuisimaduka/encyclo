@@ -44,7 +44,7 @@
             = render :partial => "entities/search"
         = yield :left_sidebar
       #content
-        - flash.each do |name, msg|
+        - [flash[:notice], flash[:alert]].each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"
         = yield
       #terminal
