@@ -37,21 +37,11 @@ class EntitySimilarityMatrix
   end
  
   # Get the estimated rating for the given user and entity.
+  # Source : http://www.igvita.com/2007/01/15/svd-recommendation-system-in-ruby/
   def get_rating(user, entity)
-    raise "Entity similarity matrix is no initialized!" unless @initialized
-    # TODO
+    raise "Entity similarity matrix is not initialized!" unless @initialized
 
-    users = { 1 => "Ben", 2 => "Tom", 3 => "John", 4 => "Fred" }
-    m = Linalg::DMatrix[
-      #Ben, Tom, John, Fred
-      [5,5,0,5], # season 1
-      [5,0,3,4], # season 2
-      [3,4,0,3], # season 3
-      [0,0,5,3], # season 4
-      [5,4,4,5], # season 5
-      [5,4,5,5]  # season 6
-    ]
-
+    m = @matrices[entity.id]
     # Compute the SVD Decomposition
     u, s, vt = m.singular_value_decomposition
     vt = vt.transpose
@@ -77,7 +67,6 @@ class EntitySimilarityMatrix
     
     # Remove all users who fall below the 0.90 cosine similarity cutoff and sort by similarity
     similar_users = user_sim.delete_if {|k,sim| sim < 0.9 }.sort {|a,b| b[1] <=> a[1] }
-    similar_users.each { |u| printf "%s (ID: %d, Similarity: %0.3f) \n", users[u[0]], u[0], u[1]  }
     
     # We'll use a simple strategy in this case:
     #   1) Select the most similar user

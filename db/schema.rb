@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120304202925) do
+ActiveRecord::Schema.define(:version => 20120411213102) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(:version => 20120304202925) do
     t.text     "description",       :null => false
     t.integer  "language_id",       :null => false
     t.integer  "user_id",           :null => false
-    t.integer  "documentable_id",   :null => false
+    t.integer  "documentable_id"
     t.string   "documentable_type", :null => false
     t.integer  "component_id"
   end
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(:version => 20120304202925) do
     t.integer  "parent_id"
     t.integer  "component_id"
     t.integer  "user_id",      :null => false
+    t.integer  "freebase_id"
   end
 
   add_index "entities", ["component_id"], :name => "fk_component"
@@ -193,16 +194,6 @@ ActiveRecord::Schema.define(:version => 20120304202925) do
   add_index "opposing_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
   add_index "opposing_users_delete_requests", ["user_id", "delete_request_id"], :name => "opposing_users_delete_requests_i"
   add_index "opposing_users_delete_requests", ["user_id"], :name => "user_id"
-
-  create_table "possible_name_spellings", :force => true do |t|
-    t.string   "spelling",   :null => false
-    t.integer  "name_id",    :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "possible_name_spellings", ["name_id", "spelling"], :name => "possible_name_spellings_i"
-  add_index "possible_name_spellings", ["name_id"], :name => "name_id"
 
   create_table "predicate_items", :force => true do |t|
     t.integer  "predicate_id"

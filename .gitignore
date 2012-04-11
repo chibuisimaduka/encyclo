@@ -26,3 +26,5 @@
 .rvmrc
 
 config/database.yml
+
+data/**

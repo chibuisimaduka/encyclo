@@ -169,6 +169,10 @@ class Entity < ActiveRecord::Base
     !self.parent_id.blank? && self.component_id.blank? ? self.parent.parents_untill_component + [self.parent] : []
   end
 
+  def predicates
+    association_definitions.map(&:associated_entity) | associated_association_definitions.map(&:entity)
+  end
+
   def associations_values
     associations_values = {}
     (self.ancestors + [self]).flat_map(&:associations).each do |association|
