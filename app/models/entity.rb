@@ -76,6 +76,16 @@ class Entity < ActiveRecord::Base
     entities.where("entities.component_id IS NULL")
   end
 
+  def all_associations(user, reload=false)
+    @all_assocs = @all_assocs && !reload ? @all_assocs : DeleteRequest.alive_scope(associations, user) +
+      ReversedAssociation.reverse(DeleteRequest.alive_scope(associated_associations, user))
+  end
+
+  def all_association_definitions(user, reload=false)
+    @all_assoc_defs = @all_assoc_defs && !reload ? @all_assoc_defs : DeleteRequest.alive_scope(association_definitions, user) +
+      ReversedAssociationDefinition.reverse(DeleteRequest.alive_scope(associated_association_definitions))
+  end
+
   def death_treshold
     # If death_treshold was an attribute, the following could be done.
     #Math.log(self.entities.sum(&:death_treshold) + self.associations.count + self.documents.sum(&:death_treshold) + self.ratings.count + self.association_definitions.sum(&:death_treshold) + self.names.count)
@@ -114,12 +124,6 @@ class Entity < ActiveRecord::Base
 
   def entities_by_definition
     self.direct_entities_by_definition | self.indirect_entities_by_definition
-  end
-
-  def all_association_definitions
-    self.ancestors.map do |a|
-      (a.association_definitions || []) + (a.associated_association_definitions || [])
-    end
   end
 
   def is_component?
@@ -170,7 +174,7 @@ class Entity < ActiveRecord::Base
   end
 
   def predicates
-    association_definitions.map(&:associated_entity) | associated_association_definitions.map(&:entity)
+    all_association_definitions.map(&:associated_entity)
   end
 
   def associations_values

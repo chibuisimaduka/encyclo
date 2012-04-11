@@ -1,10 +1,10 @@
-- id = "definition_#{definition.id}_#{inversed ? "i" : "n"}"
-- entities_associations_map = associations.map {|a| [inversed ? a.entity : a.associated_entity, a] }
-- entities_associations_map += nested_entity_values(entity, definition.nested_entity, inversed ? definition.entity : definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
+- id = "definition_#{definition.id}" # FIXME: I think the following was important : _#{inversed ? "i" : "n"}"
+- entities_associations_map = associations.map {|a| [a.associated_entity, a] }
+- entities_associations_map += nested_entity_values(entity, definition.nested_entity, definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
 .definition{id: id}
-  - definition_entity = inversed ? definition.entity : definition.associated_entity
+  - definition_entity = definition.associated_entity
   - raw_name = definition_entity.name(current_user, current_language).value
-  - name = (inversed ? definition.associated_entity_has_many : definition.entity_has_many) ? raw_name.pluralize : raw_name
+  - name = definition.entity_has_many ? raw_name.pluralize : raw_name
   %span.association_definition_name= link_to name, definition_entity
   \:
   - if entities_associations_map.size > 0
@@ -15,5 +15,5 @@
             = render partial: "associations/entity", locals: {entity: entity_association.first, entity_showed: entity, association: entity_association.second, definition_entity: definition_entity}
           - else
             = render partial: entity_association.first
-- if (inversed ? definition.associated_entity_has_many : definition.entity_has_many) || entities_associations_map.blank?
-  = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition, inversed: inversed}), "##{id}"
+- if definition.entity_has_many || entities_associations_map.blank?
+  = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition}), "##{id}"

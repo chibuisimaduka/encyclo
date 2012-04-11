@@ -2,24 +2,12 @@ module EntitiesHelper
 
   def associations_by_definition(entity, entities)
     associations_by_def = {}
-    (entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map(&:association_definitions).each do |association_definition|
-      associations_by_def[association_definition] = []
+    ((entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map {|e| e.all_association_definitions(current_user) }).each do |association_def|
+      associations_by_def[association_def] = []
     end
     # Using the parent also because if the Asterix and Obelix serie is written by Uderzo and Gosciny, so is every of it's child.
-    (entity.ancestors + [entity]).flat_map(&:associations).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless DeleteRequest.alive?(association, current_user)
-    end
-    associations_by_def.sort {|k,v| v.size }
-  end
-
-  def associated_associations_by_definition(entity, entities)
-    associations_by_def = {}
-    (entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map(&:associated_association_definitions).each do |association_definition|
-      associations_by_def[association_definition] = []
-    end
-    # Using the parent also because if the Asterix and Obelix serie is written by Uderzo and Gosciny, so is every of it's child.
-    (entity.ancestors + [entity]).flat_map(&:associated_associations).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association] unless DeleteRequest.alive?(association, current_user)
+    ((entity.ancestors + [entity]).flat_map {|e| e.all_associations(current_user) }).each do |association|
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
     end
     associations_by_def.sort {|k,v| v.size }
   end
