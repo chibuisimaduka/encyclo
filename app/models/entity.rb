@@ -1,6 +1,6 @@
 class Entity < ActiveRecord::Base
 
-  default_scope includes([:parent, :ratings, :delete_request, :documents, :images, :names => {:edit_request => :agreeing_users}])
+  #default_scope includes([:parent, :ratings, :delete_request, :documents, :images, :names => {:edit_request => :agreeing_users}])
 
   attr_protected :user_id, :user, :ancestors, :ancestor_ids, :little_descendants, :little_desendant_ids
 
@@ -69,11 +69,11 @@ class Entity < ActiveRecord::Base
   end
  
   def self.component_scope(entities)
-    entities.where("component_id IS NOT NULL")
+    entities.where("entities.component_id IS NOT NULL")
   end
 
   def self.subentity_scope(entities)
-    entities.where("component_id IS NULL")
+    entities.where("entities.component_id IS NULL")
   end
 
   def death_treshold
@@ -187,11 +187,23 @@ class Entity < ActiveRecord::Base
   def self.filter_scope(entities, filters)
     return entities if filters.blank?
 
-    filters.each do |definition_id, vals|
-      unless params["refine_#{definition_id}"].blank?
-        entities.join([:associations, :associated_associations]).where("(associations.association_definition_id = definition_id and associations.associated_entity_id = #{vals[:associated_entity_id]}) or (associated_associations.association_definition_id = definition_id and associated_associations.entity_id = #{vals[:associated_entity_id]})") unless vals[:associated_entity_id].blank?
+    vals = {}
+    filters.each do |definition_id, v|
+      unless v["name"].blank?
+        # FIXME: Throw exception when name has multiple meanings.
+        vals[definition_id] = v["id"].blank? ? Name.find_by_value(v["name"]).entity.id : v["id"]
       end
     end
+    
+    unless vals.blank?
+      entities = entities.joins("INNER JOIN associations AS filter_associations ON filter_associations.entity_id = entities.id \
+          OR filter_associations.associated_entity_id = entities.id")
+      vals.each do |definition_id, value_id|
+        entities = entities.where("filter_associations.association_definition_id = #{definition_id} and (filter_associations.associated_entity_id = #{value_id} or filter_associations.entity_id = #{value_id})")
+      end
+    end
+
+    entities
   end
 
 private

@@ -49,4 +49,12 @@ module EntitiesHelper
     #link_to entity_name(entity), entity, remote: true, format: :js
   end
 
+  def filter_value_id(definition, filters)
+    definition_id = definition.id.to_s
+    filters && filters[definition_id] && !filters[definition_id]["name"].blank? ? filters[definition_id]["id"] : ''
+  end
+
+  def filter_value_name(definition, filters)
+    filters && filters[definition.id.to_s] ? filters[definition.id.to_s]["name"] : ''
+  end
 end

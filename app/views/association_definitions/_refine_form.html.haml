@@ -1,8 +1,7 @@
-- (inversed ? @entity.associated_association_definitions : @entity.association_definitions).each do |association_def|
+- (inversed ? @entity.associated_association_definitions : @entity.association_definitions).each do |definition|
   .association_filter
-    - other_entity = (inversed ? association_def.entity : association_def.associated_entity)
+    - other_entity = (inversed ? definition.entity : definition.associated_entity)
     = other_entity.name(current_user, current_language)
-    - field_name = "refine_#{association_def.id}"
-    - field_id = params[:filter] && params[:filter][association_def.id.to_s] && !params[field_name].blank? ? params[:filter][association_def.id.to_s][:associated_entity_id] : ''
-    = hidden_field_tag "filter[#{association_def.id}][associated_entity_id]", field_id, id: "refine_associated_entity_id_#{association_def.id}"
-    = autocomplete_field_tag field_name, params[field_name], autocomplete_name_value_entities_path(parent_id: other_entity.id), id_element: "#refine_associated_entity_id_#{association_def.id}", size: 14
+    - field_name = "filter[#{definition.id}][name]"
+    = hidden_field_tag "filter[#{definition.id}][id]", filter_value_id(definition, params[:filter]), id: "refine_#{definition.id}"
+    = autocomplete_field_tag field_name, filter_value_name(definition, params[:filter]), autocomplete_name_value_entities_path(parent_id: other_entity.id), id_element: "#refine_#{definition.id}", size: 14

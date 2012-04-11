@@ -6,6 +6,7 @@
   If a user create an entity than delete it, it should be purged.
 (0.2)- Be able to set the language universal for an entity and it's sub-descendants.
 (1)- A basic ranking based on your preferences.
+(1)- Add a lot of movies, songs, games, books and series.
 
 == FIXMEs
 
