@@ -184,6 +184,16 @@ class Entity < ActiveRecord::Base
     associations_values
   end
 
+  def self.filter_scope(entities, filters)
+    return entities if filters.blank?
+
+    filters.each do |definition_id, vals|
+      unless params["refine_#{definition_id}"].blank?
+        entities.join([:associations, :associated_associations]).where("(associations.association_definition_id = definition_id and associations.associated_entity_id = #{vals[:associated_entity_id]}) or (associated_associations.association_definition_id = definition_id and associated_associations.entity_id = #{vals[:associated_entity_id]})") unless vals[:associated_entity_id].blank?
+      end
+    end
+  end
+
 private
 
   def validate_has_one_name
