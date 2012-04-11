@@ -184,25 +184,22 @@ class Entity < ActiveRecord::Base
     associations_values
   end
 
-  def self.filter_scope(entities, filters)
+  def self.filter_scope(entities, filters, language)
     return entities if filters.blank?
 
-    vals = {}
-    filters.each do |definition_id, v|
+    filters.each_with_index do |(definition_id, v), i|
       unless v["name"].blank?
-        # FIXME: Throw exception when name has multiple meanings.
-        vals[definition_id] = v["id"].blank? ? Name.find_by_value(v["name"]).entity.id : v["id"]
+        if v["id"].blank?
+          names = Name.language_scope(Name).find_all_by_value(v["name"]) #TODO: Scope by definition too.
+          raise "Ambiguous name." if names.size != 1
+          value_id = names.first.entity.id
+        else
+          value_id = v["id"]
+        end
+        entities = entities.joins("INNER JOIN associations AS filter_associations_#{i} ON filter_associations_#{i}.entity_id = entities.id OR filter_associations_#{i}.associated_entity_id = entities.id").where("filter_associations_#{i}.association_definition_id = #{definition_id} and (filter_associations_#{i}.associated_entity_id = #{value_id} or filter_associations_#{i}.entity_id = #{value_id})")
       end
     end
     
-    unless vals.blank?
-      entities = entities.joins("INNER JOIN associations AS filter_associations ON filter_associations.entity_id = entities.id \
-          OR filter_associations.associated_entity_id = entities.id")
-      vals.each do |definition_id, value_id|
-        entities = entities.where("filter_associations.association_definition_id = #{definition_id} and (filter_associations.associated_entity_id = #{value_id} or filter_associations.entity_id = #{value_id})")
-      end
-    end
-
     entities
   end
 

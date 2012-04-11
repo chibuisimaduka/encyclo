@@ -21,11 +21,11 @@ class EntitiesController < ApplicationController
   def show
     @entity = Entity.find(params[:id])
 
-    entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user), params[:filter])
+    entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user), params[:filter], current_language)
 
-    direct_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user), params[:filter])
+    direct_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user), params[:filter], current_language)
 
-    indirect_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user), params[:filter])
+    indirect_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user), params[:filter], current_language)
     
     sql = "(#{[entities, direct_entities, indirect_entities].map(&:to_sql).join(') UNION (')}) "
     sql += "ORDER BY rank DESC " # FIXME: Order by current user ratings and interpolation, sort of..

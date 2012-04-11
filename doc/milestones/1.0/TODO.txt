@@ -8,7 +8,3 @@
 (1)- A basic ranking based on your preferences.
 (1)- Add a lot of movies, songs, games, books and series.
 (0.5)- Check all the FIXMEs and TODOs and fix them if mandatory.
-
-== FIXMEs
-
-(0.2)- Two filter together does not work. (Keanu Reeves + action)
