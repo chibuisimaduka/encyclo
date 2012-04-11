@@ -4,10 +4,11 @@
 (0.5)- Add more rules to delete like association definition and components should be considered less easilly.
   Also, an entity that has less content should be deletable easily. One that has much should be less.
   If a user create an entity than delete it, it should be purged.
-(0.2)- Be able to set the language universal for an entity and it's sub-descendants.
+(0.3)- Be able to set the language universal for an entity and it's sub-descendants.
 (1)- A basic ranking based on your preferences.
 (1)- Add a lot of movies, songs, games, books and series.
+(0.5)- Check all the FIXMEs and TODOs and fix them if mandatory.
 
 == FIXMEs
 
-(0.7)- Remove the damn limits in entities controller show views.
+(0.2)- Two filter together does not work. (Keanu Reeves + action)

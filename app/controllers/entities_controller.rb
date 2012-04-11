@@ -21,14 +21,18 @@ class EntitiesController < ApplicationController
   def show
     @entity = Entity.find(params[:id])
 
-    # FIXME: Limit 250
-    #@entities = DeleteRequest.alive_scope(Entity.subentity_scope(@entity.descendants), current_user).limit(100)
-    @entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user), params[:filter]).limit(50)
-    @entities |= Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user), params[:filter]).limit(50)
-    @entities |= Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user), params[:filter]).limit(50)
-    @entities = (@entities.sort_by {|e| r = e.ratings.find_by_user_id(current_user.id); r ? r.value : e.rank || 0}).reverse
-    @entities = @entities.paginate(:page => params[:page])
+    entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user), params[:filter])
+
+    direct_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user), params[:filter])
+
+    indirect_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user), params[:filter])
+    
+    sql = "(#{[entities, direct_entities, indirect_entities].map(&:to_sql).join(') UNION (')}) "
+    sql += "ORDER BY rank DESC " # FIXME: Order by current user ratings and interpolation, sort of..
+    #@entities = (@entities.sort_by {|e| r = e.ratings.find_by_user_id(current_user.id); r ? r.value : e.rank || 0}).reverse
     #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
+                         
+    @entities = Entity.paginate_by_sql(sql, page: params[:page])
 
     @printer = PrettyPrinter.new(@entity, @entities)
   end
