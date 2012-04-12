@@ -47,6 +47,8 @@
         - [flash[:notice], flash[:alert]].each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"
         = yield
+      #footer
+        Note: Part of the content comes from <a href="http://www.freebase.com/">freebase</a>.
       #terminal
         #terminal_input
           <input class="terminal" type="text" name="terminal_input" size="120" placeholder='"= EntityName" or "~ DocumentName" or "help" for more commands or "guide" to be guided..' />

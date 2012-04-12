@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(:version => 20120411213102) do
     t.integer  "parent_id"
     t.integer  "component_id"
     t.integer  "user_id",      :null => false
-    t.integer  "freebase_id"
+    t.string   "freebase_id"
   end
 
   add_index "entities", ["component_id"], :name => "fk_component"

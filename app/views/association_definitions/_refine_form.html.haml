@@ -1,4 +1,4 @@
-- @entity.all_association_definitions.each do |definition|
+- @entity.all_association_definitions(current_user).each do |definition|
   .association_filter
     = definition.associated_entity.name(current_user, current_language)
     - field_name = "filter[#{definition.id}][name]"
