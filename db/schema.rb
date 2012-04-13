@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120411213102) do
+ActiveRecord::Schema.define(:version => 20120413053431) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -151,6 +151,13 @@ ActiveRecord::Schema.define(:version => 20120411213102) do
     t.integer  "coefficient"
     t.integer  "entity_id"
     t.integer  "other_entity_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "freebase_entities", :force => true do |t|
+    t.string   "freebase_id"
+    t.string   "freebase_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

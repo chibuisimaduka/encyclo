@@ -174,7 +174,7 @@ class Entity < ActiveRecord::Base
   end
 
   def predicates
-    all_association_definitions.map(&:associated_entity)
+    all_association_definitions(nil).map(&:associated_entity)
   end
 
   def associations_values

@@ -12,12 +12,12 @@ class ReversedAssociation
     @association.entity
   end
 
-  def method_missing(method, args)
-    @association.send(method, args)
+  def method_missing(method, *args)
+    args.empty? ? @association.send(method) : @association.send(method, args)
   end
 
   def self.reverse(collection)
-    collection.map {|e| ReversedAssociation.new(e) }
+    collection.map {|e| ReversedAssociation.new(e) } unless collection.blank?
   end
 
 end

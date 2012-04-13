@@ -5,6 +5,7 @@
 - A watchlist. A list of entities that the user wants to watch or is watching.
 - A multilingual layout.
 - A select functionility. Next to associations, a check box to wheter to show it.
+- Add the numbers of views per entity and documents for the collaborating filtering algorithm.
 
 == FIXMEs
 

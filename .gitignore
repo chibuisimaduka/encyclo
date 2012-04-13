@@ -18,6 +18,7 @@
 /backups/**
 
 **.swp
+**~
 
 /public/uploads
 
