@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120413053431) do
+ActiveRecord::Schema.define(:version => 20120413224703) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20120413053431) do
     t.string   "freebase_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "images", :force => true do |t|

@@ -15,7 +15,6 @@ class EntitySimilarityMatrix
     @matrices = {}
     # Build a matrix for every category.
     entities.includes(:entities => :ratings).where("id IN (SELECT DISTINCT(parent_id) FROM entities)").each do |entity|
-      # TODO: Reduce matrix size by loosing a little bit of accuracy.
       # FIXME: Use e.ancestors instead of e.entities, but that duplicated data..
       @matrices[entity.id] = e.entities.map {|e| users_ratings(users, e) }
     end
