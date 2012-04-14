@@ -15,9 +15,7 @@ print("Starting to fetch entries..")
 
 num_entries = 0
 for line in open(filename, 'r'):
-  index = line.find(' ')
-  if (index == -1): index = line.index('\t')
-  entity_id = line[:index]
+  entity_id = line[:line.index('\t')]
   if (entity_id in ids)
     if entities[entity_id]
       entities[entity_id]

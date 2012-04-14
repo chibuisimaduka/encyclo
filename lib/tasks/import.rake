@@ -2,6 +2,15 @@ namespace :import do
 
   namespace :freebase do
 
+    desc "Create Entities from FreebaseEntities"
+    task :create => :init do
+      @parent_id = ENV["PARENT_ID"].to_i
+      FreebaseEntity.find_all_by_freebase_type(ENV["TYPE"]).each do |e|
+        entity = Entity.create({parent_id: @parent_id, freebase_id: e.freebase_id}, WEBMASTER, ENGLISH, e.name)
+        entity.names.first.save!
+      end
+    end
+
     task :entities do
       type = ENV['TYPE'] # The types of entities to get.
       raise "Missing the type of entities you want to fetch!" if type.blank?
