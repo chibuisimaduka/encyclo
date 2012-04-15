@@ -25,7 +25,7 @@ class ReversedAssociationDefinition
   end
 
   def self.reverse(collection)
-    collection.map {|e| ReversedAssociationDefinition.new(e) }
+    collection.map {|e| ReversedAssociationDefinition.new(e) } if collection
   end
 
 end

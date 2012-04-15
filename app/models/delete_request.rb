@@ -20,7 +20,7 @@ class DeleteRequest < ActiveRecord::Base
   end
 
   def self.alive_scope(destroyables, user=nil)
-    return destroyables if destroyables.blank?
+    return destroyables unless destroyables
     alives = destroyables.where("#{destroyables.table_name}.id NOT IN (SELECT destroyable_id FROM delete_requests WHERE destroyable_type = '#{destroyables.model_name}' AND considered_destroyed = TRUE)")
     alives.joins("LEFT JOIN delete_requests ON #{destroyables.table_name}.id = delete_requests.destroyable_id AND delete_requests.destroyable_type = '#{destroyables.model_name}'")
       .where("(delete_requests.id IS NULL) OR (? NOT IN (SELECT user_id FROM concurring_users_delete_requests WHERE delete_request_id = delete_requests.id))", user.id) if user

@@ -17,7 +17,7 @@ class ReversedAssociation
   end
 
   def self.reverse(collection)
-    collection.map {|e| ReversedAssociation.new(e) } unless collection.blank?
+    collection.map {|e| ReversedAssociation.new(e) } if collection
   end
 
 end
