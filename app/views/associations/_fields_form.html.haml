@@ -1,4 +1,4 @@
-= f.hidden_field :entity_id, :value => entity.id
-= f.hidden_field :associated_entity_id, id: "associated_entity_id"
+= f.hidden_field :entity_id, :value => entity.id if local_assigns.has_key? :entity
+= f.hidden_field :associated_entity_id, id: "associated_entity_id_#{definition.id}"
 = f.hidden_field :association_definition_id, :value => definition.id
-= autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_field", id_element: "#associated_entity_id"
+= autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_field", id_element: "#associated_entity_id_#{definition.id}"

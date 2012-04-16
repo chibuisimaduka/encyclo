@@ -1,0 +1,3 @@
+.intermediate_associations
+  - associations_by_definition(entity, []).each do |definition, associations|
+    .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: entity}

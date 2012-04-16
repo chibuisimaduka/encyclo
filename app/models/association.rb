@@ -20,6 +20,8 @@ class Association < ActiveRecord::Base
 
   validate :validate_not_self_referenced
 
+  accepts_nested_attributes_for :associated_entity
+
 private
   def validate_not_self_referenced
     if entity_id == associated_entity_id

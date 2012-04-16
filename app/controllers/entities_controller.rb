@@ -67,7 +67,8 @@ class EntitiesController < ApplicationController
       end
     else
       @entity = Entity.create(params[:entity], current_user, current_language, params[:name])
-      if @entity.is_intermediate ? @entity.save : @entity.names.first.save
+      @entity.associations.each {|a| a.user_id = current_user.id }
+      if @entity.parent && @entity.parent.is_intermediate ? @entity.save! : @entity.names.first.save!
         flash[:notice] = 'Entity was successfully created.'
       else
         flash[:alert] = 'An error has occured while creating the entity.'

@@ -215,6 +215,10 @@ class Entity < ActiveRecord::Base
     entities
   end
 
+  def parent_is_intermediate
+    parent && parent.is_intermediate
+  end
+
 private
 
   def validate_has_one_name

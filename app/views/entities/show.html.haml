@@ -38,9 +38,11 @@
 #entity{:entity_id => @entity.id}
   #entity_parents_by_definition
     = render partial: @entity.parents_by_definition | @entity.associated_parents_by_definition, locals: {show_pictures: false, show_nested: false}
-  #entity_title
-    #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
-    = render partial: "delete_requests/link", locals: {destroyable: @entity}
+  -# FIXME: If parent_is_intermediate, there should still be a way to delete the entity.
+  - unless @entity.parent_is_intermediate
+    #entity_title
+      #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
+      = render partial: "delete_requests/link", locals: {destroyable: @entity}
   = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity}
   - unless @entity.is_intermediate
     #associations

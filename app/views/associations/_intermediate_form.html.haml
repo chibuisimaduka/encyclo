@@ -1,5 +1,6 @@
 = form_for(e = Entity.new) do |f|
   = f.hidden_field :parent_id, :value => definition.associated_entity_id
+  = f.hidden_field :is_intermediate, :value => "0"
   = render partial: "associations/intermediate_fields", locals: {f: f, definition: definition, entity: entity}
   
   = f.submit "Add"

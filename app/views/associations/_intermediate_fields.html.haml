@@ -4,13 +4,18 @@
 
 - definition.associated_entity.all_association_definitions(current_user).each do |intermediate_def|
   -# Intermediate_def: One of the predicate of the intermediate entity.
-  -# FIXME: Why oh why isn't just associated_entity_id that works?
-  - unless intermediate_def.associated_entity_id == definition.entity.id || intermediate_def.entity_id == definition.entity.id 
-    .intermediate_association
-      -# TODO: Add many fields if the association definition is many.
-      = f.fields_for :associations, Association.new do |association_fields| # OPTIMIZE: Is Association.new needed?
+  .intermediate_association
+    -# TODO: Add many fields if the association definition is many.
+    = f.fields_for :associations, Association.new do |association_fields| # OPTIMIZE: Is Association.new needed?
+      - if intermediate_def.associated_entity_id == definition.entity.id
+        - if local_assigns.has_key?(:entity)
+          = association_fields.hidden_field :associated_entity_id, :value => entity.id
+          = association_fields.hidden_field :association_definition_id, :value => definition.id
+      - else
         - if intermediate_def.associated_entity.is_intermediate
-          = render partial: "associations/intermediate_fields", locals: {f: f, definition: intermediate_def, entity: entity}
+          = association_fields.fields_for :associated_entity, Entity.new do |nested_entity_fields|
+            = nested_entity_fields.hidden_field :parent_id, :value => intermediate_def.associated_entity_id
+            = render partial: "associations/intermediate_fields", locals: {f: nested_entity_fields, definition: intermediate_def}
         - else
           = intermediate_def.associated_entity.name(current_user, current_language).value + ":"
-          = render partial: "associations/fields_form", locals: {f: association_fields, entity: entity, definition: intermediate_def}
+          = render partial: "associations/fields_form", locals: {f: association_fields, definition: intermediate_def}
