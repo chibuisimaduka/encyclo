@@ -1,5 +1,7 @@
 The project is about building the largest structured database containing everything. Yes, finally a frighteningly ambitious idea! And the project is great because it scales really well. We can develop, release and iterate category by category.
 
+One of the problem it tries to solve is lists. It should be able to answer any questions that starts with "what are the best" or "top 20". There currently is no way to compare and receive suggestions about all entities.
+
 The best way to see what this is about is probably through examples:
 
 Diseases:

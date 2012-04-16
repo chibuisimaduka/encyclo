@@ -53,6 +53,10 @@ class Entity < ActiveRecord::Base
 
   before_save :calculate_ancestors
 
+  validates_inclusion_of :is_intermediate, :in => [true, false]
+
+  accepts_nested_attributes_for :associations
+
   self.per_page = 20
 
   ROOT_ENTITY = Entity.find(724)
@@ -214,7 +218,7 @@ class Entity < ActiveRecord::Base
 private
 
   def validate_has_one_name
-    errors.add(:names, "An entity needs at leat one name.") unless self.names.length > 0
+    errors.add(:names, "An entity needs at leat one name.") unless names.length > 0 || (parent && parent.is_intermediate)
   end
 
   def validate_not_parent_of_itself

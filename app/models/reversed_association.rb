@@ -1,5 +1,9 @@
 class ReversedAssociation
 
+  def self.model_name
+    Association.model_name
+  end
+
   def initialize(association)
     @association = association
   end

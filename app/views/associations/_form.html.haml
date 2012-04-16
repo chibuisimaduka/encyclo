@@ -1,6 +1,3 @@
 = form_for(Association.new) do |f|
-  = f.hidden_field :entity_id, :value => entity.id
-  = f.hidden_field :associated_entity_id, id: "associated_entity_id"
-  = f.hidden_field :association_definition_id, :value => definition.id
-  = autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_field", id_element: "#associated_entity_id"
+  = render partial: "associations/fields_form", locals: {f: f, entity: entity, definition: definition}
   = f.submit "Add"

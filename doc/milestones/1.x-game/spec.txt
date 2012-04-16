@@ -1,0 +1,5 @@
+This milestone is about building a game around the database, to make it fun to learn new stuff.
+
+You get a level for every entity list. For example, level 32 in origami models.
+
+You would reach a new level by passing a test of your knowledge (FIXME: I don't like the idea to make them pass test). You would be asked questions about associations of an entity. For example, you would be asked who starred in the movie The Matrix or in what year it what released.

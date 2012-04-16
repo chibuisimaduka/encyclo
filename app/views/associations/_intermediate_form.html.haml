@@ -1,0 +1,13 @@
+= form_for(e = Entity.new) do |f|
+  = f.hidden_field :parent_id, :value => definition.associated_entity_id
+
+  - definition.associated_entity.all_association_definitions(current_user).each do |intermediate_def|
+    .intermediate_association= "blah"
+    -#= f.fields_for :associations, Association.new do |association_fields| # OPTIMIZE: Is Association.new needed?
+      = intermediate_def.associated_entity.name(current_user, current_language)
+      = render partial: "associations/fields_form", locals: {f: association_fields, entity: entity, definition: intermediate_def}
+  -#= f.hidden_field :entity_id, :value => entity.id
+  -#= f.hidden_field :associated_entity_id, id: "associated_entity_id"
+  -#= f.hidden_field :association_definition_id, :value => definition.id
+  -#= autocomplete_field_tag :associated_entity_name, '', autocomplete_name_value_entities_path, id: "add_association_field", id_element: "#associated_entity_id"
+  -#= f.submit "Add"
