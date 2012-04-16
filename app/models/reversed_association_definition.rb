@@ -12,8 +12,16 @@ class ReversedAssociationDefinition
     @association.associated_entity
   end
 
+  def entity_id
+    @association.associated_entity_id
+  end
+
   def associated_entity
     @association.entity
+  end
+
+  def associated_entity_id
+    @association.entity_id
   end
 
   def entity_has_many
