@@ -32,6 +32,10 @@ class ReversedAssociationDefinition
     @association.entity_has_many
   end
 
+  def associations
+    ReversedAssociation.reverse(@association.associations)
+  end
+
   def method_missing(method, *args)
     args.empty? ? @association.send(method) : @association.send(method, args)
   end

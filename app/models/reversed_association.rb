@@ -24,6 +24,10 @@ class ReversedAssociation
     @association.entity_id
   end
 
+  def definition
+    ReversedAssociationDefinition.new(@association.definition)
+  end
+
   def method_missing(method, *args)
     args.empty? ? @association.send(method) : @association.send(method, args)
   end
