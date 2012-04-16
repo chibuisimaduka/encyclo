@@ -36,6 +36,15 @@ class ReversedAssociationDefinition
     ReversedAssociation.reverse(@association.associations)
   end
 
+  def eql?(association)
+    @association.id.eql?(association.id)
+    #FIXME: @association.eql?(association)
+  end
+
+  def hash
+    @association.hash
+  end
+
   def method_missing(method, *args)
     args.empty? ? @association.send(method) : @association.send(method, args)
   end
