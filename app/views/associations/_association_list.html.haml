@@ -16,6 +16,8 @@
             = render partial: entity_association.first
 - if definition.entity_has_many || entities_associations_map.blank?
   - if definition.associated_entity.is_intermediate
-    = link_to_insert "Add", render(partial: "associations/intermediate_form", locals: {:entity => entity, definition: definition}), "##{id}"
+    -# FIXME: Use link_to_insert instead.
+    = toggle_visibility toggle_handle: "Add", toggled_handle: "cancel" do
+      = render(partial: "associations/intermediate_form", locals: {:entity => entity, definition: definition})
   - else
     = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition}), "##{id}"

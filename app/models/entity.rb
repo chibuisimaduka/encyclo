@@ -64,7 +64,7 @@ class Entity < ActiveRecord::Base
   def self.create(attributes, user, language, raw_name)
     entity = Entity.new(attributes)
     entity.user = user
-    entity.set_name(raw_name, user, language)
+    entity.set_name(raw_name, user, language) unless raw_name.blank?
     entity
   end
 
