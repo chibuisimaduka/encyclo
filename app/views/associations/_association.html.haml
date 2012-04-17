@@ -5,11 +5,11 @@
   - if entities_associations_map.size > 0
     - if definition.associated_entity.is_intermediate
       %table
+        %tr
+          - definition.associated_entity.all_association_definitions(current_user).each do |intermediate_def|
+            - unless intermediate_def.associated_entity_id == definition.entity_id
+              %th= intermediate_def.associated_entity.name(current_user, current_language)
         = show_more_records entities_associations_map, limit: 3 do |entity_association, is_more|
-          %tr
-            - definition.associated_entity.all_association_definitions(current_user).each do |intermediate_def|
-              - unless intermediate_def.associated_entity_id == definition.entity_id
-                %th= intermediate_def.associated_entity.name(current_user, current_language)
           %tr 
             = render partial: "entities/intermediate_entity", locals: {entity: entity_association.first, entity_showed: entity}
     - else

@@ -2,4 +2,7 @@
   - associations_by_definition(entity, []).each do |definition, associations|
     - unless entity_showed.ancestors.any? {|e| e.id == definition.associated_entity_id }
       %td
-        .association_by_definition= render partial: "associations/association", locals: {definition: definition, associations: associations, entity: entity}
+        - entities_associations_map = associations.map {|a| [a.associated_entity, a] }
+        - entities_associations_map += nested_entity_values(entity, definition.nested_entity, definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
+        - entities_associations_map.each do |entity_association|
+          = render partial: "associations/entity", locals: {entity: entity_association.first, entity_showed: entity, association: entity_association.second, definition_entity: definition.associated_entity}
