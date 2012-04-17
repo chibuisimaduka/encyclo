@@ -10,6 +10,17 @@ module ApplicationHelper
     end
   end
 
+  #def show_more_records(records, options={}, &block)
+  #  out = ""
+  #  records[0..((options[:limit] || 0)-1)].each {|r| out << capture(r, false, &block)}
+  #  if options[:limit] && records.size > options[:limit].to_i
+  #    out << toggle_visibility({toggle_handle: "Show more records..", toggled_handle: "Show less records.."}.merge(options)) do
+  #      records[options[:limit]..-1].map {|r| capture(r, true, &block)}
+  #    end
+  #  end
+  #  raw out
+  #end
+
   def toggle_visibility_if(condition, options={}, &block)
     condition ? toggle_visibility(options, &block) : capture(&block)
   end
