@@ -1,5 +1,5 @@
 - if entity.parent && entity.parent.is_intermediate
-  = render partial: "entities/intermediate_entity", locals: {entity: entity}
+  = render partial: "entities/intermediate_entity", locals: {entity: entity, entity_showed: entity}
 - else
   - show_subentity = (!local_assigns.has_key?(:nested) || !nested) && (!local_assigns.has_key?(:show_nested) || show_nested == true)
   - subentity = DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1).first if show_subentity

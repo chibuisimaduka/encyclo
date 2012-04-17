@@ -30,7 +30,7 @@ private
 
   def validate_universal_uniqueness
     other_names = (self.entity.names - [self])
-    if other_names.size > 0 && (self.language_id == Language::MAP[:universal].id || !(other_names.delete_if {|n| n.language_id != Language::MAP[:universal].id}).blank?)
+    if other_names.size > 0 && (self.language_id == Language::MAP[:universal].id || other_names.any? {|n| n.language_id == Language::MAP[:universal].id})
       errors.add(:language, "You can only have one name when the language is universal.")
     end
   end

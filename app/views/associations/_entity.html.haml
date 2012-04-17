@@ -1,2 +1,5 @@
-.entity_name= link_to_entity entity
-%span.admin_buttons= render partial: "delete_requests/link", locals: {destroyable: association, link: image_tag("remove_button.png", :title => "#{entity.name(current_user, current_language)} is not a #{definition_entity.name(current_user, current_language)} for #{entity_showed.name(current_user, current_language)}?")} if association
+- if entity.parent_is_intermediate
+  = render partial: "entities/intermediate_entity", locals: {entity: entity, entity_showed: entity_showed}
+- else
+  .entity_name= link_to_entity entity
+  %span.admin_buttons= render partial: "delete_requests/link", locals: {destroyable: association, link: image_tag("remove_button.png", :title => "#{entity.name(current_user, current_language)} is not a #{definition_entity.name(current_user, current_language)} for #{entity_showed.name(current_user, current_language)}?")} if association
