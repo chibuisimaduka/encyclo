@@ -1,4 +1,5 @@
 .intermediate_associations
   - associations_by_definition(entity, []).each do |definition, associations|
     - unless entity_showed.ancestors.any? {|e| e.id == definition.associated_entity_id }
-      .association_by_definition= render partial: "associations/association_list", locals: {definition: definition, associations: associations, entity: entity}
+      %td
+        .association_by_definition= render partial: "associations/association", locals: {definition: definition, associations: associations, entity: entity}
