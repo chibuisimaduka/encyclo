@@ -5,8 +5,8 @@ import commands
 
 if len(sys.argv) != 3: raise RuntimeError("You must pass the type name and the file name!")
 
-typename = sys.argv[1]
-filename = sys.argv[2]
+typename = sys.argv[1] # The freebase type (ex: /film/actor) to extract to id and create a FreebaseEntity with.
+filename = sys.argv[2] # The file path of data dump of quadruples.
 
 sys.stderr.write("Starting to fetch entries..")
 
@@ -24,7 +24,7 @@ statement = statement[:-1] + ';'
 sys.stderr.write("Fetching entries done!")
 print(statement)
 
-# FIXME: For some reason the following don't work silently sometimes. So instead do:
+# FIXME: For some reason the following don't work silently sometimes. Probably because of escaping quotes. So instead do:
 # extract.py /film/actor file.tsv > tmp.sql
 # cat tmp.sql > mysql -u root sorted_development
 sys.stderr.write(commands.getoutput('echo "' + statement + '" | mysql -u root sorted_development'))

@@ -4,10 +4,18 @@ namespace :import do
 
     desc "Create Entities from FreebaseEntities"
     task :create => :init do
+      raise "Missing PARENT_ID or TYPE." unless ENV["PARENT_ID"] && ENV["TYPE"]
       @parent_id = ENV["PARENT_ID"].to_i
-      FreebaseEntity.find_all_by_freebase_type(ENV["TYPE"]).each do |e|
-        entity = Entity.create({parent_id: @parent_id, freebase_id: e.freebase_id}, WEBMASTER, ENGLISH, e.name)
-        entity.names.first.save!
+      Entity.transaction do
+        FreebaseEntity.find_all_by_freebase_type(ENV["TYPE"]).each do |e|
+          begin
+            entity = Entity.create({parent_id: @parent_id, freebase_id: e.freebase_id}, WEBMASTER, ENGLISH, e.name)
+            entity.is_intermediate = false
+            entity.parent.is_intermediate ? entity.save!(validate: false) : entity.names.first.save!(valiate: false)
+          rescue
+            puts "Error while processing FreebaseEntity id=#{e.id}"
+          end
+        end
       end
     end
 
