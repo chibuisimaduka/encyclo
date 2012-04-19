@@ -2,95 +2,47 @@ namespace :import do
 
   namespace :freebase do
 
-    desc "Create Entities from FreebaseEntities"
-    task :create => :init do
+    task :before_create => :init do
       raise "Missing PARENT_ID or TYPE." unless ENV["PARENT_ID"] && ENV["TYPE"]
+      @type = ENV["TYPE"]
       @parent_id = ENV["PARENT_ID"].to_i
-      Entity.transaction do
-        FreebaseEntity.find_all_by_freebase_type(ENV["TYPE"]).each do |e|
-          begin
-            entity = Entity.create({parent_id: @parent_id, freebase_id: e.freebase_id}, WEBMASTER, ENGLISH, e.name)
-            entity.is_intermediate = false
-            entity.parent.is_intermediate ? entity.save!(validate: false) : entity.names.first.save!(valiate: false)
-          rescue
-            puts "Error while processing FreebaseEntity id=#{e.id}"
-          end
-        end
-      end
     end
 
-    task :entities do
-      type = ENV['TYPE'] # The types of entities to get.
-      raise "Missing the type of entities you want to fetch!" if type.blank?
-      File.open(ENV['INPUT_FILE'], "r") do |infile|
-        while (entry = infile.gets)
-          entry = entry.chomp
-          if entry[entry.index("\t")..-1] == "/type/object/type\t#{type}"
-            FreebaseEntity.create!(freebase_id: entry[0..entry.index("\t")], freebase_type: "#{type}")
-          end
-        end
+    task :create_entities => :before_create do
+      statement = "INSERT INTO entities (user_id,is_intermediate,parent_id,freebase_id) VALUES"
+      FreebaseEntity.find_all_by_freebase_type(@type).each do |e|
+        statement += "(#{WEBMASTER.id},false,#{@parent_id},#{}),"
       end
+      Entity.connection.execute (statement.chomp + ";")
     end
 
-    task :properties do
-      puts "Loading all entities."
-      all_entitites = Entity.where("freebase_id IS NOT NULL and parent_id = 862")
-      puts "Mapping them to their freebase_id."
-      entities = Hash[all_entities.map {|e| [e.freebase_id, e]}]
-      puts "Starting reading file."
-      File.open(ENV['INPUT_FILE'], "r") do |infile|
-        while (entry = infile.gets)
-          entry = entry.chomp
-          entity = entities[entry[0..entry.index('\t')]]
-          if entity
-            entity
-          end
-        end
+    task :create_names => :before_create do
+      statement = "INSERT INTO names (language_id,entity_id,value) VALUES"
+      freebase_entities = Hash[FreebaseEntity.find_all_by_freebase_type(@type).map {|e| [e.freebase_id, e] }]
+      Entity.where("freebase_id IS NOT NULL and parent_id=", @parent_id).each do |e|
+        statement += "(#{ENGLISH.id},#{e},#{freebase_entities[e.freebase_id].name}),"
       end
-      puts "All done!"
+      Name.connection.execute (statement.chomp + ";")
     end
-  
+
+    task :create_edit_requests => :before_create do
+      statement = "INSERT INTO edit_requests (editable_type,editable_id) VALUES"
+      Name.joins(:entity).where("entities.freebase_id IS NOT NULL and entities.parent_id=", @parent_id).each do |n|
+        statement += "('Name',#{n.id}),"
+      end
+      EditRequest.connection.execute (statement.chomp + ";")
+    end
+
+    task :create_users_edit_requests => :before_create do
+      statement = "INSERT INTO users_edit_requests (user_id,edit_request_id) VALUES"
+      EditRequest.joins(:name => :entity).where("entities.freebase_id IS NOT NULL and entities.parent_id=", @parent_id).each do |e|
+        statement += "(#{WEBMASTER.id},#{e.id}),"
+      end
+      EditRequest.connection.execute (statement.chomp + ";")
+    end
+
+    desc "Create Entities from FreebaseEntities"
+    task :create => [:create_entities, :create_names, :create_edit_requests, :create_users_edit_requests]
+
   end
-
-  task :freebase => :init do
-    base_entity = Entity.find(1909)
-    predicate1_id = predicate_id(base_entity, "movie")
-
-    File.open(ENV['INPUT_FILE'], "r") do |infile|
-      attributes_definition_str = infile.gets.chomp
-      raise "Invalid input file. File is probably empty." if attributes_definition_str.blank?
-      
-      new_entries_count = 0 
-      while (entry = infile.gets) && new_entries_count < 1
-        attributes = entry.chomp.split("\t")
-          begin
-            Entity.transaction do
-              entity = Entity.create({parent_id: base_entity.id, freebase_id: attributes[1]}, WEBMASTER, ENGLISH, attributes[0])
-              raise "Invalid freebase_id!" if entity.freebase_id.blank? || entity.freebase_id == 0
-              entity.names.first.save!
-              create_association(predicate1_id, entity, attributes[2])
-            end
-          rescue
-            puts "Error processing #{attributes[0]}, #{attributes[1]}. Msg = #{e.message}."
-          end
-        puts "100 entries entered!" if (new_entries_count += 1) % 100 == 0
-      end
-    end
-  end
-
-end
-
-def predicate_id(base_entity, association_name)
-  (base_entity.all_association_definitions(nil).keep_if do |d|
-    Name.language_scope(d.associated_entity.names, Language::MAP[:english]).first.value == association_name
-  end).first.id
-end
-
-def create_association(definition_id, entity, value)
-  debugger
-  association = Association.new(association_definition_id: definition_id,
-                                entity_id: entity.id,
-                                associated_entity_id: Entity.find_by_freebase_id(value).id)
-  association.user_id = WEBMASTER.id
-  association.save!
 end

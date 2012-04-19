@@ -6,14 +6,13 @@ import commands
 import sys
 
 # Command line arguments:
+if len(sys.argv) != 3: raise RuntimeError("You must pass the association_definition_id and the file name!")
 association_definition_id = sys.argv[1]
 filename = sys.argv[2]
 
-if len(sys.argv) != 3: raise RuntimeError("You must pass the association_definition_id and the file name!")
-
 def extract_association_definition_attrs():
   return commands.getoutput('echo "select entity_id,associated_entity_id from association_definitions where id=' +
-    association_definition_id + ';" | mysql -u root sorted_development').split('\t')
+    association_definition_id + ';" | mysql -u root sorted_development').split('\n')
 
 parent_id, asociated_parent_id = extract_association_definition_attrs
 
