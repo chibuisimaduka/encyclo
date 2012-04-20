@@ -4,17 +4,18 @@
   - if features.size > 0 || data_mode?
     - if definition.associated_entity.is_intermediate
       %table
+        - definitions = definition.associated_entity.all_association_definitions(current_user)
+        - definitions = definitions.keep_if {|d| d.associated_entity_id != definition.entity_id }
         %tr
-          - definition.associated_entity.all_association_definitions(current_user).each do |intermediate_def|
-            - unless intermediate_def.associated_entity_id == definition.entity_id
-              %th= intermediate_def.associated_entity.name(current_user, current_language)
+          - definitions.each do |intermediate_def|
+            %th= link_to_entity intermediate_def.associated_entity
         - features[0..2].each do |feature|
-          %tr= render partial: "entities/intermediate_entity", locals: {entity: feature, entity_showed: entity}
+          %tr= render partial: "entities/intermediate_entity", locals: {entity: feature, entity_showed: entity, definitions: definitions}
       - if features.size > 3
         = toggle_visibility toggle_handle: "See more..", toggled_handle: "See less.." do
           %table
             - features[3..-1].each do |feature|
-              %tr= render partial: "entities/intermediate_entity", locals: {entity: feature, entity_showed: entity}
+              %tr= render partial: "entities/intermediate_entity", locals: {entity: feature, entity_showed: entity, definitions: definitions}
     - else
       - raw_name = definition.associated_entity.name(current_user, current_language).value
       - name = definition.entity_has_many ? raw_name.pluralize : raw_name

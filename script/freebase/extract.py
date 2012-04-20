@@ -23,7 +23,6 @@ for line in open(filename, 'r'):
 print("Fetching entries done!")
 print("Found " + str(nb) + " matching entries.")
 
-sys.stderr.write(statement[:-1] + ";")
 utils.commit_sql(statement[:-1])
 
 print("Entering entries done!")

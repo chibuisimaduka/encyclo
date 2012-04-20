@@ -18,4 +18,4 @@ def query_sql(statement):
   db.close()
   return result
 
-def first(collection): collection[0]
+def first(collection): return collection[0]

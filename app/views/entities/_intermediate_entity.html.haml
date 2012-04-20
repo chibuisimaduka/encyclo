@@ -1,4 +1,4 @@
-- associations_by_definition(entity, []).each do |definition, associations|
+- associations_for_definitions(entity, definitions).each do |definition, associations|
   - unless entity_showed.ancestors.any? {|e| e.id == definition.associated_entity_id }
     %td
       - associations_by_entity = Hash[associations.map {|a| [a.associated_entity.id, a] }]

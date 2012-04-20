@@ -3,12 +3,12 @@
 import sys
 import utils
 
-if len(sys.argv) != 3: raise RuntimeError("Usage: extract_name.py /freebase/type/name path/to/data/dump")
+if len(sys.argv) != 3: raise RuntimeError("Usage: extract_name.py /freebase/type/name,/another/one path/to/data/dump")
 
-typename = sys.argv[1]
+typename = ("','").join(sys.argv[1].split(','))
 filename = sys.argv[2]
 
-freebase_entities = set(map(utils.first, utils.query_sql("SELECT freebase_id FROM freebase_entities WHERE freebase_type='"+typename+"'")[1:]))
+ids = set(map(utils.first, utils.query_sql("SELECT freebase_id FROM freebase_entities WHERE freebase_type IN ('"+typename+"')")))
 
 print("Starting to fetch entries..")
 

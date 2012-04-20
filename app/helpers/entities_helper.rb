@@ -13,6 +13,14 @@ module EntitiesHelper
     associations_by_def.sort {|k,v| v.size }
   end
 
+  def associations_for_definitions(entity, definitions)
+    associations_by_def = Hash[definitions.map{ |d| [d,[]] }]
+    ((entity.ancestors + [entity]).flat_map {|e| e.all_associations(current_user) }).each do |association|
+      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
+    end
+    associations_by_def.sort {|k,v| v.size }
+  end
+
   def features_for_associations(associations, entity, definition)
     features = associations.map(&:associated_entity)
     if definition.nested_entity
