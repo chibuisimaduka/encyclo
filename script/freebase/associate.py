@@ -20,7 +20,7 @@ def get_entities_dict(parent_id):
 entities = get_entities_dict(parent_id if not association_reversed else associated_parent_id)
 associated_entities = get_entities_dict(associated_parent_id if not association_reversed else parent_id)
 
-sys.stderr.write("Starting to fetch entries..")
+print("Starting to fetch entries..")
 
 statement="INSERT INTO associations (user_id,association_definition_id,entity_id,associated_entity_id) VALUES"
 num_entries = 0
@@ -32,10 +32,10 @@ for line in open(filename, 'r'):
     if line[line.index('\t')+1:].startswith(property_id) and associated_entity_id in associated_entities:
       statement += "(9,'" + association_definition_id + "','" + str(entities[entity_id]) + "','" + str(associated_entities[associated_entity_id]) + "'),"
       num_entries += 1
-      if (num_entries % 500 == 0): sys.stderr.write("Entered 500 entities!")
+      if (num_entries % 500 == 0): print("Entered 500 entities!")
 
-sys.stderr.write("Fetching entries done!")
+print("Fetching entries done!")
 
 utils.commit_sql(statement[:-1])
 
-sys.stderr.write("Entering entries done!")
+print("Entering entries done!")

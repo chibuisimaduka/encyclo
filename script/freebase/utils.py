@@ -17,3 +17,5 @@ def query_sql(statement):
   result = c.fetchall()
   db.close()
   return result
+
+def first(collection): collection[0]
