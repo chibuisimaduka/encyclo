@@ -1,37 +1,38 @@
-- entities_associations_map = associations.map {|a| [a.associated_entity, a] }
-- entities_associations_map += nested_features(entity, definition.nested_entity, definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
-- id = "definition_#{definition.id}" # FIXME: I think the following was important : _#{inversed ? "i" : "n"}"
-.definition{id: id}
-  - if entities_associations_map.size > 0
+- associations_by_entity = Hash[associations.map {|a| [a.associated_entity.id, a] }]
+- features = associations.map(&:associated_entity)
+- if definition.nested_entity
+  - features |= nested_features(entity, definition.nested_entity, definition.associated_entity) 
+.definition{id: "definition_#{definition.id}"}
+  - if features.size > 0
     - if definition.associated_entity.is_intermediate
       %table
         %tr
           - definition.associated_entity.all_association_definitions(current_user).each do |intermediate_def|
             - unless intermediate_def.associated_entity_id == definition.entity_id
               %th= intermediate_def.associated_entity.name(current_user, current_language)
-        - entities_associations_map[0..2].each do |entity_association|
-          %tr= render partial: "entities/intermediate_entity", locals: {entity: entity_association.first, entity_showed: entity}
-      - if entities_associations_map.size > 3
+        - features[0..2].each do |feature|
+          %tr= render partial: "entities/intermediate_entity", locals: {entity: feature, entity_showed: entity}
+      - if features.size > 3
         = toggle_visibility toggle_handle: "See more..", toggled_handle: "See less.." do
           %table
-            - entities_associations_map[3..-1].each do |entity_association|
-              %tr= render partial: "entities/intermediate_entity", locals: {entity: entity_association.first, entity_showed: entity}
+            - features[3..-1].each do |feature|
+              %tr= render partial: "entities/intermediate_entity", locals: {entity: feature, entity_showed: entity}
     - else
       - raw_name = definition.associated_entity.name(current_user, current_language).value
       - name = definition.entity_has_many ? raw_name.pluralize : raw_name
       %span.association_definition_name= link_to name, definition.associated_entity
       \:
       = toggle_block handle: "Expand.." do |not_expanded|
-        = show_more_records entities_associations_map, limit: 3 do |entity_association, is_more|
+        = show_more_records features, limit: 3 do |feature, is_more|
           - content_tag (is_more ? :div : :span) do
             - if not_expanded
-              = render partial: "associations/entity", locals: {entity: entity_association.first, entity_showed: entity, association: entity_association.second, definition_entity: definition.associated_entity}
+              = render partial: "associations/entity", locals: {entity: feature, association: associations_by_entity[feature.id]}
             - else
-              = render partial: entity_association.first
-- if definition.entity_has_many || entities_associations_map.blank?
+              = render partial: feature
+- if definition.entity_has_many || features.blank?
   - if definition.associated_entity.is_intermediate
     -# FIXME: Use link_to_insert instead.
     = toggle_visibility toggle_handle: "Add", toggled_handle: "cancel" do
       = render(partial: "associations/intermediate_form", locals: {:entity => entity, definition: definition})
   - else
-    = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition}), "##{id}"
+    = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition}), "#definition_#{definition.id}"
