@@ -1,0 +1,19 @@
+Entity: A thing or a concept.
+Document: Content of any type about an entity.
+Name: A value to identify the entity for a specific language.
+Predicate:
+Association: A node between two entities to represent a belonging association.
+Association definition: A node between two entities to represent an association between those two.
+Intermediate entity:
+Feature: The entity that is associated with.
+Nested Feature: The entity that is associated with through another association.
+
+Exemple:
+
+Entity: Asterix and Obelix
+  Documents: ["wikipedia_asterix_and_obelix"]
+  Names: ["Asterix and Obelix", "Asterix et Obelix"]
+  Association definitions: ["Asterix-year", "Asterix-author"]
+  Predicates: ["Year", "Author"]
+  Associations: ["Author-Asterix-Uderzo", "Author-Asterix-Gosciny"]
+  Features: ["Uderzo", "Gosciny"]

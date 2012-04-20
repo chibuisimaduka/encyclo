@@ -1,5 +1,5 @@
 - entities_associations_map = associations.map {|a| [a.associated_entity, a] }
-- entities_associations_map += nested_entity_values(entity, definition.nested_entity, definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
+- entities_associations_map += nested_features(entity, definition.nested_entity, definition.associated_entity).map {|e| [e, nil] } if definition.nested_entity
 - id = "definition_#{definition.id}" # FIXME: I think the following was important : _#{inversed ? "i" : "n"}"
 .definition{id: id}
   - if entities_associations_map.size > 0

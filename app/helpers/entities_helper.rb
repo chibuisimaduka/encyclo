@@ -1,5 +1,6 @@
 module EntitiesHelper
 
+  # Returns all the associations for the given entity grouped by their definition.
   def associations_by_definition(entity, entities)
     associations_by_def = {}
     ((entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map {|e| e.all_association_definitions(current_user) }).each do |association_def|
@@ -12,7 +13,8 @@ module EntitiesHelper
     associations_by_def.sort {|k,v| v.size }
   end
 
-  def nested_entity_values(entity, nested_entity, associated_entity)
+  # Returns the association entities through a given nested entity.
+  def nested_features(entity, nested_entity, associated_entity)
     entities = nested_entities_for(entity, nested_entity)
     (entities.map {|e| nested_entities_for(e, associated_entity) }).flatten
   end
@@ -28,8 +30,7 @@ module EntitiesHelper
   end
 
   def definition_for(entity, nested_entity)
-    association_definition = entity.map_all(:parent, &:association_definitions).select {|a| a.associated_entity_id == nested_entity.id }
-    (association_definition.blank? ? (entity.map_all(:parent, &:associated_association_definitions).select {|a| a.entity_id == nested_entity.id }) : association_definition).first
+    (entity.map_all :parent, lambda {|e| e.all_association_definitions(current_user) }).select {|a| a.associated_entity_id == nested_entity.id }
   end
 
   def link_to_entity(entity)
