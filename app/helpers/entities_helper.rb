@@ -13,6 +13,14 @@ module EntitiesHelper
     associations_by_def.sort {|k,v| v.size }
   end
 
+  def features_for_associations(associations, entity, definition)
+    features = associations.map(&:associated_entity)
+    if definition.nested_entity
+      features |= nested_features(entity, definition.nested_entity, definition.associated_entity) 
+    end
+    features
+  end
+
   # Returns the association entities through a given nested entity.
   def nested_features(entity, nested_entity, associated_entity)
     entities = nested_entities_for(entity, nested_entity)

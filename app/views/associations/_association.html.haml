@@ -1,9 +1,7 @@
 - associations_by_entity = Hash[associations.map {|a| [a.associated_entity.id, a] }]
-- features = associations.map(&:associated_entity)
-- if definition.nested_entity
-  - features |= nested_features(entity, definition.nested_entity, definition.associated_entity) 
+- features = features_for_associations(associations, entity, definition)
 .definition{id: "definition_#{definition.id}"}
-  - if features.size > 0
+  - if features.size > 0 || data_mode?
     - if definition.associated_entity.is_intermediate
       %table
         %tr
