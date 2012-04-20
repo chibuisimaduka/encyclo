@@ -7,3 +7,4 @@
 (0.3)- Be able to set the language universal for an entity and it's sub-descendants.
 (1)- A basic ranking based on your preferences.
 (1)- Add a lot of movies, songs, games, books and series.
+- A dumb ranking based on the amount of data untill there is rankings.

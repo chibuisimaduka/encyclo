@@ -27,12 +27,6 @@ class Entity < ActiveRecord::Base
   has_many :direct_entities_by_definition, :through => :association_definitions_associations, :source => :entity
   has_many :indirect_entities_by_definition, :through => :associated_association_definitions_associations, :source => :associated_entity
 
-  has_many :associations_definitions, :through => :associations, :source => "definition"
-  has_many :associated_associations_definitions, :through => :associated_associations, :source => "definition"
-
-  has_many :parents_by_definition, :through => :associations_definitions, :source => :entity
-  has_many :associated_parents_by_definition, :through => :associated_associations_definitions, :source => :associated_entity
-
   # A little descendant does not include close descendants. @see descendants
   has_and_belongs_to_many :little_descendants, :class_name => "Entity", :join_table => "entities_ancestors", :foreign_key => :ancestor_id
   has_and_belongs_to_many :ancestors, :class_name => "Entity", :join_table => "entities_ancestors", :association_foreign_key => :ancestor_id
