@@ -5,33 +5,59 @@ namespace :import do
     task :documents => :init do
       raise "Missing INPUT_FILE" unless ENV['INPUT_FILE']
 
-      File.open(ENV['INPUT_FILE'], 'r') do |file|
-        while (line = file.gets) do
-          freebase_id, url = line.chomp.split("\t")
-          puts "Processing entity freebase_id=#{freebase_id}"
-          entity = Entity.find_by_freebase_id(freebase_id)
-          if !entity
-            puts "Missing entity."
+      file = File.open(ENV['INPUT_FILE'], 'r')
+      while (line = file.gets) do
+        freebase_id, url = line.chomp.split("\t")
+        puts "Processing entity freebase_id=#{freebase_id}"
+        entity = Entity.find_by_freebase_id(freebase_id)
+        if !entity
+          puts "Missing entity."
+        else
+          if entity.documents.count > 0
+            puts "Skipping. Already has documents."
           else
-            if entity.documents.count > 0
-              puts "Skipping. Already has documents."
-            else
-              listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
-                                       nil, nil, WEBMASTER, ENGLISH)
-              begin
-                if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
-                  puts "Successfully created one document!"
-                else
-                  puts "Error creating document for entity id=#{entity.id}"
-                end
-              rescue Exception => e
-                puts "Exception caught: #{e.message}"
+            listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
+                                     nil, nil, WEBMASTER, ENGLISH)
+            begin
+              if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
+                puts "Successfully created one document!"
+              else
+                puts "Error creating document for entity id=#{entity.id}"
               end
-              sleep(1)
+            rescue Exception => e
+              puts "Exception caught: #{e.message}"
+            end
+            sleep(1)
+          end
+        end
+      end
+    end
+
+    task :images => :init do
+      raise "Missing INPUT_FILE" unless ENV['INPUT_FILE']
+
+      file = File.open(ENV['INPUT_FILE'], 'r')
+      while (line = file.gets) do
+        document_id, url = line.chomp.split("\t")
+        puts "Processing document document_id=#{document_id}"
+        entity = Document.find(document_id).parent.entities.first
+        if !entity
+          puts "Missing entity."
+        else
+          if entity.images.count > 0
+            puts "Skipping. Already has images."
+          else
+            image = entity.images.build(url)
+            image.user_id = WEBMASTER.id
+            image.source = url
+            if !entity.save
+              puts "An error has occured while creating the image."
             end
           end
         end
       end
+    end
+
     end
  
   end
