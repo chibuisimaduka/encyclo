@@ -3,6 +3,9 @@ class RemoteDocument < ActiveRecord::Base
   require 'downloader'
   extend Downloader
 
+  require 'remote_document_processor'
+  extend RemoteDocumentProcessor
+
   has_one :document, :as => :documentable, :dependent => :destroy
   #validates_presence_of :document
 

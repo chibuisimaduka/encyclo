@@ -8,7 +8,7 @@ class Entity < ActiveRecord::Base
   has_and_belongs_to_many :documents, :order => "rank DESC"
   
   belongs_to :parent, :class_name => "Entity", :inverse_of => :entities
-  has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id, :inverse_of => :parent
+  has_many :entities, :order => "rank DESC, content_size_rank DESC", :include => :documents, :foreign_key => :parent_id, :inverse_of => :parent
   
   has_many :entity_similarities
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy

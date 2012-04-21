@@ -7,16 +7,25 @@ namespace :import do
 
       File.open(ENV['INPUT_FILE'], 'r') do |file|
         while (line = file.gets) do
-          freebase_id, url = line.chomp.split('\t')
-          entity = Entity.find_by_freebase_id(freebase_id) || raise "Missing entity."
-          unless entity.documents.count > 0
-            listing = Document.init({name: listing_document.name, documentable_type: "ListingDocument", entity_ids: entity.id},
-                                     nil, nil, current_user, current_language)
-            listing.save!
-            unless RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
-              puts "Error creating document for entity id=#{entity.id}"
+          freebase_id, url = line.chomp.split("\t")
+          puts "Processing entity freebase_id=#{freebase_id}"
+          entity = Entity.find_by_freebase_id(freebase_id)
+          if !entity
+            puts "Missing entity."
+          else
+            if entity.documents.count > 0
+              puts "Skipping. Already has documents."
+            else
+              listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
+                                       nil, nil, WEBMASTER, ENGLISH)
+              listing.save!
+              if RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
+                puts "Successfully created one document!"
+              else
+                puts "Error creating document for entity id=#{entity.id}"
+              end
+              sleep(1)
             end
-            sleep(1)
           end
         end
       end

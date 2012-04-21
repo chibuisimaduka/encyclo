@@ -1,8 +1,5 @@
 class RemoteDocumentsController < ApplicationController
 
-  require 'remote_document_processor'
-  include RemoteDocumentProcessor
-
   def create
     @entity = Entity.find(params[:entity_id]) if params[:entity_id]
     unless RemoteDocument.create_document(@entity, params[:url], params[:document], current_user, current_language)
