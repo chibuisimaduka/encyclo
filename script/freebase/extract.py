@@ -3,7 +3,7 @@
 import sys
 import utils
 
-if len(sys.argv) != 3: raise RuntimeError("You must pass the comma seperated types' names and the file name!")
+if len(sys.argv) != 3: raise RuntimeError("Usage: extract.py /freebase/type/name,/another/one path/to/data/dump")
 
 typenames = sys.argv[1].split(',') # The freebase types (ex: /film/actor) to extract to id and create a FreebaseEntity with.
 filename = sys.argv[2] # The file path of data dump of quadruples.

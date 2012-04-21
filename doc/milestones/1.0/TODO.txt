@@ -8,3 +8,6 @@
 (1)- A basic ranking based on your preferences.
 (1)- Add a lot of movies, songs, games, books and series.
 - A dumb ranking based on the amount of data untill there is rankings.
+- Add wikipedia documents for the most important entities.
+- Add pictures for the most important entities.
+- A better differenciation when you search for entities. Use associations values (gladiator (movie, year: 2000)).
