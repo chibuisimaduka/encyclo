@@ -1,33 +1,30 @@
-- if entity.parent && entity.parent.is_intermediate
-  = render partial: "entities/intermediate_entity", locals: {entity: entity, entity_showed: entity}
-- else
-  - show_subentity = (!local_assigns.has_key?(:nested) || !nested) && (!local_assigns.has_key?(:show_nested) || show_nested == true)
-  - subentity = DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1).first if show_subentity
-  - options = (local_assigns.has_key?(:nested) && nested) ? {:class => "nested_entity"} : {}
-  = content_tag_for :div, entity, options do
-    - showing_image = !subentity && ((local_assigns[:show_pictures] != false && !(image = entity.images.first).blank?) || data_mode?)
-    - if showing_image
-      -# image = entity.images.first || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
-      .listing_image
-        = image_tag image.image_url(:thumb).to_s unless image.blank?
-        - if data_mode?
-          .add_image
-            = toggle_visibility handle: "Add an image.." do
-              = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
-                %p= f.file_field :image
-                %p
-                  = f.label :remote_image_url, "or image URL"
-                  = f.text_field :remote_image_url
-                %p= f.submit "Add image"
-    %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
-      = hover_block :rating do
-        - if local_assigns.has_key?(:show_parent) && show_parent && entity.parent
-          = "(#{link_to_entity(entity.parent)})".html_safe
-        %span.entity_name= render partial: "entities/name", locals: {entity: entity, link_entity: true}
-        = render partial: "ratings/rankable", locals: {rankable: entity}
-        = hover_hidden do
-          = render partial: "delete_requests/link", locals: {destroyable: entity}
-      = render partial: "entities/documents", locals: {entity: entity, per_page: 1} if !subentity
+- show_subentity = (!local_assigns.has_key?(:nested) || !nested) && (!local_assigns.has_key?(:show_nested) || show_nested == true)
+- subentity = DeleteRequest.alive_scope(Entity.subentity_scope(entity.little_descendants), current_user).order("rank DESC").limit(1).first if show_subentity
+- options = (local_assigns.has_key?(:nested) && nested) ? {:class => "nested_entity"} : {}
+= content_tag_for :div, entity, options do
+  - showing_image = !subentity && ((local_assigns[:show_pictures] != false && !(image = entity.images.first).blank?) || data_mode?)
+  - if showing_image
+    -# image = entity.images.first || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
+    .listing_image
+      = image_tag image.image_url(:thumb).to_s unless image.blank?
       - if data_mode?
-        .document_form= render partial: "remote_documents/form", locals: {remote: true, entity: entity}
-  = render partial: subentity, locals: {nested: true} if subentity
+        .add_image
+          = toggle_visibility handle: "Add an image.." do
+            = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|
+              %p= f.file_field :image
+              %p
+                = f.label :remote_image_url, "or image URL"
+                = f.text_field :remote_image_url
+              %p= f.submit "Add image"
+  %div{:class => showing_image ? "listing_entity" : "expanded_listing_entity"}
+    = hover_block :rating do
+      - if local_assigns.has_key?(:show_parent) && show_parent && entity.parent
+        = "(#{link_to_entity(entity.parent)})".html_safe
+      %span.entity_name= render partial: "entities/name", locals: {entity: entity, link_entity: true}
+      = render partial: "ratings/rankable", locals: {rankable: entity}
+      = hover_hidden do
+        = render partial: "delete_requests/link", locals: {destroyable: entity}
+    = render partial: "entities/documents", locals: {entity: entity, per_page: 1} if !subentity
+    - if data_mode?
+      .document_form= render partial: "remote_documents/form", locals: {remote: true, entity: entity}
+= render partial: subentity, locals: {nested: true} if subentity

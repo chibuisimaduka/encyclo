@@ -6,7 +6,7 @@ import sys
 import utils
 
 # Command line arguments:
-if len(sys.argv) != 5: raise RuntimeError("You must pass the association_definition_id, is_reversed, the property_id and the file name!")
+if len(sys.argv) != 5: raise RuntimeError("Usage: associate.py 24(association_definition_id) false(is_reversed) /property/property/id /path/to/data/dump")
 association_definition_id = sys.argv[1]
 association_reversed = (sys.argv[2] == 'true')
 property_id = sys.argv[3] # Ex: /film/film/starring
