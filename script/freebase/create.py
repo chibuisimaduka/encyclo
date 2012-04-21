@@ -3,14 +3,14 @@
 import sys
 import utils
 
-if len(sys.argv) != 3: raise RuntimeError("Missing typename or parent_id.") 
+if len(sys.argv) != 3: raise RuntimeError("Usage: create.py /freebase/type/name 862(parent_id)") 
 
 typename = sys.argv[1] 
 parent_id = sys.argv[2]
 
 print("Loading the freebase entities.")
 freebase_entities = {}
-for freebase_attrs in utils.query_sql("SELECT freebase_id,name FROM freebase_entities WHERE freebase_type='"+typename+"'")[1:]:
+for freebase_attrs in utils.query_sql("SELECT freebase_id,name FROM freebase_entities WHERE freebase_type='"+typename+"'"):
   freebase_entities[freebase_attrs[0]] = freebase_attrs[1]
 
 print("Creating the entities.")
@@ -21,9 +21,9 @@ utils.commit_sql(statement[:-1])
 
 print("Creating the names.")
 statement = "INSERT INTO names (language_id,entity_id,value) VALUES"
-for entity_attrs in utils.query_sql("SELECT id,freebase_id FROM entities WHERE parent_id="+parent_id+" and freebase_id IS NOT NULL")[1:]:
+for entity_attrs in utils.query_sql("SELECT id,freebase_id FROM entities WHERE parent_id="+parent_id+" and freebase_id IS NOT NULL"):
   if not freebase_entities[entity_attrs[1]]:
-    print("Missing freebase_id=" + entity_attrs[1] + "\n")
+    print("Missing freebase_id=" + entity_attrs[1])
   else:
     statement += "(2,"+str(entity_attrs[0])+",'"+freebase_entities[entity_attrs[1]].replace("'", '\\\'')+"'),"
 utils.commit_sql(statement[:-1])
