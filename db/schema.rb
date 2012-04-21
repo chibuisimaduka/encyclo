@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120414025202) do
+ActiveRecord::Schema.define(:version => 20120421042652) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -122,9 +122,10 @@ ActiveRecord::Schema.define(:version => 20120414025202) do
     t.float    "rank"
     t.integer  "parent_id"
     t.integer  "component_id"
-    t.integer  "user_id",         :null => false
+    t.integer  "user_id",           :null => false
     t.string   "freebase_id"
     t.boolean  "is_intermediate"
+    t.float    "content_size_rank"
   end
 
   add_index "entities", ["component_id"], :name => "fk_component"

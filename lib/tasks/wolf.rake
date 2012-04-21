@@ -99,20 +99,6 @@ end
 
 namespace :entities do
 
-  task :content_size_rank do
-    entities = {}
-    Association.all.each do |a|
-      entities[a.entity_id] = (entities[a.entity_id] || 0) + 1
-      entities[a.entity_id] = (entities[a.entity_id] || 0) + 1
-    end
-    statement = "INSERT INTO entities (id,content_size_rank) VALUES "
-    entities.each do |k,v|
-      statement += "(#{k},#{v}),"
-    end
-    statement = statement.chomp + " ON DUPLICATE KEY UPDATE content_size_rank=VALUES(content_size_rank);"
-    Entity.connection.execute(statement)
-  end
-
   task :ancestors => :init do
     all_entities_map = Hash[Entity.includes(:entities, :ancestors).all.map {|e| [e.id, e] }]
     Entity.where("parent_id IS NULL").each {|e| set_entity_ancestors(e, [], all_entities_map) }
