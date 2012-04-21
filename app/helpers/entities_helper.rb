@@ -10,15 +10,16 @@ module EntitiesHelper
     ((entity.ancestors + [entity]).flat_map {|e| e.all_associations(current_user) }).each do |association|
       associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
     end
-    associations_by_def.sort {|k,v| v.size }
+    #associations_by_def.sort {|k,v| v.size }
+    associations_by_def
   end
 
   def associations_for_definitions(entity, definitions)
     associations_by_def = Hash[definitions.map{ |d| [d,[]] }]
     ((entity.ancestors + [entity]).flat_map {|e| e.all_associations(current_user) }).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
+      associations_by_def[association.definition] += [association] if associations_by_def[association.definition]
     end
-    associations_by_def.sort {|k,v| v.size }
+    associations_by_def
   end
 
   def features_for_associations(associations, entity, definition)
