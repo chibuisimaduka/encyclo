@@ -18,11 +18,14 @@ namespace :import do
             else
               listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
                                        nil, nil, WEBMASTER, ENGLISH)
-              listing.save!
-              if RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
-                puts "Successfully created one document!"
-              else
-                puts "Error creating document for entity id=#{entity.id}"
+              begin
+                if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
+                  puts "Successfully created one document!"
+                else
+                  puts "Error creating document for entity id=#{entity.id}"
+                end
+              rescue Exception => e
+                puts "Exception caught: #{e.message}"
               end
               sleep(1)
             end
