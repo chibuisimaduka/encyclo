@@ -5,23 +5,8 @@ class RemoteDocumentsController < ApplicationController
 
   def create
     @entity = Entity.find(params[:entity_id]) if params[:entity_id]
-    @remote_document = RemoteDocument.find_or_initialize_by_url(params[:url])
-    unless @remote_document.url == params[:url]
-      @remote_document = RemoteDocument.find_by_url(@remote_document.url) || @remote_document
-    end
-    if @remote_document.persisted?
-      if @entity
-        @entity.documents << @remote_document.document unless @entity.documents.include?(@remote_document.document)
-      else
-        @remote_document.document.update_attributes(params[:document])
-      end
-    else 
-      @document = process_remote_document(@remote_document, params[:document] || {})
-      @document.user_id = current_user.id
-      @document.language_id = current_language.id
-      unless @entity ? @entity.documents << @document : @document.save
-        flash[:alert] = "An error has occured while creating the document."
-      end
+    unless RemoteDocument.create_document(@entity, params[:url], params[:document], current_user, current_language)
+      flash[:alert] = "An error has occured while creating the document."
     end
     respond_to do |format|
       format.html {redirect_to :back}

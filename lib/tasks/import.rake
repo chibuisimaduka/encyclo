@@ -1,5 +1,29 @@
 namespace :import do
 
+  namespace :wikipedia do
+
+    task :documents => :init do
+      raise "Missing INPUT_FILE" unless ENV['INPUT_FILE']
+
+      File.open(ENV['INPUT_FILE'], 'r') do |file|
+        while (line = file.gets) do
+          freebase_id, url = line.chomp.split('\t')
+          entity = Entity.find_by_freebase_id(freebase_id) || raise "Missing entity."
+          unless entity.documents.count > 0
+            listing = Document.init({name: listing_document.name, documentable_type: "ListingDocument", entity_ids: entity.id},
+                                     nil, nil, current_user, current_language)
+            listing.save!
+            unless RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
+              puts "Error creating document for entity id=#{entity.id}"
+            end
+            sleep(1)
+          end
+        end
+      end
+    end
+ 
+  end
+
   namespace :freebase do
 
     task :before_create => :init do

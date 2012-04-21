@@ -16,6 +16,11 @@ for ids in utils.query_sql("SELECT freebase_id FROM entities WHERE parent_id = "
                            " ORDER BY content_size_rank DESC LIMIT " + limit):
   freebase_ids.append(ids[0])
 
+out = ""
 for line in open(input_file, 'r'):
-  if line[:line.index('\t')] in freebase_ids:
-    output_file.write("http://en.wikipedia.org/wiki/" + line[line.index('\t')+1:])
+  freebase_id = line[:line.index('\t')]
+  if freebase_id in freebase_ids:
+    out += freebase_id + "\thttp://en.wikipedia.org/wiki/" + line[line.index('\t')+1:]
+
+output_file.write(out)
+output_file.close
