@@ -50,10 +50,11 @@ input_file = sys.argv[2]
 output_file = open(sys.argv[3], 'w') # Where to write the names of the urls to fetch.
 parent_id = sys.argv[4]
 
-freebase_ids = set()
+freebase_ids = []
 for ids in utils.query_sql("SELECT freebase_id FROM entities WHERE parent_id = " + parent_id +
                            " ORDER BY content_size_rank DESC LIMIT " + limit):
-  freebase_ids.add(ids[0])
+  freebase_ids.append(ids[0])
+freebase_ids_set = set(freebase_ids)
 
 print "Starting to read file."
 
@@ -62,12 +63,14 @@ documents = {}
 for line in open(input_file, 'r'):
   guid = line[:line.index('\t')]
   freebase_id = "/m/0" + base10to32(hex2dec(guid[len("#9202a8c04000641f8"):]))
-  if freebase_id in freebase_ids and freebase_id not in documents:
+  if freebase_id in freebase_ids_set and freebase_id not in documents:
     documents[freebase_id] = "\thttp://en.wikipedia.org/wiki/" + line[line.index('\t')+1:].replace(' ','_')
 
 out = ""
-for freebase_id in documents:
-  out += freebase_id + documents[freebase_id]
+# Use the oredered freebase ids.
+for freebase_id in freebase_ids:
+  if freebase_id in documents:
+    out += freebase_id + documents[freebase_id] 
 
 output_file.write(out)
 output_file.close
