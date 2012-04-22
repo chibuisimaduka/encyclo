@@ -8,7 +8,7 @@ class Entity < ActiveRecord::Base
   has_and_belongs_to_many :documents, :order => "rank DESC"
   
   belongs_to :parent, :class_name => "Entity", :inverse_of => :entities
-  has_many :entities, :order => "rank DESC, content_size_rank DESC", :include => :documents, :foreign_key => :parent_id, :inverse_of => :parent
+  has_many :entities, :order => "rank DESC", :include => :documents, :foreign_key => :parent_id, :inverse_of => :parent
   
   has_many :entity_similarities
   has_many :ratings, :inverse_of => :rankable, :as => :rankable, :dependent => :destroy
@@ -46,6 +46,8 @@ class Entity < ActiveRecord::Base
   validate :validate_has_one_name, :validate_not_parent_of_itself
 
   before_save :calculate_ancestors
+
+  before_destroy :destroy_documents
 
   validates_inclusion_of :is_intermediate, :in => [true, false]
 
@@ -221,6 +223,10 @@ private
 
   def validate_not_parent_of_itself
     errors.add(:parent_id, "An entity can't be parent of itself") if self.id == parent_id
+  end
+
+  def destroy_documents
+    documents.destroy_all
   end
 
 end

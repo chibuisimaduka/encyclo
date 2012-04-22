@@ -40,24 +40,28 @@ namespace :import do
       while (line = file.gets) do
         document_id, url = line.chomp.split("\t")
         puts "Processing document document_id=#{document_id}"
-        entity = Document.find(document_id).parent.entities.first
+        document = RemoteDocument.find(document_id).document
+        entity = document.parent ? document.parent.entities.first : document.entities.first
         if !entity
           puts "Missing entity."
         else
           if entity.images.count > 0
             puts "Skipping. Already has images."
           else
-            image = entity.images.build(url)
-            image.user_id = WEBMASTER.id
-            image.source = url
-            if !entity.save
-              puts "An error has occured while creating the image."
+            begin
+              image = entity.images.build(remote_image_url: url)
+              image.user_id = WEBMASTER.id
+              image.source = url
+              if !entity.save
+                puts "An error has occured while creating the image."
+              end
+            rescue Exception => e
+              puts "Exception caught: #{e.message}"
             end
+            sleep(0.5)
           end
         end
       end
-    end
-
     end
  
   end

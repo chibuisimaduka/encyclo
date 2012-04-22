@@ -25,7 +25,7 @@ class Document < ActiveRecord::Base
   has_one :parent, :through => :parent_document
 
   has_many :child_documents, :foreign_key => "parent_id", :inverse_of => :parent, :dependent => :destroy
-  has_many :documents, :through => :child_documents, :order => "name"
+  has_many :documents, :through => :child_documents, :order => "name", :dependent => :destroy
 
   accepts_nested_attributes_for :parent_document
   accepts_nested_attributes_for :documentable
