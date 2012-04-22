@@ -1,0 +1,8 @@
+- A basic ranking based on your preferences.
+- Add a lot of movies, songs, games, books and series.
+- A dumb ranking based on the amount of data untill there is rankings.
+- Add wikipedia documents for the most important entities.
+- Add pictures for the most important entities.
+- A better differenciation when you search for entities. Use associations values (gladiator (movie, year: 2000)).
+- Add documents for IMDB, Netflix and rotten tomatoes for the definitions and also the reviews.
+- Add a single AdSense link.
