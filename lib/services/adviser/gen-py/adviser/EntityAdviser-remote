@@ -23,6 +23,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] function [arg1 [arg2...]]'
   print ''
   print 'Functions:'
+  print '  bool ping()'
   print '   get_suggestions(i32 category_id, i32 limit, i32 offset,  predicate_ids)'
   print '  void add_association(Association association)'
   print '  void update_entity_rank(i32 entity_id, double rank)'
@@ -77,7 +78,13 @@ protocol = TBinaryProtocol.TBinaryProtocol(transport)
 client = EntityAdviser.Client(protocol)
 transport.open()
 
-if cmd == 'get_suggestions':
+if cmd == 'ping':
+  if len(args) != 0:
+    print 'ping requires 0 args'
+    sys.exit(1)
+  pp.pprint(client.ping())
+
+elif cmd == 'get_suggestions':
   if len(args) != 4:
     print 'get_suggestions requires 4 args'
     sys.exit(1)

@@ -1,22 +1,13 @@
 #!/usr/bin/env python
 
-# This server demonstrates Thrift's connection and "oneway" asynchronous jobs
-# showCurrentTimestamp : which returns current time stamp from server
-# asynchronousJob() : prints something, waits 10 secs and print another string
-# 
-# Osman Yuksel < yuxel {{|AT|}} sonsuzdongu |-| com >
-
-port = 9090
-
 import sys
 # your gen-py dir
 sys.path.append('../gen-py')
 
 import time
 
-# Example files
-from Example import *
-from Example.ttypes import *
+from adviser import EntityAdviser
+from adviser.ttypes import *
 
 # Thrift files
 from thrift.transport import TSocket
@@ -24,27 +15,33 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-import advisor
+from EntityAdviserIndex import EntityAdviserIndex
 
 # Server implementation
-class ExampleHandler:
+class EntityAdviserHandler:
 
-  categories = ...
+  #def __init__(self):
+  #  pass
+  #  self.adviser_index = EntityAdviserIndex()
 
-  def init ...: advisor.init()
+  def ping(self):
+    print('Ping')
+    return True
 
-  # return current time stamp
-  def get_suggestions(self, category_id, limit, offset):
-    return advisor.get_suggestions(categories[category_id], limit, offset)
+  #def get_suggestions(self, category_id, limit, offset, predicates):
+  #  return self.adviser.get_suggestions(categories[category_id], limit, offset, predicates)
 
-  def get_filtered_suggestions(self, category_id, limit, offset, predicate_ids):
-    return advisor.get_suggestions(categories[category_id], limit, offset)
+  #def add_association(association):
+  #  self.adviser.add_association(association)
+
+  #def update_entity_rank(entity_id, rank):
+  #  self.adviser.add_association(entity_id, rank)
 
 # set handler to our implementation
-handler = ExampleHandler()
+handler = EntityAdviserHandler()
 
-processor = Example.Processor(handler)
-transport = TSocket.TServerSocket(port)
+processor = EntityAdviser.Processor(handler)
+transport = TSocket.TServerSocket(port=9090)
 tfactory = TTransport.TBufferedTransportFactory()
 pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 
@@ -52,4 +49,7 @@ pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 server = TServer.TThreadedServer(processor, transport, tfactory, pfactory)
 
 print 'Starting server'
-server.serve()
+try:
+  server.serve()
+except KeyboardInterrupt: 
+  print 'Interrupted'

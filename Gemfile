@@ -20,6 +20,7 @@ gem 'capistrano'
 gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'jquery-rails'
 gem 'ruby-debug19'
+gem 'thrift'
 
 gem 'whenever'
 
