@@ -7,7 +7,7 @@
 require 'thrift'
 require 'adviser_types'
 
-module EntityAdvisor
+module EntityAdviser
   class Client
     include ::Thrift::Client
 

@@ -15,7 +15,7 @@ from thrift.transport import TSocket
 from thrift.transport import THttpClient
 from thrift.protocol import TBinaryProtocol
 
-import EntityAdvisor
+import EntityAdviser
 from ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
@@ -73,7 +73,7 @@ else:
   else:
     transport = TTransport.TBufferedTransport(socket)
 protocol = TBinaryProtocol.TBinaryProtocol(transport)
-client = EntityAdvisor.Client(protocol)
+client = EntityAdviser.Client(protocol)
 transport.open()
 
 if cmd == 'get_suggestions':
