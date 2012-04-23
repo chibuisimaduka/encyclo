@@ -228,11 +228,6 @@ class Entity < ActiveRecord::Base
     end
   end
 
-  def <=>(entry)
-    cmp = self.rank <=> entry.rank
-    cmp == 0 ? self.entity.id <=> entry.entity.id : eq
-  end
-
 private
 
   def validate_has_one_name
