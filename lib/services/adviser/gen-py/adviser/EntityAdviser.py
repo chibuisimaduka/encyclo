@@ -18,22 +18,28 @@ except:
 
 
 class Iface:
-  def get_suggestions(self, category_id, limit, offset):
-    """
-    Parameters:
-     - category_id
-     - limit
-     - offset
-    """
-    pass
-
-  def get_filtered_suggestions(self, category_id, limit, offset, predicate_ids):
+  def get_suggestions(self, category_id, limit, offset, predicate_ids):
     """
     Parameters:
      - category_id
      - limit
      - offset
      - predicate_ids
+    """
+    pass
+
+  def add_association(self, association):
+    """
+    Parameters:
+     - association
+    """
+    pass
+
+  def update_entity_rank(self, entity_id, rank):
+    """
+    Parameters:
+     - entity_id
+     - rank
     """
     pass
 
@@ -45,22 +51,24 @@ class Client(Iface):
       self._oprot = oprot
     self._seqid = 0
 
-  def get_suggestions(self, category_id, limit, offset):
+  def get_suggestions(self, category_id, limit, offset, predicate_ids):
     """
     Parameters:
      - category_id
      - limit
      - offset
+     - predicate_ids
     """
-    self.send_get_suggestions(category_id, limit, offset)
+    self.send_get_suggestions(category_id, limit, offset, predicate_ids)
     return self.recv_get_suggestions()
 
-  def send_get_suggestions(self, category_id, limit, offset):
+  def send_get_suggestions(self, category_id, limit, offset, predicate_ids):
     self._oprot.writeMessageBegin('get_suggestions', TMessageType.CALL, self._seqid)
     args = get_suggestions_args()
     args.category_id = category_id
     args.limit = limit
     args.offset = offset
+    args.predicate_ids = predicate_ids
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -79,41 +87,63 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "get_suggestions failed: unknown result");
 
-  def get_filtered_suggestions(self, category_id, limit, offset, predicate_ids):
+  def add_association(self, association):
     """
     Parameters:
-     - category_id
-     - limit
-     - offset
-     - predicate_ids
+     - association
     """
-    self.send_get_filtered_suggestions(category_id, limit, offset, predicate_ids)
-    return self.recv_get_filtered_suggestions()
+    self.send_add_association(association)
+    self.recv_add_association()
 
-  def send_get_filtered_suggestions(self, category_id, limit, offset, predicate_ids):
-    self._oprot.writeMessageBegin('get_filtered_suggestions', TMessageType.CALL, self._seqid)
-    args = get_filtered_suggestions_args()
-    args.category_id = category_id
-    args.limit = limit
-    args.offset = offset
-    args.predicate_ids = predicate_ids
+  def send_add_association(self, association):
+    self._oprot.writeMessageBegin('add_association', TMessageType.CALL, self._seqid)
+    args = add_association_args()
+    args.association = association
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
 
-  def recv_get_filtered_suggestions(self, ):
+  def recv_add_association(self, ):
     (fname, mtype, rseqid) = self._iprot.readMessageBegin()
     if mtype == TMessageType.EXCEPTION:
       x = TApplicationException()
       x.read(self._iprot)
       self._iprot.readMessageEnd()
       raise x
-    result = get_filtered_suggestions_result()
+    result = add_association_result()
     result.read(self._iprot)
     self._iprot.readMessageEnd()
-    if result.success is not None:
-      return result.success
-    raise TApplicationException(TApplicationException.MISSING_RESULT, "get_filtered_suggestions failed: unknown result");
+    return
+
+  def update_entity_rank(self, entity_id, rank):
+    """
+    Parameters:
+     - entity_id
+     - rank
+    """
+    self.send_update_entity_rank(entity_id, rank)
+    self.recv_update_entity_rank()
+
+  def send_update_entity_rank(self, entity_id, rank):
+    self._oprot.writeMessageBegin('update_entity_rank', TMessageType.CALL, self._seqid)
+    args = update_entity_rank_args()
+    args.entity_id = entity_id
+    args.rank = rank
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_update_entity_rank(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = update_entity_rank_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    return
 
 
 class Processor(Iface, TProcessor):
@@ -121,7 +151,8 @@ class Processor(Iface, TProcessor):
     self._handler = handler
     self._processMap = {}
     self._processMap["get_suggestions"] = Processor.process_get_suggestions
-    self._processMap["get_filtered_suggestions"] = Processor.process_get_filtered_suggestions
+    self._processMap["add_association"] = Processor.process_add_association
+    self._processMap["update_entity_rank"] = Processor.process_update_entity_rank
 
   def process(self, iprot, oprot):
     (name, type, seqid) = iprot.readMessageBegin()
@@ -143,19 +174,30 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = get_suggestions_result()
-    result.success = self._handler.get_suggestions(args.category_id, args.limit, args.offset)
+    result.success = self._handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
     oprot.writeMessageBegin("get_suggestions", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
 
-  def process_get_filtered_suggestions(self, seqid, iprot, oprot):
-    args = get_filtered_suggestions_args()
+  def process_add_association(self, seqid, iprot, oprot):
+    args = add_association_args()
     args.read(iprot)
     iprot.readMessageEnd()
-    result = get_filtered_suggestions_result()
-    result.success = self._handler.get_filtered_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
-    oprot.writeMessageBegin("get_filtered_suggestions", TMessageType.REPLY, seqid)
+    result = add_association_result()
+    self._handler.add_association(args.association)
+    oprot.writeMessageBegin("add_association", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_update_entity_rank(self, seqid, iprot, oprot):
+    args = update_entity_rank_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = update_entity_rank_result()
+    self._handler.update_entity_rank(args.entity_id, args.rank)
+    oprot.writeMessageBegin("update_entity_rank", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -169,6 +211,7 @@ class get_suggestions_args:
    - category_id
    - limit
    - offset
+   - predicate_ids
   """
 
   thrift_spec = (
@@ -176,12 +219,14 @@ class get_suggestions_args:
     (1, TType.I32, 'category_id', None, None, ), # 1
     (2, TType.I32, 'limit', None, None, ), # 2
     (3, TType.I32, 'offset', None, None, ), # 3
+    (4, TType.LIST, 'predicate_ids', (TType.STRUCT,(Predicate, Predicate.thrift_spec)), None, ), # 4
   )
 
-  def __init__(self, category_id=None, limit=None, offset=None,):
+  def __init__(self, category_id=None, limit=None, offset=None, predicate_ids=None,):
     self.category_id = category_id
     self.limit = limit
     self.offset = offset
+    self.predicate_ids = predicate_ids
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -207,6 +252,17 @@ class get_suggestions_args:
           self.offset = iprot.readI32();
         else:
           iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.LIST:
+          self.predicate_ids = []
+          (_etype3, _size0) = iprot.readListBegin()
+          for _i4 in xrange(_size0):
+            _elem5 = Predicate()
+            _elem5.read(iprot)
+            self.predicate_ids.append(_elem5)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -228,6 +284,13 @@ class get_suggestions_args:
     if self.offset is not None:
       oprot.writeFieldBegin('offset', TType.I32, 3)
       oprot.writeI32(self.offset)
+      oprot.writeFieldEnd()
+    if self.predicate_ids is not None:
+      oprot.writeFieldBegin('predicate_ids', TType.LIST, 4)
+      oprot.writeListBegin(TType.STRUCT, len(self.predicate_ids))
+      for iter6 in self.predicate_ids:
+        iter6.write(oprot)
+      oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -272,10 +335,10 @@ class get_suggestions_result:
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype3, _size0) = iprot.readListBegin()
-          for _i4 in xrange(_size0):
-            _elem5 = iprot.readI32();
-            self.success.append(_elem5)
+          (_etype10, _size7) = iprot.readListBegin()
+          for _i11 in xrange(_size7):
+            _elem12 = iprot.readI32();
+            self.success.append(_elem12)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -292,111 +355,7 @@ class get_suggestions_result:
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.I32, len(self.success))
-      for iter6 in self.success:
-        oprot.writeI32(iter6)
-      oprot.writeListEnd()
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class get_filtered_suggestions_args:
-  """
-  Attributes:
-   - category_id
-   - limit
-   - offset
-   - predicate_ids
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.I32, 'category_id', None, None, ), # 1
-    (2, TType.I32, 'limit', None, None, ), # 2
-    (3, TType.I32, 'offset', None, None, ), # 3
-    (4, TType.LIST, 'predicate_ids', (TType.I32,None), None, ), # 4
-  )
-
-  def __init__(self, category_id=None, limit=None, offset=None, predicate_ids=None,):
-    self.category_id = category_id
-    self.limit = limit
-    self.offset = offset
-    self.predicate_ids = predicate_ids
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.I32:
-          self.category_id = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      elif fid == 2:
-        if ftype == TType.I32:
-          self.limit = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      elif fid == 3:
-        if ftype == TType.I32:
-          self.offset = iprot.readI32();
-        else:
-          iprot.skip(ftype)
-      elif fid == 4:
-        if ftype == TType.LIST:
-          self.predicate_ids = []
-          (_etype10, _size7) = iprot.readListBegin()
-          for _i11 in xrange(_size7):
-            _elem12 = iprot.readI32();
-            self.predicate_ids.append(_elem12)
-          iprot.readListEnd()
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('get_filtered_suggestions_args')
-    if self.category_id is not None:
-      oprot.writeFieldBegin('category_id', TType.I32, 1)
-      oprot.writeI32(self.category_id)
-      oprot.writeFieldEnd()
-    if self.limit is not None:
-      oprot.writeFieldBegin('limit', TType.I32, 2)
-      oprot.writeI32(self.limit)
-      oprot.writeFieldEnd()
-    if self.offset is not None:
-      oprot.writeFieldBegin('offset', TType.I32, 3)
-      oprot.writeI32(self.offset)
-      oprot.writeFieldEnd()
-    if self.predicate_ids is not None:
-      oprot.writeFieldBegin('predicate_ids', TType.LIST, 4)
-      oprot.writeListBegin(TType.I32, len(self.predicate_ids))
-      for iter13 in self.predicate_ids:
+      for iter13 in self.success:
         oprot.writeI32(iter13)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
@@ -418,18 +377,19 @@ class get_filtered_suggestions_args:
   def __ne__(self, other):
     return not (self == other)
 
-class get_filtered_suggestions_result:
+class add_association_args:
   """
   Attributes:
-   - success
+   - association
   """
 
   thrift_spec = (
-    (0, TType.LIST, 'success', (TType.I32,None), None, ), # 0
+    None, # 0
+    (1, TType.STRUCT, 'association', (Association, Association.thrift_spec), None, ), # 1
   )
 
-  def __init__(self, success=None,):
-    self.success = success
+  def __init__(self, association=None,):
+    self.association = association
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -440,14 +400,10 @@ class get_filtered_suggestions_result:
       (fname, ftype, fid) = iprot.readFieldBegin()
       if ftype == TType.STOP:
         break
-      if fid == 0:
-        if ftype == TType.LIST:
-          self.success = []
-          (_etype17, _size14) = iprot.readListBegin()
-          for _i18 in xrange(_size14):
-            _elem19 = iprot.readI32();
-            self.success.append(_elem19)
-          iprot.readListEnd()
+      if fid == 1:
+        if ftype == TType.STRUCT:
+          self.association = Association()
+          self.association.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -459,14 +415,167 @@ class get_filtered_suggestions_result:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('get_filtered_suggestions_result')
-    if self.success is not None:
-      oprot.writeFieldBegin('success', TType.LIST, 0)
-      oprot.writeListBegin(TType.I32, len(self.success))
-      for iter20 in self.success:
-        oprot.writeI32(iter20)
-      oprot.writeListEnd()
+    oprot.writeStructBegin('add_association_args')
+    if self.association is not None:
+      oprot.writeFieldBegin('association', TType.STRUCT, 1)
+      self.association.write(oprot)
       oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class add_association_result:
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('add_association_result')
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class update_entity_rank_args:
+  """
+  Attributes:
+   - entity_id
+   - rank
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I32, 'entity_id', None, None, ), # 1
+    (2, TType.DOUBLE, 'rank', None, None, ), # 2
+  )
+
+  def __init__(self, entity_id=None, rank=None,):
+    self.entity_id = entity_id
+    self.rank = rank
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I32:
+          self.entity_id = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.DOUBLE:
+          self.rank = iprot.readDouble();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('update_entity_rank_args')
+    if self.entity_id is not None:
+      oprot.writeFieldBegin('entity_id', TType.I32, 1)
+      oprot.writeI32(self.entity_id)
+      oprot.writeFieldEnd()
+    if self.rank is not None:
+      oprot.writeFieldBegin('rank', TType.DOUBLE, 2)
+      oprot.writeDouble(self.rank)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class update_entity_rank_result:
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('update_entity_rank_result')
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 

@@ -5,3 +5,41 @@
 #
 
 
+class Predicate
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  DEFINITION_ID = 1
+  ENTITY_ID = 2
+
+  FIELDS = {
+    DEFINITION_ID => {:type => ::Thrift::Types::I32, :name => 'definition_id'},
+    ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'entity_id'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+
+class Association
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  DEFINITION_ID = 1
+  ENTITY_ID = 2
+  ASSOCIATED_ENTITY_ID = 3
+
+  FIELDS = {
+    DEFINITION_ID => {:type => ::Thrift::Types::I32, :name => 'definition_id'},
+    ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'entity_id'},
+    ASSOCIATED_ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'associated_entity_id'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+
