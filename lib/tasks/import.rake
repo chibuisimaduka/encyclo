@@ -9,25 +9,26 @@ namespace :import do
       while (line = file.gets) do
         freebase_id, url = line.chomp.split("\t")
         puts "Processing entity freebase_id=#{freebase_id}"
-        entity = Entity.find_by_freebase_id(freebase_id)
+        entity = Entity.includes(:documents).find_by_freebase_id(freebase_id)
         if !entity
           puts "Missing entity."
         else
-          if entity.documents.count > 0
+          if entity.documents.length > 0
             puts "Skipping. Already has documents."
           else
-            listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
-                                     nil, nil, WEBMASTER, ENGLISH)
-            begin
-              if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
-                puts "Successfully created one document!"
-              else
-                puts "Error creating document for entity id=#{entity.id}"
+            min_delay 1 do
+              listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
+                                       nil, nil, WEBMASTER, ENGLISH)
+              begin
+                if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
+                  puts "Successfully created one document!"
+                else
+                  puts "Error creating document for entity id=#{entity.id}"
+                end
+              rescue Exception => e
+                puts "Exception caught: #{e.message}"
               end
-            rescue Exception => e
-              puts "Exception caught: #{e.message}"
             end
-            sleep(1)
           end
         end
       end
@@ -38,27 +39,28 @@ namespace :import do
 
       file = File.open(ENV['INPUT_FILE'], 'r')
       while (line = file.gets) do
-        document_id, url = line.chomp.split("\t")
-        puts "Processing document document_id=#{document_id}"
-        document = RemoteDocument.find(document_id).document
-        entity = document.parent ? document.parent.entities.first : document.entities.first
-        if !entity
-          puts "Missing entity."
-        else
-          if entity.images.count > 0
-            puts "Skipping. Already has images."
+        min_delay 1 do
+          document_id, url = line.chomp.split("\t")
+          puts "Processing document document_id=#{document_id}"
+          document = RemoteDocument.find(document_id).document
+          entity = document.parent ? document.parent.entities.first : document.entities.first
+          if !entity
+            puts "Missing entity."
           else
-            begin
-              image = entity.images.build(remote_image_url: url)
-              image.user_id = WEBMASTER.id
-              image.source = url
-              if !entity.save
-                puts "An error has occured while creating the image."
+            if entity.images.count > 0
+              puts "Skipping. Already has images."
+            else
+              begin
+                image = entity.images.build(remote_image_url: url)
+                image.user_id = WEBMASTER.id
+                image.source = url
+                if !entity.save
+                  puts "An error has occured while creating the image."
+                end
+              rescue Exception => e
+                puts "Exception caught: #{e.message}"
               end
-            rescue Exception => e
-              puts "Exception caught: #{e.message}"
             end
-            sleep(0.5)
           end
         end
       end
@@ -111,4 +113,11 @@ namespace :import do
     task :create => [:create_entities, :create_names, :create_edit_requests, :create_users_edit_requests]
 
   end
+end
+
+def min_delay(delay, &block)
+  before = Time.now
+  yield
+  time_sleep = delay.to_f - (Time.now - before)
+  sleep(time_sleep) if time_sleep > 0
 end

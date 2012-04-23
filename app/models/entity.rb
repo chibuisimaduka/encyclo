@@ -215,6 +215,24 @@ class Entity < ActiveRecord::Base
     parent && parent.is_intermediate
   end
 
+  def rank=(updated_rank)
+    @old_rank = rank
+    super
+  end
+
+  after_save :update_entity_suggestions
+  def update_entity_suggestions
+    if @old_rank
+      # FIXME: Creating an entity uselessly.
+      EntitySuggestionsService.instance.update_entity(Entity.new(id: id, rank: @old_rank), self)
+    end
+  end
+
+  def <=>(entry)
+    cmp = self.rank <=> entry.rank
+    cmp == 0 ? self.entity.id <=> entry.entity.id : eq
+  end
+
 private
 
   def validate_has_one_name

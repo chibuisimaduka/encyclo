@@ -29,10 +29,19 @@ class EntitiesController < ApplicationController
     
     sql = "(#{[entities, direct_entities, indirect_entities].map(&:to_sql).join(') UNION (')}) "
     sql += "ORDER BY rank DESC " # FIXME: Order by current user ratings and interpolation, sort of..
-    #@entities = (@entities.sort_by {|e| r = e.ratings.find_by_user_id(current_user.id); r ? r.value : e.rank || 0}).reverse
-    #@entities.sort_by {|e| rating_for(e) || e.suggested_rating(@entity.entities) }
-                         
-    @entities = Entity.paginate_by_sql(sql, page: params[:page])
+      
+    #unless current_user.is_ip_address?
+    #  Entity.joins(:ratings).where("ratings.user_id = #{current_user.id}").limit(Entity.per_page)
+    #  params[:offset]
+    #end
+   
+    total_entries = entities.count + direct_entities.count + indirect_entities.count 
+    #top_ranked_entities = Entity.paginate_by_sql(sql, page: params[:page], total_entries: total_entries)
+    @entities = Entity.paginate_by_sql(sql, page: params[:page], total_entries: total_entries)
+
+    #@entities = WillPaginate::Collection.create(params[:page], Entity.per_page, total_entries) do |pager|
+    #  pager.replace top_entities
+    #end
 
     @printer = PrettyPrinter.new(@entity, @entities)
   end
