@@ -1,3 +1,5 @@
+namespace rb entity_adviser
+
 struct Predicate {
   1: i32 definition_id
   2: i32 entity_id

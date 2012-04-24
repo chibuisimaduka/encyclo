@@ -7,237 +7,239 @@
 require 'thrift'
 require 'adviser_types'
 
-module EntityAdviser
-  class Client
-    include ::Thrift::Client
+    module Entity_adviser
+      module EntityAdviser
+        class Client
+          include ::Thrift::Client
 
-    def ping()
-      send_ping()
-      return recv_ping()
+          def ping()
+            send_ping()
+            return recv_ping()
+          end
+
+          def send_ping()
+            send_message('ping', Ping_args)
+          end
+
+          def recv_ping()
+            result = receive_message(Ping_result)
+            return result.success unless result.success.nil?
+            raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'ping failed: unknown result')
+          end
+
+          def get_suggestions(category_id, limit, offset, predicate_ids)
+            send_get_suggestions(category_id, limit, offset, predicate_ids)
+            return recv_get_suggestions()
+          end
+
+          def send_get_suggestions(category_id, limit, offset, predicate_ids)
+            send_message('get_suggestions', Get_suggestions_args, :category_id => category_id, :limit => limit, :offset => offset, :predicate_ids => predicate_ids)
+          end
+
+          def recv_get_suggestions()
+            result = receive_message(Get_suggestions_result)
+            return result.success unless result.success.nil?
+            raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'get_suggestions failed: unknown result')
+          end
+
+          def add_association(association)
+            send_add_association(association)
+            recv_add_association()
+          end
+
+          def send_add_association(association)
+            send_message('add_association', Add_association_args, :association => association)
+          end
+
+          def recv_add_association()
+            result = receive_message(Add_association_result)
+            return
+          end
+
+          def update_entity_rank(entity_id, rank)
+            send_update_entity_rank(entity_id, rank)
+            recv_update_entity_rank()
+          end
+
+          def send_update_entity_rank(entity_id, rank)
+            send_message('update_entity_rank', Update_entity_rank_args, :entity_id => entity_id, :rank => rank)
+          end
+
+          def recv_update_entity_rank()
+            result = receive_message(Update_entity_rank_result)
+            return
+          end
+
+        end
+
+        class Processor
+          include ::Thrift::Processor
+
+          def process_ping(seqid, iprot, oprot)
+            args = read_args(iprot, Ping_args)
+            result = Ping_result.new()
+            result.success = @handler.ping()
+            write_result(result, oprot, 'ping', seqid)
+          end
+
+          def process_get_suggestions(seqid, iprot, oprot)
+            args = read_args(iprot, Get_suggestions_args)
+            result = Get_suggestions_result.new()
+            result.success = @handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
+            write_result(result, oprot, 'get_suggestions', seqid)
+          end
+
+          def process_add_association(seqid, iprot, oprot)
+            args = read_args(iprot, Add_association_args)
+            result = Add_association_result.new()
+            @handler.add_association(args.association)
+            write_result(result, oprot, 'add_association', seqid)
+          end
+
+          def process_update_entity_rank(seqid, iprot, oprot)
+            args = read_args(iprot, Update_entity_rank_args)
+            result = Update_entity_rank_result.new()
+            @handler.update_entity_rank(args.entity_id, args.rank)
+            write_result(result, oprot, 'update_entity_rank', seqid)
+          end
+
+        end
+
+        # HELPER FUNCTIONS AND STRUCTURES
+
+        class Ping_args
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+
+          FIELDS = {
+
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Ping_result
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+          SUCCESS = 0
+
+          FIELDS = {
+            SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'}
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Get_suggestions_args
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+          CATEGORY_ID = 1
+          LIMIT = 2
+          OFFSET = 3
+          PREDICATE_IDS = 4
+
+          FIELDS = {
+            CATEGORY_ID => {:type => ::Thrift::Types::I32, :name => 'category_id'},
+            LIMIT => {:type => ::Thrift::Types::I32, :name => 'limit'},
+            OFFSET => {:type => ::Thrift::Types::I32, :name => 'offset'},
+            PREDICATE_IDS => {:type => ::Thrift::Types::LIST, :name => 'predicate_ids', :element => {:type => ::Thrift::Types::STRUCT, :class => Entity_adviser::Predicate}}
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Get_suggestions_result
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+          SUCCESS = 0
+
+          FIELDS = {
+            SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::I32}}
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Add_association_args
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+          ASSOCIATION = 1
+
+          FIELDS = {
+            ASSOCIATION => {:type => ::Thrift::Types::STRUCT, :name => 'association', :class => Entity_adviser::Association}
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Add_association_result
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+
+          FIELDS = {
+
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Update_entity_rank_args
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+          ENTITY_ID = 1
+          RANK = 2
+
+          FIELDS = {
+            ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'entity_id'},
+            RANK => {:type => ::Thrift::Types::DOUBLE, :name => 'rank'}
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+        class Update_entity_rank_result
+          include ::Thrift::Struct, ::Thrift::Struct_Union
+
+          FIELDS = {
+
+          }
+
+          def struct_fields; FIELDS; end
+
+          def validate
+          end
+
+          ::Thrift::Struct.generate_accessors self
+        end
+
+      end
+
     end
-
-    def send_ping()
-      send_message('ping', Ping_args)
-    end
-
-    def recv_ping()
-      result = receive_message(Ping_result)
-      return result.success unless result.success.nil?
-      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'ping failed: unknown result')
-    end
-
-    def get_suggestions(category_id, limit, offset, predicate_ids)
-      send_get_suggestions(category_id, limit, offset, predicate_ids)
-      return recv_get_suggestions()
-    end
-
-    def send_get_suggestions(category_id, limit, offset, predicate_ids)
-      send_message('get_suggestions', Get_suggestions_args, :category_id => category_id, :limit => limit, :offset => offset, :predicate_ids => predicate_ids)
-    end
-
-    def recv_get_suggestions()
-      result = receive_message(Get_suggestions_result)
-      return result.success unless result.success.nil?
-      raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'get_suggestions failed: unknown result')
-    end
-
-    def add_association(association)
-      send_add_association(association)
-      recv_add_association()
-    end
-
-    def send_add_association(association)
-      send_message('add_association', Add_association_args, :association => association)
-    end
-
-    def recv_add_association()
-      result = receive_message(Add_association_result)
-      return
-    end
-
-    def update_entity_rank(entity_id, rank)
-      send_update_entity_rank(entity_id, rank)
-      recv_update_entity_rank()
-    end
-
-    def send_update_entity_rank(entity_id, rank)
-      send_message('update_entity_rank', Update_entity_rank_args, :entity_id => entity_id, :rank => rank)
-    end
-
-    def recv_update_entity_rank()
-      result = receive_message(Update_entity_rank_result)
-      return
-    end
-
-  end
-
-  class Processor
-    include ::Thrift::Processor
-
-    def process_ping(seqid, iprot, oprot)
-      args = read_args(iprot, Ping_args)
-      result = Ping_result.new()
-      result.success = @handler.ping()
-      write_result(result, oprot, 'ping', seqid)
-    end
-
-    def process_get_suggestions(seqid, iprot, oprot)
-      args = read_args(iprot, Get_suggestions_args)
-      result = Get_suggestions_result.new()
-      result.success = @handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
-      write_result(result, oprot, 'get_suggestions', seqid)
-    end
-
-    def process_add_association(seqid, iprot, oprot)
-      args = read_args(iprot, Add_association_args)
-      result = Add_association_result.new()
-      @handler.add_association(args.association)
-      write_result(result, oprot, 'add_association', seqid)
-    end
-
-    def process_update_entity_rank(seqid, iprot, oprot)
-      args = read_args(iprot, Update_entity_rank_args)
-      result = Update_entity_rank_result.new()
-      @handler.update_entity_rank(args.entity_id, args.rank)
-      write_result(result, oprot, 'update_entity_rank', seqid)
-    end
-
-  end
-
-  # HELPER FUNCTIONS AND STRUCTURES
-
-  class Ping_args
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-
-    FIELDS = {
-
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Ping_result
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-    SUCCESS = 0
-
-    FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::BOOL, :name => 'success'}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Get_suggestions_args
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-    CATEGORY_ID = 1
-    LIMIT = 2
-    OFFSET = 3
-    PREDICATE_IDS = 4
-
-    FIELDS = {
-      CATEGORY_ID => {:type => ::Thrift::Types::I32, :name => 'category_id'},
-      LIMIT => {:type => ::Thrift::Types::I32, :name => 'limit'},
-      OFFSET => {:type => ::Thrift::Types::I32, :name => 'offset'},
-      PREDICATE_IDS => {:type => ::Thrift::Types::LIST, :name => 'predicate_ids', :element => {:type => ::Thrift::Types::STRUCT, :class => Predicate}}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Get_suggestions_result
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-    SUCCESS = 0
-
-    FIELDS = {
-      SUCCESS => {:type => ::Thrift::Types::LIST, :name => 'success', :element => {:type => ::Thrift::Types::I32}}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Add_association_args
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-    ASSOCIATION = 1
-
-    FIELDS = {
-      ASSOCIATION => {:type => ::Thrift::Types::STRUCT, :name => 'association', :class => Association}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Add_association_result
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-
-    FIELDS = {
-
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Update_entity_rank_args
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-    ENTITY_ID = 1
-    RANK = 2
-
-    FIELDS = {
-      ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'entity_id'},
-      RANK => {:type => ::Thrift::Types::DOUBLE, :name => 'rank'}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Update_entity_rank_result
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-
-    FIELDS = {
-
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-end
-
