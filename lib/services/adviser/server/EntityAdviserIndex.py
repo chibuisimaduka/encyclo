@@ -49,6 +49,7 @@ class EntityAdviserIndex:
     if predicates == None or len(predicates) == 0: # No filter
       offset_index = self.rank_by_entity.index(offset[0]) if offset != 0 else 0
       # FIXME: Does this fetch all values? Not a good idea if so..
+      # TODO: Filter if it's alive of dead.
       return self.rank_by_entity.keys()[offset_index:offset_index+limit]
     elif len(predicates) == 1: # One filter
       values = self.associations_by_predicate[predicates[0][0]][predicates[0][1]]

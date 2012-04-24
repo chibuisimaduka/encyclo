@@ -17,31 +17,22 @@ class EntitiesController < ApplicationController
   end
 
   require "pretty_printer"
+  require "services/adviser/client/entity_adviser_client"
 
   def show
     @entity = Entity.find(params[:id])
 
-    entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.entities), current_user), params[:filter], current_language)
-
-    direct_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.direct_entities_by_definition), current_user), params[:filter], current_language)
-
-    indirect_entities = Entity.filter_scope(DeleteRequest.alive_scope(Entity.subentity_scope(@entity.indirect_entities_by_definition), current_user), params[:filter], current_language)
-    
-    sql = "(#{[entities, direct_entities, indirect_entities].map(&:to_sql).join(') UNION (')}) "
-    sql += "ORDER BY rank DESC " # FIXME: Order by current user ratings and interpolation, sort of..
-      
     #unless current_user.is_ip_address?
     #  Entity.joins(:ratings).where("ratings.user_id = #{current_user.id}").limit(Entity.per_page)
     #  params[:offset]
     #end
    
-    total_entries = entities.count + direct_entities.count + indirect_entities.count 
     #top_ranked_entities = Entity.paginate_by_sql(sql, page: params[:page], total_entries: total_entries)
-    @entities = Entity.paginate_by_sql(sql, page: params[:page], total_entries: total_entries)
 
-    #@entities = WillPaginate::Collection.create(params[:page], Entity.per_page, total_entries) do |pager|
-    #  pager.replace top_entities
-    #end
+    # FIXME: EntityAdviser should return the number of matching entities.
+    @entities = WillPaginate::Collection.create(params[:page] || 1, Entity.per_page, 1000) do |pager|
+      pager.replace Entity.find(EntityAdviserClient.get_suggestions(@entity.id, Entity.per_page, 0, []))
+    end
 
     @printer = PrettyPrinter.new(@entity, @entities)
   end
