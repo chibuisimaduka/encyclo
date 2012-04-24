@@ -6,22 +6,18 @@ require 'thrift'
 require 'entity_adviser'
 
 begin
-  port = 9090
-
-  transport = Thrift::BufferedTransport.new(Thrift::Socket.new('localhost', port))
+  transport = Thrift::BufferedTransport.new(Thrift::Socket.new('localhost', 9090))
   protocol = Thrift::BinaryProtocol.new(transport)
   client = EntityAdviser::Client.new(protocol)
 
   transport.open()
 
-  result = client.ping()
-  if result
-    puts "Pong"
-  else
-    puts "It does not work.."
-  end
+  puts "Starting query"
+  result = client.get_suggestions(862, 20, 0, [])
+  puts result.inspect
+  puts "Query done"
   
   transport.close()
 rescue
-  puts $!
+  puts "Exception occured: " + $!.message
 end

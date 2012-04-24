@@ -20,22 +20,22 @@ from EntityAdviserIndex import EntityAdviserIndex
 # Server implementation
 class EntityAdviserHandler:
 
-  #def __init__(self):
-  #  pass
-  #  self.adviser_index = EntityAdviserIndex()
+  def __init__(self):
+    pass
+    self.adviser_index = EntityAdviserIndex()
 
   def ping(self):
     print('Ping')
     return True
 
-  #def get_suggestions(self, category_id, limit, offset, predicates):
-  #  return self.adviser.get_suggestions(categories[category_id], limit, offset, predicates)
+  def get_suggestions(self, category_id, limit, offset, predicates):
+    return self.adviser_index.get_suggestions(category_id, limit, offset, predicates)
 
-  #def add_association(association):
-  #  self.adviser.add_association(association)
+  def add_association(association):
+    self.adviser_index.add_association(association)
 
-  #def update_entity_rank(entity_id, rank):
-  #  self.adviser.add_association(entity_id, rank)
+  def update_entity_rank(entity_id, rank):
+    self.adviser_index.add_association(entity_id, rank)
 
 # set handler to our implementation
 handler = EntityAdviserHandler()
