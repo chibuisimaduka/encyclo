@@ -1,6 +1,6 @@
 namespace :import do
 
-  namespace :wikipedia do
+  namespace :freebase do
 
     task :documents => :init do
       raise "Missing INPUT_FILE" unless ENV['INPUT_FILE']
@@ -66,10 +66,6 @@ namespace :import do
       end
     end
  
-  end
-
-  namespace :freebase do
-
     task :before_create => :init do
       raise "Missing PARENT_ID or TYPE." unless ENV["PARENT_ID"] && ENV["TYPE"]
       @type = ENV["TYPE"]

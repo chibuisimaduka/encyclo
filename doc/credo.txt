@@ -1,0 +1,2 @@
+There is nothing you can't do,        # From what you see, you can do everything like you're the only user
+but blind contributions are filtered  # But your changes may or may not be send to others <em>automatically</em>
