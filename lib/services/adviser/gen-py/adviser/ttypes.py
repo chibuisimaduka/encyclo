@@ -17,7 +17,7 @@ except:
 
 
 
-class Predicate:
+class PredicateEntry:
   """
   Attributes:
    - definition_id
@@ -62,7 +62,7 @@ class Predicate:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Predicate')
+    oprot.writeStructBegin('PredicateEntry')
     if self.definition_id is not None:
       oprot.writeFieldBegin('definition_id', TType.I32, 1)
       oprot.writeI32(self.definition_id)
@@ -89,7 +89,7 @@ class Predicate:
   def __ne__(self, other):
     return not (self == other)
 
-class Association:
+class AssociationEntry:
   """
   Attributes:
    - definition_id
@@ -142,7 +142,7 @@ class Association:
     if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
-    oprot.writeStructBegin('Association')
+    oprot.writeStructBegin('AssociationEntry')
     if self.definition_id is not None:
       oprot.writeFieldBegin('definition_id', TType.I32, 1)
       oprot.writeI32(self.definition_id)

@@ -6,5 +6,3 @@
 
 require 'adviser_types'
 
-  module Entity_adviser
-end

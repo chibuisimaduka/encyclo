@@ -25,7 +25,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Functions:'
   print '  bool ping()'
   print '   get_suggestions(i32 category_id, i32 limit, i32 offset,  predicate_ids)'
-  print '  void add_association(Association association)'
+  print '  void add_association(AssociationEntry association)'
   print '  void update_entity_rank(i32 entity_id, double rank)'
   print ''
   sys.exit(0)

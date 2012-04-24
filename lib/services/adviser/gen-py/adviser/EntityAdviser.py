@@ -360,7 +360,7 @@ class get_suggestions_args:
     (1, TType.I32, 'category_id', None, None, ), # 1
     (2, TType.I32, 'limit', None, None, ), # 2
     (3, TType.I32, 'offset', None, None, ), # 3
-    (4, TType.LIST, 'predicate_ids', (TType.STRUCT,(Predicate, Predicate.thrift_spec)), None, ), # 4
+    (4, TType.LIST, 'predicate_ids', (TType.STRUCT,(PredicateEntry, PredicateEntry.thrift_spec)), None, ), # 4
   )
 
   def __init__(self, category_id=None, limit=None, offset=None, predicate_ids=None,):
@@ -398,7 +398,7 @@ class get_suggestions_args:
           self.predicate_ids = []
           (_etype3, _size0) = iprot.readListBegin()
           for _i4 in xrange(_size0):
-            _elem5 = Predicate()
+            _elem5 = PredicateEntry()
             _elem5.read(iprot)
             self.predicate_ids.append(_elem5)
           iprot.readListEnd()
@@ -526,7 +526,7 @@ class add_association_args:
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRUCT, 'association', (Association, Association.thrift_spec), None, ), # 1
+    (1, TType.STRUCT, 'association', (AssociationEntry, AssociationEntry.thrift_spec), None, ), # 1
   )
 
   def __init__(self, association=None,):
@@ -543,7 +543,7 @@ class add_association_args:
         break
       if fid == 1:
         if ftype == TType.STRUCT:
-          self.association = Association()
+          self.association = AssociationEntry()
           self.association.read(iprot)
         else:
           iprot.skip(ftype)
