@@ -54,6 +54,7 @@ class EntityAdviserIndex:
   # predicates = A tuple of the predicate id and the id of it's value.
   def get_suggestions(self, category_id, limit, offset, predicates = None):
     entities_ids = sorted(list(), key=self.entities_sort, reverse=True)
+    matches_count = 0
 
     if predicates == None or len(predicates) == 0: # No filter
       # TODO: Filter if it's alive of dead.

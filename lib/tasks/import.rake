@@ -26,7 +26,7 @@ namespace :import do
                   puts "Error creating document for entity id=#{entity.id}"
                 end
               rescue Exception => e
-                puts "Exception caught: #{e.message}"
+                puts "Exception caught for url=#{url}: #{e.message}"
               end
             end
           end
