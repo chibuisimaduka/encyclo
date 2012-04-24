@@ -39,17 +39,17 @@ namespace :import do
 
       file = File.open(ENV['INPUT_FILE'], 'r')
       while (line = file.gets) do
-        min_delay 1 do
-          document_id, url = line.chomp.split("\t")
-          puts "Processing document document_id=#{document_id}"
-          document = RemoteDocument.find(document_id).document
-          entity = document.parent ? document.parent.entities.first : document.entities.first
-          if !entity
-            puts "Missing entity."
+        document_id, url = line.chomp.split("\t")
+        puts "Processing document document_id=#{document_id}"
+        document = RemoteDocument.find(document_id).document
+        entity = document.parent ? document.parent.entities.first : document.entities.first
+        if !entity
+          puts "Missing entity."
+        else
+          if entity.images.count > 0
+            puts "Skipping. Already has images."
           else
-            if entity.images.count > 0
-              puts "Skipping. Already has images."
-            else
+            min_delay 1 do
               begin
                 image = entity.images.build(remote_image_url: url)
                 image.user_id = WEBMASTER.id

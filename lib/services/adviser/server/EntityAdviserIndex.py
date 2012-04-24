@@ -1,6 +1,8 @@
 import sys
 sys.path.append('../../../../script/freebase/') # FIXME: Ugly as hell
 
+from adviser.ttypes import *
+
 import utils
 
 from collections import defaultdict
@@ -51,21 +53,22 @@ class EntityAdviserIndex:
   # offset = A tuple of the entity id and rank of the last previously returned set. Or 0.
   # predicates = A tuple of the predicate id and the id of it's value.
   def get_suggestions(self, category_id, limit, offset, predicates = None):
-    suggestions = sorted(list(), key=self.entities_sort, reverse=True)
+    entities_ids = sorted(list(), key=self.entities_sort, reverse=True)
 
     if predicates == None or len(predicates) == 0: # No filter
       offset_index = self.rankings_by_entity[category_id].index(offset[0]) if offset != 0 else 0
       # TODO: Filter if it's alive of dead.
       # FIXME: Does this fetch all values? Not a good idea if so..
       if self.rankings_by_entity.has_key(category_id):
-        return self.rankings_by_entity[category_id].keys()[offset_index:offset_index+limit]
+        entities_ids = self.rankings_by_entity[category_id].keys()[offset_index:offset_index+limit]
+        matches_count = len(self.rankings_by_entity[category_id].keys())
     elif len(predicates) == 1: # One filter
       values = self.associations_by_predicate[predicates[0][0]][predicates[0][1]]
-      suggestions = __filter_values(self, suggestions, values, limit, offset)
+      entities_ids = __filter_values(self, entities_ids, values, limit, offset)
     else: # Many filters
       raise RuntimeError("TODO")
 
-    return suggestions
+    return Suggestions(entities_ids, matches_count)
 
   def add_association(self, association):
     raise RuntimeError("TODO")

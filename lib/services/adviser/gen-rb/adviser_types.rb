@@ -43,3 +43,21 @@ class AssociationEntry
   ::Thrift::Struct.generate_accessors self
 end
 
+class Suggestions
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  ENTITIES_IDS = 1
+  MATCHES_COUNT = 2
+
+  FIELDS = {
+    ENTITIES_IDS => {:type => ::Thrift::Types::LIST, :name => 'entities_ids', :element => {:type => ::Thrift::Types::I32}},
+    MATCHES_COUNT => {:type => ::Thrift::Types::I32, :name => 'matches_count'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+

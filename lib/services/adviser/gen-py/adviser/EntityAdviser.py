@@ -396,11 +396,11 @@ class get_suggestions_args:
       elif fid == 4:
         if ftype == TType.LIST:
           self.predicate_ids = []
-          (_etype3, _size0) = iprot.readListBegin()
-          for _i4 in xrange(_size0):
-            _elem5 = PredicateEntry()
-            _elem5.read(iprot)
-            self.predicate_ids.append(_elem5)
+          (_etype10, _size7) = iprot.readListBegin()
+          for _i11 in xrange(_size7):
+            _elem12 = PredicateEntry()
+            _elem12.read(iprot)
+            self.predicate_ids.append(_elem12)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -429,8 +429,8 @@ class get_suggestions_args:
     if self.predicate_ids is not None:
       oprot.writeFieldBegin('predicate_ids', TType.LIST, 4)
       oprot.writeListBegin(TType.STRUCT, len(self.predicate_ids))
-      for iter6 in self.predicate_ids:
-        iter6.write(oprot)
+      for iter13 in self.predicate_ids:
+        iter13.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -458,7 +458,7 @@ class get_suggestions_result:
   """
 
   thrift_spec = (
-    (0, TType.LIST, 'success', (TType.I32,None), None, ), # 0
+    (0, TType.STRUCT, 'success', (Suggestions, Suggestions.thrift_spec), None, ), # 0
   )
 
   def __init__(self, success=None,):
@@ -474,13 +474,9 @@ class get_suggestions_result:
       if ftype == TType.STOP:
         break
       if fid == 0:
-        if ftype == TType.LIST:
-          self.success = []
-          (_etype10, _size7) = iprot.readListBegin()
-          for _i11 in xrange(_size7):
-            _elem12 = iprot.readI32();
-            self.success.append(_elem12)
-          iprot.readListEnd()
+        if ftype == TType.STRUCT:
+          self.success = Suggestions()
+          self.success.read(iprot)
         else:
           iprot.skip(ftype)
       else:
@@ -494,11 +490,8 @@ class get_suggestions_result:
       return
     oprot.writeStructBegin('get_suggestions_result')
     if self.success is not None:
-      oprot.writeFieldBegin('success', TType.LIST, 0)
-      oprot.writeListBegin(TType.I32, len(self.success))
-      for iter13 in self.success:
-        oprot.writeI32(iter13)
-      oprot.writeListEnd()
+      oprot.writeFieldBegin('success', TType.STRUCT, 0)
+      self.success.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

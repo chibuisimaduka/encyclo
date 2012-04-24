@@ -172,3 +172,83 @@ class AssociationEntry:
 
   def __ne__(self, other):
     return not (self == other)
+
+class Suggestions:
+  """
+  Attributes:
+   - entities_ids
+   - matches_count
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.LIST, 'entities_ids', (TType.I32,None), None, ), # 1
+    (2, TType.I32, 'matches_count', None, None, ), # 2
+  )
+
+  def __init__(self, entities_ids=None, matches_count=None,):
+    self.entities_ids = entities_ids
+    self.matches_count = matches_count
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.LIST:
+          self.entities_ids = []
+          (_etype3, _size0) = iprot.readListBegin()
+          for _i4 in xrange(_size0):
+            _elem5 = iprot.readI32();
+            self.entities_ids.append(_elem5)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.I32:
+          self.matches_count = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Suggestions')
+    if self.entities_ids is not None:
+      oprot.writeFieldBegin('entities_ids', TType.LIST, 1)
+      oprot.writeListBegin(TType.I32, len(self.entities_ids))
+      for iter6 in self.entities_ids:
+        oprot.writeI32(iter6)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.matches_count is not None:
+      oprot.writeFieldBegin('matches_count', TType.I32, 2)
+      oprot.writeI32(self.matches_count)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
