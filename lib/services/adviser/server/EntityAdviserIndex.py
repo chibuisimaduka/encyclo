@@ -9,11 +9,15 @@ from collections import OrderedDict
 class EntityAdviserIndex:
     
   # Entities are sorted by their rank.
-  def entities_sort(self, entity_id): return self.rank_by_entity[entity_id] 
+  def entities_sort(self, entity_id):
+    # !!!FIXME!!! Real awful way to get the raking..
+    for rankings in rankings_by_entity.values():
+      if rankings.has_key(entity_id): return rankings[entity_id]
   
   def entities_tuple_sort(self, entity_attrs): return entity_attrs[1] or 0
 
   # predicates_by_entity : Holds the predicates for every entity that have some.
+  # rankings_by_entity : Holds rank_by_entity for every category.
   # rank_by_entity : Holds the rank for every entity.
   # associations_by_predicate : Holds (a hash of entities by their associated entity) for every predicate.
   def __init__(self):
@@ -21,9 +25,12 @@ class EntityAdviserIndex:
     predicates_sort = lambda predicate: len(self.associations_by_predicate[predicate])
     self.predicates_by_entity = defaultdict(lambda: sorted(list(), key=predicates_sort))
 
-    self.rank_by_entity = OrderedDict(sorted(utils.query_sql("SELECT id,rank FROM entities"), key=self.entities_tuple_sort))
+    self.rankings_by_entity = dict()
+    for category_attrs in utils.query_sql("SELECT id FROM entities WHERE id IN (SELECT DISTINCT parent_id from entities)"):
+      statement = "SELECT id,rank FROM entities WHERE parent_id = " + str(category_attrs[0])
+      self.rankings_by_entity[category_attrs[0]] = OrderedDict(sorted(utils.query_sql(statement), key=self.entities_tuple_sort, reverse=True))
 
-    self.associations_by_predicate = defaultdict(lambda: defaultdict(lambda: sorted(list(), key=self.entities_sort)))
+    self.associations_by_predicate = defaultdict(lambda: defaultdict(lambda: sorted(list(), key=self.entities_sort, reverse=True)))
 
     for predicate_attrs in utils.query_sql("SELECT id,entity_id,associated_entity_id FROM association_definitions"):
       self.predicates_by_entity[predicate_attrs[1]] += [predicate_attrs[0]]
@@ -44,13 +51,14 @@ class EntityAdviserIndex:
   # offset = A tuple of the entity id and rank of the last previously returned set. Or 0.
   # predicates = A tuple of the predicate id and the id of it's value.
   def get_suggestions(self, category_id, limit, offset, predicates = None):
-    suggestions = sorted(list(), key=self.entities_sort)
+    suggestions = sorted(list(), key=self.entities_sort, reverse=True)
 
     if predicates == None or len(predicates) == 0: # No filter
-      offset_index = self.rank_by_entity.index(offset[0]) if offset != 0 else 0
-      # FIXME: Does this fetch all values? Not a good idea if so..
+      offset_index = self.rankings_by_entity[category_id].index(offset[0]) if offset != 0 else 0
       # TODO: Filter if it's alive of dead.
-      return self.rank_by_entity.keys()[offset_index:offset_index+limit]
+      # FIXME: Does this fetch all values? Not a good idea if so..
+      if self.rankings_by_entity.has_key(category_id):
+        return self.rankings_by_entity[category_id].keys()[offset_index:offset_index+limit]
     elif len(predicates) == 1: # One filter
       values = self.associations_by_predicate[predicates[0][0]][predicates[0][1]]
       suggestions = __filter_values(self, suggestions, values, limit, offset)
@@ -63,20 +71,24 @@ class EntityAdviserIndex:
     raise RuntimeError("TODO")
 
   def update_entity_rank(self, entity_id, rank):
-    self.rank_by_entity[entity_id] = rank # FIXME: Change the order.
+    raise RuntimeError("FIXME")
+    #self.rank_by_entity[entity_id] = rank # FIXME: Change the order. FIXME: Does not have category
+
+  def __rank_by_entity(self, category_id):
+    return self.rankings_by_entity[category_id]
 
   # OPTIONS
   # suggestions = Modifies this list to hold the best suggestions.
   # values = A sorted list by rank of possible entity ids.
   # limit = The number of suggestions to be returned.
   # offset = A tuple holding the rank and id of the last entity of the last batch. Or 0.
-  def __filter_values(self, suggestions, values, limit, offset):
+  def __filter_values(self, category_id, suggestions, values, limit, offset):
     for entity_id in values:
-      rank = index.rank_by_entity[entity_id]
+      rank = self.rankings_by_entity[category_id][entity_id]
       if len(suggestions) < limit:
         if offset == 0 or (rank < offset[0] or (rank == offset[0] and entity_id < offset[1])):
           suggestions += v
-      elif rank > index.rank_by_entity[suggestions[-1]]:
+      elif rank > self.rankings_by_entity[category_id][suggestions[-1]]:
           suggestions += v
           suggestions.pop()
       else: break # Stop as soon as the rank is to low since values are sorted.
