@@ -12,7 +12,7 @@ if len(sys.argv) != 2: raise RuntimeError("Usage: parse_images.py path/to/output
 filename = sys.argv[1]
 
 out = ""
-for document in utils.query_sql("SELECT id,content FROM remote_documents"):
+for document in utils.query_sql('SELECT id,content FROM remote_documents WHERE url LIKE "http://en.wikipedia.org%"'):
   tree = etree.HTML(document[1])
   images = tree.xpath('//table[starts-with(@class, "infobox")]//img')
   if len(images) == 0:

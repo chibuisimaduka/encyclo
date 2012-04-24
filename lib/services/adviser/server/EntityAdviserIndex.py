@@ -56,11 +56,10 @@ class EntityAdviserIndex:
     entities_ids = sorted(list(), key=self.entities_sort, reverse=True)
 
     if predicates == None or len(predicates) == 0: # No filter
-      offset_index = self.rankings_by_entity[category_id].index(offset[0]) if offset != 0 else 0
       # TODO: Filter if it's alive of dead.
       # FIXME: Does this fetch all values? Not a good idea if so..
       if self.rankings_by_entity.has_key(category_id):
-        entities_ids = self.rankings_by_entity[category_id].keys()[offset_index:offset_index+limit]
+        entities_ids = self.rankings_by_entity[category_id].keys()[offset:offset+limit]
         matches_count = len(self.rankings_by_entity[category_id].keys())
     elif len(predicates) == 1: # One filter
       values = self.associations_by_predicate[predicates[0][0]][predicates[0][1]]
