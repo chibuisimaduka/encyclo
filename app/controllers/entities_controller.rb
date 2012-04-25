@@ -32,7 +32,7 @@ class EntitiesController < ApplicationController
     # FIXME: EntityAdviser should return the number of matching entities.
     @entities = WillPaginate::Collection.create(params[:page] || 1, Entity.per_page) do |pager|
       suggestions = EntityAdviserClient.get_suggestions(@entity.id, Entity.per_page, ((params[:page] || 1).to_i - 1) * Entity.per_page, [])
-      pager.replace Entity.find(suggestions.entities_ids)
+      pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
       pager.total_entries = suggestions.matches_count
     end
 

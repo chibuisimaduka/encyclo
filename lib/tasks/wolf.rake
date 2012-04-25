@@ -66,11 +66,6 @@ end
 
 namespace :documents do
 
-  desc "Do the initial ranking for documents."
-  task :rank => :init do
-    rank(Document.all)
-  end
-
   task :refetch => :init do
   end
 
@@ -161,13 +156,6 @@ namespace :entities do
     (ENV['tag'] ? Tag.find_by_name(ENV['tag']).all_entities : Entity.all).each do |e| 
       puts "Updating #{e.name} documents."
       e.update_documents_from_tag_sources
-    end
-  end
-
-  desc "Do the initial ranking for entities."
-  task :rank => :init do
-    Entity.all.each do |e|
-      e.update_attribute :rank, e.ratings.blank? ? nil : e.ratings.collect(&:value).sum / e.ratings.size
     end
   end
 

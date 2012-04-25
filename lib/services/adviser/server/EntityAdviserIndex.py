@@ -17,7 +17,7 @@ from blist import sortedlist
 class EntityAdviserIndex:
     
   # Entities are sorted by their rank.
-  def entities_sort(self, entity_id): self.rank_by_entity[entity_id]
+  def entities_sort(self, entity_id): return (self.rank_by_entity[entity_id] or 0.0) * -1
   
   # predicates_by_entity : Holds the predicates for every entity that have some.
   # rankings_by_entity : Holds rank_by_entity for every category.
@@ -31,6 +31,7 @@ class EntityAdviserIndex:
     for category_attrs in utils.query_sql("SELECT id FROM entities WHERE id IN (SELECT DISTINCT parent_id from entities)"):
       entities = dict(utils.query_sql("SELECT id,rank FROM entities WHERE parent_id = " + str(category_attrs[0])))
       self.rank_by_entity.update(entities)
+      #self.entities_by_category[category_attrs[0]] = sortedlist(entities.keys(), key=lambda entity_id: self.rank_by_entity[entity_id] or 0.0)
       self.entities_by_category[category_attrs[0]] = sortedlist(entities.keys(), key=self.entities_sort)
 
     # Predicates for each entity are sorted by ascending number of values.
