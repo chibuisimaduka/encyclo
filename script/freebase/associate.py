@@ -33,7 +33,7 @@ for line in open(filename, 'r'):
     if line[line.index('\t')+1:].startswith(property_id) and associated_entity_id in associated_entities:
       statement += "(9,'" + association_definition_id + "','" + str(entities[entity_id]) + "','" + str(associated_entities[associated_entity_id]) + "'),"
       num_entries += 1
-      if (num_entries % 500 == 0): print("Entered 500 entities!")
+      if (num_entries % 500 == 0): print("Entered 500 associations!")
 
 print("Fetching entries done!")
 

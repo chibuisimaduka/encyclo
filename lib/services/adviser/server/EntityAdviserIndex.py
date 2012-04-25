@@ -1,47 +1,52 @@
 import sys
-sys.path.append('../../../../script/freebase/') # FIXME: Ugly as hell
 
 from adviser.ttypes import *
 
+sys.path.append('../../../../script/freebase/') # FIXME: Ugly as hell
 import utils
 
 from collections import defaultdict
-from collections import OrderedDict
+
+from blist import sortedlist
+
+# TODO:
+#from bisect import insort
+#items = [1,5,7,9]
+#insort(items, 10)
 
 class EntityAdviserIndex:
     
   # Entities are sorted by their rank.
-  def entities_sort(self, entity_id):
-    # !!!FIXME!!! Real awful way to get the raking..
-    for rankings in rankings_by_entity.values():
-      if rankings.has_key(entity_id): return rankings[entity_id]
+  def entities_sort(self, entity_id): self.rank_by_entity[entity_id]
   
-  def entities_tuple_sort(self, entity_attrs): return entity_attrs[1] or 0
-
   # predicates_by_entity : Holds the predicates for every entity that have some.
   # rankings_by_entity : Holds rank_by_entity for every category.
   # rank_by_entity : Holds the rank for every entity.
   # associations_by_predicate : Holds (a hash of entities by their associated entity) for every predicate.
   def __init__(self):
-    # Predicates for each entity are sorted by ascending number of values.
-    predicates_sort = lambda predicate: len(self.associations_by_predicate[predicate])
-    self.predicates_by_entity = defaultdict(lambda: sorted(list(), key=predicates_sort))
 
-    self.rankings_by_entity = dict()
+    self.rank_by_entity = dict()
+    self.entities_by_category = dict()
+
     for category_attrs in utils.query_sql("SELECT id FROM entities WHERE id IN (SELECT DISTINCT parent_id from entities)"):
-      statement = "SELECT id,rank FROM entities WHERE parent_id = " + str(category_attrs[0])
-      self.rankings_by_entity[category_attrs[0]] = OrderedDict(sorted(utils.query_sql(statement), key=self.entities_tuple_sort, reverse=True))
+      entities = dict(utils.query_sql("SELECT id,rank FROM entities WHERE parent_id = " + str(category_attrs[0])))
+      self.rank_by_entity.update(entities)
+      self.entities_by_category[category_attrs[0]] = sortedlist(entities.keys(), key=self.entities_sort)
 
-    self.associations_by_predicate = defaultdict(lambda: defaultdict(lambda: sorted(list(), key=self.entities_sort, reverse=True)))
+    # Predicates for each entity are sorted by ascending number of values.
+    #predicates_sort = lambda predicate: len(self.associations_by_predicate[predicate])
+    #self.predicates_by_entity = defaultdict(lambda: sortedlist(key=predicates_sort))
+    
+    #self.associations_by_predicate = defaultdict(lambda: defaultdict(lambda: sortedlist(key=self.entities_sort)))
 
-    for predicate_attrs in utils.query_sql("SELECT id,entity_id,associated_entity_id FROM association_definitions"):
-      self.predicates_by_entity[predicate_attrs[1]] += [predicate_attrs[0]]
-      self.predicates_by_entity[predicate_attrs[2]] += [predicate_attrs[0]]
+    #for predicate_attrs in utils.query_sql("SELECT id,entity_id,associated_entity_id FROM association_definitions"):
+    #  self.predicates_by_entity[predicate_attrs[1]].add(predicate_attrs[0])
+    #  self.predicates_by_entity[predicate_attrs[2]].add(predicate_attrs[0])
 
-      for association_attrs in utils.query_sql("""SELECT entity_id,associated_entity_id FROM associations
-                                                  WHERE association_definition_id = """ + str(predicate_attrs[0])):
-        self.associations_by_predicate[predicate_attrs[0]][association_attrs[0]] += [association_attrs[1]]
-        self.associations_by_predicate[predicate_attrs[0]][association_attrs[1]] += [association_attrs[0]]
+    #  for association_attrs in utils.query_sql("""SELECT entity_id,associated_entity_id FROM associations
+    #                                              WHERE association_definition_id = """ + str(predicate_attrs[0])):
+    #    self.associations_by_predicate[predicate_attrs[0]][association_attrs[0]].add(association_attrs[1])
+    #    self.associations_by_predicate[predicate_attrs[0]][association_attrs[1]].add(association_attrs[0])
 
   # LOGIC: Returns the top k entities matching...
   # | predicates == None   = the predicate that has the less values and it's value.
@@ -52,16 +57,16 @@ class EntityAdviserIndex:
   # limit = The number of records to return.
   # offset = A tuple of the entity id and rank of the last previously returned set. Or 0.
   # predicates = A tuple of the predicate id and the id of it's value.
+  # TODO: Filter if it's alive of dead.
   def get_suggestions(self, category_id, limit, offset, predicates = None):
-    entities_ids = sorted(list(), key=self.entities_sort, reverse=True)
+    entities_ids = sortedlist(key=self.entities_sort)
     matches_count = 0
 
     if predicates == None or len(predicates) == 0: # No filter
-      # TODO: Filter if it's alive of dead.
-      # FIXME: Does this fetch all values? Not a good idea if so..
-      if self.rankings_by_entity.has_key(category_id):
-        entities_ids = self.rankings_by_entity[category_id].keys()[offset:offset+limit]
-        matches_count = len(self.rankings_by_entity[category_id].keys())
+      if self.entities_by_category.has_key(category_id):
+        entities = self.entities_by_category[category_id]
+        entities_ids = entities[offset:offset+limit]
+        matches_count = len(entities)
     elif len(predicates) == 1: # One filter
       values = self.associations_by_predicate[predicates[0][0]][predicates[0][1]]
       entities_ids = __filter_values(self, entities_ids, values, limit, offset)

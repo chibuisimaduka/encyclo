@@ -1,4 +1,10 @@
 task :init => :environment do
+  # Disable logging because when there is a lot it slows
+  # the server that shows it all when a request is made, silly.
+  dev_null = Logger.new("/dev/null")
+  Rails.logger = dev_null
+  ActiveRecord::Base.logger = dev_null
+
   WEBMASTER = User.find(9)
   ENGLISH = Language.find(2)
 end
