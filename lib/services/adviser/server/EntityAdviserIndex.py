@@ -2,7 +2,6 @@ import sys
 
 from adviser.ttypes import *
 
-sys.path.append('../../../../script/freebase/') # FIXME: Ugly as hell
 import utils
 
 from collections import defaultdict
