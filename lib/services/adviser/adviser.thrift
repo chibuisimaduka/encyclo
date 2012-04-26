@@ -22,5 +22,5 @@ service EntityAdviser {
 
   void add_association(1:AssociationEntry association)
 
-  void update_entity_rank(1:i32 entity_id, 2:double rank)
+  void update_entity_rank(1:i32 entity_id, 2:double rank, 3:i32 category_id)
 }

@@ -31,11 +31,11 @@ class EntityAdviserHandler:
   def get_suggestions(self, category_id, limit, offset, predicates):
     return self.adviser_index.get_suggestions(category_id, limit, offset, predicates)
 
-  def add_association(association):
+  def add_association(self, association):
     self.adviser_index.add_association(association)
 
-  def update_entity_rank(entity_id, rank):
-    self.adviser_index.add_association(entity_id, rank)
+  def update_entity_rank(self, entity_id, rank, category_id):
+    self.adviser_index.update_entity_rank(entity_id, rank, category_id)
 
 # set handler to our implementation
 handler = EntityAdviserHandler()

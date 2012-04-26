@@ -55,13 +55,13 @@ module EntityAdviser
       return
     end
 
-    def update_entity_rank(entity_id, rank)
-      send_update_entity_rank(entity_id, rank)
+    def update_entity_rank(entity_id, rank, category_id)
+      send_update_entity_rank(entity_id, rank, category_id)
       recv_update_entity_rank()
     end
 
-    def send_update_entity_rank(entity_id, rank)
-      send_message('update_entity_rank', Update_entity_rank_args, :entity_id => entity_id, :rank => rank)
+    def send_update_entity_rank(entity_id, rank, category_id)
+      send_message('update_entity_rank', Update_entity_rank_args, :entity_id => entity_id, :rank => rank, :category_id => category_id)
     end
 
     def recv_update_entity_rank()
@@ -98,7 +98,7 @@ module EntityAdviser
     def process_update_entity_rank(seqid, iprot, oprot)
       args = read_args(iprot, Update_entity_rank_args)
       result = Update_entity_rank_result.new()
-      @handler.update_entity_rank(args.entity_id, args.rank)
+      @handler.update_entity_rank(args.entity_id, args.rank, args.category_id)
       write_result(result, oprot, 'update_entity_rank', seqid)
     end
 
@@ -210,10 +210,12 @@ module EntityAdviser
     include ::Thrift::Struct, ::Thrift::Struct_Union
     ENTITY_ID = 1
     RANK = 2
+    CATEGORY_ID = 3
 
     FIELDS = {
       ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'entity_id'},
-      RANK => {:type => ::Thrift::Types::DOUBLE, :name => 'rank'}
+      RANK => {:type => ::Thrift::Types::DOUBLE, :name => 'rank'},
+      CATEGORY_ID => {:type => ::Thrift::Types::I32, :name => 'category_id'}
     }
 
     def struct_fields; FIELDS; end

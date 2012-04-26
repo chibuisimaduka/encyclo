@@ -38,11 +38,12 @@ class Iface:
     """
     pass
 
-  def update_entity_rank(self, entity_id, rank):
+  def update_entity_rank(self, entity_id, rank, category_id):
     """
     Parameters:
      - entity_id
      - rank
+     - category_id
     """
     pass
 
@@ -143,20 +144,22 @@ class Client(Iface):
     self._iprot.readMessageEnd()
     return
 
-  def update_entity_rank(self, entity_id, rank):
+  def update_entity_rank(self, entity_id, rank, category_id):
     """
     Parameters:
      - entity_id
      - rank
+     - category_id
     """
-    self.send_update_entity_rank(entity_id, rank)
+    self.send_update_entity_rank(entity_id, rank, category_id)
     self.recv_update_entity_rank()
 
-  def send_update_entity_rank(self, entity_id, rank):
+  def send_update_entity_rank(self, entity_id, rank, category_id):
     self._oprot.writeMessageBegin('update_entity_rank', TMessageType.CALL, self._seqid)
     args = update_entity_rank_args()
     args.entity_id = entity_id
     args.rank = rank
+    args.category_id = category_id
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
@@ -236,7 +239,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = update_entity_rank_result()
-    self._handler.update_entity_rank(args.entity_id, args.rank)
+    self._handler.update_entity_rank(args.entity_id, args.rank, args.category_id)
     oprot.writeMessageBegin("update_entity_rank", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -619,17 +622,20 @@ class update_entity_rank_args:
   Attributes:
    - entity_id
    - rank
+   - category_id
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.I32, 'entity_id', None, None, ), # 1
     (2, TType.DOUBLE, 'rank', None, None, ), # 2
+    (3, TType.I32, 'category_id', None, None, ), # 3
   )
 
-  def __init__(self, entity_id=None, rank=None,):
+  def __init__(self, entity_id=None, rank=None, category_id=None,):
     self.entity_id = entity_id
     self.rank = rank
+    self.category_id = category_id
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -650,6 +656,11 @@ class update_entity_rank_args:
           self.rank = iprot.readDouble();
         else:
           iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I32:
+          self.category_id = iprot.readI32();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -667,6 +678,10 @@ class update_entity_rank_args:
     if self.rank is not None:
       oprot.writeFieldBegin('rank', TType.DOUBLE, 2)
       oprot.writeDouble(self.rank)
+      oprot.writeFieldEnd()
+    if self.category_id is not None:
+      oprot.writeFieldBegin('category_id', TType.I32, 3)
+      oprot.writeI32(self.category_id)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()

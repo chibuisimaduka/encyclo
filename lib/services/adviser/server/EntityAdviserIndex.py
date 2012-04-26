@@ -78,9 +78,10 @@ class EntityAdviserIndex:
   def add_association(self, association):
     raise RuntimeError("TODO")
 
-  def update_entity_rank(self, entity_id, rank):
-    raise RuntimeError("FIXME")
-    #self.rank_by_entity[entity_id] = rank # FIXME: Change the order. FIXME: Does not have category
+  def update_entity_rank(self, entity_id, rank, category_id):
+    self.entities_by_category[category_id].remove(entity_id)
+    self.rank_by_entity[entity_id] = rank
+    self.entities_by_category[category_id].add(entity_id)
 
   def __rank_by_entity(self, category_id):
     return self.rankings_by_entity[category_id]
