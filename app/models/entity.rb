@@ -192,29 +192,6 @@ class Entity < ActiveRecord::Base
     associations_values
   end
 
-  def self.filtered_entities(filters, language, page)
-    raise "One a single filter is supported for now." if filters.size > 1
-    filters.each_with_index do |(definition_id, v), i|
-      unless v["name"].blank?
-        if v["id"].blank?
-          names = Name.language_scope(Name).find_all_by_value(v["name"]) #TODO: Scope by definition too.
-          raise "Ambiguous name." if names.size != 1
-          value_id = names.first.entity.id
-        else
-          value_id = v["id"]
-        end
-        #entities = entities.joins("INNER JOIN associations AS filter_associations_#{i} ON entities.id = filter_associations_#{i}.entity_id OR entities.id = filter_associations_#{i}.associated_entity_id").where("filter_associations_#{i}.association_definition_id = #{definition_id} and (filter_associations_#{i}.associated_entity_id = #{value_id} or filter_associations_#{i}.entity_id = #{value_id})")
-        direct_entities_sql = Entity.joins("INNER JOIN associations AS filter_associations_#{i} ON entities.id = filter_associations_#{i}.entity_id").where("filter_associations_#{i}.association_definition_id = #{definition_id} AND filter_associations_#{i}.associated_entity_id = #{value_id}").to_sql
-        indirect_entities_sql = Entity.joins("INNER JOIN associations AS filter_associations_#{i} ON entities.id = filter_associations_#{i}.entity_id").where("filter_associations_#{i}.association_definition_id = #{definition_id} AND filter_associations_#{i}.associated_entity_id = #{value_id}").to_sql
-        sql = "(#{direct_entities_sql}) UNION ALL (#{indirect_entities_sql})"
-        #TODO: union on associated_entity
-      end
-    end
-    
-    sql += "ORDER BY rank DESC "
-    Entity.paginate_by_sql(sql, page: page, total_entries: total_entries)
-  end
-
   def parent_is_intermediate
     parent && parent.is_intermediate
   end

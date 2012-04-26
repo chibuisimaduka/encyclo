@@ -15,3 +15,4 @@ FIXME
 
 - Mia Maestro and Andy Garcia names are badly shown. The 'i' is shown as an 'a'
 - Drop all the duplicated indexes
+- See entity "Action". Really slow. Limit the number of associations show.

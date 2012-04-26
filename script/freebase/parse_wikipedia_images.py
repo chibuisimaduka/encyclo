@@ -11,14 +11,15 @@ if len(sys.argv) != 2: raise RuntimeError("Usage: parse_images.py path/to/output
 
 filename = sys.argv[1]
 
-out = ""
-for document in utils.query_sql('SELECT id,content FROM remote_documents WHERE url LIKE "http://en.wikipedia.org%"'):
+def parse_document(document):
   tree = etree.HTML(document[1])
   images = tree.xpath('//table[starts-with(@class, "infobox")]//img')
   if len(images) == 0:
     print("No images found.")
   else:
-    out += str(document[0]) + "\thttp:" + images[0].get('src') + "\n"
+    return str(document[0]) + "\thttp:" + images[0].get('src') + "\n"
+  
+out = utils.loop_sql(parse_document, "", 'SELECT id,content FROM remote_documents WHERE url LIKE "http://en.wikipedia.org%"')
 
 f = open(filename, 'w')
 f.write(out)

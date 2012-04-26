@@ -1,4 +1,5 @@
 import MySQLdb
+import MySQLdb.cursors
 
 def commit_sql(statement):
   db = MySQLdb.connect(host='localhost', user='root', db='sorted_development')
@@ -9,6 +10,16 @@ def commit_sql(statement):
   except:
     db.rollback
   db.close()
+
+def loop_sql(process_function, accumulator, statement):
+  db = MySQLdb.connect(host='localhost', user='root', db='sorted_development', cursorclass = MySQLdb.cursors.SSCursor)
+  cursor = db.cursor()
+  cursor.execute(statement)
+  for row in cursor:
+    result = process_function(row)
+    if result != None: accumulator += result
+  db.close()
+  return accumulator
 
 def query_sql(statement):
   db = MySQLdb.connect(host='localhost', user='root', db='sorted_development')
