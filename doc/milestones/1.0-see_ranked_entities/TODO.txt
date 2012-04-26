@@ -1,6 +1,3 @@
-- Be able to scope by associations.
-
-- Add a lot of movies.
 - Add wikipedia documents for the most important entities.
 - Add pictures for the most important entities.
 - Add documents for IMDB, Netflix and rotten tomatoes for the definitions and also the reviews.

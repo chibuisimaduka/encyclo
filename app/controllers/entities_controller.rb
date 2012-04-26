@@ -44,7 +44,9 @@ class EntitiesController < ApplicationController
 
     @entities = WillPaginate::Collection.create(params[:page] || 1, Entity.per_page) do |pager|
       suggestions = EntityAdviserClient.get_suggestions(@entity.id, Entity.per_page, ((params[:page] || 1).to_i - 1) * Entity.per_page, filters)
-      pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
+      if suggestions.matches_count > 0
+        pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
+      end
       pager.total_entries = suggestions.matches_count
     end
 
