@@ -22,6 +22,8 @@ class Association < ActiveRecord::Base
 
   accepts_nested_attributes_for :associated_entity
 
+  self.per_page = 20
+
 private
   def validate_not_self_referenced
     if entity_id == associated_entity_id

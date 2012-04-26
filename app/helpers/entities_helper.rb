@@ -4,14 +4,17 @@ module EntitiesHelper
   def associations_by_definition(entity, entities)
     #((entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors)
     definitions = ((entity.ancestors + [entity]).flat_map {|e| e.all_association_definitions(current_user) }).to_set
-    debugger
     associations_for_definitions(entity, definitions)
   end
 
   def associations_for_definitions(entity, definitions)
     Hash[definitions.map do |d|
-      filter = PredicateEntry.new(definition_id: d.id, entity_id: entity.id)
-      [d, Entity.filtered_entities([filter], d.entity_id, 1)]
+      direct = Association.where("association_definition_id = ? and entity_id = ?", d.id, entity.id)
+      indirect = Association.where("association_definition_id = ? and associated_entity_id = ?", d.id, entity.id)
+      statement = "(#{direct.to_sql}) UNION ALL (#{indirect.to_sql}) ORDER BY rank DESC"
+      records = Association.paginate_by_sql(statement, page: params[:page])
+      records = records.map {|a| a.entity_id == entity.id ? a : ReversedAssociation.new(a) }
+      [d, records]
     end]
   end
 
