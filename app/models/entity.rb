@@ -206,6 +206,17 @@ class Entity < ActiveRecord::Base
     end
   end
 
+  def self.filtered_entities(filters, category_id, page)
+    WillPaginate::Collection.create(page || 1, Entity.per_page) do |pager|
+      offset = (page ? page.to_i - 1 : 0) * Entity.per_page
+      suggestions = EntityAdviserClient.get_suggestions(category_id, Entity.per_page, offset, filters)
+      if suggestions.matches_count > 0
+        pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
+      end
+      pager.total_entries = suggestions.matches_count
+    end
+  end
+
 private
 
   def validate_has_one_name

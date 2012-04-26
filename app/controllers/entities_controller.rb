@@ -42,13 +42,7 @@ class EntitiesController < ApplicationController
       end
     end).compact : []
 
-    @entities = WillPaginate::Collection.create(params[:page] || 1, Entity.per_page) do |pager|
-      suggestions = EntityAdviserClient.get_suggestions(@entity.id, Entity.per_page, ((params[:page] || 1).to_i - 1) * Entity.per_page, filters)
-      if suggestions.matches_count > 0
-        pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
-      end
-      pager.total_entries = suggestions.matches_count
-    end
+    @entities = Entity.filtered_entities(filters, @entity.id, params[:page])
 
     @printer = PrettyPrinter.new(@entity, @entities)
   end

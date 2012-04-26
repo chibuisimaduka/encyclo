@@ -25,6 +25,8 @@ class EntityAdviserIndex:
   # offset = A tuple of the entity id and rank of the last previously returned set. Or 0.
   # predicates = A tuple of the predicate id and the id of it's value.
   # TODO: Filter if it's alive of dead.
+  # FIXME: With filters, it does not consider inheritance. 
+  # FIXME: Should be using the parent also because if the Asterix and Obelix serie is written by Uderzo and Gosciny, so is every of it's child.
   def get_suggestions(self, category_id, limit, offset, predicates = None):
     entities_ids = None
     matches_count = 0

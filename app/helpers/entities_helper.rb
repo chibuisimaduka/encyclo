@@ -2,24 +2,17 @@ module EntitiesHelper
 
   # Returns all the associations for the given entity grouped by their definition.
   def associations_by_definition(entity, entities)
-    associations_by_def = {}
-    ((entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors).flat_map {|e| e.all_association_definitions(current_user) }).each do |association_def|
-      associations_by_def[association_def] = []
-    end
-    # Using the parent also because if the Asterix and Obelix serie is written by Uderzo and Gosciny, so is every of it's child.
-    ((entity.ancestors + [entity]).flat_map {|e| e.all_associations(current_user) }).each do |association|
-      associations_by_def[association.definition] = (associations_by_def[association.definition] || []) + [association]
-    end
-    #associations_by_def.sort {|k,v| v.size }
-    associations_by_def
+    #((entities.length == 0 ? entity.ancestors + [entity] : entity.ancestors)
+    definitions = ((entity.ancestors + [entity]).flat_map {|e| e.all_association_definitions(current_user) }).to_set
+    debugger
+    associations_for_definitions(entity, definitions)
   end
 
   def associations_for_definitions(entity, definitions)
-    associations_by_def = Hash[definitions.map{ |d| [d,[]] }]
-    ((entity.ancestors + [entity]).flat_map {|e| e.all_associations(current_user) }).each do |association|
-      associations_by_def[association.definition] += [association] if associations_by_def[association.definition]
-    end
-    associations_by_def
+    Hash[definitions.map do |d|
+      filter = PredicateEntry.new(definition_id: d.id, entity_id: entity.id)
+      [d, Entity.filtered_entities([filter], d.entity_id, 1)]
+    end]
   end
 
   def features_for_associations(associations, entity, definition)
