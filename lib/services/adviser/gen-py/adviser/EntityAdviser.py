@@ -31,13 +31,6 @@ class Iface:
     """
     pass
 
-  def add_association(self, association):
-    """
-    Parameters:
-     - association
-    """
-    pass
-
   def update_entity_rank(self, entity_id, rank, category_id):
     """
     Parameters:
@@ -116,34 +109,6 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "get_suggestions failed: unknown result");
 
-  def add_association(self, association):
-    """
-    Parameters:
-     - association
-    """
-    self.send_add_association(association)
-    self.recv_add_association()
-
-  def send_add_association(self, association):
-    self._oprot.writeMessageBegin('add_association', TMessageType.CALL, self._seqid)
-    args = add_association_args()
-    args.association = association
-    args.write(self._oprot)
-    self._oprot.writeMessageEnd()
-    self._oprot.trans.flush()
-
-  def recv_add_association(self, ):
-    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
-    if mtype == TMessageType.EXCEPTION:
-      x = TApplicationException()
-      x.read(self._iprot)
-      self._iprot.readMessageEnd()
-      raise x
-    result = add_association_result()
-    result.read(self._iprot)
-    self._iprot.readMessageEnd()
-    return
-
   def update_entity_rank(self, entity_id, rank, category_id):
     """
     Parameters:
@@ -183,7 +148,6 @@ class Processor(Iface, TProcessor):
     self._processMap = {}
     self._processMap["ping"] = Processor.process_ping
     self._processMap["get_suggestions"] = Processor.process_get_suggestions
-    self._processMap["add_association"] = Processor.process_add_association
     self._processMap["update_entity_rank"] = Processor.process_update_entity_rank
 
   def process(self, iprot, oprot):
@@ -219,17 +183,6 @@ class Processor(Iface, TProcessor):
     result = get_suggestions_result()
     result.success = self._handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
     oprot.writeMessageBegin("get_suggestions", TMessageType.REPLY, seqid)
-    result.write(oprot)
-    oprot.writeMessageEnd()
-    oprot.trans.flush()
-
-  def process_add_association(self, seqid, iprot, oprot):
-    args = add_association_args()
-    args.read(iprot)
-    iprot.readMessageEnd()
-    result = add_association_result()
-    self._handler.add_association(args.association)
-    oprot.writeMessageBegin("add_association", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -496,109 +449,6 @@ class get_suggestions_result:
       oprot.writeFieldBegin('success', TType.STRUCT, 0)
       self.success.write(oprot)
       oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class add_association_args:
-  """
-  Attributes:
-   - association
-  """
-
-  thrift_spec = (
-    None, # 0
-    (1, TType.STRUCT, 'association', (AssociationEntry, AssociationEntry.thrift_spec), None, ), # 1
-  )
-
-  def __init__(self, association=None,):
-    self.association = association
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      if fid == 1:
-        if ftype == TType.STRUCT:
-          self.association = AssociationEntry()
-          self.association.read(iprot)
-        else:
-          iprot.skip(ftype)
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('add_association_args')
-    if self.association is not None:
-      oprot.writeFieldBegin('association', TType.STRUCT, 1)
-      self.association.write(oprot)
-      oprot.writeFieldEnd()
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
-class add_association_result:
-
-  thrift_spec = (
-  )
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('add_association_result')
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 

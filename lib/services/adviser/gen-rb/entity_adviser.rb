@@ -41,20 +41,6 @@ module EntityAdviser
       raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'get_suggestions failed: unknown result')
     end
 
-    def add_association(association)
-      send_add_association(association)
-      recv_add_association()
-    end
-
-    def send_add_association(association)
-      send_message('add_association', Add_association_args, :association => association)
-    end
-
-    def recv_add_association()
-      result = receive_message(Add_association_result)
-      return
-    end
-
     def update_entity_rank(entity_id, rank, category_id)
       send_update_entity_rank(entity_id, rank, category_id)
       recv_update_entity_rank()
@@ -86,13 +72,6 @@ module EntityAdviser
       result = Get_suggestions_result.new()
       result.success = @handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
       write_result(result, oprot, 'get_suggestions', seqid)
-    end
-
-    def process_add_association(seqid, iprot, oprot)
-      args = read_args(iprot, Add_association_args)
-      result = Add_association_result.new()
-      @handler.add_association(args.association)
-      write_result(result, oprot, 'add_association', seqid)
     end
 
     def process_update_entity_rank(seqid, iprot, oprot)
@@ -165,37 +144,6 @@ module EntityAdviser
 
     FIELDS = {
       SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => Suggestions}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Add_association_args
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-    ASSOCIATION = 1
-
-    FIELDS = {
-      ASSOCIATION => {:type => ::Thrift::Types::STRUCT, :name => 'association', :class => AssociationEntry}
-    }
-
-    def struct_fields; FIELDS; end
-
-    def validate
-    end
-
-    ::Thrift::Struct.generate_accessors self
-  end
-
-  class Add_association_result
-    include ::Thrift::Struct, ::Thrift::Struct_Union
-
-    FIELDS = {
-
     }
 
     def struct_fields; FIELDS; end

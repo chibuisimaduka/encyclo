@@ -26,7 +26,7 @@ class EntityAdviserIndex:
   # predicates = A tuple of the predicate id and the id of it's value.
   # TODO: Filter if it's alive of dead.
   def get_suggestions(self, category_id, limit, offset, predicates = None):
-    entities_ids = list()
+    entities_ids = None
     matches_count = 0
 
     if predicates == None or len(predicates) == 0: # No filter
@@ -35,24 +35,26 @@ class EntityAdviserIndex:
         entities_ids = entities[offset:offset+limit]
         matches_count = len(entities)
     elif len(predicates) == 1: # One filter
-      direct_statement = self.__filter_statement("entity_id", predicates[0].definition_id, "associated_entity_id = " + str(predicates[0].entity_id))
-      indirect_statement = self.__filter_statement("associated_entity_id", predicates[0].definition_id, "entity_id = " + str(predicates[0].entity_id))
-      ids_statement = "(" + direct_statement + ") UNION ALL (" + indirect_statement + ")"
+      ids_statement = self.__ids_statement(predicates[0])
       statement = ids_statement + " ORDER BY rank DESC LIMIT " + str(limit)
       if offset != None and offset != 0: statement += " OFFSET " + str(offset)
 
       matches_count = utils.query_sql("SELECT count(*) FROM (" + ids_statement + ") AS count_table")[0][0]
       entities_ids = map(utils.first, utils.query_sql(statement))
     else: # Many filters
-      raise RuntimeError("TODO")
+      for predicate in predicates:
+        ids = set(map(utils.first, utils.query_sql(self.__ids_statement(predicate))))
+        entities_ids = ids if entities_ids == None else ids.intersect(entities_ids)
 
     return Suggestions(entities_ids, matches_count)
 
+  def __ids_statement(self, predicate):
+    direct_statement = self.__filter_statement("entity_id", predicate.definition_id, "associated_entity_id = " + str(predicate.entity_id))
+    indirect_statement = self.__filter_statement("associated_entity_id", predicate.definition_id, "entity_id = " + str(predicate.entity_id))
+    return "(" + direct_statement + ") UNION ALL (" + indirect_statement + ")"
+
   def __filter_statement(self, select_field, definition_id, where_clause):
     return "SELECT "+ select_field +",rank FROM associations WHERE association_definition_id = "+ str(definition_id) + " and " + where_clause
-
-  def add_association(self, association):
-    raise RuntimeError("TODO")
 
   def update_entity_rank(self, entity_id, rank, category_id):
     self.entities_by_category[category_id].remove(entity_id)
