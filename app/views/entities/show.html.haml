@@ -56,8 +56,7 @@
           - associations_by_definition(entity, []).each do |definition, associations|
             .association_by_definition= render partial: "associations/association", locals: {definition: definition, associations: associations, entity: entity}
     - else
-      = render partial: @entities
-      = will_paginate @entities
+      = render partial: "entities/entities"
   = render :partial => "entities/form", locals: {parent: @entity}
 #content_sidebar
   #images
