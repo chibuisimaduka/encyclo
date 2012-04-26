@@ -18,10 +18,6 @@ class EntityAdviserIndex:
   # Entities are sorted by their rank.
   def entities_sort(self, entity_id): return (self.rank_by_entity[entity_id] or 0.0) * -1
   
-  # predicates_by_entity : Holds the predicates for every entity that have some.
-  # rankings_by_entity : Holds rank_by_entity for every category.
-  # rank_by_entity : Holds the rank for every entity.
-  # associations_by_predicate : Holds (a hash of entities by their associated entity) for every predicate.
   def __init__(self):
 
     self.rank_by_entity = dict()
@@ -33,20 +29,18 @@ class EntityAdviserIndex:
       #self.entities_by_category[category_attrs[0]] = sortedlist(entities.keys(), key=lambda entity_id: self.rank_by_entity[entity_id] or 0.0)
       self.entities_by_category[category_attrs[0]] = sortedlist(entities.keys(), key=self.entities_sort)
 
-    # Predicates for each entity are sorted by ascending number of values.
-    #predicates_sort = lambda predicate: len(self.associations_by_predicate[predicate])
-    #self.predicates_by_entity = defaultdict(lambda: sortedlist(key=predicates_sort))
-    
-    #self.associations_by_predicate = defaultdict(lambda: defaultdict(lambda: sortedlist(key=self.entities_sort)))
+    self.associations_by_predicate = defaultdict(lambda: defaultdict(lambda: sortedlist(key=self.entities_sort)))
 
-    #for predicate_attrs in utils.query_sql("SELECT id,entity_id,associated_entity_id FROM association_definitions"):
-    #  self.predicates_by_entity[predicate_attrs[1]].add(predicate_attrs[0])
-    #  self.predicates_by_entity[predicate_attrs[2]].add(predicate_attrs[0])
-
-    #  for association_attrs in utils.query_sql("""SELECT entity_id,associated_entity_id FROM associations
-    #                                              WHERE association_definition_id = """ + str(predicate_attrs[0])):
-    #    self.associations_by_predicate[predicate_attrs[0]][association_attrs[0]].add(association_attrs[1])
-    #    self.associations_by_predicate[predicate_attrs[0]][association_attrs[1]].add(association_attrs[0])
+    "SELECT id FROM entities INNER JOIN associations ON associations.entity_id = entities.id ORDER BY rank DESC limit 20;"
+    for predicate_attrs in utils.query_sql("SELECT id FROM association_definitions"):
+      for association_attrs in utils.query_sql("""SELECT entity_id,associated_entity_id FROM associations
+                                                  WHERE association_definition_id = """ + str(predicate_attrs[0])):
+        entities = self.associations_by_predicate[predicate_attrs[0]][association_attrs[0]]
+        entities.add(association_attrs[1])
+        if entities.size > 20: entities.pop
+        entities = self.associations_by_predicate[predicate_attrs[0]][association_attrs[1]]
+        entities.add(association_attrs[0])
+        if entities.size > 20: entities.pop
 
   # LOGIC: Returns the top k entities matching...
   # | predicates == None   = the predicate that has the less values and it's value.

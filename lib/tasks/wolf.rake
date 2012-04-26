@@ -12,6 +12,16 @@ end
 # The Wolf fixes stuff.
 namespace :wolf do
 
+namespace :associations do
+  task :rank => :init do
+    Association.transaction do
+      Assocition.includes([:entity, :associated_entity]).all.each do |a|
+        a.update_attribute rank: a.entity.rank + a.associated_entity.rank
+      end
+    end
+  end
+end
+
 task :destroy_components => :init do
   Component.all.each do |c|
     c.entities.destroy_all

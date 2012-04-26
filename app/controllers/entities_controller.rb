@@ -30,10 +30,14 @@ class EntitiesController < ApplicationController
     #top_ranked_entities = Entity.paginate_by_sql(sql, page: params[:page], total_entries: total_entries)
 
     # FIXME: EntityAdviser should return the number of matching entities.
-    @entities = WillPaginate::Collection.create(params[:page] || 1, Entity.per_page) do |pager|
-      suggestions = EntityAdviserClient.get_suggestions(@entity.id, Entity.per_page, ((params[:page] || 1).to_i - 1) * Entity.per_page, [])
-      pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
-      pager.total_entries = suggestions.matches_count
+    if params[:filter].blank?
+      @entities = WillPaginate::Collection.create(params[:page] || 1, Entity.per_page) do |pager|
+        suggestions = EntityAdviserClient.get_suggestions(@entity.id, Entity.per_page, ((params[:page] || 1).to_i - 1) * Entity.per_page, [])
+        pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
+        pager.total_entries = suggestions.matches_count
+      end
+    else
+      @entities = Entity.filtered_entities(params[:filter], current_language, params[:page])
     end
 
     @printer = PrettyPrinter.new(@entity, @entities)

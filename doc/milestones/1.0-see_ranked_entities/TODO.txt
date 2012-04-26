@@ -1,7 +1,6 @@
-- A basic ranking based on your preferences.
-- A dumb ranking based on the amount of data untill there is rankings.
+- Be able to scope by associations.
 
-- Add a lot of movies, songs, games, books and series.
+- Add a lot of movies.
 - Add wikipedia documents for the most important entities.
 - Add pictures for the most important entities.
 - Add documents for IMDB, Netflix and rotten tomatoes for the definitions and also the reviews.

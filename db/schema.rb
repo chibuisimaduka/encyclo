@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120421042652) do
+ActiveRecord::Schema.define(:version => 20120426045358) do
 
   create_table "association_definitions", :force => true do |t|
     t.integer  "entity_id",                  :null => false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20120421042652) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id",                   :null => false
+    t.float    "rank"
   end
 
   add_index "associations", ["associated_entity_id"], :name => "associated_entity_id"
@@ -129,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20120421042652) do
   end
 
   add_index "entities", ["component_id"], :name => "fk_component"
+  add_index "entities", ["freebase_id"], :name => "freebase_id_fk"
   add_index "entities", ["parent_id", "component_id"], :name => "entity_parent_component"
   add_index "entities", ["parent_id"], :name => "fk_parent"
   add_index "entities", ["user_id"], :name => "fk_user"
@@ -231,6 +233,8 @@ ActiveRecord::Schema.define(:version => 20120421042652) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "remote_documents", ["url"], :name => "remote_url_i"
 
   create_table "sources", :force => true do |t|
     t.string   "url"
