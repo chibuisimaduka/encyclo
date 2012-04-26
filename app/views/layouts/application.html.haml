@@ -6,29 +6,24 @@
     = csrf_meta_tag
   %body
     #my_site
-      #navigation
-        #top_navigation
-          #login_navigation
-            - unless current_user.is_ip_address
-              Logged in as #{current_user.email}
-              = link_to "Log out", log_out_path
-            - else
-              = render partial: "sessions/form"
-              or
-              = link_to "Sign up", sign_up_path
-          = cache('language_select') do
-            #language_navigation
-              Data mode:
-              = form_tag change_data_mode_sessions_path, method: :get do
-                = check_box_tag :data_mode, "yes", data_mode?
-                = submit_tag "Set"
-              Language:
-              .editable
-                = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
-                  = form_tag change_language_sessions_path, method: :get do
-                    = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
-                    = submit_tag "Set"
+      #top_navigation
       #left-sidebar
+        #login_navigation
+          - unless current_user.is_ip_address
+            %span.login_text Logged in as #{current_user.email}
+            .logout_link= link_to "Log out", log_out_path
+          - else
+            = render partial: "sessions/form"
+            %span.login_text or
+            = link_to "Sign up", sign_up_path
+        = cache('language_select') do
+          #language_navigation
+            %span.login_text Language:
+            .editable
+              = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
+                = form_tag change_language_sessions_path, method: :get do
+                  = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
+                  = submit_tag "Set"
         = cache('left-sidebar_navigation') do
           #home_link_which_should_be_an_image
             = link_to "Main page", root_path
@@ -43,6 +38,12 @@
             #search_entity_sidebar_text What are you looking for?
             = render :partial => "entities/search"
         = yield :left_sidebar
+        = cache('datamode_check') do
+          #data_mode_navigation
+            Data mode:
+            = form_tag change_data_mode_sessions_path, method: :get do
+              = check_box_tag :data_mode, "yes", data_mode?
+              = submit_tag "Set"
       #content
         - [flash[:notice], flash[:alert]].each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"

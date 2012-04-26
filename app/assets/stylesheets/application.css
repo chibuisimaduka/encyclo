@@ -40,6 +40,14 @@ form {
   display: none;
 }
 
+.login_text {
+  font-size: 14px;
+}
+
+#top_navigation {
+  height: 28px;
+}
+
 #left-sidebar, #content {
   display: inline-block;
   vertical-align: top;
@@ -153,18 +161,6 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-top: 24px;
-}
-
-#top_navigation {
-  height: 28px;
-}
-
-#login_navigation {
-  float: left;
-}
-
-#language_navigation {
-  float: right;
 }
 
 .listing_entity {

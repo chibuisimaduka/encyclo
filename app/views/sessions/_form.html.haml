@@ -1,6 +1,6 @@
 = form_tag sessions_path do
-  Pseudo:
+  %span.login_text Pseudo:
   = text_field_tag :email, params[:email], size: 12
-  = label_tag :password
+  %span.login_text= label_tag :password
   = password_field_tag :password, '', size: 12
   = submit_tag "Login"
