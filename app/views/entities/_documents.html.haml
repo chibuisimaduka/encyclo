@@ -1,4 +1,4 @@
-%div{:class => "documents_#{entity.id}"}
+%div{:class => "documents_#{entity.id} documents"}
   - @documents = documents_for_entity(entity, params[:document_page], per_page)
   - if @documents
     = render partial: @documents

@@ -89,6 +89,7 @@ form {
 }
 
 .document {
+  display: inline;
   margin-bottom: 6px;
 }
 
@@ -209,6 +210,10 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.documents {
+  display: inline;
 }
 
 #documents_listing .document_name {

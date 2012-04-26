@@ -27,7 +27,7 @@
         = render partial: "association_definitions/refine_form"
         = submit_tag "Refine"
 
-#browsing_entities
+-#browsing_entities
   = link_to "Back", :back
   |
   = link_to "Next", @entity
@@ -43,7 +43,8 @@
     #entity_title
       #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
       = render partial: "delete_requests/link", locals: {destroyable: @entity}
-  = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity}
+      = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity} unless @entities.blank?
+    = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity} if @entities.blank?
   - unless @entity.is_intermediate
     #associations
       - associations_by_definition(@entity, @entities).each do |definition, associations|
@@ -55,7 +56,8 @@
           - associations_by_definition(entity, []).each do |definition, associations|
             .association_by_definition= render partial: "associations/association", locals: {definition: definition, associations: associations, entity: entity}
     - else
-      = render partial: "entities/entities"
+      = render partial: @entities
+      = will_paginate @entities
   = render :partial => "entities/form", locals: {parent: @entity}
 #content_sidebar
   #images
