@@ -10,47 +10,48 @@
       #left-sidebar
         #login_navigation
           - unless current_user.is_ip_address
-            %span.login_text Logged in as #{current_user.email}
-            .logout_link= link_to "Log out", log_out_path
+            %span.side_text Logged in as #{current_user.email}
+            .side_link= link_to "Log out", log_out_path
           - else
             = render partial: "sessions/form"
-            %span.login_text or
-            = link_to "Sign up", sign_up_path
-        = cache('language_select') do
+            %span.side_text or
+            .side_link= link_to "Sign up", sign_up_path
+        -#= cache('language_select') do
           #language_navigation
-            %span.login_text Language:
+            %span.side_text Language:
             .editable
               = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
                 = form_tag change_language_sessions_path, method: :get do
                   = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
                   = submit_tag "Set"
         = cache('left-sidebar_navigation') do
-          #home_link_which_should_be_an_image
-            = link_to "Main page", root_path
-          - unless current_user.is_ip_address?
-            #home_link
-              = link_to "Home", current_user.home_entity
-          #random_entity
-            = link_to "Proposed entity", random_entities_path
-          #random_document
-            Proposed document
-          #index_entities
-            #search_entity_sidebar_text What are you looking for?
-            = render :partial => "entities/search"
+          #left_sidebar_navigation
+            #home_link_which_should_be_an_image
+              .side_link= link_to "Main page", root_path
+            - unless current_user.is_ip_address?
+              #home_link
+                .side_link= link_to "Home", current_user.home_entity
+            #random_entity
+              .side_link= link_to "Proposed entity", random_entities_path
+            -##random_document
+              Proposed document
+            #index_entities
+              #search_entity_sidebar_text.side_text What are you looking for?
+              = render :partial => "entities/search"
         = yield :left_sidebar
-        = cache('datamode_check') do
+        -#= cache('datamode_check') do
           #data_mode_navigation
             Data mode:
             = form_tag change_data_mode_sessions_path, method: :get do
               = check_box_tag :data_mode, "yes", data_mode?
               = submit_tag "Set"
+        <br />
+        .side_text Note: The content was <br /> feed using <a href="http://www.freebase.com/">freebase</a>.
       #content
         - [flash[:notice], flash[:alert]].each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"
         = yield
-      #footer
-        Note: Part of the content comes from <a href="http://www.freebase.com/">freebase</a>.
       #terminal
-        #terminal_input
-          <input class="terminal" type="text" name="terminal_input" size="120" placeholder="I'm Asimov the Webserver. I see you don't have javasript enabled. Please enable it. See why. See how. I need it to talk to you!" />
+        -##terminal_input
+          <input class="terminal" type="text" name="terminal_input" size="120" placeholder="I'm Asimov the Webserver. I am continually improving. Come back soon to see some cool new features!" />
         #terminal_output

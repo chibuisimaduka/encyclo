@@ -1,18 +1,14 @@
-#terminal {
+/*#terminal {
   display: block;
   position: fixed;
   top: 0px;
   width: 100%;
   background-color: white;
   color: black;
-  /*background-color: black;
-  color: lime;*/
   border-bottom: 2px solid gray;
 }
 
 #terminal_input input {
   background-color: white;
   color: black;
-  /*background-color: black;
-  color: lime;*/
-}
+}*/
