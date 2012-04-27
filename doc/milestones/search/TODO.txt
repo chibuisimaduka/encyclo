@@ -1,0 +1,3 @@
+- Use lucene or similar to autocomplete the query using (name_language, name_value, entity_rank, category_id, [ancestors_id?], disambiguate_name)
+- Implement a did you mean kind of search for entity names
+- Implement a search in the documents

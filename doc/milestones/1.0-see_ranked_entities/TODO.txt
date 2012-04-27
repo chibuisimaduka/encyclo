@@ -1,14 +1,12 @@
-- Add wikipedia documents for the most important entities.
-- Add pictures for the most important entities.
-- Add documents for IMDB, Netflix and rotten tomatoes for the definitions and also the reviews.
+*- Add wikipedia documents for the most important entities.
+*- Add pictures for the most important entities.
+*- Add documents for IMDB, Netflix and rotten tomatoes for the definitions and also the reviews.
 
 - A better differenciation when you search for entities. Use associations values (gladiator (movie, year: 2000)).
 
 - Disable most of the stuff.
 
-- Add a single AdSense link.
-
 FIXME
 
 - Mia Maestro and Andy Garcia names are badly shown. The 'i' is shown as an 'a'
-- Drop all the duplicated indexes
+*- Drop all the duplicated indexes

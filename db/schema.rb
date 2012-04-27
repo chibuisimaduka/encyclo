@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
   end
 
   add_index "associations", ["associated_entity_id"], :name => "associated_entity_id"
+  add_index "associations", ["association_definition_id", "associated_entity_id", "rank"], :name => "associations_def_associated_rank"
+  add_index "associations", ["association_definition_id", "entity_id", "rank"], :name => "associations_def_entity_rank"
   add_index "associations", ["association_definition_id"], :name => "association_definition_id"
   add_index "associations", ["entity_id"], :name => "associations_entity_id"
   add_index "associations", ["user_id"], :name => "user_id"
