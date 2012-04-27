@@ -199,8 +199,8 @@ class Entity < ActiveRecord::Base
   after_save :update_entity_suggestions
   def update_entity_suggestions
     if rank_changed?
-      self.all_associations.each do |a|
-        a.update_attributes! rank: a.rank - e.rank_was + e.rank
+      all_associations(nil).each do |a|
+        a.update_attributes! rank: a.rank - rank_was + rank
       end
       EntityAdviserClient.update_entity_rank(id, rank, parent_id)
     end

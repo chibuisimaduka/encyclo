@@ -41,7 +41,9 @@
     #entity_parents_by_definition
       = render partial: associations_by_def.keys.map(&:entity).uniq - [@entity], locals: {show_pictures: false, show_nested: false}
     #entity_title
-      #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
+      = hover_block :rating do
+        #entity_name= render partial: "name", locals: {entity: @entity, link_entity: false}
+        = render partial: "ratings/rankable", locals: {rankable: @entity}
       -#= render partial: "delete_requests/link", locals: {destroyable: @entity}
       = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity} unless @entities.blank?
     = render partial: "entities/documents", locals: {per_page: @printer.num_documents, entity: @entity} if @entities.blank?
