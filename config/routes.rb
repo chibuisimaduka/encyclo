@@ -60,7 +60,7 @@ Encyclo::Application.routes.draw do
 
 #  resources :names
 #  
-#  resources :ratings, :only => :destroy
+  resources :ratings, :only => :destroy
 
 #  put "set_ranking_type" => "ranking_types#update", :as => "set_ranking_type"
 #  put "set_listing_type" => "listing_types#update", :as => "set_listing_type"
@@ -71,7 +71,7 @@ Encyclo::Application.routes.draw do
   get "log_out" => "sessions#destroy", :as => "log_out"
   get "sign_up" => "users#new", :as => "sign_up"
 
-#  resources :users
+  resources :users, :only => :create
   resources :sessions do
     collection do
       get "change_language"

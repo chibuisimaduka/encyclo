@@ -57,6 +57,10 @@ form {
   display: inline;
 }
 
+.logout_link {
+  display: block;
+}
+
 .side_link a {
   font-size: 15px;
   color: #66a3ff;

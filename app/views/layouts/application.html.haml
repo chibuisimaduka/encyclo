@@ -11,7 +11,7 @@
         #login_navigation
           - unless current_user.is_ip_address
             %span.side_text Logged in as #{current_user.email}
-            .side_link= link_to "Log out", log_out_path
+            .logout_link.side_link= link_to "Log out", log_out_path
           - else
             = render partial: "sessions/form"
             %span.side_text or
@@ -46,7 +46,7 @@
               = check_box_tag :data_mode, "yes", data_mode?
               = submit_tag "Set"
         <br />
-        .side_text Note: The content was <br /> feed using <a href="http://www.freebase.com/">freebase</a>.
+        .side_text Note: The content was <br /> fed using <a href="http://www.freebase.com/">freebase</a>.
       #content
         - [flash[:notice], flash[:alert]].each do |name, msg|
           = content_tag :div, msg, :id => "flash#{name}"
