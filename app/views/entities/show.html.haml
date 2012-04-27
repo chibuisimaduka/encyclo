@@ -22,9 +22,8 @@
   -##documents_form= render partial: "documents/form", locals: {entity: @entity}
   #refine_entity_search
     - if !@entity.all_association_definitions(current_user).blank?
-      .side_text Refine further :
       = form_tag(entity_path(@entity), method: :get) do
-        = render partial: "association_definitions/refine_form"
+        = render partial: "association_definitions/refine_definition", collection: @entity.all_association_definitions(current_user)
         = submit_tag "Refine"
 
 -#browsing_entities

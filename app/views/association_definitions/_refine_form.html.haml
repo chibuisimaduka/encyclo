@@ -1,6 +1,0 @@
-- @entity.all_association_definitions(current_user).each do |definition|
-  .association_filter
-    .side_text= definition.associated_entity.name(current_user, current_language)
-    - field_name = "filter[#{definition.id}][name]"
-    = hidden_field_tag "filter[#{definition.id}][id]", filter_value_id(definition, params[:filter]), id: "refine_#{definition.id}"
-    = autocomplete_field_tag field_name, filter_value_name(definition, params[:filter]), autocomplete_name_value_entities_path(parent_id: definition.associated_entity.id), id_element: "#refine_#{definition.id}", size: 14

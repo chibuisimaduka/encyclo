@@ -32,6 +32,10 @@ div, span {
   border-top: 2px solid gray;
 }
 
+#images {
+  margin-top: 12px;
+}
+
 .document_description {
   color: black;
 }

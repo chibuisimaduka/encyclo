@@ -1,0 +1,9 @@
+- if refine_definition.associated_entity.is_intermediate
+  -# FIXME: It's harder than it seems. The adviser must filter on the intermediate entity. Not clear.. But maybe we don't want to filter by intermediate entity.
+  -#= render partial: "association_definitions/refine_definition", collection: refine_definition.associated_entity.all_association_definitions(current_user) - [refine_definition]
+- else
+  .association_filter
+    .side_text= refine_definition.associated_entity.name(current_user, current_language)
+    - field_name = "filter[#{refine_definition.id}][name]"
+    = hidden_field_tag "filter[#{refine_definition.id}][id]", filter_value_id(refine_definition, params[:filter]), id: "refine_#{refine_definition.id}"
+    = autocomplete_field_tag field_name, filter_value_name(refine_definition, params[:filter]), autocomplete_name_value_entities_path(parent_id: refine_definition.associated_entity.id), id_element: "#refine_#{refine_definition.id}", size: 14
