@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
   end
 
   add_index "documents", ["language_id"], :name => "documents_language"
+  add_index "documents", ["name", "rank"], :name => "documents_name_rank_i"
   add_index "documents", ["user_id"], :name => "user_id"
 
   create_table "documents_entities", :id => false, :force => true do |t|

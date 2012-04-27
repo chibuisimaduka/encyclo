@@ -1,4 +1,4 @@
-- associations_by_entity = Hash[associations.map {|a| [a.associated_entity.id, a] }]
+- associations_by_entity = Hash[associations.map {|a| [a.associated_entity_id, a] }]
 - features = features_for_associations(associations, entity, definition)
 .definition{id: "definition_#{definition.id}"}
 - if features.size > 0 || data_mode?
