@@ -1,0 +1,1 @@
+$(".definition_<%= @definition.id %>").replaceWith('<%= escape_javascript(render partial: "associations/associations", locals: {definition: @definition, associations: associations_for_definitions(@entity, [@definition]).first, entity: @entity}) %>');

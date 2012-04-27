@@ -35,3 +35,5 @@
         = render(partial: "associations/intermediate_form", locals: {:entity => entity, definition: definition})
     - else
       = link_to_insert "Add", render(partial: "associations/form", locals: {:entity => entity, definition: definition}), "#definition_#{definition.id}"
+
+  = will_paginate associations, :params => {controller: :associations, action: :index, entity_id: entity.id, definition_id: definition.id}, param_name: :association_page

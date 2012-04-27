@@ -100,6 +100,7 @@ private
     params[:parent_id].blank? ? items : (items.joins(:entity).select("entities.parent_id").where("entities.parent_id" => params[:parent_id]) |
       items.joins(:entity => {:associations => :definition}).where("association_definitions.entity_id" => params[:parent_id]) |
       items.joins(:entity => {:associated_associations => :definition}).where("association_definitions.associated_entity_id" => params[:parent_id]))
+    items.joins(:entity).order("entities.rank DESC")
   end
 
   def json_for_autocomplete(items, method, extra_data=[])

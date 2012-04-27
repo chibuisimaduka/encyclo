@@ -12,8 +12,11 @@ module EntitiesHelper
       direct = Association.where("association_definition_id = ? and entity_id = ?", d.id, entity.id)
       indirect = Association.where("association_definition_id = ? and associated_entity_id = ?", d.id, entity.id)
       statement = "(#{direct.to_sql}) UNION ALL (#{indirect.to_sql}) ORDER BY rank DESC"
-      records = Association.paginate_by_sql(statement, page: params[:page])
-      records = records.map {|a| a.entity_id == entity.id ? a : ReversedAssociation.new(a) }
+      records = Association.paginate_by_sql(statement, page: params[:association_page])
+      # OPTIMIZE: Find a better way to do this.
+      records = WillPaginate::Collection.create(params[:association_page] || 1, Association.per_page, records.total_entries) do |pager|
+        pager.replace records.map {|a| a.entity_id == entity.id ? a : ReversedAssociation.new(a) }
+      end
       [d, records]
     end]
   end

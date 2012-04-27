@@ -49,7 +49,7 @@ namespace :import do
           if entity.images.count > 0
             puts "Skipping. Already has images."
           else
-            min_delay 2 do
+            min_delay 1 do
               begin
                 image = entity.images.build(remote_image_url: url)
                 image.user_id = WEBMASTER.id
