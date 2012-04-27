@@ -3,4 +3,7 @@
     %td
       - associations_by_entity = Hash[associations.map {|a| [a.associated_entity.id, a] }]
       - features_for_associations(associations, entity, definition).each do |feature|
-        = render partial: "associations/entity", locals: {entity: feature, association: associations_by_entity[feature.id]}
+        - if expanded
+          %span.intermediate_entity= render partial: feature
+        - else
+          = render partial: "associations/entity", locals: {entity: feature, association: associations_by_entity[feature.id]}

@@ -206,6 +206,10 @@ body {
   margin-left: 12px;
 }
 
+.intermediate_entity .listing_entity {
+  width: 180px;
+}
+
 .toggle_block_handle {
   cursor: hand;
 }
