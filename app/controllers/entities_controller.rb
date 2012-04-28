@@ -88,7 +88,8 @@ class EntitiesController < ApplicationController
   end
 
   def random
-    redirect_to Entity.offset(rand(Entity.count)).first
+    entities = Entity.joins("INNER JOIN entities AS parent_entities ON entities.parent_id = parent_entities.id").where("parent_entities.is_intermediate = false")
+    redirect_to entities.order("RAND()").first
   end
 
 private
