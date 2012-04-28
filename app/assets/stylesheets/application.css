@@ -28,6 +28,10 @@ div, span {
   color: #E98C08;
 }
 
+#home_page p {
+  font-size: 18px;
+}
+
 #entities {
   border-top: 2px solid gray;
 }
@@ -50,11 +54,11 @@ form {
 
 #login_navigation {
   margin-top: 6px;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 #left_sidebar_navigation {
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
 .side_link {
@@ -74,6 +78,11 @@ form {
   display: inline;
   font-size: 14px;
   color: #707070;
+}
+
+.side_block {
+  margin-bottom: 36px;
+  display: block;
 }
 
 /*#top_navigation {

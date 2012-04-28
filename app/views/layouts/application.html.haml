@@ -46,6 +46,8 @@
               = check_box_tag :data_mode, "yes", data_mode?
               = submit_tag "Set"
         <br />
+        .side_block.side_text Please send me feedback: <br /> lancyclo@gmail.com
+        <br />
         .side_text Note: The content was <br /> fed using <a href="http://www.freebase.com/">freebase</a>.
       #content
         - [flash[:notice], flash[:alert]].each do |name, msg|

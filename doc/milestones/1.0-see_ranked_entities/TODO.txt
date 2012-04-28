@@ -3,7 +3,3 @@
 *- Add documents for IMDB, Netflix and rotten tomatoes for the definitions and also the reviews.
 
 - A better differenciation when you search for entities. Use associations values (gladiator (movie, year: 2000)).
-
-FIXME
-
-- Mia Maestro and Andy Garcia names are badly shown. The 'i' is shown as an 'a'

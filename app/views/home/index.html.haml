@@ -1,55 +1,24 @@
 = content_for :left_sidebar do
-  Popular entities:
+  Suggested entities:
   - for entity in @entities
     .popular_entity_link= link_to_entity entity
 
 #home_page
   = render :partial => "entities/search", :locals => {field_size: 64}
-  %h1 Welcome to the encyclo!
+  %h1 Welcome to Lancyclo Beta!
 
-  %p The Encyclo is a structured database about <u>everything</u>. It can integrate any type of media: videos, songs, wikis, q&as, essays, images... It is design to facilitate searching and entering data easily with no duplication.
+  %p Lancyclo is meant to be a free structured database about <u>everything</u>.
   
-  %p The best way to put it is a better generic Wikipedia. Wikipedia limits itself to encyclopedic content (you cannot write content as a resume, an essay..) and limits itself to text documents.
-  
-  %p The goal is to make the content database and the only content database that everyone uses. In order to do this, we can't just relie on brand like most companies do, you have the make the perfect website. It has to be free. It is. It has to be upgradable. It is open source. It has to be efficient. That's our main priority. It has to be customizable. You can push new document media and templates in code and you can choose the styling that you want for the database.
-  
-  %p The database is design to be efficient. For example, it is tri-dimentional: If you enter an actor for a movie, the movie will have the actor, the actor will have the movie and the actor will be an actor.
-  
-  %p Think of all the websites that could be integrated into a single database : IMDB, github, ebay, amazon, craiglists, wikipedia, ehow, yahoo answers, stackoverflow, and so on.. At least 80% of the most visited websites could be replaced by one. And this excludes search engines that would become pretty useless.
-  
-  %p It is better than a search engine because it permits better granularity. For example, if you want to buy a laptop, a search engine will bring you on retailer's website. The Encyclo will show you each product and the price for each retailer for each product instead.
-  
-  %p You can easily change language with the dropdown select at the top. The name of entities will be in the selected language or in another language if not present. The documents will be filtered by the selected language.
-  
-  %p One of the main ideas is that it is <u>yours</u>. You do everything you want and we take can of sharing it and using it to serve you better. In the same way, you get what others do which is filtered based on your preferences and people opinions.
-  
-  %p There is no such thing as an admin on The Encyclo. We judge users based on others. If you write nonsense, your credibility will fall quickly. Hence, if you write a lot of good stuff, your credibility will be really high.
-  
-  %p We believe in freedom and the power of free knowledge. The source code is available (feel free to contribute) and you can download the whole database (as soon as I set it up..). Also, it is advertisement-free.
+  %p It is currently composed mainly of movies, actors and documents from wikipedia. The best way to see the result is to search for "movie" and start exploring from there! You can also sign in to be able to rate movies and get suggestions.
 
-  The future of the Encyclo
-  %p I imagine that it will be running on localy and simply query the database remotely. The frequently used data would be local. The distributed database would be on user's machines too..
-  
-  %h2 Structure of the database
+  %p There is a lot of cool features that are disabled until they are production ready. You can read more about the project by checking the project <a href="https://github.com/pascalr/encyclo#readme">github page</a>.
 
-  %p The primary model is called an entity and represent a concept. It is through entities that you are browsing through. Here are the components of an entity:
-
-  %h3 Document
-  %p A document is content and can be in any format. Generally it is text but it can be a video, a song, a website.. You can easilly add a document to an entity by adding the url of a website that is about it. You can also create one of your own just as easilly with the guide.
+  %p Have fun visiting and please come back soon to see some cool new features.
   
-  %h3 Image
-  %p Self explanitory.. You can add one by uploading it from your computer or you can paste the link of an external image.
+  -#%p You can easily change language with the dropdown select at the top. The name of entities will be in the selected language or in another language if not present. The documents will be filtered by the selected language.
   
-  %h3 Constant
-  %p A constant is a static value for the entity. It can be
-  %ul
-    %li A number : .. 
-    %li A range : A [] mushroom is 17-19 cm tall.
-    %li A string ???
+  -#%p One of the main ideas is that it is <u>yours</u>. You do everything you want and we take can of sharing it and using it to serve you better. In the same way, you get what others do which is filtered based on your preferences and people opinions.
   
-  %h3 Association
-  %p An entity has many associations with other entities. They are bidirectional. For example, you can add the actor Keanu Reeves for the movie The Matrix. By looking at The Matrix, you will see that he has Keanu Reeves has an actor. By looking at Keanu Reeves, you will see that he played in the matrix and that he is an actor. By looking at Actor, you will see that Keanu Reeves is one.
+  -#%p There is no such thing as an admin on The Encyclo. We judge users based on others. If you write nonsense, your credibility will fall quickly. Hence, if you write a lot of good stuff, your credibility will be really high.
   
-  
-  %h3 Component
-  %p A component is an entity that every subentity will have for itself. ...
+  -#%p We believe in freedom and the power of free knowledge. The source code is available (feel free to contribute) and you can download the whole database (as soon as I set it up..). Also, it is advertisement-free.
