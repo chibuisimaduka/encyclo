@@ -75,8 +75,8 @@ Encyclo::Application.routes.draw do
   resources :sessions do
     collection do
       get "change_language"
-      get "change_document_type_filter"
-      get "change_data_mode"
+      #get "change_document_type_filter"
+      #get "change_data_mode"
     end
   end
 

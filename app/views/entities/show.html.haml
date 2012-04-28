@@ -1,9 +1,8 @@
 = content_for :left_sidebar do
-  - if data_mode?
-    #association_definitions
-      Association definitions:
-      = render partial: @entity.all_association_definitions(current_user)
-      = render partial: "association_definitions/form", locals: {:entity => @entity}
+  -##association_definitions
+    Association definitions:
+    = render partial: @entity.all_association_definitions(current_user)
+    = render partial: "association_definitions/form", locals: {:entity => @entity}
   -##components
   -#  Components:
   -#  - unless @entity.is_component?

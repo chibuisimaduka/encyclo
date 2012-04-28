@@ -16,14 +16,6 @@
             = render partial: "sessions/form"
             %span.side_text or
             .side_link= link_to "Sign up", sign_up_path
-        -#= cache('language_select') do
-          #language_navigation
-            %span.side_text Language:
-            .editable
-              = toggle_visibility toggle_handle: current_language.name, toggled_handle: "cancel" do
-                = form_tag change_language_sessions_path, method: :get do
-                  = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]}) 
-                  = submit_tag "Set"
         = cache('left-sidebar_navigation') do
           #left_sidebar_navigation
             #home_link_which_should_be_an_image
@@ -45,6 +37,14 @@
             = form_tag change_data_mode_sessions_path, method: :get do
               = check_box_tag :data_mode, "yes", data_mode?
               = submit_tag "Set"
+        -#= cache('language_select') do
+          #language_navigation
+            %span.side_text Language:
+            .editable
+              = toggle_visibility toggle_handle: "<div class='side_text'>#{current_language.name}</div>", toggled_handle: "cancel" do
+                = form_tag change_language_sessions_path, method: :get do
+                  = select :current_language, :id, ((Language::ALL - [Language::MAP[:universal]]).map{|l| [l.name, l.id]})
+                  = submit_tag "Set"
         <br />
         .side_block.side_text Please send me feedback: <br /> lancyclo@gmail.com
         <br />
