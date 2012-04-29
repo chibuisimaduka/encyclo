@@ -3,9 +3,9 @@ class EntityAdviserClient
   require 'thrift'
   require 'entity_adviser'
 
-  def self.get_suggestions(category_id, limit, offset, predicates)
+  def self.get_suggestions(user_id, category_id, limit, offset, predicates)
     query_adviser do |client|
-      result = client.get_suggestions(category_id, limit, offset, predicates)
+      result = client.get_suggestions(user_id, category_id, limit, offset, predicates)
     end
   end
 

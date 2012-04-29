@@ -21,14 +21,7 @@ class EntitiesController < ApplicationController
 
   def show
     @entity = Entity.find(params[:id])
-
-    #unless current_user.is_ip_address?
-    #  Entity.joins(:ratings).where("ratings.user_id = #{current_user.id}").limit(Entity.per_page)
-    #  params[:offset]
-    #end
    
-    #top_ranked_entities = Entity.paginate_by_sql(sql, page: params[:page], total_entries: total_entries)
-
     filters = params[:filter] ? (params[:filter].map do |definition_id, v|
       unless v["name"].blank?
         if v["id"].blank?
@@ -42,7 +35,7 @@ class EntitiesController < ApplicationController
       end
     end).compact : []
 
-    @entities = Entity.filtered_entities(filters, @entity.id, params[:page])
+    @entities = Entity.filtered_entities(filters, @entity.id, params[:page], current_user)
 
     @printer = PrettyPrinter.new(@entity, @entities)
   end

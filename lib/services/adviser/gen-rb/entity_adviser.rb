@@ -26,13 +26,13 @@ module EntityAdviser
       raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'ping failed: unknown result')
     end
 
-    def get_suggestions(category_id, limit, offset, predicate_ids)
-      send_get_suggestions(category_id, limit, offset, predicate_ids)
+    def get_suggestions(user_id, category_id, limit, offset, predicate_ids)
+      send_get_suggestions(user_id, category_id, limit, offset, predicate_ids)
       return recv_get_suggestions()
     end
 
-    def send_get_suggestions(category_id, limit, offset, predicate_ids)
-      send_message('get_suggestions', Get_suggestions_args, :category_id => category_id, :limit => limit, :offset => offset, :predicate_ids => predicate_ids)
+    def send_get_suggestions(user_id, category_id, limit, offset, predicate_ids)
+      send_message('get_suggestions', Get_suggestions_args, :user_id => user_id, :category_id => category_id, :limit => limit, :offset => offset, :predicate_ids => predicate_ids)
     end
 
     def recv_get_suggestions()
@@ -70,7 +70,7 @@ module EntityAdviser
     def process_get_suggestions(seqid, iprot, oprot)
       args = read_args(iprot, Get_suggestions_args)
       result = Get_suggestions_result.new()
-      result.success = @handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
+      result.success = @handler.get_suggestions(args.user_id, args.category_id, args.limit, args.offset, args.predicate_ids)
       write_result(result, oprot, 'get_suggestions', seqid)
     end
 
@@ -118,12 +118,14 @@ module EntityAdviser
 
   class Get_suggestions_args
     include ::Thrift::Struct, ::Thrift::Struct_Union
-    CATEGORY_ID = 1
-    LIMIT = 2
-    OFFSET = 3
-    PREDICATE_IDS = 4
+    USER_ID = 1
+    CATEGORY_ID = 2
+    LIMIT = 3
+    OFFSET = 4
+    PREDICATE_IDS = 5
 
     FIELDS = {
+      USER_ID => {:type => ::Thrift::Types::I32, :name => 'user_id'},
       CATEGORY_ID => {:type => ::Thrift::Types::I32, :name => 'category_id'},
       LIMIT => {:type => ::Thrift::Types::I32, :name => 'limit'},
       OFFSET => {:type => ::Thrift::Types::I32, :name => 'offset'},

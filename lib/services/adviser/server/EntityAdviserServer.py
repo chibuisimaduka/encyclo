@@ -28,8 +28,8 @@ class EntityAdviserHandler:
     print('Ping')
     return True
 
-  def get_suggestions(self, category_id, limit, offset, predicates):
-    return self.adviser_index.get_suggestions(category_id, limit, offset, predicates)
+  def get_suggestions(self, user_id, category_id, limit, offset, predicates):
+    return self.adviser_index.get_suggestions(user_id, category_id, limit, offset, predicates)
 
   def add_association(self, association):
     self.adviser_index.add_association(association)

@@ -12,7 +12,7 @@ service EntityAdviser {
 
   bool ping()
 
-  Suggestions get_suggestions(1:i32 category_id, 2:i32 limit, 3:i32 offset, 4:list<PredicateEntry> predicate_ids)
+  Suggestions get_suggestions(1:i32 user_id, 2:i32 category_id, 3:i32 limit, 4:i32 offset, 5:list<PredicateEntry> predicate_ids)
 
   void update_entity_rank(1:i32 entity_id, 2:double rank, 3:i32 category_id)
 }

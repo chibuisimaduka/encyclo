@@ -21,9 +21,10 @@ class Iface:
   def ping(self, ):
     pass
 
-  def get_suggestions(self, category_id, limit, offset, predicate_ids):
+  def get_suggestions(self, user_id, category_id, limit, offset, predicate_ids):
     """
     Parameters:
+     - user_id
      - category_id
      - limit
      - offset
@@ -73,20 +74,22 @@ class Client(Iface):
       return result.success
     raise TApplicationException(TApplicationException.MISSING_RESULT, "ping failed: unknown result");
 
-  def get_suggestions(self, category_id, limit, offset, predicate_ids):
+  def get_suggestions(self, user_id, category_id, limit, offset, predicate_ids):
     """
     Parameters:
+     - user_id
      - category_id
      - limit
      - offset
      - predicate_ids
     """
-    self.send_get_suggestions(category_id, limit, offset, predicate_ids)
+    self.send_get_suggestions(user_id, category_id, limit, offset, predicate_ids)
     return self.recv_get_suggestions()
 
-  def send_get_suggestions(self, category_id, limit, offset, predicate_ids):
+  def send_get_suggestions(self, user_id, category_id, limit, offset, predicate_ids):
     self._oprot.writeMessageBegin('get_suggestions', TMessageType.CALL, self._seqid)
     args = get_suggestions_args()
+    args.user_id = user_id
     args.category_id = category_id
     args.limit = limit
     args.offset = offset
@@ -181,7 +184,7 @@ class Processor(Iface, TProcessor):
     args.read(iprot)
     iprot.readMessageEnd()
     result = get_suggestions_result()
-    result.success = self._handler.get_suggestions(args.category_id, args.limit, args.offset, args.predicate_ids)
+    result.success = self._handler.get_suggestions(args.user_id, args.category_id, args.limit, args.offset, args.predicate_ids)
     oprot.writeMessageBegin("get_suggestions", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -305,6 +308,7 @@ class ping_result:
 class get_suggestions_args:
   """
   Attributes:
+   - user_id
    - category_id
    - limit
    - offset
@@ -313,13 +317,15 @@ class get_suggestions_args:
 
   thrift_spec = (
     None, # 0
-    (1, TType.I32, 'category_id', None, None, ), # 1
-    (2, TType.I32, 'limit', None, None, ), # 2
-    (3, TType.I32, 'offset', None, None, ), # 3
-    (4, TType.LIST, 'predicate_ids', (TType.STRUCT,(PredicateEntry, PredicateEntry.thrift_spec)), None, ), # 4
+    (1, TType.I32, 'user_id', None, None, ), # 1
+    (2, TType.I32, 'category_id', None, None, ), # 2
+    (3, TType.I32, 'limit', None, None, ), # 3
+    (4, TType.I32, 'offset', None, None, ), # 4
+    (5, TType.LIST, 'predicate_ids', (TType.STRUCT,(PredicateEntry, PredicateEntry.thrift_spec)), None, ), # 5
   )
 
-  def __init__(self, category_id=None, limit=None, offset=None, predicate_ids=None,):
+  def __init__(self, user_id=None, category_id=None, limit=None, offset=None, predicate_ids=None,):
+    self.user_id = user_id
     self.category_id = category_id
     self.limit = limit
     self.offset = offset
@@ -336,20 +342,25 @@ class get_suggestions_args:
         break
       if fid == 1:
         if ftype == TType.I32:
-          self.category_id = iprot.readI32();
+          self.user_id = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.I32:
-          self.limit = iprot.readI32();
+          self.category_id = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.I32:
-          self.offset = iprot.readI32();
+          self.limit = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 4:
+        if ftype == TType.I32:
+          self.offset = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
         if ftype == TType.LIST:
           self.predicate_ids = []
           (_etype10, _size7) = iprot.readListBegin()
@@ -370,20 +381,24 @@ class get_suggestions_args:
       oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
       return
     oprot.writeStructBegin('get_suggestions_args')
+    if self.user_id is not None:
+      oprot.writeFieldBegin('user_id', TType.I32, 1)
+      oprot.writeI32(self.user_id)
+      oprot.writeFieldEnd()
     if self.category_id is not None:
-      oprot.writeFieldBegin('category_id', TType.I32, 1)
+      oprot.writeFieldBegin('category_id', TType.I32, 2)
       oprot.writeI32(self.category_id)
       oprot.writeFieldEnd()
     if self.limit is not None:
-      oprot.writeFieldBegin('limit', TType.I32, 2)
+      oprot.writeFieldBegin('limit', TType.I32, 3)
       oprot.writeI32(self.limit)
       oprot.writeFieldEnd()
     if self.offset is not None:
-      oprot.writeFieldBegin('offset', TType.I32, 3)
+      oprot.writeFieldBegin('offset', TType.I32, 4)
       oprot.writeI32(self.offset)
       oprot.writeFieldEnd()
     if self.predicate_ids is not None:
-      oprot.writeFieldBegin('predicate_ids', TType.LIST, 4)
+      oprot.writeFieldBegin('predicate_ids', TType.LIST, 5)
       oprot.writeListBegin(TType.STRUCT, len(self.predicate_ids))
       for iter13 in self.predicate_ids:
         iter13.write(oprot)

@@ -200,16 +200,16 @@ class Entity < ActiveRecord::Base
   def update_entity_suggestions
     if rank_changed?
       all_associations(nil).each do |a|
-        a.update_attributes! rank: a.rank - rank_was + rank
+        a.update_attributes! rank: (a.rank || 0) - rank_was + rank
       end
       EntityAdviserClient.update_entity_rank(id, rank, parent_id)
     end
   end
 
-  def self.filtered_entities(filters, category_id, page)
+  def self.filtered_entities(filters, category_id, page, user)
     WillPaginate::Collection.create(page || 1, Entity.per_page) do |pager|
       offset = (page ? page.to_i - 1 : 0) * Entity.per_page
-      suggestions = EntityAdviserClient.get_suggestions(category_id, Entity.per_page, offset, filters)
+      suggestions = EntityAdviserClient.get_suggestions(user.id, category_id, Entity.per_page, offset, filters)
       if suggestions.matches_count > 0
         pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
       end
