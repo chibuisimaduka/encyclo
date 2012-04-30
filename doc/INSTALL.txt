@@ -18,3 +18,6 @@ sudo apt-get install libmagick9-dev
 
 # rvm trust (for server to work with whenever, else cron might hang)
 # in ~/.rvmrc, add "rvm_trust_rvmrcs_flag=1"
+
+# Install postgresql :
+sudo apt-get install postgresql postgresql-contrib libpq-dev

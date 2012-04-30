@@ -22,6 +22,8 @@ gem 'jquery-rails'
 gem 'ruby-debug19'
 gem 'thrift'
 
+gem 'pg'
+
 gem 'whenever'
 
 gem 'ruby-prof'

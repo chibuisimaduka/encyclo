@@ -140,7 +140,9 @@ class Entity < ActiveRecord::Base
   def set_name(value, user, language)
     # Active record does not do that association like expected.
     #name = names.find_or_initialize_by_value(value)
-    name = names.where("value = ? collate latin1_general_ci", value).first || names.build(value: value)
+    # FIXME: Reable collate when figure out how to do it and needed so be able to edit an accent.
+    #name = names.where("LOWER(value) = ? collate UTF8", value).first || names.build(value: value)
+    name = names.where("LOWER(value) = ?", value).first || names.build(value: value)
     EditRequest.update(name, names, user)
     name.language = language
     name
@@ -211,7 +213,9 @@ class Entity < ActiveRecord::Base
       offset = (page ? page.to_i - 1 : 0) * Entity.per_page
       suggestions = EntityAdviserClient.get_suggestions(user.id, category_id, Entity.per_page, offset, filters)
       if suggestions.matches_count > 0
-        pager.replace Entity.find(suggestions.entities_ids, order: "field(id, #{suggestions.entities_ids.join(',')})")
+        entities_ids = Entity.find(suggestions.entities_ids)
+        pager.replace entities_ids.sort_by {|e| suggestions.entities_ids.index(e.id) }
+        # FIXME: This works for mysql only : order: "field(id, #{suggestions.entities_ids.join(',')})")
       end
       pager.total_entries = suggestions.matches_count
     end

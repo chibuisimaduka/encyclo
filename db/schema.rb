@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
   end
 
   add_index "association_definitions", ["associated_entity_id"], :name => "fk_associated_entity"
-  add_index "association_definitions", ["entity_id"], :name => "fk_entity"
+  add_index "association_definitions", ["entity_id"], :name => "fk_association_definitions_entity"
   add_index "association_definitions", ["nested_entity_id"], :name => "fk_nested_entity"
-  add_index "association_definitions", ["user_id"], :name => "user_id"
+  add_index "association_definitions", ["user_id"], :name => "fk_association_definitions_user_id"
 
   create_table "associations", :force => true do |t|
     t.integer  "association_definition_id", :null => false
@@ -42,9 +42,9 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
   add_index "associations", ["associated_entity_id"], :name => "associated_entity_id"
   add_index "associations", ["association_definition_id", "associated_entity_id", "rank"], :name => "associations_def_associated_rank"
   add_index "associations", ["association_definition_id", "entity_id", "rank"], :name => "associations_def_entity_rank"
-  add_index "associations", ["association_definition_id"], :name => "association_definition_id"
+  #add_index "associations", ["association_definition_id"], :name => "association_definition_id"
   add_index "associations", ["entity_id"], :name => "associations_entity_id"
-  add_index "associations", ["user_id"], :name => "user_id"
+  add_index "associations", ["user_id"], :name => "fk_associations_user_id"
 
   create_table "child_documents", :force => true do |t|
     t.integer  "parent_id"
@@ -60,17 +60,17 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
     t.integer  "user_id",    :null => false
   end
 
-  add_index "components", ["entity_id"], :name => "entity_id"
-  add_index "components", ["user_id"], :name => "user_id"
+  add_index "components", ["entity_id"], :name => "fk_components_entity_id"
+  add_index "components", ["user_id"], :name => "fk_components_user_id"
 
   create_table "concurring_users_delete_requests", :id => false, :force => true do |t|
     t.integer "user_id",           :null => false
     t.integer "delete_request_id", :null => false
   end
 
-  add_index "concurring_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
+  add_index "concurring_users_delete_requests", ["delete_request_id"], :name => "pk_concurring_users_delete_request_id"
   add_index "concurring_users_delete_requests", ["user_id", "delete_request_id"], :name => "concurring_users_delete_requests_i"
-  add_index "concurring_users_delete_requests", ["user_id"], :name => "user_id"
+  #add_index "concurring_users_delete_requests", ["user_id"], :name => "user_id"
 
   create_table "delete_requests", :force => true do |t|
     t.datetime "created_at"
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
 
   add_index "documents", ["language_id"], :name => "documents_language"
   add_index "documents", ["name", "rank"], :name => "documents_name_rank_i"
-  add_index "documents", ["user_id"], :name => "user_id"
+  add_index "documents", ["user_id"], :name => "fk_documents_user_id"
 
   create_table "documents_entities", :id => false, :force => true do |t|
     t.integer "document_id", :null => false
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
   end
 
   add_index "documents_entities", ["document_id", "entity_id"], :name => "documents_entities_i"
-  add_index "documents_entities", ["document_id"], :name => "document_id"
+  #add_index "documents_entities", ["document_id"], :name => "document_id"
   add_index "documents_entities", ["entity_id"], :name => "entity_id"
 
   create_table "edit_requests", :force => true do |t|
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
   add_index "entities", ["component_id"], :name => "fk_component"
   add_index "entities", ["freebase_id"], :name => "freebase_id_fk"
   add_index "entities", ["parent_id", "component_id"], :name => "entity_parent_component"
-  add_index "entities", ["parent_id"], :name => "fk_parent"
+  #add_index "entities", ["parent_id"], :name => "fk_parent"
   add_index "entities", ["user_id"], :name => "fk_user"
 
   create_table "entities_ancestors", :id => false, :force => true do |t|
@@ -178,8 +178,8 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
     t.integer  "user_id",    :null => false
   end
 
-  add_index "images", ["entity_id"], :name => "entity_id"
-  add_index "images", ["user_id"], :name => "user_id"
+  add_index "images", ["entity_id"], :name => "fk_images_entity_id"
+  add_index "images", ["user_id"], :name => "fk_images_user_id"
 
   create_table "languages", :force => true do |t|
     t.string   "name",       :null => false
@@ -195,18 +195,18 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
     t.datetime "updated_at"
   end
 
-  add_index "names", ["entity_id"], :name => "entity_id"
+  add_index "names", ["entity_id"], :name => "fk_names_entity_id"
   add_index "names", ["language_id", "value", "entity_id"], :name => "name_autocomplete"
-  add_index "names", ["language_id"], :name => "language_id"
+  #add_index "names", ["language_id"], :name => "language_id"
 
   create_table "opposing_users_delete_requests", :id => false, :force => true do |t|
     t.integer "user_id",           :null => false
     t.integer "delete_request_id", :null => false
   end
 
-  add_index "opposing_users_delete_requests", ["delete_request_id"], :name => "delete_request_id"
+  add_index "opposing_users_delete_requests", ["delete_request_id"], :name => "pk_opposing_users_delete_request_id"
   add_index "opposing_users_delete_requests", ["user_id", "delete_request_id"], :name => "opposing_users_delete_requests_i"
-  add_index "opposing_users_delete_requests", ["user_id"], :name => "user_id"
+  #add_index "opposing_users_delete_requests", ["user_id"], :name => "user_id"
 
   create_table "predicate_items", :force => true do |t|
     t.integer  "predicate_id"
@@ -273,6 +273,6 @@ ActiveRecord::Schema.define(:version => 20120426045358) do
 
   add_index "users_edit_requests", ["edit_request_id"], :name => "edit_request_id"
   add_index "users_edit_requests", ["user_id", "edit_request_id"], :name => "users_edit_requests_i"
-  add_index "users_edit_requests", ["user_id"], :name => "user_id"
+  #add_index "users_edit_requests", ["user_id"], :name => "user_id"
 
 end

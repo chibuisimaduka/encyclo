@@ -17,7 +17,7 @@ class Name < ActiveRecord::Base
   validate :validate_universal_uniqueness
  
   def self.language_scope(names, language)
-    names.where("names.language_id = ? || names.language_id = ?", language.id, Language::MAP[:universal].id)
+    names.where("names.language_id = ? OR names.language_id = ?", language.id, Language::MAP[:universal].id)
   end
 
   def pretty_value

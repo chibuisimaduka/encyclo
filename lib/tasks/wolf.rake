@@ -12,6 +12,10 @@ end
 # The Wolf fixes stuff.
 namespace :wolf do
 
+task :pk_sequences => :init do
+  ActiveRecord::Base.connection.reset_pk_sequence!(ActiveRecord::Base.connection.tables)
+end
+
 task :destroy_components => :init do
   Component.all.each do |c|
     c.entities.destroy_all
