@@ -47,7 +47,8 @@ module EntitiesHelper
   end
 
   def definition_for(entity, nested_entity)
-    (entity.map_all :parent, lambda {|e| e.all_association_definitions(current_user) }).select {|a| a.associated_entity_id == nested_entity.id }
+    (entity.entities.flat_map {|e| e.all_association_definitions(current_user) })
+        .select {|a| a.associated_entity_id == nested_entity.id }
   end
 
   def link_to_entity(entity)
