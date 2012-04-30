@@ -63,8 +63,7 @@ class EntityAdviserIndex:
         ids = set(map(utils.first, utils.query_sql(self.__ids_statement(predicate))))
         entities_ids = ids if entities_ids == None else ids.intersect(entities_ids)
 
-    print("Out of " + str(matches_count) + " matches, suggestions are ["+ ",".join(map(str, entities_ids)) +"]")
-    return Suggestions(entities_ids, matches_count)
+    return Suggestions(entities_ids or list(), matches_count)
 
   # Gives the slice of the list together without merging them because they could both be huge.
   # ranked_entities = list of entities ids

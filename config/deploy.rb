@@ -16,6 +16,7 @@ require "whenever/capistrano"
 
 set :application, "enyclo"
 set :repository,  "git://github.com/pascalr/encyclo.git"
+set :branch, "encyclo-1.0"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`

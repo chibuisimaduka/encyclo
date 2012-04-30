@@ -1,14 +1,14 @@
+task :db_config do
+  unless @env = ENV['RAILS_ENV']
+    puts "No RAILS_ENV specified. Using development environment."
+    @env = "development"
+  end
+  db_file = ENV['DB_FILE'] || File.join(File.dirname(__FILE__),"../../config/database.yml")
+  @db = YAML::load(ERB.new(IO.read(db_file)).result)[@env]
+end
+  
 namespace :mysql do
 
-  task :db_config do
-    unless @env = ENV['RAILS_ENV']
-      puts "No RAILS_ENV specified. Using development environment."
-      @env = "development"
-    end
-    db_file = ENV['DB_FILE'] || File.join(File.dirname(__FILE__),"../../config/database.yml")
-    @db = YAML::load(ERB.new(IO.read(db_file)).result)[@env]
-  end
-  
   desc "Dump the mysql db for RAILS_ENV to OUTPUT_FILE"
   task :dump => :db_config do
     raise "Missing OUTPUT_FILE" unless ENV['OUTPUT_FILE']

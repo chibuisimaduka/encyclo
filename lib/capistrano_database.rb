@@ -7,7 +7,7 @@ namespace :deploy do
     task :backup, :roles => :db, :only => {:primary => true}, :no_release => true do
       @filename = "encyclo_prod_#{Time.now.to_i}_#{(ENV["MSG"] || "").gsub(" ", "_")}"
       @file = (ENV["OUTPUT_FILE"] = "#{shared_path}/backups/#{@filename}.bz2")
-      run_rake "mysql:dump OUTPUT_FILE=#{@file}"
+      run_rake "postgres:dump OUTPUT_FILE=#{@file}"
     end
 
     desc "Make a backup remotely and fetch it."
@@ -17,7 +17,7 @@ namespace :deploy do
 
     desc "Transfer data from production environment to local development environment."
     task :pull, :roles => :db, :only => {:primary => true}, :no_release => true do
-      `bundle exec rake mysql:load INPUT_FILENAME=#{@filename}`
+      `bundle exec rake postgres:load INPUT_FILENAME=#{@filename}`
       `rm #{@filename}.bz2`
     end
 
@@ -27,9 +27,9 @@ namespace :deploy do
     desc "Push the development database to production."
     task :push, :roles => :db, :only => {:primary => true}, :no_release => true do 
       file = "/tmp/database_dump.bz2"
-      `rake mysql:dump OUTPUT_FILE=#{file}`
+      `rake postgres:dump OUTPUT_FILE=#{file}`
       transfer(:up, file, file)
-      run_rake "mysql:load"
+      run_rake "postgres:load"
     end
 
     #before "deploy:db:push", "deploy:db:backup"
