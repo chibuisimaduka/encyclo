@@ -37,6 +37,9 @@ class EntityAdviserHandler:
   def update_entity_rank(self, entity_id, rank, category_id):
     self.adviser_index.update_entity_rank(entity_id, rank, category_id)
 
+import utils
+utils.parse_args()
+
 # set handler to our implementation
 handler = EntityAdviserHandler()
 
