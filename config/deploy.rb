@@ -1,9 +1,10 @@
-$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
-require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 set :rvm_ruby_string, 'ruby-1.9.2-head@rails313'
 set :rvm_type, :user
 
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require "bundler/capistrano"
+
+before 'deploy:setup', 'rvm:install_rvm'
 
 $:.unshift File.join(File.dirname(__FILE__), '../lib/')
 require "capistrano_database"

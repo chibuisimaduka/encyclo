@@ -21,17 +21,15 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'jquery-rails'
 gem 'ruby-debug19'
 gem 'thrift'
-
 gem 'pg'
+
+gem "rvm-capistrano"
 
 gem 'whenever'
 
 gem 'ruby-prof'
 
 gem "recaptcha", :require => "recaptcha/rails"
-
-gem 'factory_girl'
-gem "factory_girl_rails", "~> 1.2"
 
 gem 'capybara'
 
