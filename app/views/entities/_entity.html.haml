@@ -7,7 +7,7 @@
     -# image = entity.images.first || (little_descendant = entity.little_descendants.joins(:images).where("images.id IS NOT NULL").first) ? little_descendant.images.first : nil
     .listing_image
       = image_tag image.image_url(:thumb).to_s unless image.blank?
-      - if data_mode?
+      -#- if data_mode?
         .add_image
           = toggle_visibility handle: "Add an image.." do
             = form_for [entity, Image.new], remote: true, format: :js, html: {multipart: true} do |f|

@@ -1,3 +1,5 @@
+#default_run_options[:pty] = true
+
 set :rvm_ruby_string, 'ruby-1.9.2-head@rails313'
 set :rvm_type, :user
 
@@ -28,7 +30,7 @@ set :user, "pascalr"
 set :use_sudo, false
 
 #server "localhost", :app, :web, :db, :primary => true
-server "216.162.79.216", :app, :web, :db, :primary => true
+server "216.162.65.17", :app, :web, :db, :primary => true
 #role :db,  "your slave db-server here"
 
 ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh", "id_rsa_admin")]

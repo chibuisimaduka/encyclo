@@ -21,4 +21,8 @@ class Image < ActiveRecord::Base
   before_destroy :remove_image!
 
   self.per_page = 5
+
+  def to_s
+    "##{id}: #{source}"
+  end
 end
