@@ -27,7 +27,7 @@ class EntityAdviserIndex:
         if attrs[0] in entities_ratings_by_user:
           entities_ratings = entities_ratings_by_user[attrs[0]]
         else:
-          entities_ratings = sortedlist(key=lambda (entity_id, rating): rating * -1)
+          entities_ratings = sortedlist(key=lambda (entity_id, rating): rating * (-1.0))
         entities_ratings.add((attrs[1], attrs[2]))
         entities_ratings_by_user[attrs[0]] = entities_ratings
       self.entities_ratings_by_user_by_category[category_attrs[0]] = entities_ratings_by_user
@@ -101,10 +101,18 @@ class EntityAdviserIndex:
   def __filter_statement(self, select_field, definition_id, where_clause):
     return "SELECT "+ select_field +",rank FROM associations WHERE association_definition_id = "+ str(definition_id) + " and " + where_clause
 
-  def update_entity_rank(self, entity_id, rank, category_id):
+  def update_entity_rank(self, entity_id, rank, category_id, user_id, user_rating):
     self.entities_by_category[category_id].remove(entity_id)
     self.rank_by_entity[entity_id] = rank
     self.entities_by_category[category_id].add(entity_id)
+  
+    entities_ratings = self.entities_ratings_by_user_by_category[category_id][user_id] 
+    i = 0
+    for entity_rating in entities_ratings:
+      if entity_rating[0] == entity_id: break
+      i += 1
+    if i != len(entities_ratings): del entities_ratings[i]
+    entities_ratings.add((entity_id, user_rating))
 
   def __rank_by_entity(self, category_id):
     return self.rankings_by_entity[category_id]

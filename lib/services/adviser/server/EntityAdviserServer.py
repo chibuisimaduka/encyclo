@@ -34,8 +34,8 @@ class EntityAdviserHandler:
   def add_association(self, association):
     self.adviser_index.add_association(association)
 
-  def update_entity_rank(self, entity_id, rank, category_id):
-    self.adviser_index.update_entity_rank(entity_id, rank, category_id)
+  def update_entity_rank(self, entity_id, rank, category_id, user_id, user_rating):
+    self.adviser_index.update_entity_rank(entity_id, rank, category_id, user_id, user_rating)
 
 import utils
 utils.parse_args()

@@ -22,6 +22,9 @@ class RatingsController < ApplicationController
 
     @rankable.rank = rank * ratings_rank_norm
     Rating.transaction do
+      if @rankable.class.name == 'Entity'
+        EntityAdviserClient.update_entity_rank(@rankable.id, @rankable.rank, @rankable.parent_id, current_user.id, @rating.value)
+      end
       @rating.save! if @rating.persisted?
       @rankable.save!
     end

@@ -41,13 +41,13 @@ module EntityAdviser
       raise ::Thrift::ApplicationException.new(::Thrift::ApplicationException::MISSING_RESULT, 'get_suggestions failed: unknown result')
     end
 
-    def update_entity_rank(entity_id, rank, category_id)
-      send_update_entity_rank(entity_id, rank, category_id)
+    def update_entity_rank(entity_id, rank, category_id, user_id, user_rating)
+      send_update_entity_rank(entity_id, rank, category_id, user_id, user_rating)
       recv_update_entity_rank()
     end
 
-    def send_update_entity_rank(entity_id, rank, category_id)
-      send_message('update_entity_rank', Update_entity_rank_args, :entity_id => entity_id, :rank => rank, :category_id => category_id)
+    def send_update_entity_rank(entity_id, rank, category_id, user_id, user_rating)
+      send_message('update_entity_rank', Update_entity_rank_args, :entity_id => entity_id, :rank => rank, :category_id => category_id, :user_id => user_id, :user_rating => user_rating)
     end
 
     def recv_update_entity_rank()
@@ -77,7 +77,7 @@ module EntityAdviser
     def process_update_entity_rank(seqid, iprot, oprot)
       args = read_args(iprot, Update_entity_rank_args)
       result = Update_entity_rank_result.new()
-      @handler.update_entity_rank(args.entity_id, args.rank, args.category_id)
+      @handler.update_entity_rank(args.entity_id, args.rank, args.category_id, args.user_id, args.user_rating)
       write_result(result, oprot, 'update_entity_rank', seqid)
     end
 
@@ -161,11 +161,15 @@ module EntityAdviser
     ENTITY_ID = 1
     RANK = 2
     CATEGORY_ID = 3
+    USER_ID = 4
+    USER_RATING = 5
 
     FIELDS = {
       ENTITY_ID => {:type => ::Thrift::Types::I32, :name => 'entity_id'},
       RANK => {:type => ::Thrift::Types::DOUBLE, :name => 'rank'},
-      CATEGORY_ID => {:type => ::Thrift::Types::I32, :name => 'category_id'}
+      CATEGORY_ID => {:type => ::Thrift::Types::I32, :name => 'category_id'},
+      USER_ID => {:type => ::Thrift::Types::I32, :name => 'user_id'},
+      USER_RATING => {:type => ::Thrift::Types::DOUBLE, :name => 'user_rating'}
     }
 
     def struct_fields; FIELDS; end

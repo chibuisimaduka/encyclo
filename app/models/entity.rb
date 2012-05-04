@@ -204,7 +204,6 @@ class Entity < ActiveRecord::Base
       all_associations(nil).each do |a|
         a.update_attributes! rank: (a.rank || 0) - rank_was + rank
       end
-      EntityAdviserClient.update_entity_rank(id, rank, parent_id)
     end
   end
 

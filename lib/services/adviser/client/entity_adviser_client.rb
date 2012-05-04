@@ -9,9 +9,9 @@ class EntityAdviserClient
     end
   end
 
-  def self.update_entity_rank(entity_id, rank, category_id)
+  def self.update_entity_rank(entity_id, rank, category_id, user_id, user_rating)
     query_adviser do |client|
-      result = client.update_entity_rank(entity_id, rank, category_id)
+      result = client.update_entity_rank(entity_id, rank, category_id, user_id, user_rating)
     end
   end
 

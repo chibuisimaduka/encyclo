@@ -1,0 +1,21 @@
+Do a donation budget. List all the things I have to pay or that I want to buy for the website and let the donators decide where they want to donate money.
+Note: Also taking good donations too maybe.
+List example: [goal] => [current amount]
+- Hardware:
+  - RAM: No limit => 20$
+  - CPU: No limit => 10$
+  - HDD: No limit => 30$
+- SSL certificate: 20$ => 0$
+- Faster internet connection: ...
+- Personnal expenses:
+  - Food: 10000$ => ?
+  - Rent: 10000$ => ?
+  - Surf board: 500$ => ?
+- Office:
+  - Office space:
+  - Printer:
+  - Chair:
+- Employees:
+  - Programmer: No limit => ?
+  - Designer: No limit => ?
+- Open Source Reward: Splits the money between those who made open source contribution.

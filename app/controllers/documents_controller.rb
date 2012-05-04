@@ -1,9 +1,13 @@
 class DocumentsController < ApplicationController
 
-  respond_to :html, :json
+  respond_to :html, :json, :js
 
   def index
     @entity = Entity.find(params[:entity_id])
+    respond_to do |format|
+      format.html {redirect_to :back}
+      format.js
+    end
   end
 
   def show
