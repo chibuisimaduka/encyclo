@@ -3,7 +3,9 @@
   = content_tag_for :span, rating, :rankable_id => rankable.id, :rankable_type => rankable.class.name do
     .editable
       -# onchange = "$.post('#{polymorphic_path([rankable, :rating])}', {'_method':'put', 'rating[value]':this.value} );"
-      - path = "#{polymorphic_path(rankable)}/ratings/#{rating.id || 0}"
+      -# FIXME: polymorphic_path does not work in production because it complains about assets not found
+      -#- path = "#{polymorphic_path(rankable)}/ratings/#{rating.id || 0}"
+      - path = "#{rankable.class.name.downcase.pluralize}/#{rankable.id}/ratings/#{rating.id || 0}"
       - onchange = "$.post('#{path}', {'_method':'put', 'rating[value]':this.value} );"
       = toggle_visibility_if rating.value.blank?, toggle_handle: "Rate", toggled_handle: "cancel" do
         = toggle_block_if rating.persisted?, toggled_handle: "cancel", :show_not_visible => true do |visible|

@@ -96,6 +96,11 @@ module ApplicationHelper
     best_in_place filter, method, {type: :select, collection: collection, path: {controller: "sessions", action: "update", value_key: "filterer", session_key: session_key, id: "fixme"}}.merge(options)
   end
 
+  # Doing it in the view directly does not work.
+  def debugger_helper
+    debugger
+    i = 0
+  end
 private
   def handle_element(handle)
     "<span class='toggle_block_handle'>#{handle}</span>"

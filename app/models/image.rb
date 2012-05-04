@@ -23,6 +23,6 @@ class Image < ActiveRecord::Base
   self.per_page = 5
 
   def to_s
-    "##{id}: #{source}"
+    "Image##{id}:<#{image_url}>"
   end
 end

@@ -13,7 +13,7 @@ development:
   encoding: unicode
   #reconnect: false
   database: encyclo_development
-  pool: 5
+  pool: 8
   host: localhost
   username: postgres
   password: 887database
@@ -27,7 +27,7 @@ test:
   encoding: unicode
   #reconnect: false
   database: encyclo_test
-  pool: 5
+  pool: 8
   host: localhost
   username: postgres
   password: 887database
@@ -37,8 +37,8 @@ production:
   adapter: postgresql
   encoding: unicode
   #reconnect: false
-  database: encyclo_production
-  pool: 5
+  database: encyclo_development
+  pool: 8
   host: localhost
   username: postgres
   password: 887database
