@@ -20,17 +20,17 @@ class EntityAdviserIndex:
       self.rank_by_entity.update(entities)
       self.entities_by_category[category_attrs[0]] = sortedlist(entities.keys(), key=self.entities_sort)
     
-      self.entities_ratings_by_user_by_category[category_attrs[0]] = dict()
+      entities_ratings_by_user = dict()
       for attrs in utils.query_sql("""SELECT ratings.user_id,entities.id,ratings.value FROM entities
           INNER JOIN ratings ON entities.id = ratings.rankable_id AND ratings.rankable_type = 'Entity'
           WHERE parent_id = """ + str(category_attrs[0])):
-        entities_ratings_by_user = dict()
         if attrs[0] in entities_ratings_by_user:
           entities_ratings = entities_ratings_by_user[attrs[0]]
         else:
           entities_ratings = sortedlist(key=lambda (entity_id, rating): rating * -1)
         entities_ratings.add((attrs[1], attrs[2]))
-        self.entities_ratings_by_user_by_category[category_attrs[0]][attrs[0]] = entities_ratings
+        entities_ratings_by_user[attrs[0]] = entities_ratings
+      self.entities_ratings_by_user_by_category[category_attrs[0]] = entities_ratings_by_user
 
   # PARAMS:
   # category_id = The parent_id of every entity returned.
