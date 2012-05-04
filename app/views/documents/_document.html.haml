@@ -1,7 +1,7 @@
 = content_tag_for :div, document do
   = hover_block do
     .document_name= link_to document.name, document, class: "document_name"
-    - if per_page == 1 # For subentities, don't suggest to rate.
+    - if show_rating
       = hover_block :rating do
         = render partial: "ratings/rankable", locals: {rankable: document}
     -#= hover_hidden do

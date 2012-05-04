@@ -1,5 +1,5 @@
 %div{:class => "documents_#{entity.id} documents"}
   - @documents = documents_for_entity(entity, params[:document_page], per_page)
   - if @documents
-    = render partial: @documents
+    = render partial: @documents, locals: {show_rating: per_page != 1} # For subentities, don't suggest to rate.
     = will_paginate @documents, :params => {controller: :documents, action: :index, entity_id: entity.id, per_page: per_page}, param_name: :document_page
