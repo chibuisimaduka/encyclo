@@ -50,8 +50,8 @@
         <br />
         .side_text Note: The content was <br /> fed using <a href="http://www.freebase.com/">freebase</a>.
       #content
-        - [flash[:notice], flash[:alert]].each do |name, msg|
-          = content_tag :div, msg, :id => "flash#{name}"
+        = content_tag :div, flash[:notice], :id => "flashnotice" if flash[:notice]
+        = content_tag :div, flash[:alert], :id => "flashalert" if flash[:alert]
         = yield
       #terminal
         -##terminal_input

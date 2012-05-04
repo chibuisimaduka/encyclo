@@ -10,7 +10,7 @@ class EntitiesController < ApplicationController
     if @entities.size == 1
       redirect_to (goto_doc && !@entities.first.documents.blank?) ? @entities.first.documents.first.link : @entities.first
     elsif @entities.size == 0
-      redirect_to :back, :alert => "There is no entity with the name='#{@name}'. Check the spelling or create it."
+      redirect_to :back, :alert => "There is no entity with the name=\"#{@name}\". Check the spelling or create it."
     else
       render template: "entities/disambiguate"
     end
