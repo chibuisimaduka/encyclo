@@ -13,7 +13,9 @@ end
 namespace :wolf do
 
 task :pk_sequences => :init do
-  ActiveRecord::Base.connection.reset_pk_sequence!(ActiveRecord::Base.connection.tables)
+  ActiveRecord::Base.connection.tables.each do |table|
+    ActiveRecord::Base.connection.reset_pk_sequence!(table)
+  end
 end
 
 task :destroy_components => :init do

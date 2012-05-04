@@ -13,21 +13,27 @@ namespace :import do
         if !entity
           puts "Missing entity."
         else
-          if entity.documents.length > 0
-            puts "Skipping. Already has documents."
+          listing = entity.documents.find_by_name("definition")
+          if listing
+            stripped_url = url[7..-1] # Strip "http://"
+            if listing.documents.joins("INNER JOIN remote_documents ON documentable_id = remote_documents.id AND documentable_type = 'RemoteDocument'")
+                                .where("url LIKE 'http://#{stripped_url[0..stripped_url.index('/')]}%'").first
+              puts "Skipping. Already has documents from this domain."
+              next
+            end
           else
-            min_delay 1 do
-              listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
-                                       nil, nil, WEBMASTER, ENGLISH)
-              begin
-                if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
-                  puts "Successfully created one document!"
-                else
-                  puts "Error creating document for entity id=#{entity.id}"
-                end
-              rescue Exception => e
-                puts "Exception caught for url=#{url}: #{e.message}"
+            listing = Document.init({name: "definition", documentable_type: "ListingDocument", entity_ids: entity.id},
+                                     nil, nil, WEBMASTER, ENGLISH)
+          end
+          min_delay 1 do
+            begin
+              if listing.save && RemoteDocument.create_document(nil, url, {parent_document_attributes: {parent_id: listing.id}}, WEBMASTER, ENGLISH)
+                puts "Successfully created one document!"
+              else
+                puts "Error creating document for entity id=#{entity.id}"
               end
+            rescue Exception => e
+              puts "Exception caught for url=#{url}: #{e.message}"
             end
           end
         end
