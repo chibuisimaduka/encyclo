@@ -13,7 +13,7 @@ class EntityAdviserIndex:
 
     self.rank_by_entity = dict()
     self.entities_by_category = dict()
-    self.entities_ratings_by_user_by_category = dict()
+    self.rating_by_entity_by_user_by_category = dict()
 
     for category_attrs in utils.query_sql("SELECT id FROM entities WHERE id IN (SELECT DISTINCT parent_id from entities)"):
       entities = dict(utils.query_sql("SELECT id,rank FROM entities WHERE parent_id = " + str(category_attrs[0])))
@@ -28,7 +28,7 @@ class EntityAdviserIndex:
           entities_ratings = entities_ratings_by_user[attrs[0]]
         else:
           entities_ratings = sortedlist(key=lambda (entity_id, rating): rating * (-1.0))
-        entities_ratings.add((attrs[1], attrs[2]))
+        entities_ratings.add((attrs[1], attrs[2]/10.0))
         entities_ratings_by_user[attrs[0]] = entities_ratings
       self.entities_ratings_by_user_by_category[category_attrs[0]] = entities_ratings_by_user
 
@@ -68,27 +68,26 @@ class EntityAdviserIndex:
   # Gives the slice of the list together without merging them because they could both be huge.
   # ranked_entities = list of entities ids
   # user_entities = list of tuples like (entity_id, rating_value)
-  # [10,8,6,4,2] && [9,7,5,3,1] offset 4 limit 2 == [6,5] == start offsets (2,2)
   def __slice(self, ranked_entities, user_entities, limit, offset):
-    # The first step is to first the starting offset of both lists.
     entities_ids = list()
     min_index = max(0, offset-limit)
-    offsets = [min(min_index, max(0,len(ranked_entities)-1)), min(min_index, max(0,len(user_entities)-1))]
-    while sum(offsets) != offset:
-      if offsets[1]+1 < len(user_entities) and ranked_entities[offsets[0]] > user_entities[offsets[1]]:
-        offsets[1] += 1
-      else:
-        offsets[0] += 1
+    ranked_offset = min(min_index, max(0,len(ranked_entities)-1))
+    user_offset = min(min_index, max(0,len(user_entities)-1))
 
-    # Then, add elements one by one in order untill limit is reached.
+    has_more_user_entities = len(user_entities) > 0
+    has_more_ranked_entities = len(ranked_entities) > 0
+
     while len(entities_ids) < limit:
-      if offsets[1]+1 < len(user_entities) and (offsets[0]+1 < len(ranked_entities) or
-          user_entities[offsets[1]][1] > self.rank_by_entity[ranked_entities[offsets[0]]]):
-        entities_ids.append(user_entities[offsets[1]][0])
-        offsets[1] += 1
-      elif offsets[0]+1 < len(ranked_entities):
-        entities_ids.append(ranked_entities[offsets[0]])
-        offsets[0] += 1
+      is_user_rating_greater = lambda: user_entities[user_offset][1] > self.rank_by_entity[ranked_entities[ranked_offset]]
+
+      if has_more_user_entities and (not has_more_ranked_entities or is_user_rating_greater()):
+        if user_offset + ranked_offset >= offset: entities_ids.append(user_entities[user_offset][0])
+        user_offset += 1
+        has_more_user_entities = user_offset < len(user_entities)
+      elif has_more_ranked_entities:
+        if user_offset + ranked_offset >= offset: entities_ids.append(ranked_entities[ranked_offset])
+        ranked_offset += 1
+        has_more_ranked_entities = ranked_offset < len(ranked_entities)
       else:
         break
     return entities_ids
@@ -112,7 +111,7 @@ class EntityAdviserIndex:
       if entity_rating[0] == entity_id: break
       i += 1
     if i != len(entities_ratings): del entities_ratings[i]
-    entities_ratings.add((entity_id, user_rating))
+    entities_ratings.add((entity_id, user_rating/10.0))
 
   def __rank_by_entity(self, category_id):
     return self.rankings_by_entity[category_id]
