@@ -7,7 +7,8 @@ from lxml import etree
 # Parses all documents and outputs the images found.
 # It only keeps the first image for now if multiple are found.
 
-if len(sys.argv) != 2: raise RuntimeError("Usage: parse_images.py path/to/output/file")
+args = utils.parse_args()
+if len(args) != 2: raise RuntimeError("Usage: parse_images.py path/to/output/file")
 
 filename = sys.argv[1]
 
