@@ -1,5 +1,6 @@
 if True:
   import psycopg2
+  import psycopg2.extras
 else:
   import MySQLdb
   import MySQLdb.cursors
@@ -43,8 +44,12 @@ def commit_sql(statement):
   db.close()
 
 def loop_sql(process_function, accumulator, statement):
-  db = connect_db(MySQLdb.cursors.SSCursor)
-  cursor = db.cursor()
+  if True:
+    db = connect_db()
+    cursor = db.cursor('loop_cursor', cursor_factory=psycopg2.extras.DictCursor)
+  else:
+    db = connect_db(MySQLdb.cursors.SSCursor)
+    cursor = db.cursor()
   cursor.execute(statement)
   for row in cursor:
     result = process_function(row)
