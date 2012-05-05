@@ -13,7 +13,7 @@ class EntityAdviserIndex:
 
     self.rank_by_entity = dict()
     self.entities_by_category = dict()
-    self.rating_by_entity_by_user_by_category = dict()
+    self.entities_ratings_by_user_by_category = dict()
 
     for category_attrs in utils.query_sql("SELECT id FROM entities WHERE id IN (SELECT DISTINCT parent_id from entities)"):
       entities = dict(utils.query_sql("SELECT id,rank FROM entities WHERE parent_id = " + str(category_attrs[0])))
@@ -70,27 +70,38 @@ class EntityAdviserIndex:
   # user_entities = list of tuples like (entity_id, rating_value)
   def __slice(self, ranked_entities, user_entities, limit, offset):
     entities_ids = list()
-    min_index = max(0, offset-limit)
-    ranked_offset = min(min_index, max(0,len(ranked_entities)-1))
-    user_offset = min(min_index, max(0,len(user_entities)-1))
+    ranked_offset = user_offset = 0 # FIXME: Really bad..
 
     has_more_user_entities = len(user_entities) > 0
-    has_more_ranked_entities = len(ranked_entities) > 0
+    next_ranked_entity, last_offset = self.__next_ranked_entity(user_entities, ranked_entities, ranked_offset)
 
     while len(entities_ids) < limit:
-      is_user_rating_greater = lambda: user_entities[user_offset][1] > self.rank_by_entity[ranked_entities[ranked_offset]]
+      is_user_rating_greater = lambda: user_entities[user_offset][1] > self.rank_by_entity[next_ranked_entity]
 
-      if has_more_user_entities and (not has_more_ranked_entities or is_user_rating_greater()):
+      if has_more_user_entities and (not next_ranked_entity or is_user_rating_greater()):
         if user_offset + ranked_offset >= offset: entities_ids.append(user_entities[user_offset][0])
         user_offset += 1
         has_more_user_entities = user_offset < len(user_entities)
-      elif has_more_ranked_entities:
-        if user_offset + ranked_offset >= offset: entities_ids.append(ranked_entities[ranked_offset])
+      elif next_ranked_entity:
+        if user_offset + ranked_offset >= offset: entities_ids.append(ranked_entities[last_offset])
         ranked_offset += 1
-        has_more_ranked_entities = ranked_offset < len(ranked_entities)
+        next_ranked_entities, last_offset = self.__next_ranked_entity(user_entities, ranked_entities, last_offset+1)
       else:
         break
+
     return entities_ids
+
+  # The next ranked entity that is not already ranked by the user.
+  def __next_ranked_entity(self, user_entities, ranked_entities, offset):
+    if offset >= len(ranked_entities):
+      return None, -1
+    entity = ranked_entities[offset]
+    # OPTIMIZE: Inefficient, should change data structure.
+    # But I don't see how without ~doubling memory used.
+    for user_entity in user_entities:
+      if user_entity[0] == entity:
+        return self.__next_ranked_entity(user_entities, ranked_entities, offset+1)
+    return entity, offset
 
   def __ids_statement(self, predicate):
     direct_statement = self.__filter_statement("entity_id", predicate.definition_id, "associated_entity_id = " + str(predicate.entity_id))
